@@ -16,13 +16,13 @@
                                 <CustomTable
                                     :queryRows="20"
                                     :totalRows="100"
-                                    :header="header"
-                                    :data="data"
+                                    :fields="fields"
+                                    :datas="data"
                                     :isBusy="tableBusy"
                                     @dataRequire="onDataRequire"
                                 >
                                 <template #cell(id)="data">
-                                    <router-link :to="`/home/client_detail?userId=${data.value.replace(/[^a-z]+/i,'-').toLowerCase()}`">{{ data.value }}</router-link>
+                                    <router-link :to="`/home/client_detail?userId=${data.value}`">{{ data.value }}</router-link>
                                 </template>
                                 </CustomTable>
                             </div>
@@ -37,6 +37,7 @@
 <script>
 import TitledCard from '@/components/Card/TitledCard.vue'
 import CustomTable from '@/components/Table/CustomTable.vue'
+import UserTableModel from '@/model/UserTable.json'
 
 export default {
     name: "Client",
@@ -46,14 +47,9 @@ export default {
     },
     data(){
         return {
-            header: ["id", "Phone", "Name", "Address", "L1", "L2", "L3"],
+            fields: UserTableModel,
             data: [
-                { id: "202011240001", Phone: "0975555319", Name: "陳柏瑞", Address:"台北", L1:"水電服務", L2:"水電服務", L3:"水電服務" },
-                { id: "202011240002", Phone: "0975555319", Name: "陳柏瑞", Address:"台北", L1:"水電服務", L2:"水電服務", L3:"水電服務" },
-                { id: "202011240003", Phone: "0975555319", Name: "陳柏瑞", Address:"台北", L1:"水電服務", L2:"水電服務", L3:"水電服務" },
-                { id: "202011240004", Phone: "0975555319", Name: "陳柏瑞", Address:"台北", L1:"水電服務", L2:"水電服務", L3:"水電服務" },
-                { id: "202011240005", Phone: "0975555319", Name: "陳柏瑞", Address:"台北", L1:"水電服務", L2:"水電服務", L3:"水電服務" },
-                { id: "202011240006", Phone: "0975555319", Name: "陳柏瑞", Address:"台北", L1:"水電服務", L2:"水電服務", L3:"水電服務" }
+                { id: "202011240001", phone: "0975555319", name: "陳柏瑞", address:"新北市永和區文化路67巷3弄10號", l1:"水電服務", l2:"水電服務", l3:"水電服務", createDate:"2020/11/24 09:57", star:"3" }
             ],
             tableBusy: false
         }

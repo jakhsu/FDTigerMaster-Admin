@@ -1,6 +1,6 @@
 <template>
     <b-navbar id="topbar" toggleable="lg" class="mb-4 shadow">
-        <b-button variant="link" class="sidebar-toggle d-md-none mr-3" @click="onSideBarToggleClick()">
+        <b-button variant="link" class="sidebar-toggle d-md-none mr-3" @click="onSideBarToggleClick">
           <font-awesome-icon icon="bars"/>
         </b-button>
         <b-nav class="ml-auto"/>

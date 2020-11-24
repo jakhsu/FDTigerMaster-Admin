@@ -13,16 +13,16 @@
             <SideBarButton to="/home/client" icon="users">
                 客戶資料
             </SideBarButton>
-            <SideBarButton to="#" icon="users">
+            <SideBarButton to="#" icon="hard-hat">
                 師傅資料
             </SideBarButton>
         </SideBarGroup>
 
         <SideBarGroup text="Utility Area">
-            <SideBarButton to="#" icon="users">
+            <SideBarButton to="#" icon="paper-plane">
                 系統推播
             </SideBarButton>
-            <SideBarButton to="#" icon="users">
+            <SideBarButton to="#" icon="file-contract">
                 訂單資訊
             </SideBarButton>
         </SideBarGroup>
@@ -30,7 +30,7 @@
         <SideBarDivider/>
 
         <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle" @click="onToggleClick()">
+            <button class="rounded-circle border-0" id="sidebarToggle" @click="onToggleClick">
                 <font-awesome-icon v-if="toggled" icon="angle-right" fixed-width/>
                 <font-awesome-icon v-else icon="angle-left" fixed-width/>
             </button>

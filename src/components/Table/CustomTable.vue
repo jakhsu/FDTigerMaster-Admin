@@ -2,8 +2,8 @@
 <div>
     <b-table
         id="CustomTable"
-        :items="data" 
-        :fields="header"
+        :items="datas" 
+        :fields="fields"
         :per-page="perPage"
         :current-page="currentPage"
         :busy="isBusy"
@@ -18,7 +18,12 @@
                 <strong>Loading...</strong>
             </div>
         </template>
-        <slot/>
+        <template v-slot:cell()="data">
+            <span v-b-tooltip.hover :title=data.value>{{ data.value }}</span>
+        </template>
+        <template v-for="slotName in Object.keys($scopedSlots)" v-slot:[slotName]="slotScope">
+            <slot :name="slotName" v-bind="slotScope"></slot>
+        </template>
     </b-table>
     <b-pagination
       v-model="currentPage"
@@ -36,8 +41,8 @@
 export default {
     name: 'CustomTable',
     props: {
-        header: Array,
-        data: Array,
+        fields: Array,
+        datas: Array,
         queryRows: Number,
         totalRows: Number,
         isBusy:{
@@ -69,5 +74,17 @@ export default {
 
 #CustomTable th{
     color: #858796;
+}
+
+#CustomTable td{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+@media (max-width: 767px){
+    #CustomTable td{
+        max-width: 150px;
+    }
 }
 </style>

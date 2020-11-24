@@ -1,0 +1,38 @@
+[
+    {
+        "key": "id",
+        "label": "Id"
+    },
+    {
+        "key": "name",
+        "label": "姓名"
+    },
+    {
+        "key": "phone",
+        "label": "電話"
+    },
+    {
+        "key": "address",
+        "label": "地址"
+    },
+    {
+        "key": "l1",
+        "label": "L1"
+    },
+    {
+        "key": "l2",
+        "label": "L2"
+    },
+    {
+        "key": "l3",
+        "label": "L3"
+    },
+    {
+        "key": "createDate",
+        "label": "加入日期"
+    },
+    {
+        "key": "star",
+        "label": "評分"
+    }
+]

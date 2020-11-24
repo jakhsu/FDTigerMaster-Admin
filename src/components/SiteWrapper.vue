@@ -1,8 +1,8 @@
 <template>
     <div id="wrapper">
-        <SideBar :toggled="sideBarToggle" @onToggle="onSideBarToggle()"/>
+        <SideBar :toggled="sideBarToggle" @onToggle="onSideBarToggle"/>
         <div id="content-wrapper" className="d-flex flex-column">
-          <Header @onSideBarToggle="onSideBarToggle()"/>
+          <Header @onSideBarToggle="onSideBarToggle"/>
           <div className="content">
               <slot />
           </div>

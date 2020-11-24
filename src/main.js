@@ -14,20 +14,26 @@ import {
   faBars,
   faUser,
   faUsers,
+  faHardHat,
   faAngleLeft,
   faEllipsisV,
   faSignOutAlt,
   faAngleRight,
+  faPaperPlane,
+  faFileContract,
   faTachometerAlt } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faBars,
   faUser,
+  faHardHat,
   faUsers,
   faAngleLeft,
   faEllipsisV,
   faSignOutAlt,
   faAngleRight,
+  faPaperPlane,
+  faFileContract,
   faTachometerAlt
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
