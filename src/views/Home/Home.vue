@@ -1,7 +1,7 @@
 <template>
-  <SiteWrapper>
-
-  </SiteWrapper>
+    <SiteWrapper>
+        <router-view></router-view>
+    </SiteWrapper>
 </template>
 
 <script>
@@ -13,7 +13,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

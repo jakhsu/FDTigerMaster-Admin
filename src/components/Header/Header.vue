@@ -9,12 +9,12 @@
                 <span class="user-name mr-2 d-lg-inline">Hi, Admin</span>
                 <b-img class="img-profile" rounded="circle" alt="user avatar" :src="userImg"></b-img>
             </template>
-            <b-dropdown-item href="#">
+            <b-dropdown-item to="#">
                 <font-awesome-icon icon="user" />
                 Profile
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#">
+            <b-dropdown-item>
                 <font-awesome-icon icon="sign-out-alt" />
                 Logout
             </b-dropdown-item>

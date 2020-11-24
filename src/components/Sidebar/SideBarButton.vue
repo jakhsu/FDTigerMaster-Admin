@@ -1,5 +1,5 @@
 <template>
-    <b-nav-item class="sidebar-button" :class="{'active': active}">
+    <b-nav-item class="sidebar-button" :class="{'active': active}" :to="to">
         <font-awesome-icon :icon="icon" fixed-width/>
         <span>
             <slot/>
@@ -10,7 +10,18 @@
 <script>
 export default {
     name: 'SideBarButton',
-    props: ["active", "href", "reqLevel", "icon"]
+    props: {
+        active: {
+            type: Boolean,
+            default: false
+        },
+        reqLevel: {
+            type: Number,
+            default: 0
+        },
+        to: String,
+        icon: String
+    }
 }
 </script>
 

@@ -6,11 +6,11 @@
                 <h3>Login</h3>
 
                 <b-form-group>
-                    <b-form-label>Email address</b-form-label>
+                    <b-form-label>Phone</b-form-label>
                     <b-form-input
-                    v-model="email"
-                    name="email"
-                    placeholder="Enter email"
+                    v-model="phone"
+                    name="phone"
+                    placeholder="Enter Phone"
                     />
                 </b-form-group>
 
@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #Login {
     min-height: 100vh;
     display: flex;

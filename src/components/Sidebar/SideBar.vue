@@ -1,28 +1,28 @@
 <template>
     <b-nav class="sidebar flex-column" :class="{'toggled': toggled}">
-        <b-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home/dashboard">
+        <b-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
           <img class="sidebar-brand-logo" alt="ttes logo" :src="LogoImg"/>
           <div class="sidebar-brand-text">TigerMaster</div>
         </b-link>
 
-        <SideBarButton active="true" href="#" reqLevel="0" icon="tachometer-alt">
+        <SideBarButton :active="true" to="/home" icon="tachometer-alt">
           Dashboard
         </SideBarButton>
 
-        <SideBarGroup text="User Area" reqLevel="0">
-            <SideBarButton href="#" reqLevel="0" icon="users">
+        <SideBarGroup text="User Area">
+            <SideBarButton to="/home/client" icon="users">
                 客戶資料
             </SideBarButton>
-            <SideBarButton href="#" reqLevel="0" icon="users">
+            <SideBarButton to="#" icon="users">
                 師傅資料
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="Utility Area" reqLevel="0">
-            <SideBarButton href="#" reqLevel="0" icon="users">
+        <SideBarGroup text="Utility Area">
+            <SideBarButton to="#" icon="users">
                 系統推播
             </SideBarButton>
-            <SideBarButton href="#" reqLevel="0" icon="users">
+            <SideBarButton to="#" icon="users">
                 訂單資訊
             </SideBarButton>
         </SideBarGroup>
@@ -47,7 +47,9 @@ import LogoImg from '@/assets/logo.png'
 
 export default {
     name: 'SideBar',
-    props: ["toggled"],
+    props: {
+        toggled: Boolean
+    },
     components:{
         SideBarGroup,
         SideBarButton,

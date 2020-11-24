@@ -12,7 +12,13 @@
 import SideBarDivider from './SideBarDivider'
 export default {
     name: 'SideBarGroup',
-    props: ["text"],
+    props: {
+        text: String,      
+        reqLevel: {
+            type: Number,
+            default: 0
+        }
+    },
     components:{
         SideBarDivider
     }
