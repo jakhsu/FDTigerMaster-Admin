@@ -4,8 +4,8 @@ import Login from '@/views/Auth/Login.vue'
 
 import Home from '@/views/Home/Home.vue'
 import HomeDashboard from '@/views/Home/Dashboard.vue'
-import HomeClient from '@/views/Home/Client.vue'
-import HomeClientDetail from '@/views/Home/ClientDetail.vue'
+import HomeUser from '@/views/Home/User/User.vue'
+import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -17,20 +17,21 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'Home',
     component: Home,
     children: [
         { 
             path: '',
+            name: 'Home',
             component: HomeDashboard
         },
         {
-            path: 'client',
-            component: HomeClient
+            path: 'user',
+            name: 'HomeUser',
+            component: HomeUser
         },
         {
-            path: 'client_detail',
-            component: HomeClientDetail
+            path: 'user_detail',
+            component: HomeUserDetail
         }
     ]
   }

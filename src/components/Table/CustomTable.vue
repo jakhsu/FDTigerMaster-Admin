@@ -57,7 +57,7 @@ export default {
         }
     },
     beforeUpdate(){
-        const currentRows = this.currentPage * this.perPage;
+        const currentRows = ((this.currentPage-1) * this.perPage) +1;
         if(currentRows > this.queryRows && !this.isBusy){
             this.$emit("dataRequire", currentRows);
         }
@@ -84,7 +84,7 @@ export default {
 
 @media (max-width: 767px){
     #CustomTable td{
-        max-width: 150px;
+        max-width: 100px;
     }
 }
 </style>

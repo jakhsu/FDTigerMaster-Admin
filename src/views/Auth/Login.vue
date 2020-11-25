@@ -8,22 +8,23 @@
                 <b-form-group>
                     <b-form-label>Phone</b-form-label>
                     <b-form-input
-                    v-model="phone"
-                    name="phone"
-                    placeholder="Enter Phone"
+                        v-model="phone"
+                        name="phone"
+                        placeholder="Enter Phone"
                     />
                 </b-form-group>
 
                 <b-form-group>
                     <b-form-label>Password</b-form-label>
                     <b-form-input
-                    v-model="password"
-                    name="password"
-                    placeholder="Enter password"
+                        v-model="password"
+                        name="password"
+                        type="password"
+                        placeholder="Enter password"
                     />
                 </b-form-group>
 
-                <b-button variant="primary" class="btn-block">Login</b-button>
+                <b-button variant="primary" class="btn-block" to="/home">Login</b-button>
             </b-form>
         </div>
     </b-container>
@@ -33,7 +34,13 @@
 <script>
 
 export default {
-  name: 'Home',
+    name: 'Home',
+    data(){
+        return{
+            phone: "",
+            password: ""
+        }
+    }
 }
 </script>
 

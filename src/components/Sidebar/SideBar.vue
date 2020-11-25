@@ -10,11 +10,8 @@
         </SideBarButton>
 
         <SideBarGroup text="User Area">
-            <SideBarButton to="/home/client" icon="users">
-                客戶資料
-            </SideBarButton>
-            <SideBarButton to="#" icon="hard-hat">
-                師傅資料
+            <SideBarButton to="/home/user" icon="users">
+                用戶資料
             </SideBarButton>
         </SideBarGroup>
 
