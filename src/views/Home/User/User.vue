@@ -1,5 +1,6 @@
 <template>
     <div id="User">
+        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick"/>
         <b-container fluid>
             <div class="User-Area">
                 <b-row>
@@ -13,9 +14,9 @@
                     <b-col>
                         <TitledCard title="User List">
                             <div class="User-Search d-flex mb-3">
-                                <b-button variant="primary">搜尋</b-button>
-                                <b-button class="ml-2" variant="danger">清除搜尋</b-button>
-                                <b-button class="ml-auto" variant="primary">新增用戶</b-button>
+                                <b-button variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                                <b-button class="ml-auto" variant="primary" v-b-modal="'User-Create-Modal'">新增用戶</b-button>
                             </div>
                             <div class="User-Table">
                                 <CustomTable
@@ -29,6 +30,7 @@
                                 <template #top-row="data">
                                     <b-td v-for="(field, index) in data.fields" :key="index">
                                         <b-form-input
+                                            v-model="search[field.key]"
                                             :name="field.key"
                                             :placeholder="`${field.label}`"
                                         />
@@ -51,15 +53,17 @@
 </template>
 
 <script>
+import UserTableModel from '@/config/UserTable.json'
 import TitledCard from '@/components/Card/TitledCard.vue'
 import CustomTable from '@/components/Table/CustomTable.vue'
-import UserTableModel from '@/model/UserTable.json'
+import UserCreateModal from '@/components/Modal/UserCreateModal.vue' 
 
 export default {
     name: "User",
     components: {
         TitledCard,
-        CustomTable
+        CustomTable,
+        UserCreateModal
     },
     data(){
         return {
@@ -67,13 +71,21 @@ export default {
             data: [
                 { id: "202011240001", phone: "0975555319", name: "陳柏瑞", email: "rui.chen@fdtigermaster.com", addressCity: "新北市", addressArea: "永和區", addressStreet: "文化路67巷3弄", addressDetail: "10號", active: "1", roleId:"客戶", createDate: "2020/11/24 09:57" }
             ],
+            search: {},
             tableBusy: false
         }
     },
     methods:{
-        onDataRequire(currentRows){
-            console.log(currentRows);
+        onDataRequire(){
             this.tableBusy = true;
+        },
+        onSearchClick(){
+        },
+        onSearchClearClick(){
+            this.search = {};
+        },
+        onNewUserSaveClick(){
+            this.$router.push({ path: '/home/user_detail', query: {userId: "202011240001"} });
         }
     }
 }

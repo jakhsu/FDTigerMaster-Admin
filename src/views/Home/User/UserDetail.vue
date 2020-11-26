@@ -11,30 +11,35 @@
                     </b-col>
                 </b-row>
                 <b-nav tabs>
-                    <b-nav-item name="basic"
+                    <b-nav-item
                         :active="currentTab == 'basic'"
                         @click="onNavClick('basic')">
                         基本資料
                     </b-nav-item>
-                    <b-nav-item name="clientNote"
+                    <b-nav-item
+                        :active="currentTab == 'order'"
+                        @click="onNavClick('order')">
+                        訂單
+                    </b-nav-item>
+                    <b-nav-item
                         :active="currentTab == 'clientNote'"
                         :disabled="userData.roleId != 0"
                         @click="onNavClick('clientNote')">
                         客戶評分
                     </b-nav-item>
-                    <b-nav-item name="masterNote"
+                    <b-nav-item
                         :active="currentTab == 'masterNote'"
                         :disabled="userData.roleId != 1"
                         @click="onNavClick('masterNote')">
                         師傅註記
                     </b-nav-item>
-                    <b-nav-item name="certificate"
+                    <b-nav-item
                         :active="currentTab == 'certificate'"
                         :disabled="userData.roleId != 1"
                         @click="onNavClick('certificate')">
                         證照
                     </b-nav-item>
-                    <b-nav-item name="masterSkill"
+                    <b-nav-item
                         :active="currentTab == 'masterSkill'" 
                         :disabled="userData.roleId != 1"
                         @click="onNavClick('masterSkill')">
@@ -42,15 +47,20 @@
                     </b-nav-item>
                 </b-nav>
             </div>
+            <component :is="currentComponent"></component>
         </b-container>
-        <component :is="currentComponent"></component>
     </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading.vue';
-import BasicDetail from './UserDetailComponent/BasicDetail';
-import ClientNoteDetail from './UserDetailComponent/ClientNoteDetail';
+import Loading from '@/components/Loading.vue'
+import BasicDetail from './UserDetailComponent/BasicDetail.vue'
+import OrderDetail from './UserDetailComponent/OrderDetail.vue'
+import MasterNoteDetail from './UserDetailComponent/MasterNoteDetail.vue'
+import ClientNoteDetail from './UserDetailComponent/ClientNoteDetail.vue'
+import CertificateDetail from './UserDetailComponent/CertificateDetail.vue'
+import MasterSkillDetail from './UserDetailComponent/MasterSkillDetail.vue'
+
 export default {
     name: 'UserDetail',
     components: {
@@ -65,7 +75,11 @@ export default {
             currentTab: "basic",
             tabComponentMap: {
                 basic: BasicDetail,
-                clientNote: ClientNoteDetail
+                order: OrderDetail,
+                clientNote: ClientNoteDetail,
+                masterNote: MasterNoteDetail,
+                certificate: CertificateDetail,
+                masterSkill: MasterSkillDetail
             },
             userData: {}
         };
@@ -88,7 +102,6 @@ export default {
     },
     methods:{
         onNavClick(name){
-            console.log(name);
             this.currentTab = name;
             this.currentComponent = this.tabComponentMap[name];
         }
@@ -128,5 +141,23 @@ export default {
     border-color: transparent ;
     border-bottom: solid 3px #457CD6;
     color: #457CD6;
+}
+
+#UserDetail .UserDetail-Area ul.nav {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#UserDetail .UserDetail-Area ul.nav li {
+    display: inline-block;
+    float: none;
+}
+
+@media (max-width: 576px) {
+    .container-fluid{
+        padding: 0px;
+    }
 }
 </style>

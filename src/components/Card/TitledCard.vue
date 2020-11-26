@@ -1,7 +1,7 @@
 <template>
-    <div class="title-card">
-        <div class="title-card-header">
-            <h6 class="m-0">{{ title }}</h6>
+    <div class="title-card" :class="cardClass ? cardClass : ''">
+        <div class="title-card-header" :style="`background-color: ${titleBackgroundColor}`">
+            <h6 class="m-0" :style="`color: ${titleColor}`">{{ title }}</h6>
         </div>
         <div class="title-card-body">
             <slot/>
@@ -13,7 +13,16 @@
 export default {
     name: 'TitleCard',
     props: {
-        title: String
+        cardClass: String,
+        title: String,
+        titleBackgroundColor: {
+            type: String,
+            default: "#457CD6"
+        },
+        titleColor: {
+            type: String,
+            default: "#ffffff"
+        },
     }
 }
 </script>

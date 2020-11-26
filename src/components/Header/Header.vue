@@ -14,7 +14,7 @@
                 Profile
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item>
+            <b-dropdown-item to="/">
                 <font-awesome-icon icon="sign-out-alt" />
                 Logout
             </b-dropdown-item>

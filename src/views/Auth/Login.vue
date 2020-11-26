@@ -5,17 +5,16 @@
             <b-form>
                 <h3>Login</h3>
 
-                <b-form-group>
-                    <b-form-label>Phone</b-form-label>
+                <b-form-group label="Phone">
                     <b-form-input
                         v-model="phone"
                         name="phone"
+                        type="number"
                         placeholder="Enter Phone"
                     />
                 </b-form-group>
 
-                <b-form-group>
-                    <b-form-label>Password</b-form-label>
+                <b-form-group label="Password">
                     <b-form-input
                         v-model="password"
                         name="password"

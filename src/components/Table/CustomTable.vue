@@ -10,8 +10,7 @@
         bordered
         responsive
         foot-clone
-        hover
-    >
+        hover>
         <template #table-busy>
             <div class="text-center my-2">
                 <scale-loader color="#34558b"/>
@@ -32,8 +31,7 @@
       :disabled="isBusy"
       align="right"
       limit="7"
-      aria-controls="CustomTable"
-    ></b-pagination>
+      aria-controls="CustomTable"/>
 </div>
 </template>
 
