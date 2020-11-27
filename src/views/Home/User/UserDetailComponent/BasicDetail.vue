@@ -169,6 +169,9 @@ export default {
     },
     props: {
         user: Object
+    },
+    created: {
+        
     }
 }
 </script>

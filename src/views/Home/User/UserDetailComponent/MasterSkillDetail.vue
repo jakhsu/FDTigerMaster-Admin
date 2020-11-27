@@ -1,5 +1,5 @@
 <template>
-    <h1>MasterSkill</h1>
+    <h1>師傅技能</h1>
 </template>
 
 <script>

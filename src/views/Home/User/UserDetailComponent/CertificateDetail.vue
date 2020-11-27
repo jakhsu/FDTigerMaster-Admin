@@ -1,5 +1,5 @@
 <template>
-    <h1>Certificate</h1>
+    <h1>證照</h1>
 </template>
 
 <script>
