@@ -5,6 +5,9 @@
                 <b-col lg="6" md="12">
                     <TitledCard title="Account:">
                         <b-form>
+                            <b-button class="ml-auto" variant="link">
+                                <font-awesome-icon icon="edit" fixed-width/>
+                            </b-button>
                             <b-form-group
                                 label-cols="3"
                                 label-cols-sm="2"
@@ -97,6 +100,38 @@
                                 label-cols="3"
                                 label-cols-sm="2"
                                 label="身分證號: ">
+                                <b-form-input
+                                    disabled
+                                />
+                            </b-form-group>
+                            <b-form-group
+                                label-cols="3"
+                                label-cols-sm="2"
+                                label="創建日期: ">
+                                <b-form-input
+                                    disabled
+                                />
+                            </b-form-group>
+                            <b-form-group
+                                label-cols="3"
+                                label-cols-sm="2"
+                                label="創建者: ">
+                                <b-form-input
+                                    disabled
+                                />
+                            </b-form-group>
+                            <b-form-group
+                                label-cols="3"
+                                label-cols-sm="2"
+                                label="更新日期: ">
+                                <b-form-input
+                                    disabled
+                                />
+                            </b-form-group>
+                            <b-form-group
+                                label-cols="3"
+                                label-cols-sm="2"
+                                label="更新者: ">
                                 <b-form-input
                                     disabled
                                 />

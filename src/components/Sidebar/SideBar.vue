@@ -15,6 +15,15 @@
             </SideBarButton>
         </SideBarGroup>
 
+        <SideBarGroup text="Working Category Area">
+            <SideBarButton to="#" icon="tools">
+                工項維護
+            </SideBarButton>
+            <SideBarButton to="#" icon="address-card">
+                技能維護
+            </SideBarButton>
+        </SideBarGroup>
+
         <SideBarGroup text="Utility Area">
             <SideBarButton to="#" icon="paper-plane">
                 系統推播
@@ -67,134 +76,134 @@ export default {
 
 <style>
 .sidebar{
-  width: 14rem;
-  min-height: 100vh;
+    width: 14rem;
+    min-height: 100vh;
 }
 
 .sidebar #sidebarToggle{
-  width: 2.5rem;
-  height: 2.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  cursor: pointer;
+    width: 2.5rem;
+    height: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
 }
 
 .sidebar #sidebarToggle i{
-  width: 100%;
-  height: auto;
-  text-align: center;
+    width: 100%;
+    height: auto;
+    text-align: center;
 }
 
 .sidebar #sidebarToggle::after{
-  font-weight: 900;
-  margin-right: 0.1rem;
+    font-weight: 900;
+    margin-right: 0.1rem;
 }
 
 .sidebar #sidebarToggle:hover{
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .sidebar #sidebarToggle:focus{
-  outline: none;
+    outline: none;
 }
 
 .sidebar.toggled{
-  width: 6.5rem !important;
-  overflow: visible;
+    width: 6.5rem !important;
+    overflow: visible;
 }
 
 .sidebar .sidebar-brand{
-  height: 100px;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 800;
-  padding: 1.5rem 0.5rem;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.05rem;
-  z-index: 1;
+    height: 100px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    z-index: 1;
 }
 
 .sidebar .sidebar-brand .sidebar-brand-logo{
-  height: 70%;
-  width: auto;
+    height: 70%;
+    width: auto;
 }
 
 .sidebar .sidebar-brand .sidebar-brand-text{
-  display: inline;
+    display: inline;
 }
 
 .sidebar.toggled .sidebar-brand .sidebar-brand-icon i{
-  font-size: 2rem;
-  display: inline;
+    font-size: 2rem;
+    display: inline;
 }
 
 .sidebar.toggled .sidebar-brand .sidebar-brand-text {
-  display: none;
+    display: none;
 }
 
 @media (max-width: 767px){
-  .sidebar{
-    width: 6.5rem !important;
-  }
+    .sidebar{
+        width: 6.5rem !important;
+    }
 
-  .sidebar .sidebar-brand{
-    padding: 0.5rem 0.5rem;
-  }
+    .sidebar .sidebar-brand{
+        padding: 0.5rem 0.5rem;
+    }
 
-  .sidebar .sidebar-brand .sidebar-brand-logo{
-    height: auto;
-    width: 80%;
-  }
+    .sidebar .sidebar-brand .sidebar-brand-logo{
+        height: auto;
+        width: 80%;
+    }
 
-  .sidebar .sidebar-brand .sidebar-brand-text{
-    display: none;
-  }
+    .sidebar .sidebar-brand .sidebar-brand-text{
+        display: none;
+    }
 
-  .sidebar.toggled{
-    width: 0 !important;
-    overflow: hidden;
-  }
+    .sidebar.toggled{
+        width: 0 !important;
+        overflow: hidden;
+    }
 
-  .sidebar.toggled .sidebar-brand .sidebar-brand-icon i{
-    display: none;
-  }
+    .sidebar.toggled .sidebar-brand .sidebar-brand-icon i{
+        display: none;
+    }
 
-  .sidebar.toggled .sidebar-brand .sidebar-brand-text {
-    display: inline;
-  }
+    .sidebar.toggled .sidebar-brand .sidebar-brand-text {
+        display: inline;
+    }
 }
 
 .sidebar{
-  background-color: #34558b;
+    background-color: #34558b;
 }
 
 .sidebar .sidebar-brand{
-  color: #fff;
+    color: #fff;
 }
 
 .sidebar .nav-item.active .nav-link{
-  color: #fff;
+    color: #fff;
 }
 
 .sidebar .nav-item.active .nav-link i{
-  color: #fff;
+    color: #fff;
 }
 
 .sidebar #sidebarToggle{
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
 }
 
 .sidebar #sidebarToggle::after{
-  color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .sidebar #sidebarToggle:hover{
-  background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
 .sidebar.toggled #sidebarToggle::after{
-  color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
 }
 </style>

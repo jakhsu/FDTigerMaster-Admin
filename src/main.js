@@ -13,26 +13,32 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
   faBars,
   faUser,
+  faEdit,
   faUsers,
+  faTools,
   faHardHat,
   faAngleLeft,
   faEllipsisV,
   faSignOutAlt,
   faAngleRight,
   faPaperPlane,
+  faAddressCard,
   faFileContract,
   faTachometerAlt } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faBars,
   faUser,
-  faHardHat,
+  faEdit,
   faUsers,
+  faTools,
+  faHardHat,
   faAngleLeft,
   faEllipsisV,
   faSignOutAlt,
   faAngleRight,
   faPaperPlane,
+  faAddressCard,
   faFileContract,
   faTachometerAlt
 )

@@ -34,6 +34,7 @@
             </b-form-group>
         </b-form>
         <template #modal-footer="{ cancel }">
+            <span class="User-Create-Error" v-if="formError">some field is not complete</span>
             <b-button variant="danger" @click="cancel">
                 Cancel
             </b-button>
@@ -45,7 +46,6 @@
 </template>
 
 <script>
-
 const inputIndex = Object.freeze({
     phone: 0,
     name: 1,
@@ -67,7 +67,8 @@ export default {
                 name: '',
                 email: ''
             },
-            inputState: [null, null, null]
+            inputState: [null, null, null],
+            formError: false
         }
     },
     methods:{
@@ -92,8 +93,17 @@ export default {
             if(this.inputState[0] && this.inputState[1] && this.inputState[2]){
                 this.$emit('onSaveClick', this.newUser);
                 this.$bvModal.hide(this.id);
+            }else{
+                this.formError = true;
             }
         }
     }
 }
 </script>
+
+<style>
+.User-Create-Error{
+    color: #dd2a0e;
+    font-size: 10px;
+}
+</style>
