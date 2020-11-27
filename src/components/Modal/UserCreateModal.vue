@@ -1,24 +1,24 @@
 <template>
-    <b-modal :id="id" @show="resetModal" title="User Create">
+    <b-modal :id="id" @show="resetModal" title="創建用戶">
         <b-form>
             <b-form-row>
                 <b-col lg="6" md="12">
-                    <b-form-group label="Phone">
+                    <b-form-group label="電話">
                         <b-form-input
                             v-model="newUser.phone"
                             :state="inputState[inputIndex.phone]"
                             type="number"
-                            placeholder="Enter Phone"
+                            placeholder="輸入電話..."
                             @update="phoneValidate"
                         />
                     </b-form-group>
                 </b-col>
                 <b-col lg="6" md="12">
-                    <b-form-group label="Name">
+                    <b-form-group label="姓名">
                         <b-form-input
                             v-model="newUser.name"
                             :state="inputState[inputIndex.name]"
-                            placeholder="Enter Name"
+                            placeholder="輸入姓名..."
                             @update="nameValidate"
                         />
                     </b-form-group>
@@ -28,7 +28,7 @@
                 <b-form-input
                     v-model="newUser.email"
                     :state="inputState[inputIndex.email]"
-                    placeholder="Enter Email"
+                    placeholder="輸入Email..."
                     @update="emailValidate"
                 />
             </b-form-group>
@@ -36,10 +36,10 @@
         <template #modal-footer="{ cancel }">
             <span class="User-Create-Error" v-if="formError">some field is not complete</span>
             <b-button variant="danger" @click="cancel">
-                Cancel
+                取消
             </b-button>
             <b-button variant="primary" @click="onSaveClick">
-                Save
+                創建
             </b-button>
         </template>
     </b-modal>

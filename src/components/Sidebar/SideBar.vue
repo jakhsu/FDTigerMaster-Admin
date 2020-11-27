@@ -9,13 +9,19 @@
           Dashboard
         </SideBarButton>
 
-        <SideBarGroup text="User Area">
+        <SideBarGroup text="用戶資料">
             <SideBarButton to="/home/user" icon="users">
-                用戶資料
+                客戶資料
+            </SideBarButton>
+           <SideBarButton to="/home/user" icon="users">
+                師傅資料
+            </SideBarButton>
+            <SideBarButton to="/home/user" icon="users">
+                其他用戶資料
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="Working Category Area">
+        <SideBarGroup text="工項&技能">
             <SideBarButton to="#" icon="tools">
                 工項維護
             </SideBarButton>
@@ -24,7 +30,7 @@
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="Utility Area">
+        <SideBarGroup text="其餘功能">
             <SideBarButton to="#" icon="paper-plane">
                 系統推播
             </SideBarButton>

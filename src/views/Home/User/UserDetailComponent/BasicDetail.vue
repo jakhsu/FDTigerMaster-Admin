@@ -3,7 +3,7 @@
         <b-container fluid>
             <b-row>
                 <b-col lg="6" md="12">
-                    <TitledCard title="Account:">
+                    <TitledCard title="帳戶詳情:">
                         <b-form>
                             <b-button class="ml-auto" variant="link">
                                 <font-awesome-icon icon="edit" fixed-width/>
@@ -141,16 +141,16 @@
                 </b-col>
                 <b-col lg="6" md="12">
                     <TitledCard
-                        title="Deactive User:"
+                        title="用戶停權:"
                         titleBackgroundColor="#dd2a0e">
-                        <div class="BasicDetail-Deactive">
-                            <p>Deactive user has the following effects:</p>
+                        <div class="BasicDetail-Deactivate">
+                            <p>將用戶停權有以下效果:</p>
                             <ul>
-                                <li>User will not be able to login</li>
-                                <li>Personal information will be left</li>
-                                <li>Order history will be left</li>
+                                <li>用戶將會無法登入</li>
+                                <li>用戶資料仍被保留住</li>
+                                <li>相關訂單資訊也會被保留著</li>
                             </ul>
-                            <b-button variant="danger">Deactive</b-button>
+                            <b-button variant="danger">停權</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -182,11 +182,11 @@ export default {
     justify-content: center;
 }
 
-#BasicDetail .BasicDetail-Deactive{
+#BasicDetail .BasicDetail-Deactivate{
     text-align: left;
 }
 
-#BasicDetail .BasicDetail-Deactive ul{
+#BasicDetail .BasicDetail-Deactivate ul{
     margin-bottom: 2rem;
 }
 </style>
