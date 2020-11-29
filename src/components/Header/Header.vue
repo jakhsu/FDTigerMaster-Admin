@@ -11,12 +11,12 @@
             </template>
             <b-dropdown-item to="#">
                 <font-awesome-icon icon="user" />
-                Profile
+                個人檔案
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item to="/">
                 <font-awesome-icon icon="sign-out-alt" />
-                Logout
+                登出
             </b-dropdown-item>
         </b-dropdown>
     </b-navbar>

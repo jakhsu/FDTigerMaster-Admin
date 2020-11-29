@@ -1,5 +1,5 @@
 <template>
-    <b-nav-item class="sidebar-button" :class="{'active': active}" :to="to">
+    <b-nav-item class="sidebar-button" :class="{'active': currentPath == to}" :to="to">
         <font-awesome-icon :icon="icon" fixed-width/>
         <span>
             <slot/>
@@ -11,17 +11,22 @@
 export default {
     name: 'SideBarButton',
     props: {
-        active: {
-            type: Boolean,
-            default: false
-        },
         reqLevel: {
             type: Number,
             default: 0
         },
         to: String,
-        icon: String
-    }
+        icon: String,
+        currentPath: {
+            type: String,
+            default: this.$route.path
+        }
+    },
+    watch: {
+        '$route' () {
+            this.currentPath = this.$route.path;
+        }
+    },
 }
 </script>
 

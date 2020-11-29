@@ -22,16 +22,14 @@
                         訂單
                     </b-nav-item>
                     <b-nav-item
-                        :active="currentTab == 'clientNote'"
-                        :disabled="userData.roleId != 0"
-                        @click="onNavClick('clientNote')">
-                        客戶評分
+                        :active="currentTab == 'userNote'"
+                        @click="onNavClick('userNote')">
+                        用戶評分與評論
                     </b-nav-item>
                     <b-nav-item
-                        :active="currentTab == 'masterNote'"
-                        :disabled="userData.roleId != 1"
-                        @click="onNavClick('masterNote')">
-                        師傅註記
+                        :active="currentTab == 'userRemark'"
+                        @click="onNavClick('userRemark')">
+                        用戶註記
                     </b-nav-item>
                     <b-nav-item
                         :active="currentTab == 'certificate'"
@@ -56,8 +54,8 @@
 import Loading from '@/components/Loading.vue'
 import BasicDetail from './UserDetailComponent/BasicDetail.vue'
 import OrderDetail from './UserDetailComponent/OrderDetail.vue'
-import MasterNoteDetail from './UserDetailComponent/MasterNoteDetail.vue'
-import ClientNoteDetail from './UserDetailComponent/ClientNoteDetail.vue'
+import UserNoteDetail from './UserDetailComponent/UserNoteDetail.vue'
+import UserRemarkDetail from './UserDetailComponent/UserRemarkDetail.vue'
 import CertificateDetail from './UserDetailComponent/CertificateDetail.vue'
 import MasterSkillDetail from './UserDetailComponent/MasterSkillDetail.vue'
 
@@ -66,7 +64,7 @@ export default {
     components: {
         Loading,
         BasicDetail,
-        ClientNoteDetail
+        UserNoteDetail
     },
     data(){
         return{
@@ -76,8 +74,8 @@ export default {
             tabComponentMap: {
                 basic: BasicDetail,
                 order: OrderDetail,
-                clientNote: ClientNoteDetail,
-                masterNote: MasterNoteDetail,
+                userNote: UserNoteDetail,
+                userRemark: UserRemarkDetail,
                 certificate: CertificateDetail,
                 masterSkill: MasterSkillDetail
             },

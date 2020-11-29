@@ -8,15 +8,14 @@
         <SideBarButton :active="currentPath == '/home'" to="/home" icon="tachometer-alt">
           Dashboard
         </SideBarButton>
-
         <SideBarGroup text="User Area">
-            <SideBarButton :active="currentPath == '/home/client'" to="/home/client" icon="users">
+            <SideBarButton to="/home/client" icon="users">
                 客戶資料
             </SideBarButton>
-            <SideBarButton :active="currentPath == '/home/master'" to="/home/master" icon="hard-hat">
+            <SideBarButton to="/home/master" icon="hard-hat">
                 師傅資料
             </SideBarButton>
-            <SideBarButton :active="currentPath == '/home/admin'" to="/home/admin" icon="user-shield">
+            <SideBarButton to="/home/admin" icon="user-shield">
                 管理員資料
             </SideBarButton>
         </SideBarGroup>
@@ -30,7 +29,7 @@
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="Utility Area">
+        <SideBarGroup text="其餘功能">
             <SideBarButton to="/home/push_message" icon="paper-plane">
                 系統推播
             </SideBarButton>

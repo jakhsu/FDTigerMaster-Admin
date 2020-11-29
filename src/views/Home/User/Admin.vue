@@ -6,14 +6,14 @@
                 <b-row>
                     <b-col>
                         <div class="Admin-Header">
-                            <h2>Admin</h2>
+                            <h2>管理員</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                        <TitledCard title="Admin List">
-                            <div class="Admin-Search d-flex mb-3">
+                        <TitledCard title="管理員列表">
+                            <div class="User-Search d-flex mb-3">
                                 <b-button variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
                                 <b-button class="ml-auto" variant="primary" v-b-modal="'User-Create-Modal'">新增管理員</b-button>
