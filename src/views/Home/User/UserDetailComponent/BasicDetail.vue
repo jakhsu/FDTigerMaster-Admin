@@ -5,7 +5,7 @@
                 <b-col lg="6" md="12">
                     <TitledCard title="帳戶詳情:">
                         <b-form>
-                            <div class="w-100 mb-3 d-flex align-items-right-center">
+                            <div class="w-100 mb-3 d-flex">
                                 <b-button class="ml-auto" variant="primary">
                                     <font-awesome-icon icon="edit" fixed-width/>
                                     Edit
@@ -172,9 +172,6 @@ export default {
     },
     props: {
         user: Object
-    },
-    created: {
-        
     }
 }
 </script>

@@ -6,13 +6,13 @@
                 <b-row>
                     <b-col>
                         <div class="Master-Header">
-                            <h2>Master</h2>
+                            <h2>師傅</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                        <TitledCard title="Master List">
+                        <TitledCard title="師傅列表">
                             <div class="Master-Search d-flex mb-3">
                                 <b-button variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>

@@ -6,13 +6,13 @@
                 <b-row>
                     <b-col>
                         <div class="Client-Header">
-                            <h2>Client</h2>
+                            <h2>客戶</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                        <TitledCard title="Client List">
+                        <TitledCard title="客戶清單">
                             <div class="Client-Search d-flex mb-3">
                                 <b-button variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>

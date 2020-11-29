@@ -1,7 +1,7 @@
 <template>
 <fragment>
     <SideBarDivider/>
-    <div class="sidebar-heading">
+    <div class="sidebar-heading mb-2">
         {{ text }}
     </div>
     <slot/>
@@ -13,7 +13,7 @@ import SideBarDivider from './SideBarDivider'
 export default {
     name: 'SideBarGroup',
     props: {
-        text: String,      
+        text: String,
         reqLevel: {
             type: Number,
             default: 0
@@ -29,8 +29,8 @@ export default {
 .sidebar-heading {
   text-align: center;
   padding: 0 1rem;
-  font-weight: 800;
-  font-size: 0.65rem;
+  font-weight: 1000;
+  font-size: .65rem;
 }
 
 @media (min-width: 768px) {

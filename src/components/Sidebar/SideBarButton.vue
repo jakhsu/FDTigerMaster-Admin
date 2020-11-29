@@ -1,5 +1,5 @@
 <template>
-    <b-nav-item class="sidebar-button" :class="{'active': currentPath == to}" :to="to">
+    <b-nav-item class="sidebar-button" :to="to">
         <font-awesome-icon :icon="icon" fixed-width/>
         <span>
             <slot/>
@@ -17,16 +17,7 @@ export default {
         },
         to: String,
         icon: String,
-        currentPath: {
-            type: String,
-            default: this.$route.path
-        }
-    },
-    watch: {
-        '$route' () {
-            this.currentPath = this.$route.path;
-        }
-    },
+    }
 }
 </script>
 
@@ -86,6 +77,10 @@ export default {
     margin-right: 0;
   }
 }
+.sidebar-button .nav-link.router-link-exact-active{
+    color: #fff;
+    background-color: #506fa2;
+}
 
 .sidebar-button .nav-link {
   color: rgba(255, 255, 255, 0.6);
@@ -95,13 +90,11 @@ export default {
   color: rgba(255, 255, 255, 0.3);
 }
 
-.sidebar-button .nav-link:active,
 .sidebar-button .nav-link:focus,
 .sidebar-button .nav-link:hover {
   color: #fff;
 }
 
-.sidebar-button .nav-link:active i,
 .sidebar-button .nav-link:focus i,
 .sidebar-button .nav-link:hover i {
   color: #fff;

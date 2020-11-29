@@ -1,7 +1,7 @@
 <template>
 <div>
     <b-table
-        id="CustomTable"
+        id="custom-table"
         :items="datas" 
         :fields="fields"
         :per-page="perPage"
@@ -64,24 +64,24 @@ export default {
 </script>
 
 <style>
-#CustomTable{
+#custom-table{
     text-align: left;
     white-space: nowrap;
     border: 1px solid #e3e6f0;
 }
 
-#CustomTable th{
+#custom-table th{
     color: #858796;
 }
 
-#CustomTable td{
+#custom-table td{
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 200px;
 }
 
 @media (max-width: 767px){
-    #CustomTable td{
+    #custom-table td{
         max-width: 100px;
     }
 }

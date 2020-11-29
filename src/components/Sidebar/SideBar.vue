@@ -5,10 +5,10 @@
           <div class="sidebar-brand-text">TigerMaster</div>
         </b-link>
 
-        <SideBarButton :active="currentPath == '/home'" to="/home" icon="tachometer-alt">
-          Dashboard
+        <SideBarButton to="/home" icon="tachometer-alt">
+          資訊面板
         </SideBarButton>
-        <SideBarGroup text="User Area">
+        <SideBarGroup text="使用者">
             <SideBarButton to="/home/client" icon="users">
                 客戶資料
             </SideBarButton>
@@ -20,7 +20,7 @@
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="Working Category Area">
+        <SideBarGroup text="工項">
             <SideBarButton to="/home/working_category" icon="tools">
                 工項維護
             </SideBarButton>
@@ -68,13 +68,7 @@ export default {
     },
     data(){
         return{
-            logoImg: LogoImg,
-            currentPath: this.$route.path
-        }
-    },
-    watch: {
-        '$route' () {
-            this.currentPath = this.$route.path;
+            logoImg: LogoImg
         }
     },
     methods:{

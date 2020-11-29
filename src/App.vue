@@ -26,4 +26,8 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.no-padding>[class*=col-]{
+    padding: 0px;
+}
 </style>
