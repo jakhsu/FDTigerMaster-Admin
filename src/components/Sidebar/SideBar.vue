@@ -1,34 +1,40 @@
 <template>
     <b-nav class="sidebar flex-column" :class="{'toggled': toggled}">
         <b-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
-          <img class="sidebar-brand-logo" alt="ttes logo" :src="LogoImg"/>
+          <img class="sidebar-brand-logo" alt="ttes logo" :src="logoImg"/>
           <div class="sidebar-brand-text">TigerMaster</div>
         </b-link>
 
-        <SideBarButton :active="true" to="/home" icon="tachometer-alt">
+        <SideBarButton :active="currentPath == '/home'" to="/home" icon="tachometer-alt">
           Dashboard
         </SideBarButton>
 
         <SideBarGroup text="User Area">
-            <SideBarButton to="/home/user" icon="users">
-                用戶資料
+            <SideBarButton :active="currentPath == '/home/client'" to="/home/client" icon="users">
+                客戶資料
+            </SideBarButton>
+            <SideBarButton :active="currentPath == '/home/master'" to="/home/master" icon="hard-hat">
+                師傅資料
+            </SideBarButton>
+            <SideBarButton :active="currentPath == '/home/admin'" to="/home/admin" icon="user-shield">
+                管理員資料
             </SideBarButton>
         </SideBarGroup>
 
         <SideBarGroup text="Working Category Area">
-            <SideBarButton to="#" icon="tools">
+            <SideBarButton to="/home/working_category" icon="tools">
                 工項維護
             </SideBarButton>
-            <SideBarButton to="#" icon="address-card">
+            <SideBarButton to="/home/working_skill" icon="address-card">
                 技能維護
             </SideBarButton>
         </SideBarGroup>
 
         <SideBarGroup text="Utility Area">
-            <SideBarButton to="#" icon="paper-plane">
+            <SideBarButton to="/home/push_message" icon="paper-plane">
                 系統推播
             </SideBarButton>
-            <SideBarButton to="#" icon="file-contract">
+            <SideBarButton to="/home/order" icon="file-contract">
                 訂單資訊
             </SideBarButton>
         </SideBarGroup>
@@ -63,7 +69,13 @@ export default {
     },
     data(){
         return{
-            LogoImg: LogoImg
+            logoImg: LogoImg,
+            currentPath: this.$route.path
+        }
+    },
+    watch: {
+        '$route' () {
+            this.currentPath = this.$route.path;
         }
     },
     methods:{
@@ -179,14 +191,6 @@ export default {
 }
 
 .sidebar .sidebar-brand{
-    color: #fff;
-}
-
-.sidebar .nav-item.active .nav-link{
-    color: #fff;
-}
-
-.sidebar .nav-item.active .nav-link i{
     color: #fff;
 }
 

@@ -5,12 +5,15 @@
                 <b-col lg="6" md="12">
                     <TitledCard title="Account:">
                         <b-form>
-                            <b-button class="ml-auto" variant="link">
-                                <font-awesome-icon icon="edit" fixed-width/>
-                            </b-button>
+                            <div class="w-100 mb-3 d-flex align-items-right-center">
+                                <b-button class="ml-auto" variant="primary">
+                                    <font-awesome-icon icon="edit" fixed-width/>
+                                    Edit
+                                </b-button>
+                            </div>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="id: ">
                                 <b-form-input
                                     disabled
@@ -18,7 +21,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="手機: ">
                                 <b-form-input
                                     disabled
@@ -26,7 +29,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="密碼: ">
                                 <b-form-input
                                     disabled
@@ -34,7 +37,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="名稱: ">
                                 <b-form-input
                                     disabled
@@ -42,7 +45,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="角色: ">
                                 <b-form-input
                                     disabled
@@ -50,7 +53,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="性別: ">
                                 <b-form-input
                                     disabled
@@ -58,7 +61,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="城市: ">
                                 <b-form-input
                                     disabled
@@ -66,7 +69,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="區域: ">
                                 <b-form-input
                                     disabled
@@ -74,7 +77,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="街道: ">
                                 <b-form-input
                                     disabled
@@ -82,7 +85,7 @@
                             </b-form-group> 
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="門牌樓層: ">
                                 <b-form-input
                                     disabled
@@ -90,7 +93,7 @@
                             </b-form-group> 
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="區域: ">
                                 <b-form-input
                                     disabled
@@ -98,7 +101,7 @@
                             </b-form-group> 
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="身分證號: ">
                                 <b-form-input
                                     disabled
@@ -106,7 +109,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="創建日期: ">
                                 <b-form-input
                                     disabled
@@ -114,7 +117,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="創建者: ">
                                 <b-form-input
                                     disabled
@@ -122,7 +125,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="更新日期: ">
                                 <b-form-input
                                     disabled
@@ -130,7 +133,7 @@
                             </b-form-group>
                             <b-form-group
                                 label-cols="3"
-                                label-cols-sm="2"
+                                label-cols-xl="2"
                                 label="更新者: ">
                                 <b-form-input
                                     disabled
@@ -181,7 +184,6 @@ export default {
     align-items: center;
     justify-content: center;
 }
-
 #BasicDetail .BasicDetail-Deactive{
     text-align: left;
 }

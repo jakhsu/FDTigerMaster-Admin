@@ -4,8 +4,12 @@ import Login from '@/views/Auth/Login.vue'
 
 import Home from '@/views/Home/Home.vue'
 import HomeDashboard from '@/views/Home/Dashboard.vue'
-import HomeUser from '@/views/Home/User/User.vue'
+import HomeClient from '@/views/Home/User/Client.vue'
+import HomeMaster from '@/views/Home/User/Master.vue'
+import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
+
+import Page404 from '@/views/Error/Page404.vue'
 
 Vue.use(VueRouter)
 
@@ -25,15 +29,29 @@ const routes = [
             component: HomeDashboard
         },
         {
-            path: 'user',
-            name: 'HomeUser',
-            component: HomeUser
+            path: 'client',
+            name: 'HomeClient',
+            component: HomeClient
+        },
+        {
+            path: 'master',
+            name: 'HomeMaster',
+            component: HomeMaster
+        },
+        {
+            path: 'admin',
+            name: 'HomeAdmin',
+            component: HomeAdmin
         },
         {
             path: 'user_detail',
             component: HomeUserDetail
         }
     ]
+  },
+  {
+      path: "*",
+      component: Page404
   }
 ]
 
@@ -41,6 +59,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;

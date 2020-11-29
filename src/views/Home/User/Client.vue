@@ -1,24 +1,24 @@
 <template>
-    <div id="User">
-        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick"/>
+    <div id="Client">
+        <UserCreateModal id="User-Create-Modal" :default-role="0" @onSaveClick="onNewUserSaveClick"/>
         <b-container fluid>
-            <div class="User-Area">
+            <div class="Client-Area">
                 <b-row>
                     <b-col>
-                        <div class="User-Header">
+                        <div class="Client-Header">
                             <h2>Client</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                        <TitledCard title="User List">
-                            <div class="User-Search d-flex mb-3">
+                        <TitledCard title="Client List">
+                            <div class="Client-Search d-flex mb-3">
                                 <b-button variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                                <b-button class="ml-auto" variant="primary" v-b-modal="'User-Create-Modal'">新增用戶</b-button>
+                                <b-button class="ml-auto" variant="primary" v-b-modal="'User-Create-Modal'">新增客戶</b-button>
                             </div>
-                            <div class="User-Table">
+                            <div class="Client-Table">
                                 <CustomTable
                                     :queryRows="1"
                                     :totalRows="1"
@@ -59,7 +59,7 @@ import CustomTable from '@/components/Table/CustomTable.vue'
 import UserCreateModal from '@/components/Modal/UserCreateModal.vue' 
 
 export default {
-    name: "User",
+    name: "Client",
     components: {
         TitledCard,
         CustomTable,
@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style scoped>
-#User {
+#Client {
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -100,18 +100,18 @@ export default {
     justify-content: center;
 }
 
-#User .User-Area{
+#Client .Client-Area{
     padding: 0px 50px;
 }
 
-#User .User-Area .User-Header{
+#Client .Client-Area .Client-Header{
     margin: 25px 0px;
     text-align: left;
     color: #000;
 }
 
 @media (max-width: 768px) {
-    #User .User-Area{
+    #Client .Client-Area{
         padding: 0px;
     }
 }

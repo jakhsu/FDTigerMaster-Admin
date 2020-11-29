@@ -83,7 +83,7 @@ export default {
 }
 
 .sidebar-button .nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .sidebar-button .nav-link i {
@@ -100,5 +100,13 @@ export default {
 .sidebar-button .nav-link:focus i,
 .sidebar-button .nav-link:hover i {
   color: #fff;
+}
+
+.sidebar .nav-item.active .nav-link{
+    color: #fff;
+}
+
+.sidebar .nav-item.active .nav-link i{
+    color: #fff;
 }
 </style>

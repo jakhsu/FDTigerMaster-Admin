@@ -32,6 +32,14 @@
                     @update="emailValidate"
                 />
             </b-form-group>
+            <b-form-group label="Role">
+                <b-form-select
+                    v-model="newUser.role"
+                    :options="UserRole"
+                    :state="inputState[inputIndex.role]"
+                    @input="roleValidate"
+                />
+            </b-form-group>
         </b-form>
         <template #modal-footer="{ cancel }">
             <span class="User-Create-Error" v-if="formError">some field is not complete</span>
@@ -46,10 +54,13 @@
 </template>
 
 <script>
+import UserRole from '@/config/UserRole.json'
+
 const inputIndex = Object.freeze({
     phone: 0,
     name: 1,
-    email: 2
+    email: 2,
+    role: 3
 });
 export default {
     name: 'UserCreateModal',
@@ -57,17 +68,23 @@ export default {
         id:{
             type: String,
             default: 'User-Create-Modal'
+        },
+        defaultRole:{
+            type: Number,
+            default: null
         }
     },
     data(){
         return {
+            UserRole,
             inputIndex,
             newUser: {
                 phone: '',
                 name: '',
-                email: ''
+                email: '',
+                role: this.defaultRole
             },
-            inputState: [null, null, null],
+            inputState: [null, null, null, null],
             formError: false
         }
     },
@@ -82,15 +99,21 @@ export default {
         emailValidate(){
             this.inputState[this.inputIndex.email] = this.newUser.email !== '';
         },
+        roleValidate(){
+            this.inputState[this.inputIndex.role] = this.newUser.role !== null;
+        },
         resetModal(){
             this.newUser = {
                 phone: '',
                 name: '',
-                email: ''
-            }
+                email: '',
+                role: this.defaultRole
+            };
+            this.formError = false;
+            this.roleValidate();
         },
         onSaveClick(){
-            if(this.inputState[0] && this.inputState[1] && this.inputState[2]){
+            if(this.inputState[0] && this.inputState[1] && this.inputState[2] && this.inputState[3]){
                 this.$emit('onSaveClick', this.newUser);
                 this.$bvModal.hide(this.id);
             }else{
