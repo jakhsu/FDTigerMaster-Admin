@@ -11,54 +11,77 @@
                 </b-row>
                 <b-row class="Dashboard-Overview">
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46"/>
+                        <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="330" :trend="-2"/>
+                        <DataCard color="#4e73df" title="師傅數" :data="330" :trend="-2" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="媒合數" :data="136" :trend="1"/>
+                        <DataCard color="#4e73df" title="媒合數" :data="136" :trend="1" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46"/>
+                        <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46" />
                     </b-col>
                 </b-row>
             </div>
+            <autocompletetest />
+            <!-- <b-button @click="test()">測試</b-button>
+            <b-button @click="check()">檢查</b-button> -->
         </b-container>
     </div>
 </template>
 
 <script>
-import DataCard from '@/components/Card/DataCard.vue'
-export default {
-    name: 'Dashboard',
-    components: {
-        DataCard
+    import DataCard from '@/components/Card/DataCard.vue'
+    // import {
+    //     fetchStreet,
+    //     checkdata
+    // } from '@/model/http.js'
+    // import Autocompletetest from '../../components/autocompletetest.vue'
+
+    export default {
+        name: 'Dashboard',
+        components: {
+            DataCard,
+            // Autocompletetest,
+        },
+        data() {
+            return {
+                addressData: {}
+            }
+        },
+        methods: {
+            // test() {
+            //     fetchStreet();
+            // },
+            // check() {
+            //     checkdata();
+            // }
+        }
     }
-}
 </script>
 
 <style scoped>
-#Dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#Dashboard .Dashboard-Area{
-    padding: 0px 50px;
-}
-
-#Dashboard .Dashboard-Area .Dashboard-Header{
-    margin: 25px 0px;
-    text-align: left;
-    color: #000;
-}
-
-@media (max-width: 768px) {
-    #Dashboard .Dashboard-Area{
-        padding: 0px;
+    #Dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
-}
+
+    #Dashboard .Dashboard-Area {
+        padding: 0px 50px;
+    }
+
+    #Dashboard .Dashboard-Area .Dashboard-Header {
+        margin: 25px 0px;
+        text-align: left;
+        color: #000;
+    }
+
+    @media (max-width: 768px) {
+        #Dashboard .Dashboard-Area {
+            padding: 0px;
+        }
+    }
 </style>
