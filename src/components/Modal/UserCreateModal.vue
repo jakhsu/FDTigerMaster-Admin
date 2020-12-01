@@ -25,7 +25,7 @@
             </b-form-group>
         </b-form>
         <template #modal-footer="{ cancel }">
-            <span class="User-Create-Error" v-if="formError">some field is not complete</span>
+            <span class="User-Create-Error" v-if="formError">有些資料不符合規定</span>
             <b-button variant="danger" @click="cancel">
                 取消
             </b-button>
