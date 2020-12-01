@@ -112,7 +112,7 @@
         padding: 0px 50px;
     }
 
-    #Working-Skill .SkillArea .skill-Header {
+    #Working-Skill .SkillArea .Skill-Header {
         margin: 25px 0px;
         text-align: left;
         color: #000;
