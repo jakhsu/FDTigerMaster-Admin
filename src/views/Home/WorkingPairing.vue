@@ -13,9 +13,9 @@
                     <b-col lg="6" md="12">
                         <TitledCard title="技能">
                             <div class="PairingTable">
-                                <b-form-select v-model="selected" :options="options">
+                                <b-form-select v-model="selected" :fields="fields" :options="options">
                                 </b-form-select>
-                                <b-table class="skilltable" sticky-header :items="items">
+                                <b-table class="skilltable" sticky-header :items="pairs">
                                 </b-table>
                                 <b-input-group>
                                 </b-input-group>
@@ -53,6 +53,24 @@
         },
         data() {
             return {
+                fields: [{
+                    key: "技能編號",
+                    sortable: true
+                }, {
+                    key: "技能描述",
+                    sortable: false
+                }, {
+                    key: "對應",
+                    sortable: false
+                }, ],
+                pairs: [{
+                    技能編號: "TM-W03010",
+                    技能描述: "水管安裝維修",
+                    對應工項: [{
+                        工項編號: "TM-X03011",
+                        工項敘述: "排水溝清理"
+                    }]
+                }],
                 items: [{
                         工項編號: "TM-X03011",
                         工項敘述: "排水溝清理"
@@ -75,8 +93,8 @@
                         text: "選擇技能..."
                     },
                     {
-                        value: "TM-W03010",
-                        text: "水管安裝維修"
+                        value: "TM-X03011",
+                        text: "排水溝清理"
                     },
                     {
                         value: "TM-W03010",
