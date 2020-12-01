@@ -1,18 +1,18 @@
 <template>
-    <div id="Working-Skill">
+    <div id="Working-Category">
         <b-container fluid>
-            <div class="SkillArea">
+            <div class="CategoryArea">
                 <b-row>
                     <b-col>
-                        <div class="Skill-Header">
-                            <h2>技能總表</h2>
+                        <div class="Category-Header">
+                            <h2>客戶工項總表</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col lg="6" md="12">
-                        <TitledCard title="師傅技能:">
-                            <div class="SkillTable">
+                        <TitledCard title="工項:">
+                            <div class="CategoryTable">
                                 <b-table class="skilltable" sticky-header :items="items">
                                 </b-table>
                                 <b-input-group>
@@ -27,9 +27,9 @@
                     <b-col lg="6" md="12">
                         <TitledCard title="單筆輸入">
                             <b-form>
-                                <label for="inputId">技能編號</label>
+                                <label for="inputId">工項編號</label>
                                 <b-form-input required id="inputId" v-model="input.id"></b-form-input>
-                                <label for="inputDetail">技能描述</label>
+                                <label for="inputDetail">工項描述</label>
                                 <b-form-input required id="inputDetail" v-model="input.detail"></b-form-input>
                                 <b-button type="submit" variant="primary" class="ml-1 mt-2">送出
                                 </b-button>
@@ -45,51 +45,27 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     export default {
-        name: 'WorkingSkill',
+        name: 'WorkingCategory',
         components: {
             TitledCard
         },
         data() {
             return {
                 items: [{
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        工項編號: "TM-X03011",
+                        工項敘述: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        工項編號: "TM-W01012",
+                        工項敘述: "清洗水泥水塔"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        工項編號: "TM-M01012",
+                        工項敘述: "熱水器故障"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        工項編號: "TM-W02011",
+                        工項敘述: "水龍頭漏水"
                     },
                 ],
                 input: {}
@@ -100,7 +76,7 @@
 </script>
 
 <style scoped>
-    #Working-Skill {
+    #Working-Category {
         max-width: 100%;
         display: flex;
         flex-direction: column;
@@ -108,18 +84,18 @@
         justify-content: center;
     }
 
-    #Working-Skill .SkillArea {
+    #Working-Category .CategoryArea {
         padding: 0px 50px;
     }
 
-    #Working-Skill .SkillArea .skill-Header {
+    #Working-Category .CategoryArea .Category-Header {
         margin: 25px 0px;
         text-align: left;
         color: #000;
     }
 
     @media (max-width: 768px) {
-        #Working-Skill .SkillArea {
+        #Working-Category .CategoryArea {
             padding: 0px;
         }
     }

@@ -24,7 +24,7 @@
                     </b-col>
                 </b-row>
             </div>
-            <autocompletetest />
+            <!-- <autocompletetest /> -->
             <!-- <b-button @click="test()">測試</b-button>
             <b-button @click="check()">檢查</b-button> -->
         </b-container>

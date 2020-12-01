@@ -8,7 +8,9 @@ import HomeClient from '@/views/Home/User/Client.vue'
 import HomeMaster from '@/views/Home/User/Master.vue'
 import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
-import HomeWorkingskill from '@/views/Home/Workingskill.vue'
+import HomeWorkingSkill from '@/views/Home/WorkingSkill.vue'
+import HomeWorkingCategory from '@/views/Home/WorkingCategory.vue'
+import HomeBroadcast from '@/views/Home/Broadcast.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
 
@@ -48,7 +50,15 @@ const routes = [{
       },
       {
         path: 'working_skill',
-        component: HomeWorkingskill
+        component: HomeWorkingSkill
+      },
+      {
+        path: 'working_category',
+        component: HomeWorkingCategory
+      },
+      {
+        path: 'broadcast',
+        component: HomeBroadcast
       }
     ]
   },
