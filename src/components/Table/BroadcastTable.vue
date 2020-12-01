@@ -26,7 +26,7 @@
             </template>
         </b-table>
         <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" :disabled="isBusy" align="right"
-            limit="7" aria-controls="CustomTable" />
+            limit="7" aria-controls="BroadcastTable" />
     </div>
 </template>
 
@@ -72,6 +72,14 @@
                 if (this.isSelectAll == false) {
                      this.$refs.broadcastTable.clearSelected()
                 }
+            },
+            NumOfSelected: function () {
+                this.$emit("selectedNumChange", this.NumOfSelected)
+            }
+        },
+        computed: {
+            NumOfSelected() {
+                return this.selected.length
             }
         }
     }

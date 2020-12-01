@@ -16,10 +16,14 @@
                                 <b-button variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">切換全選</b-button>
+                                <b-button class="ml-2" variant="primary">
+                                    已選擇數量: <b-badge variant="light">{{numOfSelected}}</b-badge>
+                                </b-button>
                             </div>
                             <div class="Broadcast-Table">
-                                <BroadcastTable :isSelectAll="isSelectAll" :queryRows="1" :totalRows="1" :fields="fields" :datas="data"
-                                    :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                <BroadcastTable @selectedNumChange="updateNumOfSelected" :isSelectAll="isSelectAll"
+                                    :queryRows="1" :totalRows="1" :fields="fields" :datas="data" :isBusy="tableBusy"
+                                    @dataRequire="onDataRequire">
                                     <div v-for="(item, index) in data" :key="index">
                                         <b-td>
                                             <b-input type="checkbox"></b-input>
@@ -40,6 +44,19 @@
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                 </BroadcastTable>
+                            </div>
+                        </TitledCard>
+                    </b-col>
+                    <b-col>
+                        <TitledCard title="推播訊息">
+                            <div class="Broadcast-Msg">
+                                <b-form>
+                                    <b-form-input placeholder="標題" />
+                                    <b-form-file placeholder="上傳推播圖片...">
+                                    </b-form-file>
+                                    <b-form-textarea id="textarea" placeholder="輸入內文..." rows="5" max-rows="20">
+                                    </b-form-textarea>
+                                </b-form>
                             </div>
                         </TitledCard>
                     </b-col>
@@ -64,141 +81,223 @@
             return {
                 fields: UserTableModel,
                 data: [{
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, {
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }, ],
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }, {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                    {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                    {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                    {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                    {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                ],
                 search: {},
                 tableBusy: false,
-                isSelectAll: {
+                isSelectAll: {},
+                numOfSelected: '',
+                broadcastMsg: {
+                    title: '',
+                    msg: '',
+
                 }
             }
         },
@@ -221,9 +320,14 @@
                         userId: "202011240001"
                     }
                 });
+            },
+            updateNumOfSelected(obj) {
+                this.numOfSelected = obj
             }
         },
-        
+        computed: {
+
+        }
     }
 </script>
 
