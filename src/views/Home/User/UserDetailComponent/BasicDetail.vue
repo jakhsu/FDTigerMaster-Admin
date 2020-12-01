@@ -90,7 +90,8 @@
         },
         props: {
             user: Object
-        }
+        },
+        methods: {}
     }
 </script>
 

@@ -20,12 +20,15 @@
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="工項">
+        <SideBarGroup text="工項技能">
             <SideBarButton to="/home/working_category" icon="tools">
                 工項維護
             </SideBarButton>
             <SideBarButton to="/home/working_skill" icon="address-card">
                 技能維護
+            </SideBarButton>
+            <SideBarButton to="/home/working_pairing" icon="link">
+                工項技能配對
             </SideBarButton>
         </SideBarGroup>
 

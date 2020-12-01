@@ -27,9 +27,9 @@
                     <b-col lg="6" md="12">
                         <TitledCard title="單筆輸入">
                             <b-form>
-                                <label for="inputId">技能編號</label>
+                                <label class="mt-2" for="inputId">技能編號</label>
                                 <b-form-input required id="inputId" v-model="input.id"></b-form-input>
-                                <label for="inputDetail">技能描述</label>
+                                <label class="mt-2" for="inputDetail">技能描述</label>
                                 <b-form-input required id="inputDetail" v-model="input.detail"></b-form-input>
                                 <b-button type="submit" variant="primary" class="ml-1 mt-2">送出
                                 </b-button>

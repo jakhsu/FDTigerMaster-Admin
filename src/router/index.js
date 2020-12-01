@@ -11,6 +11,7 @@ import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
 import HomeWorkingSkill from '@/views/Home/WorkingSkill.vue'
 import HomeWorkingCategory from '@/views/Home/WorkingCategory.vue'
 import HomeBroadcast from '@/views/Home/Broadcast.vue'
+import HomeWorkingPairing from '@/views/Home/WorkingPairing.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
 
@@ -59,6 +60,10 @@ const routes = [{
       {
         path: 'broadcast',
         component: HomeBroadcast
+      },
+      {
+        path: 'working_pairing',
+        component: HomeWorkingPairing
       }
     ]
   },

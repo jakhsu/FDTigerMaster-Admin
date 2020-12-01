@@ -2,15 +2,22 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { BootstrapVue, LayoutPlugin } from 'bootstrap-vue'
+import {
+  BootstrapVue,
+  LayoutPlugin
+} from 'bootstrap-vue'
 import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import Fragment from 'vue-fragment'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { 
+import {
+  library
+} from '@fortawesome/fontawesome-svg-core'
+import {
+  FontAwesomeIcon
+} from '@fortawesome/vue-fontawesome'
+import {
   faBars,
   faUser,
   faEdit,
@@ -25,7 +32,9 @@ import {
   faPaperPlane,
   faAddressCard,
   faFileContract,
-  faTachometerAlt } from '@fortawesome/free-solid-svg-icons'
+  faTachometerAlt,
+  faLink,
+} from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faBars,
@@ -42,7 +51,8 @@ library.add(
   faPaperPlane,
   faAddressCard,
   faFileContract,
-  faTachometerAlt
+  faTachometerAlt,
+  faLink
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

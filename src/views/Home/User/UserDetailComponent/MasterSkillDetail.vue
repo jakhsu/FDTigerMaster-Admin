@@ -2,18 +2,20 @@
     <div id="MasterSkillDetail">
         <b-container fluid>
             <b-row>
-                <TitledCard title="師傅技能:">
-                    <div class="skilltable">
-                        <b-table class="skilltable" sticky-header :items="items">
-                        </b-table>
-                        <b-input-group>
-                        </b-input-group>
-                    </div>
-                    <div class="downloadarea">
-                        <b-button class="mr-1">下載</b-button>
-                        <b-button class="mr-1">上傳</b-button>
-                    </div>
-                </TitledCard>
+                <b-col lg='12' md='12'>
+                    <TitledCard title="師傅技能:">
+                        <div class="skilltable">
+                            <b-table class="skilltable" sticky-header :items="items">
+                            </b-table>
+                            <b-input-group>
+                            </b-input-group>
+                        </div>
+                        <div class="downloadarea">
+                            <b-button class="mr-1">下載</b-button>
+                            <b-button class="mr-1">上傳</b-button>
+                        </div>
+                    </TitledCard>
+                </b-col>
             </b-row>
         </b-container>
     </div>

@@ -294,7 +294,7 @@
                 ],
                 search: {},
                 tableBusy: false,
-                isSelectAll: {},
+                isSelectAll: null,
                 numOfSelected: '',
                 broadcastMsg: {
                     title: '',
@@ -308,8 +308,11 @@
                 this.tableBusy = true;
             },
             onSelectAllClick() {
-                alert("you clicked a button!")
-                this.isSelectAll = !this.isSelectAll;
+                if (this.isSelectAll === null) {
+                    this.isSelectAll = true
+                } else {
+                    this.isSelectAll = !this.isSelectAll;
+                }
             },
             onSearchClick() {},
             onSearchClearClick() {

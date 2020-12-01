@@ -1,18 +1,20 @@
 <template>
-    <div id="Working-Category">
+    <div id="Working-Pairing">
         <b-container fluid>
-            <div class="CategoryArea">
+            <div class="PairingArea">
                 <b-row>
                     <b-col>
-                        <div class="Category-Header">
-                            <h2>工項總表</h2>
+                        <div class="Pairing-Header">
+                            <h2>工項技能配對</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col lg="6" md="12">
-                        <TitledCard title="工項:">
-                            <div class="CategoryTable">
+                        <TitledCard title="技能">
+                            <div class="PairingTable">
+                                <b-form-select v-model="selected" :options="options">
+                                </b-form-select>
                                 <b-table class="skilltable" sticky-header :items="items">
                                 </b-table>
                                 <b-input-group>
@@ -45,7 +47,7 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     export default {
-        name: 'WorkingCategory',
+        name: 'WorkingPairing',
         components: {
             TitledCard
         },
@@ -68,7 +70,37 @@
                         工項敘述: "水龍頭漏水"
                     },
                 ],
-                input: {}
+                options: [{
+                        value: null,
+                        text: "選擇技能..."
+                    },
+                    {
+                        value: "TM-W03010",
+                        text: "水管安裝維修"
+                    },
+                    {
+                        value: "TM-W03010",
+                        text: "水管安裝維修"
+                    },
+                    {
+                        value: "TM-W03010",
+                        text: "水管安裝維修"
+                    },
+                    {
+                        value: "TM-W03010",
+                        text: "水管安裝維修"
+                    },
+                    {
+                        value: "TM-W03010",
+                        text: "水管安裝維修"
+                    },
+                    {
+                        value: "TM-W03010",
+                        text: "水管安裝維修"
+                    },
+                ],
+                input: {},
+                selected: null,
             }
         },
         methods: {}
@@ -76,7 +108,7 @@
 </script>
 
 <style scoped>
-    #Working-Category {
+    #Working-Pairing {
         max-width: 100%;
         display: flex;
         flex-direction: column;
@@ -84,18 +116,18 @@
         justify-content: center;
     }
 
-    #Working-Category .CategoryArea {
+    #Working-Pairing .PairingArea {
         padding: 0px 50px;
     }
 
-    #Working-Category .CategoryArea .Category-Header {
+    #Working-Pairing .PairingArea .Pairing-Header {
         margin: 25px 0px;
         text-align: left;
         color: #000;
     }
 
     @media (max-width: 768px) {
-        #Working-Category .CategoryArea {
+        #Working-Pairing .PairingArea {
             padding: 0px;
         }
     }
