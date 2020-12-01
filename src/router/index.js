@@ -8,13 +8,13 @@ import HomeClient from '@/views/Home/User/Client.vue'
 import HomeMaster from '@/views/Home/User/Master.vue'
 import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
+import HomeWorkingskill from '@/views/Home/Workingskill.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Login',
     component: Login
@@ -22,36 +22,39 @@ const routes = [
   {
     path: '/home',
     component: Home,
-    children: [
-        { 
-            path: '',
-            name: 'Home',
-            component: HomeDashboard
-        },
-        {
-            path: 'client',
-            name: 'HomeClient',
-            component: HomeClient
-        },
-        {
-            path: 'master',
-            name: 'HomeMaster',
-            component: HomeMaster
-        },
-        {
-            path: 'admin',
-            name: 'HomeAdmin',
-            component: HomeAdmin
-        },
-        {
-            path: 'user_detail',
-            component: HomeUserDetail
-        }
+    children: [{
+        path: '',
+        name: 'Home',
+        component: HomeDashboard
+      },
+      {
+        path: 'client',
+        name: 'HomeClient',
+        component: HomeClient
+      },
+      {
+        path: 'master',
+        name: 'HomeMaster',
+        component: HomeMaster
+      },
+      {
+        path: 'admin',
+        name: 'HomeAdmin',
+        component: HomeAdmin
+      },
+      {
+        path: 'user_detail',
+        component: HomeUserDetail
+      },
+      {
+        path: 'working_skill',
+        component: HomeWorkingskill
+      }
     ]
   },
   {
-      path: "*",
-      component: Page404
+    path: "*",
+    component: Page404
   }
 ]
 

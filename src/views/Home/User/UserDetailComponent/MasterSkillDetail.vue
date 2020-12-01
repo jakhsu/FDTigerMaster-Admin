@@ -3,6 +3,16 @@
         <b-container fluid>
             <b-row>
                 <TitledCard title="師傅技能:">
+                    <div class="skilltable">
+                        <b-table class="skilltable" sticky-header :items="items">
+                        </b-table>
+                        <b-input-group>
+                        </b-input-group>
+                    </div>
+                    <div class="downloadarea">
+                        <b-button class="mr-1">下載</b-button>
+                        <b-button class="mr-1">上傳</b-button>
+                    </div>
                 </TitledCard>
             </b-row>
         </b-container>
@@ -15,10 +25,55 @@
     export default {
         name: "MasterSkillDetail",
         components: {
-            TitledCard
+            TitledCard,
         },
         props: {
             user: Object
-        }
+        },
+        data() {
+            return {
+                items: [{
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                    {
+                        技能編號: "TH-W0101",
+                        技能敘述: "排水溝清理"
+                    },
+                ]
+            }
+        },
     }
 </script>
