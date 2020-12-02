@@ -1,89 +1,165 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserModify">
+        <b-toast variant="success" id="successSignUp" title="歡迎">
+            您已經完成註冊
+        </b-toast>
         <SimpleModal id="Simple-Modal" />
         <b-container fluid>
-            <div class="UserModify-Area">
-                <b-row>
-                    <b-col>
-                        <div class="UserModify-Header">
-                            <h2>使用者修改</h2>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col sm="3" md="4" lg="2">
-                        <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1" />
-                    </b-col>
-                    <b-col sm="3" md="4" lg="2">
-                        <DataCard color="#4e73df" title="平均月收" :data="45000" :trend="2000" />
-                    </b-col>
-                </b-row>
-                <b-nav tabs>
-                    <b-nav-item :active="currentTab == 'basic'" @click="onNavClick('basic')">
-                        基本資料
-                    </b-nav-item>
-                    <b-nav-item :active="currentTab == 'order'" @click="onNavClick('order')">
-                        訂單
-                    </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userNote'" @click="onNavClick('userNote')">
-                        用戶評分與評論
-                    </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userRemark'" @click="onNavClick('userRemark')">
-                        用戶註記
-                    </b-nav-item>
-                    <b-nav-item :active="currentTab == 'certificate'" :disabled="userData.roleId != 1"
-                        @click="onNavClick('certificate')">
-                        證照
-                    </b-nav-item>
-                    <b-nav-item :active="currentTab == 'masterSkill'" :disabled="userData.roleId != 1"
-                        @click="onNavClick('masterSkill')">
-                        師傅技能
-                    </b-nav-item>
-                    <b-nav-item :active="currentTab == 'masterIncome'" :disabled="userData.roleId != 1"
-                        @click="onNavClick('masterIncome')">
-                        師傅收入
-                    </b-nav-item>
-                </b-nav>
-            </div>
-            <component :is="currentComponent"></component>
+            <b-row class="mt-3" align-h="end">
+                <b-col>
+                    <div class="UserModify-Header">
+                        <h2>使用者編輯</h2>
+                    </div>
+                </b-col>
+                <b-col align-self="center" cols="1">
+                    <b-button class="ml-auto" variant="success" @click="onFinishSignUp">
+                        <font-awesome-icon icon="edit" />
+                        完成
+                    </b-button>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col lg="6" md="12">
+                    <TitledCard title="用戶共通:">
+                        <b-form>
+                            <b-card class="m-4" bg-variant="light">
+                                <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="id: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="電話: ">
+                                        <b-form-input id="phone" value="0900123456" disabled>
+                                        </b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="密碼: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-for="name" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="姓名: ">
+                                        <b-form-input id="name" value="徐子鈞" disabled>
+                                        </b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="角色: ">
+                                        <b-form-input id="roleId" value="師傅" disabled>
+                                        </b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label-for="email" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="Email: ">
+                                        <b-form-input id="email" value="fdtaigermaster@email.com.tw" disabled>
+                                        </b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="性別: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="身分證號: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="出生日期: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                </b-form-group>
+                            </b-card>
+                            <b-card class="m-4" bg-variant="light">
+                                <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區域: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="門牌樓層: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                </b-form-group>
+                            </b-card>
+                            <b-card class="m-4" bg-variant="light">
+                                <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="創建日期: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="更新日期: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="Active: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                </b-form-group>
+                            </b-card>
+                        </b-form>
+                    </TitledCard>
+                </b-col>
+                <b-col lg="6" md="12">
+                    <TitledCard title="師傅專用:">
+                        <b-form>
+                            <b-card class="m-4" bg-variant="light">
+                                <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="銀行帳號: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="銀行名稱: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="銀行代號: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="分行代號: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="分行名稱: ">
+                                        <b-form-input />
+                                    </b-form-group>
+                                </b-form-group>
+                            </b-card>
+                        </b-form>
+                    </TitledCard>
+                </b-col>
+            </b-row>
         </b-container>
     </div>
 </template>
 
 <script>
     import Loading from '@/components/Loading.vue'
-    import BasicDetail from '@/views/Home/User/UserDetailComponent/BasicDetail.vue'
-    import OrderDetail from '@/views/Home/User/UserDetailComponent/OrderDetail.vue'
-    import UserNoteDetail from '@/views/Home/User/UserDetailComponent/UserNoteDetail.vue'
-    import UserRemarkDetail from '@/views/Home/User/UserDetailComponent/UserRemarkDetail.vue'
-    import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
-    import MasterSkillDetail from '@/views/Home/User/UserDetailComponent/MasterSkillDetail.vue'
-    import DataCard from '@/components/Card/DataCard.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import TitledCard from '@/components/Card/TitledCard.vue'
 
     export default {
         name: 'UserModify',
         components: {
             Loading,
-            BasicDetail,
-            UserNoteDetail,
-            DataCard,
-            SimpleModal,
+            TitledCard,
         },
         data() {
             return {
                 isLoading: true,
-                currentComponent: BasicDetail,
-                currentTab: "basic",
-                tabComponentMap: {
-                    basic: BasicDetail,
-                    order: OrderDetail,
-                    userNote: UserNoteDetail,
-                    userRemark: UserRemarkDetail,
-                    certificate: CertificateDetail,
-                    masterSkill: MasterSkillDetail,
-                },
                 userData: {}
             };
         },
@@ -96,7 +172,7 @@
                 addressCity: "新北市",
                 addressArea: "永和區",
                 addressStreet: "文化路67巷3弄",
-                addressDetail: "10號",
+                addressModify: "10號",
                 active: "1",
                 roleId: "1",
                 createDate: "2020/11/24 09:57"
@@ -107,7 +183,10 @@
             onNavClick(name) {
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
-            }
+            },
+            onFinishSignUp() {
+                this.$bvToast.show('successSignUp')
+            },
         }
     }
 </script>

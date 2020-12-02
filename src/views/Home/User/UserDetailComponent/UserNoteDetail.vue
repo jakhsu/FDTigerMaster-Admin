@@ -1,13 +1,16 @@
 <template>
     <div id="UserNoteDetail">
         <b-container fluid>
+            <b-row align-h="start">
+                <b-col cols="4" align-self="center">
+                    <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1" />
+                </b-col>
+                <b-col align-self="center">
+                    <b-button class="m-2" size="md" variant="danger" v-b-modal="'Simple-Modal'">修改平均分數
+                    </b-button>
+                </b-col>
+            </b-row>
             <TitledCard title="評分和評論歷史">
-                <b-row>
-                    <b-col>
-                        <b-button class="m-2" size="md" variant="danger" v-b-modal="'Simple-Modal'">修改平均分數
-                        </b-button>
-                    </b-col>
-                </b-row>
                 <b-row>
                     <b-col lg='3' md="6" sm="12" class="Card">
                         <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
@@ -82,12 +85,15 @@
 </template>
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import DataCard from '@/components/Card/DataCard.vue'
 
 
     export default {
         name: "UserNoteDetail",
         components: {
             TitledCard,
+            DataCard,
+
         },
         data() {
             return {
@@ -189,5 +195,4 @@
 </script>
 
 <style scoped>
-    .Card {}
 </style>

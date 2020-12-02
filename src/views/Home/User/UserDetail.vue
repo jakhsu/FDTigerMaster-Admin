@@ -11,14 +11,6 @@
                         </div>
                     </b-col>
                 </b-row>
-                <b-row>
-                    <b-col sm="3" md="4" lg="2">
-                        <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1" />
-                    </b-col>
-                    <b-col sm="3" md="4" lg="2">
-                        <DataCard color="#4e73df" title="平均月收" :data="45000" :trend="2000" />
-                    </b-col>
-                </b-row>
                 <b-nav tabs>
                     <b-nav-item :active="currentTab == 'basic'" @click="onNavClick('basic')">
                         基本資料
@@ -59,7 +51,7 @@
     import UserRemarkDetail from '@/views/Home/User/UserDetailComponent/UserRemarkDetail.vue'
     import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
     import MasterSkillDetail from '@/views/Home/User/UserDetailComponent/MasterSkillDetail.vue'
-    import DataCard from '@/components/Card/DataCard.vue'
+    import MasterIncome from '@/views/Home/User/UserDetailComponent/MasterIncome.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     export default {
@@ -68,8 +60,8 @@
             Loading,
             BasicDetail,
             UserNoteDetail,
-            DataCard,
             SimpleModal,
+            MasterIncome,
         },
         data() {
             return {
@@ -83,6 +75,7 @@
                     userRemark: UserRemarkDetail,
                     certificate: CertificateDetail,
                     masterSkill: MasterSkillDetail,
+                    masterIncome: MasterIncome,
                 },
                 userData: {}
             };

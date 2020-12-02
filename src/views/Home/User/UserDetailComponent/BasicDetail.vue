@@ -1,66 +1,82 @@
 <template>
     <div id="BasicDetail">
         <b-container fluid>
+            <b-row class="mt-3" align-h="end">
+                <b-col align-self="center" cols="1">
+                    <b-button class="ml-auto" variant="primary" @click="onModifyClick">
+                        <font-awesome-icon icon="edit" fixed-width />
+                        編輯
+                    </b-button>
+                </b-col>
+            </b-row>
             <b-row>
                 <b-col lg="6" md="12">
                     <TitledCard title="用戶共通:">
                         <b-form>
-                            <div class="w-100 mb-3 d-flex">
-                                <b-button class="ml-auto" variant="primary">
-                                    <font-awesome-icon icon="edit" fixed-width />
-                                    Edit
-                                </b-button>
-                            </div>
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="id: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="id: ">
+                                        <b-form-input disabled />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="電話: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="電話: ">
+                                        <b-form-input id="phone" value="0900123456" disabled>
+                                        </b-form-input>
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="密碼: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="密碼: ">
+                                        <b-form-input disabled />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="姓名: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="name" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="姓名: ">
+                                        <b-form-input id="name" value="徐子鈞" disabled>
+                                        </b-form-input>
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="角色: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="角色: ">
+                                        <b-form-input id="roleId" value="師傅" disabled>
+                                        </b-form-input>
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="性別: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="email" label-align-sm="right" label-cols="3"
+                                        label-cols-xl="2" label="Email: ">
+                                        <b-form-input id="email" value="fdtaigermaster@email.com.tw" disabled>
+                                        </b-form-input>
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="性別: ">
+                                        <b-form-input disabled />
+                                    </b-form-group>
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="身分證號: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="出生日期: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區域: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="門牌樓層: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
@@ -68,21 +84,21 @@
                                 <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="創建日期: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="更新日期: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="Active: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
@@ -92,40 +108,32 @@
                 <b-col lg="6" md="12">
                     <TitledCard title="師傅專用:">
                         <b-form>
-                            <div class="w-100 mb-3 d-flex">
-                                <b-button class="ml-auto" variant="primary">
-                                    <font-awesome-icon icon="edit" fixed-width />
-                                    Edit
-                                </b-button>
-                            </div>
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行帳號: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行名稱: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行代號: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="分行代號: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="分行名稱: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
                         </b-form>
                     </TitledCard>
-                </b-col>
-                <b-col lg="6" md="12">
                     <TitledCard title="用戶停權:" titleBackgroundColor="#dd2a0e">
                         <div class="BasicDetail-Deactivate">
                             <p>將用戶停權有以下效果:</p>
@@ -154,7 +162,16 @@
         props: {
             user: Object
         },
-        methods: {}
+        methods: {
+            onModifyClick() {
+                this.$router.push({
+                    path: '/home/user_modify',
+                    query: {
+                        userId: "202011240001"
+                    }
+                });
+            }
+        }
     }
 </script>
 
