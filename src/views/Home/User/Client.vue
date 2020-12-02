@@ -11,23 +11,25 @@
                     </b-col>
                 </b-row>
                 <b-row>
+                    <b-col xl="3" sm="6">
+                        <DataCard color="#4e73df" title="客戶數" :data="25419" :trend="460" />
+                    </b-col>
+                    <b-col xl="3" sm="6">
+                        <DataCard color="#4e73df" title="被停權數" :data="25" :trend="-3" />
+                    </b-col>
+                </b-row>
+                <b-row>
                     <b-col>
                         <TitledCard title="客戶清單">
                             <div class="Client-Search d-flex mb-3">
-                                <b-button class="ml-2" variant="primary">
-                                    總共資料筆數: <b-badge variant="light">{{totalRows}}</b-badge>
-                                </b-button>
-                                <b-button class="ml-2" variant="danger">
-                                    被停權筆數: <b-badge variant="light">{{totalRows}}</b-badge>
-                                </b-button>
-                                <b-button class="ml-auto" variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                                <b-button class="ml-2" variant="success" v-b-modal="'User-Create-Modal'">新增客戶
+                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增客戶
                                 </b-button>
                             </div>
                             <div class="Client-Table">
-                                <CustomTable @totalRowsChange="updateTotalRows" :queryRows="1" :totalRows="1"
-                                    :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="data"
+                                    :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
@@ -56,33 +58,63 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
+    import DataCard from '@/components/Card/DataCard.vue'
 
     export default {
         name: "Client",
         components: {
             TitledCard,
             CustomTable,
-            UserCreateModal
+            UserCreateModal,
+            DataCard,
         },
         data() {
             return {
                 fields: UserTableModel,
                 data: [{
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }],
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "1",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                    {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "0",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    },
+                    {
+                        id: "202011240001",
+                        phone: "0975555319",
+                        name: "陳柏瑞",
+                        email: "rui.chen@fdtigermaster.com",
+                        addressCity: "新北市",
+                        addressArea: "永和區",
+                        addressStreet: "文化路67巷3弄",
+                        addressDetail: "10號",
+                        active: "0",
+                        roleId: "客戶",
+                        createDate: "2020/11/24 09:57"
+                    }
+                ],
                 search: {},
                 tableBusy: false,
-                totalRows: '',
+                totalRows: '2',
+                totalFeeze: '2',
             }
         },
         methods: {
@@ -101,9 +133,6 @@
                     }
                 });
             },
-            updateTotalRows(obj) {
-                this.totalRows = obj
-            }
         }
     }
 </script>

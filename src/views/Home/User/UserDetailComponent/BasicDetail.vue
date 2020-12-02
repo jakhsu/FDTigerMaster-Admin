@@ -29,6 +29,24 @@
                             <b-form-group label-cols="3" label-cols-xl="2" label="性別: ">
                                 <b-form-input disabled />
                             </b-form-group>
+                            <b-form-group label-cols="3" label-cols-xl="2" label="身分證號: ">
+                                <b-form-input disabled />
+                            </b-form-group>
+                            <b-form-group label-cols="3" label-cols-xl="2" label="銀行帳號: ">
+                                <b-form-input disabled />
+                            </b-form-group>
+                        </b-form>
+                    </TitledCard>
+                </b-col>
+                <b-col lg="6" md="12">
+                    <TitledCard title="帳戶詳情:">
+                        <b-form>
+                            <div class="w-100 mb-3 d-flex">
+                                <b-button class="ml-auto" variant="primary">
+                                    <font-awesome-icon icon="edit" fixed-width />
+                                    Edit
+                                </b-button>
+                            </div>
                             <b-form-group label-cols="3" label-cols-xl="2" label="城市: ">
                                 <b-form-input disabled />
                             </b-form-group>
@@ -42,9 +60,6 @@
                                 <b-form-input disabled />
                             </b-form-group>
                             <b-form-group label-cols="3" label-cols-xl="2" label="區域: ">
-                                <b-form-input disabled />
-                            </b-form-group>
-                            <b-form-group label-cols="3" label-cols-xl="2" label="身分證號: ">
                                 <b-form-input disabled />
                             </b-form-group>
                             <b-form-group label-cols="3" label-cols-xl="2" label="創建日期: ">

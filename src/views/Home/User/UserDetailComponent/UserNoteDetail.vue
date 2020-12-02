@@ -1,21 +1,82 @@
 <template>
     <div id="UserNoteDetail">
         <b-container fluid>
-            <b-row>
-                <b-col lg='12' md='12'>
-                    <TitledCard title="用戶評分和評論:">
-                        <div class="NoteTable">
-                            <b-table class="NoteTable" sticky-header :items="items">
-                            </b-table>
-                        </div>
-                    </TitledCard>
-                </b-col>
-            </b-row>
+            <TitledCard title="評分和評論歷史">
+                <b-row>
+                    <b-col lg='3' md="6" sm="12" class="Card">
+                        <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
+                            header-bg-variant="primary" header-text-variant="light">
+                            <b-card-text>
+                                用戶評分: 4
+                            </b-card-text>
+                            <b-card-text>
+                                用戶評論: 訂單另一方給用戶的評語會出現在這裡
+                            </b-card-text>
+                        </b-card>
+                    </b-col>
+                    <b-col lg='3' md="6" sm="12" class="Card">
+                        <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
+                            header-bg-variant="primary" header-text-variant="light">
+                            <b-card-text>
+                                用戶評分: 4
+                            </b-card-text>
+                            <b-card-text>
+                                用戶評論: 訂單另一方給用戶的評語會出現在這裡
+                            </b-card-text>
+                        </b-card>
+                    </b-col>
+                    <b-col lg='3' md="6" sm="12" class="Card">
+                        <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
+                            header-bg-variant="primary" header-text-variant="light">
+                            <b-card-text>
+                                用戶評分: 4
+                            </b-card-text>
+                            <b-card-text>
+                                用戶評論: 訂單另一方給用戶的評語會出現在這裡
+                            </b-card-text>
+                        </b-card>
+                    </b-col>
+                    <b-col lg='3' md="6" sm="12" class="Card">
+                        <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
+                            header-bg-variant="primary" header-text-variant="light">
+                            <b-card-text>
+                                用戶評分: 4
+                            </b-card-text>
+                            <b-card-text>
+                                用戶評論: 訂單另一方給用戶的評語會出現在這裡
+                            </b-card-text>
+                        </b-card>
+                    </b-col>
+                    <b-col lg='3' md="6" sm="12" class="Card">
+                        <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
+                            header-bg-variant="primary" header-text-variant="light">
+                            <b-card-text>
+                                用戶評分: 4
+                            </b-card-text>
+                            <b-card-text>
+                                用戶評論: 訂單另一方給用戶的評語會出現在這裡
+                            </b-card-text>
+                        </b-card>
+                    </b-col>
+                    <b-col lg='3' md="6" sm="12" class="Card">
+                        <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
+                            header-bg-variant="primary" header-text-variant="light">
+                            <b-card-text>
+                                用戶評分: 4
+                            </b-card-text>
+                            <b-card-text>
+                                用戶評論: 訂單另一方給用戶的評語會出現在這裡
+                            </b-card-text>
+                        </b-card>
+                    </b-col>
+                </b-row>
+            </TitledCard>
         </b-container>
     </div>
 </template>
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+
 
     export default {
         name: "UserNoteDetail",
@@ -120,3 +181,7 @@
         }
     }
 </script>
+
+<style scoped>
+    .Card {}
+</style>

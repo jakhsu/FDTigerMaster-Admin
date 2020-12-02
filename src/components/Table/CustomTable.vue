@@ -9,7 +9,7 @@
                 </div>
             </template>
             <template v-slot:cell()="data">
-                <span v-b-tooltip.hover :title=data.value>{{ data.value }}</span>
+                <span v-b-tooltip.hover :title="data.value">{{ data.value }}</span>
             </template>
             <template v-for="slotName in Object.keys($scopedSlots)" v-slot:[slotName]="slotScope">
                 <slot :name="slotName" v-bind="slotScope"></slot>
@@ -45,9 +45,6 @@
                 this.$emit("dataRequire", currentRows);
             }
         },
-        beforeMount() {
-            this.$emit("totalRowsChange", this.totalRows)
-        }
     }
 </script>
 

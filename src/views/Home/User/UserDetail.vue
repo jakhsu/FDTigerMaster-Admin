@@ -1,13 +1,27 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserDetail">
+        <SimpleModal id="Simple-Modal" />
         <b-container fluid>
             <div class="UserDetail-Area">
                 <b-row>
                     <b-col>
                         <div class="UserDetail-Header">
-                            <h2>User Detail</h2>
+                            <h2>使用者詳情</h2>
                         </div>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col sm="3" md="3" lg="2">
+                        <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1">
+                            <template v-slot:editBtn>
+                                <b-button class="m-2" size="sm" variant="danger" v-b-modal="'Simple-Modal'">修改
+                                </b-button>
+                            </template>
+                        </DataCard>
+                    </b-col>
+                    <b-col sm=" 3" md="4" lg="2">
+                        <DataCard color="#4e73df" title="平均月收" :data="45000" :trend="2000" />
                     </b-col>
                 </b-row>
                 <b-nav tabs>
@@ -31,10 +45,6 @@
                         @click="onNavClick('masterSkill')">
                         師傅技能
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'bankDetail'" :disabled="userData.roleId != 1"
-                        @click="onNavClick('bankDetail')">
-                        銀行資料
-                    </b-nav-item>
                 </b-nav>
             </div>
             <component :is="currentComponent"></component>
@@ -50,14 +60,18 @@
     import UserRemarkDetail from '@/views/Home/User/UserDetailComponent/UserRemarkDetail.vue'
     import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
     import MasterSkillDetail from '@/views/Home/User/UserDetailComponent/MasterSkillDetail.vue'
-    import BankDetail from '@/views/Home/User/UserDetailComponent/BankDetail.vue'
+    import DataCard from '@/components/Card/DataCard.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     export default {
         name: 'UserDetail',
         components: {
             Loading,
             BasicDetail,
-            UserNoteDetail
+            UserNoteDetail,
+            DataCard,
+            SimpleModal,
+
         },
         data() {
             return {
@@ -71,7 +85,6 @@
                     userRemark: UserRemarkDetail,
                     certificate: CertificateDetail,
                     masterSkill: MasterSkillDetail,
-                    bankDetail: BankDetail,
                 },
                 userData: {}
             };

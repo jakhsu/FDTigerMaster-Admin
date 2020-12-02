@@ -5,14 +5,27 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div class="certtable">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                            <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
+                            <div class="Certificate-Area">
+                                <p>證照1: </p>
+                                <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
+                                <p>證照類型: 身分證</p>
+                                <p>正反面: 正面</p>
+                                <p>證照敘述: 無</p>
+                            </div>
+                            <div class="Certificate-Area">
+                                <p>證照2: </p>
+                                <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
+                                <p>證照類型: 身分證</p>
+                                <p>正反面: 正面</p>
+                                <p>證照敘述: 無</p>
+                            </div>
+                            <div class="Certificate-Area">
+                                <p>證照3: </p>
+                                <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
+                                <p>證照類型: 身分證</p>
+                                <p>正反面: 正面</p>
+                                <p>證照敘述: 無</p>
+                            </div>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -36,7 +49,7 @@
                             </b-form>
                         </div>
                         <div class="downloadarea">
-                            <b-button variant="primary" class="mr-1">確認上傳</b-button>
+                            <b-button variant="success" class="mr-1">確認上傳</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -140,5 +153,9 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+    }
+
+    .Certificate-Area {
+        margin: 10px;
     }
 </style>

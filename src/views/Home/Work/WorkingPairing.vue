@@ -11,14 +11,42 @@
                 </b-row>
                 <b-row>
                     <b-col lg="6" md="12">
-                        <TitledCard title="技能">
+                        <TitledCard title="配對查詢表">
                             <div class="PairingTable">
-                                <b-form-select v-model="selected" :fields="fields" :options="options">
-                                </b-form-select>
-                                <b-table class="skilltable" sticky-header :items="pairs">
-                                </b-table>
-                                <b-input-group>
-                                </b-input-group>
+                                <b-form enctype="multipart/form-data" @submit="addToList">
+                                    <b-form-input type="text" list="skills" placeholder="師傅專長"
+                                        v-model="selected.skillId" />
+                                    <b-form-datalist id="skills">
+                                        <option value="TM-X03010">排水溝清理</option>
+                                        <option value="TM-M01010">熱水器安裝維修</option>
+                                    </b-form-datalist>
+                                    <b-table>
+                                        <thead>
+                                            <b-tr>
+                                                <b-th>
+                                                    <b-form-input type="checkbox" />
+                                                </b-th>
+                                                <b-th>專長編號</b-th>
+                                                <b-th>敘述</b-th>
+                                                <b-th>對應的工項編號</b-th>
+                                            </b-tr>
+                                        </thead>
+                                        <tbody>
+                                            <b-tr>
+                                                <b-td>
+                                                    <b-form-input type="checkbox" />
+                                                </b-td>
+                                                <b-td>{{ target.skillId }}</b-td>
+                                                <b-td>{{ target.detail }}</b-td>
+                                                <b-td>
+                                                    <div v-for="(item, index) in target.taskIds" :key="index">
+                                                        {{ item }}
+                                                    </div>
+                                                </b-td>
+                                            </b-tr>
+                                        </tbody>
+                                    </b-table>
+                                </b-form>
                             </div>
                             <div class="DownloadArea">
                                 <b-button variant="success" class="mr-1">下載</b-button>
@@ -28,14 +56,10 @@
                     </b-col>
                     <b-col lg="6" md="12">
                         <TitledCard title="單筆輸入">
-                            <b-form>
-                                <label class="mt-2" for="inputId">工項編號</label>
-                                <b-form-input required id="inputId" v-model="input.id"></b-form-input>
-                                <label class="mt-2" for="inputDetail">工項描述</label>
-                                <b-form-input required id="inputDetail" v-model="input.detail"></b-form-input>
-                                <b-button type="submit" variant="primary" class="ml-1 mt-2">送出
-                                </b-button>
-                            </b-form>
+                            <label for="textarea">格式:逗號分離項目 --> </label>
+                            <b-form-textarea v-model="textUpload" @change="parseTxtInput" name="" id="uploadTxt"
+                                cols="30" rows="10"></b-form-textarea>
+                            <b-button class="mt-2" @click="submitInput">確定</b-button>
                         </TitledCard>
                     </b-col>
                 </b-row>
@@ -53,75 +77,61 @@
         },
         data() {
             return {
-                fields: [{
-                    key: "技能編號",
-                    sortable: true
-                }, {
-                    key: "技能描述",
-                    sortable: false
-                }, {
-                    key: "對應",
-                    sortable: false
-                }, ],
-                pairs: [{
-                    技能編號: "TM-W03010",
-                    技能描述: "水管安裝維修",
-                    對應工項: [{
-                        工項編號: "TM-X03011",
-                        工項敘述: "排水溝清理"
-                    }]
-                }],
-                items: [{
-                        工項編號: "TM-X03011",
-                        工項敘述: "排水溝清理"
+                list: [{
+                        skillId: "TM-X03010",
+                        detail: "排水溝清理",
+                        taskIds: ["TM-X03011", "TM-W01010"],
                     },
                     {
-                        工項編號: "TM-W01012",
-                        工項敘述: "清洗水泥水塔"
-                    },
-                    {
-                        工項編號: "TM-M01012",
-                        工項敘述: "熱水器故障"
-                    },
-                    {
-                        工項編號: "TM-W02011",
-                        工項敘述: "水龍頭漏水"
+                        skillId: "TM-M01010",
+                        detail: "熱水器安裝維修",
+                        taskIds: ["TM-W02011", "TM-M01012"],
                     },
                 ],
-                options: [{
-                        value: null,
-                        text: "選擇技能..."
-                    },
-                    {
-                        value: "TM-X03011",
-                        text: "排水溝清理"
-                    },
-                    {
-                        value: "TM-W03010",
-                        text: "水管安裝維修"
-                    },
-                    {
-                        value: "TM-W03010",
-                        text: "水管安裝維修"
-                    },
-                    {
-                        value: "TM-W03010",
-                        text: "水管安裝維修"
-                    },
-                    {
-                        value: "TM-W03010",
-                        text: "水管安裝維修"
-                    },
-                    {
-                        value: "TM-W03010",
-                        text: "水管安裝維修"
-                    },
-                ],
-                input: {},
-                selected: null,
-            }
+                selected: {
+                    skillId: "",
+                },
+                target: {},
+                input: {
+                    skillId: "",
+                    msg: "",
+                },
+                parsed: "",
+                textUpload: "",
+            };
         },
-        methods: {}
+        methods: {
+            addToList() {
+                this.list;
+                this.list.push(this.input);
+                this.input = {};
+                alert("成功修改!");
+            },
+            parseTxtInput() {
+                let str = document.getElementById("uploadTxt").value;
+                let first = str.split(/(,)/);
+                first = first.filter((ele) => ele != ",");
+                this.parsed = first;
+            },
+            submitInput() {
+                for (var i = 0; i < this.list.length; i++) {
+                    if (this.list[i].skillId === this.selected.skillId) {
+                        this.list[i].taskIds = this.parsed;
+                    }
+                }
+                this.textUpload = "";
+            },
+        },
+        watch: {
+            "selected.skillId": function () {
+                for (var i = 0; i < this.list.length; i++) {
+                    if (this.list[i].skillId === this.selected.skillId) {
+                        this.target = this.list[i];
+                    }
+                }
+                return;
+            },
+        },
     }
 </script>
 
