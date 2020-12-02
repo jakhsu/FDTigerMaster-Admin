@@ -50,7 +50,7 @@ const routes = [{
         component: HomeUserDetail
       },
       {
-        path: 'Work/working_skill',
+        path: 'working_skill',
         component: HomeWorkingSkill
       },
       {
