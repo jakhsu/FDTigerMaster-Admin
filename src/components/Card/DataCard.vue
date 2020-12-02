@@ -9,9 +9,6 @@
                 <div class="data-card-trend" :style="'color: ' + (trend > 0 ? '#007bff' : '#dc3545')">
                     {{ ['','+'][+(trend > 0)] + trend }}</div>
             </b-col>
-            <b-col>
-                <slot name="editBtn"></slot>
-            </b-col>
         </b-row>
     </div>
 </template>
