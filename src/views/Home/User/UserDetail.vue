@@ -32,10 +32,6 @@
                         @click="onNavClick('masterSkill')">
                         師傅技能
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'masterIncome'" :disabled="userData.roleId != 1"
-                        @click="onNavClick('masterIncome')">
-                        師傅收入
-                    </b-nav-item>
                 </b-nav>
             </div>
             <component :is="currentComponent"></component>
@@ -51,7 +47,6 @@
     import UserRemarkDetail from '@/views/Home/User/UserDetailComponent/UserRemarkDetail.vue'
     import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
     import MasterSkillDetail from '@/views/Home/User/UserDetailComponent/MasterSkillDetail.vue'
-    import MasterIncome from '@/views/Home/User/UserDetailComponent/MasterIncome.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     export default {
@@ -61,7 +56,6 @@
             BasicDetail,
             UserNoteDetail,
             SimpleModal,
-            MasterIncome,
         },
         data() {
             return {
@@ -75,7 +69,6 @@
                     userRemark: UserRemarkDetail,
                     certificate: CertificateDetail,
                     masterSkill: MasterSkillDetail,
-                    masterIncome: MasterIncome,
                 },
                 userData: {}
             };

@@ -2,6 +2,20 @@
     <div id="OrderDetail">
         <b-container fluid>
             <b-row>
+                <b-col sm="6" md="4" lg="3">
+                    <DataCard color="#4e73df" title="本日收入" :data="3000" :trend="-100" />
+                </b-col>
+                <b-col sm="6" md="4" lg="3">
+                    <DataCard color="#4e73df" title="本月收入" :data="45000" :trend="5000" />
+                </b-col>
+                <b-col sm="6" md="4" lg="3">
+                    <DataCard color="#4e73df" title="平均月收" :data="45000" :trend="2000" />
+                </b-col>
+                <b-col sm="6" md="4" lg="3">
+                    <DataCard color="#4e73df" title="總收入" :data="500000" :trend="10000" />
+                </b-col>
+            </b-row>
+            <b-row>
                 <b-col lg='12' md='12'>
                     <TitledCard title="訂單紀錄:">
                         <div class="Client-Search d-flex mb-3">
@@ -29,12 +43,14 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import DataCard from '@/components/Card/DataCard.vue'
 
     export default {
         name: "OrderDetail",
         components: {
             TitledCard,
             CustomTable,
+            DataCard,
         },
         data() {
             return {
