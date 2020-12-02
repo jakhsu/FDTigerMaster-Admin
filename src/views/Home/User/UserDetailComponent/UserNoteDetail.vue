@@ -3,6 +3,12 @@
         <b-container fluid>
             <TitledCard title="評分和評論歷史">
                 <b-row>
+                    <b-col>
+                        <b-button class="m-2" size="md" variant="danger" v-b-modal="'Simple-Modal'">修改平均分數
+                        </b-button>
+                    </b-col>
+                </b-row>
+                <b-row>
                     <b-col lg='3' md="6" sm="12" class="Card">
                         <b-card header="訂單編號: TH-TH01013" class="m-2" border-variant="primary"
                             header-bg-variant="primary" header-text-variant="light">

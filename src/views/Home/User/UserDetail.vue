@@ -12,15 +12,10 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col sm="3" md="3" lg="2">
-                        <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1">
-                            <template v-slot:editBtn>
-                                <b-button class="m-2" size="sm" variant="danger" v-b-modal="'Simple-Modal'">修改
-                                </b-button>
-                            </template>
-                        </DataCard>
+                    <b-col sm="3" md="4" lg="2">
+                        <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1" />
                     </b-col>
-                    <b-col sm=" 3" md="4" lg="2">
+                    <b-col sm="3" md="4" lg="2">
                         <DataCard color="#4e73df" title="平均月收" :data="45000" :trend="2000" />
                     </b-col>
                 </b-row>
@@ -44,6 +39,10 @@
                     <b-nav-item :active="currentTab == 'masterSkill'" :disabled="userData.roleId != 1"
                         @click="onNavClick('masterSkill')">
                         師傅技能
+                    </b-nav-item>
+                    <b-nav-item :active="currentTab == 'masterIncome'" :disabled="userData.roleId != 1"
+                        @click="onNavClick('masterIncome')">
+                        師傅收入
                     </b-nav-item>
                 </b-nav>
             </div>
@@ -71,7 +70,6 @@
             UserNoteDetail,
             DataCard,
             SimpleModal,
-
         },
         data() {
             return {
