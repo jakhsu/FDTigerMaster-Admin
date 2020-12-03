@@ -24,40 +24,25 @@
                     </b-col>
                 </b-row>
             </div>
-            <!-- <autocompletetest /> -->
-            <!-- <b-button @click="test()">測試</b-button>
-            <b-button @click="check()">檢查</b-button> -->
         </b-container>
     </div>
 </template>
 
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
-    // import {
-    //     fetchStreet,
-    //     checkdata
-    // } from '@/model/http.js'
-    // import Autocompletetest from '../../components/autocompletetest.vue'
+
 
     export default {
         name: 'Dashboard',
         components: {
             DataCard,
-            // Autocompletetest,
         },
         data() {
             return {
-                addressData: {}
+                users: {},
             }
         },
-        methods: {
-            // test() {
-            //     fetchStreet();
-            // },
-            // check() {
-            //     checkdata();
-            // }
-        }
+        methods: {}
     }
 </script>
 

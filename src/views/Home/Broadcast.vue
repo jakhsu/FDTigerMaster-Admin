@@ -18,7 +18,7 @@
                                 </b-button>
                                 <b-button class="ml-auto" variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                                <b-button class="ml-2" variant="warning" @click="onSelectAllClick">切換全選</b-button>
+                                <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
 
                             </div>
                             <div class="Broadcast-Table">
@@ -53,8 +53,6 @@
                             <div class="Broadcast-Msg">
                                 <b-form>
                                     <b-form-input placeholder="標題" />
-                                    <b-form-file placeholder="上傳推播圖片...">
-                                    </b-form-file>
                                     <b-form-textarea id="textarea" placeholder="輸入內文..." rows="5" max-rows="20">
                                     </b-form-textarea>
                                     <b-button class="mt-2" type="submit">送出</b-button>

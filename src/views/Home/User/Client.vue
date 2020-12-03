@@ -24,7 +24,7 @@
                             <div class="Client-Search d-flex mb-3">
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增客戶
+                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
                             <div class="Client-Table">

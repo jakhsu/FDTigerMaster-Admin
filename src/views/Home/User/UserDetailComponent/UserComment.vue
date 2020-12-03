@@ -78,6 +78,10 @@
                     },
                 ]
             }
+        },
+        methods: {
+            onSearchClick() {},
+            onDataRequireClick() {},
         }
     }
 </script>
