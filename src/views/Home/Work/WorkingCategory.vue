@@ -12,15 +12,20 @@
                 <b-row>
                     <b-col lg="6" md="12">
                         <TitledCard title="工項:">
-                            <div class="CategoryTable">
-                                <b-table class="skilltable" sticky-header :items="items">
-                                </b-table>
-                                <b-input-group>
-                                </b-input-group>
-                            </div>
-                            <div class="DownloadArea">
+                            <div class="DownloadArea d-flex  mb-3">
                                 <b-button variant="success" class="mr-1">下載</b-button>
                                 <b-button variant="primary" class="mr-1">上傳</b-button>
+                            </div>
+                            <div class="CategoryTable">
+                                <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="categories"
+                                    :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    <template #top-row="categories">
+                                        <b-td v-for="(field, index) in categories.fields" :key="index">
+                                            <b-form-input v-model="search[field.key]" :name="field.key"
+                                                :placeholder="`${field.label}`" />
+                                        </b-td>
+                                    </template>
+                                </CustomTable>
                             </div>
                         </TitledCard>
                     </b-col>
@@ -44,34 +49,54 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import CustomTable from '@/components/Table/CustomTable.vue'
+
     export default {
         name: 'WorkingCategory',
         components: {
-            TitledCard
+            TitledCard,
+            CustomTable,
         },
         data() {
             return {
-                items: [{
-                        工項編號: "TM-X03011",
-                        工項敘述: "排水溝清理"
+                tableBusy: false,
+                search: {},
+                fields: [{
+                        "key": "categoryId",
+                        "label": "工項編號"
                     },
                     {
-                        工項編號: "TM-W01012",
-                        工項敘述: "清洗水泥水塔"
+                        "key": "categoryDetail",
+                        "label": "工項敘述"
+                    }
+                ],
+                categories: [{
+                        categoryId: "TM-X03011",
+                        categoryDetail: "排水溝清理"
                     },
                     {
-                        工項編號: "TM-M01012",
-                        工項敘述: "熱水器故障"
+                        categoryId: "TM-W01012",
+                        categoryDetail: "清洗水泥水塔"
                     },
                     {
-                        工項編號: "TM-W02011",
-                        工項敘述: "水龍頭漏水"
+                        categoryId: "TM-M01012",
+                        categoryDetail: "熱水器故障"
+                    },
+                    {
+                        categoryId: "TM-W02011",
+                        categoryDetail: "水龍頭漏水"
                     },
                 ],
                 input: {}
             }
         },
-        methods: {}
+        methods: {
+            onDataRequire() {
+                this.tableBusy = true;
+            },
+            onSearchClick() {},
+            onSearchClearClick() {},
+        }
     }
 </script>
 

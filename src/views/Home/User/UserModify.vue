@@ -1,8 +1,8 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserModify">
-        <b-toast variant="success" id="successSignUp" title="歡迎">
-            您已經完成註冊
+        <b-toast variant="success" id="successEdit" title="恭喜">
+            您已經完成修改
         </b-toast>
         <SimpleModal id="Simple-Modal" />
         <b-container fluid>
@@ -12,11 +12,16 @@
                         <h2>使用者編輯</h2>
                     </div>
                 </b-col>
-                <b-col align-self="center" cols="1">
-                    <b-button class="ml-auto" variant="success" @click="onFinishSignUp">
-                        <font-awesome-icon icon="edit" />
-                        完成
-                    </b-button>
+                <b-col>
+                    <div class="d-flex">
+                        <b-button class="ml-auto" variant="success" @click="onFinishEdit">
+                            <font-awesome-icon icon="edit" />
+                            完成
+                        </b-button>
+                        <b-button class="ml-2" variant="danger" @click="onCancelEdit">
+                            取消
+                        </b-button>
+                    </div>
                 </b-col>
             </b-row>
             <b-row>
@@ -30,7 +35,7 @@
                                     </b-form-group>
                                     <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="電話: ">
-                                        <b-form-input id="phone" value="0900123456" disabled>
+                                        <b-form-input id="phone" value="0900123456">
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="密碼: ">
@@ -38,17 +43,17 @@
                                     </b-form-group>
                                     <b-form-group label-for="name" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="姓名: ">
-                                        <b-form-input id="name" value="徐子鈞" disabled>
+                                        <b-form-input id="name" value="徐子鈞">
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="角色: ">
-                                        <b-form-input id="roleId" value="師傅" disabled>
+                                        <b-form-input id="roleId" value="師傅">
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="email" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="Email: ">
-                                        <b-form-input id="email" value="fdtaigermaster@email.com.tw" disabled>
+                                        <b-form-input id="email" value="fdtaigermaster@email.com.tw">
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="性別: ">
@@ -91,21 +96,21 @@
                                 <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="創建日期: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="更新日期: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="Active: ">
-                                        <b-form-input />
+                                        <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
@@ -184,9 +189,23 @@
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
             },
-            onFinishSignUp() {
-                this.$bvToast.show('successSignUp')
+            onFinishEdit() {
+                this.$bvToast.show('successEdit')
+                this.$router.push({
+                    path: '/home/user_detail',
+                    query: {
+                        userId: "202011240001"
+                    }
+                });
             },
+            onCancelEdit() {
+                this.$router.push({
+                    path: '/home/user_detail',
+                    query: {
+                        userId: "202011240001"
+                    }
+                });
+            }
         }
     }
 </script>
@@ -214,7 +233,7 @@
         color: #476282;
     }
 
-    #UserModify .UserModify-Area .nav-link.disabled {
+    #UserModify .UserModify-Area .nav-link. {
         color: #c3cfdd;
     }
 

@@ -2,17 +2,47 @@
     <div id="MasterSkillDetail">
         <b-container fluid>
             <b-row>
-                <b-col lg='12' md='12'>
-                    <TitledCard title="師傅技能:">
-                        <div class="skilltable">
-                            <b-table class="skilltable" sticky-header :items="items">
-                            </b-table>
-                            <b-input-group>
-                            </b-input-group>
+                <b-col lg='6' md='12'>
+                    <TitledCard title="師傅技能">
+                        <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="pairing" :isBusy="tableBusy"
+                            @dataRequire="onDataRequire">
+                            <template #top-row="pairing">
+                                <b-td v-for="(field, index) in pairing.fields" :key="index">
+                                    <b-form-input v-model="search[field.key]" :name="field.key"
+                                        :placeholder="`${field.label}`" />
+                                </b-td>
+                            </template>
+                            <template #cell(taskIds)="data">
+                                <div v-for="(id, index) in data.value" :key="index">
+                                    {{id}}
+                                </div>
+                            </template>
+                        </CustomTable>
+                        <div class="DownloadArea">
+                            <b-button variant="success" class="mr-1">下載</b-button>
+                            <b-button variant="primary" class="mr-1">上傳</b-button>
                         </div>
-                        <div class="downloadarea">
-                            <b-button class="mr-1">下載</b-button>
-                            <b-button class="mr-1">上傳</b-button>
+                    </TitledCard>
+                </b-col>
+                <b-col lg="6" md="12">
+                    <TitledCard title="單筆輸入">
+                        <div class="PairingTable mb-3">
+                            <b-form enctype="multipart/form-data">
+                                <b-form-input type="text" list="skills" placeholder="師傅專長" v-model="selected" />
+                                <datalist id="skills">
+                                    <option value="TM-X03010">排水溝清理</option>
+                                    <option value="TM-M01010">熱水器安裝維修</option>
+                                </datalist>
+                                <div class="mt-3 mb-3" v-for="(item, index) in target.taskIds" :key="index">
+                                    對應的工項編號: {{ item }}
+                                </div>
+                            </b-form>
+                        </div>
+                        <div>
+                            <b-form-textarea v-b-tooltip.hover.left title="請用逗號分隔開不同工項" v-model="textUpload"
+                                @change="parseTxtInput" name="" id="uploadTxt" cols="30" rows="10">
+                            </b-form-textarea>
+                            <b-button variant="success" class="mt-2" @click="submitInput">確定</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -23,59 +53,85 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import CustomTable from '@/components/Table/CustomTable.vue'
 
     export default {
         name: "MasterSkillDetail",
         components: {
             TitledCard,
+            CustomTable,
         },
         props: {
             user: Object
         },
         data() {
             return {
-                items: [{
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                tableBusy: false,
+                search: {},
+                fields: [{
+                        key: 'skillId',
+                        label: '技能編號'
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        key: 'detail',
+                        label: '技能描述'
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        key: 'taskIds',
+                        label: '對應工項'
+                    }
+                ],
+                pairing: [{
+                        skillId: "TM-X03010",
+                        detail: "排水溝清理",
+                        taskIds: ["TM-X03011", "TM-W01010"],
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TM-M01010",
+                        detail: "熱水器安裝維修",
+                        taskIds: ["TM-W02011", "TM-M01012"],
                     },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                ]
+                ],
+                selected: "",
+                target: {},
+                input: {
+                    skillId: "",
+                    msg: "",
+                },
+                parsed: "",
+                textUpload: "",
             }
+        },
+        methods: {
+            parseTxtInput() {
+                let str = document.getElementById("uploadTxt").value;
+                let parsed = str.split(/(,)/);
+                parsed = parsed.filter((ele) => ele != ",");
+                this.parsed = parsed;
+            },
+            submitInput() {
+                for (var i = 0; i < this.pairing.length; i++) {
+                    if (this.pairing[i].skillId === this.selected) {
+                        this.pairing[i].taskIds = this.parsed;
+                    }
+                }
+                this.textUpload = "";
+            },
+            onDataRequire() {
+                this.tableBusy = true;
+            },
+            onSearchClick() {},
+            onSearchClearClick() {},
+        },
+        watch: {
+            "selected": function () {
+                for (var i = 0; i < this.pairing.length; i++) {
+                    if (this.pairing[i].skillId === this.selected) {
+                        this.target = this.pairing[i];
+                    }
+                }
+                return;
+            },
         },
     }
 </script>

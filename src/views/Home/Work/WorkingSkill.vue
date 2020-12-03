@@ -11,16 +11,21 @@
                 </b-row>
                 <b-row>
                     <b-col lg="6" md="12">
-                        <TitledCard title="師傅技能:">
-                            <div class="SkillTable">
-                                <b-table class="skilltable" sticky-header :items="items">
-                                </b-table>
-                                <b-input-group>
-                                </b-input-group>
-                            </div>
-                            <div class="DownloadArea">
+                        <TitledCard title="技能:">
+                            <div class="DownloadArea d-flex  mb-3">
                                 <b-button variant="success" class="mr-1">下載</b-button>
                                 <b-button variant="primary" class="mr-1">上傳</b-button>
+                            </div>
+                            <div class="SkillTable">
+                                <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="skills"
+                                    :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    <template #top-row="skills">
+                                        <b-td v-for="(field, index) in skills.fields" :key="index">
+                                            <b-form-input v-model="search[field.key]" :name="field.key"
+                                                :placeholder="`${field.label}`" />
+                                        </b-td>
+                                    </template>
+                                </CustomTable>
                             </div>
                         </TitledCard>
                     </b-col>
@@ -44,58 +49,78 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import CustomTable from '@/components/Table/CustomTable.vue'
+
     export default {
         name: 'WorkingSkill',
         components: {
-            TitledCard
+            TitledCard,
+            CustomTable
         },
         data() {
             return {
-                items: [{
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                tableBusy: false,
+                search: {},
+                fields: [{
+                        "key": "skillId",
+                        "label": "技能編號"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        "key": "skillDetail",
+                        "label": "技能敘述"
+                    }
+                ],
+                skills: [{
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                     {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
+                    },
+                    {
+                        skillId: "TH-W0101",
+                        skillDetail: "排水溝清理"
                     },
                 ],
                 input: {}
             }
         },
-        methods: {}
+        methods: {
+            onDataRequire() {
+                this.tableBusy = true;
+            },
+            onSearchClick() {},
+            onSearchClearClick() {},
+        }
     }
 </script>
 

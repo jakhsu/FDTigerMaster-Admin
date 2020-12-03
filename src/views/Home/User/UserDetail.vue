@@ -18,10 +18,10 @@
                     <b-nav-item :active="currentTab == 'order'" @click="onNavClick('order')">
                         訂單
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userNote'" @click="onNavClick('userNote')">
+                    <b-nav-item :active="currentTab == 'userComment'" @click="onNavClick('userComment')">
                         用戶評分與評論
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userRemark'" @click="onNavClick('userRemark')">
+                    <b-nav-item :active="currentTab == 'userNote'" @click="onNavClick('userNote')">
                         用戶註記
                     </b-nav-item>
                     <b-nav-item :active="currentTab == 'certificate'" :disabled="userData.roleId != 1"
@@ -43,8 +43,8 @@
     import Loading from '@/components/Loading.vue'
     import BasicDetail from '@/views/Home/User/UserDetailComponent/BasicDetail.vue'
     import OrderDetail from '@/views/Home/User/UserDetailComponent/OrderDetail.vue'
-    import UserNoteDetail from '@/views/Home/User/UserDetailComponent/UserNoteDetail.vue'
-    import UserRemarkDetail from '@/views/Home/User/UserDetailComponent/UserRemarkDetail.vue'
+    import UserComment from '@/views/Home/User/UserDetailComponent/UserComment.vue'
+    import UserNote from '@/views/Home/User/UserDetailComponent/UserNote.vue'
     import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
     import MasterSkillDetail from '@/views/Home/User/UserDetailComponent/MasterSkillDetail.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
@@ -54,7 +54,7 @@
         components: {
             Loading,
             BasicDetail,
-            UserNoteDetail,
+            UserComment,
             SimpleModal,
         },
         data() {
@@ -65,8 +65,8 @@
                 tabComponentMap: {
                     basic: BasicDetail,
                     order: OrderDetail,
-                    userNote: UserNoteDetail,
-                    userRemark: UserRemarkDetail,
+                    userComment: UserComment,
+                    userNote: UserNote,
                     certificate: CertificateDetail,
                     masterSkill: MasterSkillDetail,
                 },

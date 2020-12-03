@@ -5,27 +5,39 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div class="certtable">
-                            <div class="Certificate-Area">
-                                <p>證照1: </p>
+                            <b-card class="m-2" title="證照1:">
                                 <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                                <p>證照類型: 身分證</p>
-                                <p>正反面: 正面</p>
-                                <p>證照敘述: 無</p>
-                            </div>
-                            <div class="Certificate-Area">
-                                <p>證照2: </p>
+                                <b-card-body>
+                                    <b-list-group flush>
+                                        <b-list-group-item>證照類型: 身分證</b-list-group-item>
+                                        <b-list-group-item>正反面: 正面</b-list-group-item>
+                                        <b-list-group-item>證照敘述: 無</b-list-group-item>
+                                    </b-list-group>
+                                </b-card-body>
+                                <b-button variant="danger">刪除</b-button>
+                            </b-card>
+                            <b-card class="m-2" title="證照2:">
                                 <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                                <p>證照類型: 身分證</p>
-                                <p>正反面: 正面</p>
-                                <p>證照敘述: 無</p>
-                            </div>
-                            <div class="Certificate-Area">
-                                <p>證照3: </p>
+                                <b-card-body>
+                                    <b-list-group flush>
+                                        <b-list-group-item>證照類型: 身分證</b-list-group-item>
+                                        <b-list-group-item>正反面: 正面</b-list-group-item>
+                                        <b-list-group-item>證照敘述: 無</b-list-group-item>
+                                    </b-list-group>
+                                </b-card-body>
+                                <b-button variant="danger">刪除</b-button>
+                            </b-card>
+                            <b-card class="m-2" title="證照3:">
                                 <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                                <p>證照類型: 身分證</p>
-                                <p>正反面: 正面</p>
-                                <p>證照敘述: 無</p>
-                            </div>
+                                <b-card-body>
+                                    <b-list-group flush>
+                                        <b-list-group-item>證照類型: 身分證</b-list-group-item>
+                                        <b-list-group-item>正反面: 正面</b-list-group-item>
+                                        <b-list-group-item>證照敘述: 無</b-list-group-item>
+                                    </b-list-group>
+                                </b-card-body>
+                                <b-button variant="danger">刪除</b-button>
+                            </b-card>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -49,7 +61,7 @@
                             </b-form>
                         </div>
                         <div class="downloadarea">
-                            <b-button variant="success" class="mr-1">確認上傳</b-button>
+                            <b-button variant="success" class="mr-1">上傳</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
