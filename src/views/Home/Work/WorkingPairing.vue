@@ -12,6 +12,12 @@
                 <b-row>
                     <b-col lg="6" md="12">
                         <TitledCard title="配對查詢表">
+                            <div class="Toolbar d-flex mb-3">
+                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                                <b-button variant="success" class="ml-auto">下載</b-button>
+                                <b-button variant="primary" class="ml-2">上傳</b-button>
+                            </div>
                             <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="pairing"
                                 :isBusy="tableBusy" @dataRequire="onDataRequire">
                                 <template #top-row="pairing">
@@ -26,10 +32,6 @@
                                     </div>
                                 </template>
                             </CustomTable>
-                            <div class="DownloadArea">
-                                <b-button variant="success" class="mr-1">下載</b-button>
-                                <b-button variant="primary" class="mr-1">上傳</b-button>
-                            </div>
                         </TitledCard>
                     </b-col>
                     <b-col lg="6" md="12">

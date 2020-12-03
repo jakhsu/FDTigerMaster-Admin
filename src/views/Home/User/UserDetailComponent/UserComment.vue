@@ -5,15 +5,13 @@
                 <b-col cols="4" align-self="center">
                     <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1" />
                 </b-col>
-                <b-col align-self="center">
-                    <b-button class="m-2" size="md" variant="danger" v-b-modal="'Simple-Modal'">修改平均分數
-                    </b-button>
-                </b-col>
             </b-row>
             <TitledCard title="評分和評論歷史">
-                <div class="Comment-Search d-flex mb-3">
+                <div class="Tool-bar d-flex mb-3">
                     <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
                     <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                    <b-button class="ml-auto" size="md" variant="danger" v-b-modal="'Simple-Modal'">修改平均分數
+                    </b-button>
                 </div>
                 <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                     @dataRequire="onDataRequire">

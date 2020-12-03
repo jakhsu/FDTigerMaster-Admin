@@ -12,9 +12,11 @@
                 <b-row>
                     <b-col lg="6" md="12">
                         <TitledCard title="技能:">
-                            <div class="DownloadArea d-flex  mb-3">
-                                <b-button variant="success" class="mr-1">下載</b-button>
-                                <b-button variant="primary" class="mr-1">上傳</b-button>
+                            <div class="Toolbar d-flex mb-3">
+                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                                <b-button variant="success" class="ml-auto">下載</b-button>
+                                <b-button variant="primary" class="ml-2">上傳</b-button>
                             </div>
                             <div class="SkillTable">
                                 <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="skills"
@@ -71,18 +73,6 @@
                     }
                 ],
                 skills: [{
-                        skillId: "TH-W0101",
-                        skillDetail: "排水溝清理"
-                    },
-                    {
-                        skillId: "TH-W0101",
-                        skillDetail: "排水溝清理"
-                    },
-                    {
-                        skillId: "TH-W0101",
-                        skillDetail: "排水溝清理"
-                    },
-                    {
                         skillId: "TH-W0101",
                         skillDetail: "排水溝清理"
                     },

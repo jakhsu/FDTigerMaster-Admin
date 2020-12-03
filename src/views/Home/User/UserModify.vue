@@ -1,9 +1,9 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserModify">
-        <b-toast variant="success" id="successEdit" title="恭喜">
+        <!-- <b-toast variant="success" id="successEdit" title="恭喜">
             您已經完成修改
-        </b-toast>
+        </b-toast> -->
         <SimpleModal id="Simple-Modal" />
         <b-container fluid>
             <b-row class="mt-3" align-h="end">
@@ -190,7 +190,7 @@
                 this.currentComponent = this.tabComponentMap[name];
             },
             onFinishEdit() {
-                this.$bvToast.show('successEdit')
+                // this.$bvToast.show('successEdit')
                 this.$router.push({
                     path: '/home/user_detail',
                     query: {
