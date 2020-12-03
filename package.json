@@ -17,6 +17,7 @@
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.19.0",
     "core-js": "^3.6.5",
+    "fdtigermaster-sdk": "^0.2.1",
     "node-fetch": "^2.6.1",
     "vue": "^2.6.11",
     "vue-fragment": "^1.5.1",

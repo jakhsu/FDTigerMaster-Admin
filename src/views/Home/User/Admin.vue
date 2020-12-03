@@ -1,5 +1,6 @@
 <template>
-    <div id="Admin">
+    <Loading v-if="isLoading"/>
+    <div v-else id="Admin">
         <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick" />
         <b-container fluid>
             <div class="Admin-Area">
@@ -54,40 +55,45 @@
 </template>
 
 <script>
+    import Loading from '@/components/Loading'
     import UserTableModel from '@/config/UserTable.json'
+    import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
-    import DataCard from '@/components/Card/DataCard.vue'
+
+    import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: "Admin",
         components: {
+            Loading,
+            DataCard,
             TitledCard,
             CustomTable,
-            UserCreateModal,
-            DataCard,
+            UserCreateModal
+        },
+        async created(){
+            this.isLoading = true;
+            const res = await tigermaster.database
+                .query("user")
+                .where("user.role_id", ">", 1)
+                .limit(0,100)
+                .get();
+            this.data = res.data;
+            this.queryRows = res.queryRows;
+            this.totalCount = res.totalCount;
+            this.isLoading = false;
         },
         data() {
             return {
                 fields: UserTableModel,
-                data: [{
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }],
+                data: [],
                 search: {},
+                queryRows: 0,
+                totalCount: 0,
                 tableBusy: false,
-                totalRows: '2',
-                totalFeeze: '2',
+                isLoading: true
             }
         },
         methods: {

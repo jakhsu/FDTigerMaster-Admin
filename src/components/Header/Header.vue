@@ -6,7 +6,7 @@
         <b-nav class="ml-auto"/>
         <b-dropdown right variant="link" toggle-class="text-decoration-none" no-caret>
             <template class="dropdown-toggle" #button-content>
-                <span class="user-name mr-2 d-lg-inline">Hi, Admin</span>
+                <span class="user-name mr-2 d-lg-inline">Hi, {{ $store.state.user.name }}</span>
                 <b-img class="img-profile" rounded="circle" alt="user avatar" :src="userImg"></b-img>
             </template>
             <b-dropdown-item to="#">
@@ -14,7 +14,7 @@
                 個人檔案
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item to="/">
+            <b-dropdown-item @click="onLogoutClick">
                 <font-awesome-icon icon="sign-out-alt" />
                 登出
             </b-dropdown-item>
@@ -23,22 +23,29 @@
 </template>
 
 <script>
-import userImg from '@/assets/user.svg';
+    import userImg from '@/assets/user.svg';
+    import tigermaster from 'fdtigermaster-sdk';
 
-export default {
+    export default {
 
-    name: 'Header',
-    data(){
-        return{
-            userImg: userImg
-        };
-    },
-    methods:{
-        onSideBarToggleClick(){
-            this.$emit("onSideBarToggle");
+        name: 'Header',
+        data(){
+            return{
+                userImg: userImg
+            };
+        },
+        methods:{
+            onSideBarToggleClick(){
+                this.$emit("onSideBarToggle");
+            },
+            onLogoutClick(){
+                tigermaster.auth.logout();
+                this.$router.push({
+                    path: '/'
+                });
+            }
         }
     }
-}
 </script>
 
 <style>

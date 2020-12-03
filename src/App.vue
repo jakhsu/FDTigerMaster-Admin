@@ -1,8 +1,29 @@
 <template>
   <div id="app">
-    <router-view/>
+        <Loading v-if="isLoading" />
+        <router-view v-else/>
   </div>
 </template>
+
+<script>
+    import Loading from '@/components/Loading';
+    import tigermaster from 'fdtigermaster-sdk';
+    export default {
+        name: "App",
+        components:{
+            Loading
+        },
+        data(){
+            return{
+                isLoading: true
+            }
+        },
+        async created(){
+            await tigermaster.initializeApp({stage:"local"});
+            this.isLoading = false;
+        }
+    }
+</script>
 
 <style>
 #app {

@@ -5,11 +5,16 @@
 </template>
 
 <script>
-import SiteWrapper from '@/components/SiteWrapper.vue'
-export default {
-  name: 'Home',
-  components:{
-    SiteWrapper
-  }
-}
+    import SiteWrapper from '@/components/SiteWrapper.vue'
+    import tigermaster from 'fdtigermaster-sdk'
+
+    export default {
+        name: 'Home',
+        components:{
+            SiteWrapper
+        },
+        created(){
+            this.$store.commit('setUser', tigermaster.auth.currentUser.data);
+        }
+    }
 </script>
