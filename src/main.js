@@ -34,6 +34,7 @@ import {
   faFileContract,
   faTachometerAlt,
   faLink,
+  faSmile,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -52,7 +53,8 @@ library.add(
   faAddressCard,
   faFileContract,
   faTachometerAlt,
-  faLink
+  faLink,
+  faSmile,
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

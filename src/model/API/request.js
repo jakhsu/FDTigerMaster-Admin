@@ -3,7 +3,8 @@ import qs from "qs";
 
 const service = axios.create({
     baseURL: '',
-    timeout: 5000
+    timeout: 10000,
+    withCredentials: true,
 });
 
 service.interceptors.request.use(config => {

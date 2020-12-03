@@ -31,7 +31,7 @@
                                 <b-form-textarea id="textarea" placeholder="輸入內文..." rows="5" max-rows="20">
                                 </b-form-textarea>
                             </b-form-group>
-                            <b-button variant="success" type=submit>送出</b-button>
+                            <b-button variant="primary" type=submit>送出</b-button>
                         </b-form>
                     </TitledCard>
                 </b-col>

@@ -81,7 +81,8 @@
         },
         methods: {
             onSearchClick() {},
-            onDataRequireClick() {},
+            onSearchClearClick() {},
+            onDataRequire() {},
         }
     }
 </script>

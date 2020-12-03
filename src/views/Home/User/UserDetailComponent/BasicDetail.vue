@@ -2,7 +2,7 @@
     <div id="BasicDetail">
         <b-container fluid>
             <b-row class="mt-3" align-h="end">
-                <b-col align-self="center" cols="1">
+                <b-col class="d-flex">
                     <b-button class="ml-auto" variant="primary" @click="onModifyClick">
                         <font-awesome-icon icon="edit" fixed-width />
                         編輯
@@ -106,7 +106,7 @@
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
-                    <TitledCard title="師傅專用:">
+                    <TitledCard title="專用資料:">
                         <b-form>
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">

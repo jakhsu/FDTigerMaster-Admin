@@ -1,9 +1,9 @@
 <template>
     <Loading v-if="isWholeLoading" />
     <div v-else id="UserModify">
-        <!-- <b-toast variant="success" id="successEdit" title="恭喜">
+        <b-toast variant="success" id="successEdit" title="恭喜">
             您已經完成修改
-        </b-toast> -->
+        </b-toast>
         <b-container fluid>
             <b-row class="mt-3" align-h="end">
                 <b-col>
@@ -136,7 +136,7 @@
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
-                    <TitledCard title="師傅專用:">
+                    <TitledCard title="專用資料:">
                         <b-form>
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
@@ -274,13 +274,15 @@
                 this.currentComponent = this.tabComponentMap[name];
             },
             onFinishEdit() {
-                // this.$bvToast.show('successEdit')
-                this.$router.push({
-                    path: '/home/user_detail',
-                    query: {
-                        userId: "202011240001"
-                    }
-                });
+                this.$bvToast.show('successEdit')
+                setTimeout(() => {
+                    this.$router.push({
+                        path: '/home/user_detail',
+                        query: {
+                            userId: "202011240001"
+                        }
+                    });
+                }, 3000)
             },
             onCancelEdit() {
                 this.$router.push({

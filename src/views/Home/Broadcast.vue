@@ -55,7 +55,7 @@
                                     <b-form-input placeholder="標題" />
                                     <b-form-textarea id="textarea" placeholder="輸入內文..." rows="5" max-rows="20">
                                     </b-form-textarea>
-                                    <b-button class="mt-2" type="submit">送出</b-button>
+                                    <b-button class="mt-2" variant="primary" type="submit">送出</b-button>
                                 </b-form>
                             </div>
                         </TitledCard>
