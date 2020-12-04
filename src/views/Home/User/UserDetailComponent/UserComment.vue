@@ -10,7 +10,7 @@
                 <div class="Tool-bar d-flex mb-3">
                     <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
                     <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                    <b-button class="ml-auto" size="md" variant="danger" v-b-modal="'Simple-Modal'">修改平均分數
+                    <b-button class="ml-auto" size="md" variant="danger" v-b-modal="'Score-Modal'">修改平均分數
                     </b-button>
                 </div>
                 <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"

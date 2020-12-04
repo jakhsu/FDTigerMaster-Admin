@@ -24,10 +24,9 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-col lg="6" md="12">
+                <b-col xl="6" lg="12" md="12">
                     <TitledCard title="用戶共通:">
                         <b-form>
-
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="id: ">
@@ -63,9 +62,17 @@
                                         label="身分證號: ">
                                         <b-form-input />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="出生日期: ">
-                                        <b-form-input />
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="出生年: ">
+                                        <b-form-input disabled />
+                                    </b-form-group>
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="出生月: ">
+                                        <b-form-input disabled />
+                                    </b-form-group>
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="出生日: ">
+                                        <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>

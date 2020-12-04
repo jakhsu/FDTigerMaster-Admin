@@ -8,7 +8,7 @@
                 </b-button>
             </div>
             <b-row>
-                <b-col lg="6" md="12">
+                <b-col xl="6" lg="12" md="12">
                     <TitledCard title="用戶共通:">
                         <b-form>
                             <b-card class="m-4" bg-variant="light">
@@ -50,7 +50,15 @@
                                         <b-form-input :value="user.idCardNo" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="出生日期: ">
+                                        label="出生年: ">
+                                        <b-form-input disabled />
+                                    </b-form-group>
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="出生月: ">
+                                        <b-form-input disabled />
+                                    </b-form-group>
+                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="出生日: ">
                                         <b-form-input disabled />
                                     </b-form-group>
                                 </b-form-group>
@@ -140,7 +148,7 @@
                                 <li>用戶資料仍被保留住</li>
                                 <li>相關訂單資訊也會被保留著</li>
                             </ul>
-                            <b-button variant="danger">停權</b-button>
+                            <b-button variant="danger" v-b-modal="'Deactivate-Modal'">停權</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -155,7 +163,7 @@
     export default {
         name: "BasicDetail",
         components: {
-            TitledCard
+            TitledCard,
         },
         props: {
             user: {}
