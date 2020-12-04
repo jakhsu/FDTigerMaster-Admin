@@ -29,7 +29,7 @@
                                 </b-button>
                             </div>
                             <div class="Admin-Table">
-                                <CustomTable :queryRows="1" :totalRows="1" :fields="fields" :datas="data"
+                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields" :datas="data"
                                     :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">

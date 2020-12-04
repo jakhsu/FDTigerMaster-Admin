@@ -34,20 +34,22 @@
                     </b-nav-item>
                 </b-nav>
             </div>
-            <component :is="currentComponent"></component>
+            <component :is="currentComponent" :user="userData"></component>
         </b-container>
     </div>
 </template>
 
 <script>
     import Loading from '@/components/Loading.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import UserNote from '@/views/Home/User/UserDetailComponent/UserNote.vue'
     import BasicDetail from '@/views/Home/User/UserDetailComponent/BasicDetail.vue'
     import OrderDetail from '@/views/Home/User/UserDetailComponent/OrderDetail.vue'
     import UserComment from '@/views/Home/User/UserDetailComponent/UserComment.vue'
-    import UserNote from '@/views/Home/User/UserDetailComponent/UserNote.vue'
     import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
     import MasterSkillDetail from '@/views/Home/User/UserDetailComponent/MasterSkillDetail.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+
+    import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: 'UserDetail',
@@ -73,20 +75,9 @@
                 userData: {}
             };
         },
-        created() {
-            this.userData = {
-                id: "202011240001",
-                phone: "0975555319",
-                name: "陳柏瑞",
-                email: "rui.chen@fdtigermaster.com",
-                addressCity: "新北市",
-                addressArea: "永和區",
-                addressStreet: "文化路67巷3弄",
-                addressDetail: "10號",
-                active: "1",
-                roleId: "1",
-                createDate: "2020/11/24 09:57"
-            }
+        async created() {
+            const user = await tigermaster.auth.getUserById(this.$route.query.userId);
+            this.userData = user.data;
             this.isLoading = false;
         },
         methods: {
