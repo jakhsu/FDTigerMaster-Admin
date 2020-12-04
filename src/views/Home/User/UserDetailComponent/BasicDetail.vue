@@ -1,14 +1,12 @@
 <template>
     <div id="BasicDetail">
         <b-container fluid>
-            <b-row class="mt-3" align-h="end">
-                <b-col class="d-flex">
-                    <b-button class="ml-auto" variant="primary" @click="onModifyClick">
-                        <font-awesome-icon icon="edit" fixed-width />
-                        編輯
-                    </b-button>
-                </b-col>
-            </b-row>
+            <div class="d-flex mt-3">
+                <b-button class="ml-auto" variant="primary" @click="onModifyClick">
+                    <font-awesome-icon icon="edit" fixed-width />
+                    編輯
+                </b-button>
+            </div>
             <b-row>
                 <b-col lg="6" md="12">
                     <TitledCard title="用戶共通:">
@@ -17,39 +15,39 @@
                                 <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="id: ">
-                                        <b-form-input disabled />
+                                        <b-form-input :value="user.id" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="電話: ">
-                                        <b-form-input id="phone" value="0900123456" disabled>
+                                        <b-form-input id="phone" :value="user.phone" disabled>
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="密碼: ">
-                                        <b-form-input disabled />
+                                        <b-form-input :value="user.pass" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="name" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="姓名: ">
-                                        <b-form-input id="name" value="徐子鈞" disabled>
+                                        <b-form-input id="name" :value="user.name" disabled>
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="角色: ">
-                                        <b-form-input id="roleId" value="師傅" disabled>
+                                        <b-form-input id="roleId" :value="user.roleId" disabled>
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="email" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="Email: ">
-                                        <b-form-input id="email" value="fdtaigermaster@email.com.tw" disabled>
+                                        <b-form-input id="email" :value="user.email" disabled>
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="性別: ">
-                                        <b-form-input disabled />
+                                        <b-form-input :value="user.sex" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="身分證號: ">
-                                        <b-form-input disabled />
+                                        <b-form-input :value="user.idCardNo" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="出生日期: ">
@@ -160,14 +158,14 @@
             TitledCard
         },
         props: {
-            user: Object
+            user: {}
         },
         methods: {
             onModifyClick() {
                 this.$router.push({
                     path: '/home/user_modify',
                     query: {
-                        userId: "202011240001"
+                        userId: this.user.id
                     }
                 });
             }

@@ -1,5 +1,6 @@
 <template>
-    <div id="Master">
+    <Loading v-if="isLoading"/>
+    <div v-else id="Master">
         <UserCreateModal id="User-Create-Modal" :default-role="1" @onSaveClick="onNewUserSaveClick" />
         <b-container fluid>
             <div class="Master-Area">
@@ -28,7 +29,7 @@
                                 </b-button>
                             </div>
                             <div class="Master-Table">
-                                <CustomTable :queryRows="1" :totalRows="1" :fields="fields" :datas="data"
+                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields" :datas="data"
                                     :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
@@ -54,40 +55,45 @@
 </template>
 
 <script>
+    import Loading from '@/components/Loading'
+    import DataCard from '@/components/Card/DataCard.vue'
     import UserTableModel from '@/config/UserTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
-    import DataCard from '@/components/Card/DataCard.vue'
+
+    import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: "Admin",
         components: {
+            Loading,
+            DataCard,
             TitledCard,
             CustomTable,
             UserCreateModal,
-            DataCard
+        },
+        async created(){
+            this.isLoading = true;
+            const res = await tigermaster.database
+                .query("user")
+                .where("user.role_id", "=", 1)
+                .limit(0,100)
+                .get();
+            this.data = res.data;
+            this.queryRows = res.queryRows;
+            this.totalCount = res.totalCount;
+            this.isLoading = false;
         },
         data() {
             return {
                 fields: UserTableModel,
-                data: [{
-                    id: "202011240001",
-                    phone: "0975555319",
-                    name: "陳柏瑞",
-                    email: "rui.chen@fdtigermaster.com",
-                    addressCity: "新北市",
-                    addressArea: "永和區",
-                    addressStreet: "文化路67巷3弄",
-                    addressDetail: "10號",
-                    active: "1",
-                    roleId: "客戶",
-                    createDate: "2020/11/24 09:57"
-                }],
+                data: [],
                 search: {},
+                queryRows: 0,
+                totalCount: 0,
                 tableBusy: false,
-                totalRows: '1',
-                totalFeeze: '1',
+                isLoading: true
             }
         },
         methods: {
