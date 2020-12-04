@@ -1,5 +1,5 @@
 <template>
-    <Loading v-if="isLoading"/>
+    <Loading v-if="isLoading" />
     <div v-else id="Master">
         <UserCreateModal id="User-Create-Modal" :default-role="1" @onSaveClick="onNewUserSaveClick" />
         <b-container fluid>
@@ -29,14 +29,8 @@
                                 </b-button>
                             </div>
                             <div class="Master-Table">
-                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields" :datas="data"
-                                    :isBusy="tableBusy" @dataRequire="onDataRequire">
-                                    <template #top-row="data">
-                                        <b-td v-for="(field, index) in data.fields" :key="index">
-                                            <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
-                                        </b-td>
-                                    </template>
+                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
+                                    :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #cell(phone)="data">
                                         <router-link :to="`/home/user_detail?userId=${data.item.id}`">{{ data.value }}
                                         </router-link>
@@ -73,12 +67,12 @@
             CustomTable,
             UserCreateModal,
         },
-        async created(){
+        async created() {
             this.isLoading = true;
             const res = await tigermaster.database
                 .query("user")
                 .where("user.role_id", "=", 1)
-                .limit(0,100)
+                .limit(0, 100)
                 .get();
             this.data = res.data;
             this.queryRows = res.queryRows;

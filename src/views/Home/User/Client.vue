@@ -21,24 +21,31 @@
                 </b-row>
                 <b-row>
                     <b-col>
+                        <transition name="fade">
+                            <TitledCard v-if="isSearch" title="搜尋列">
+                                <SearchBar />
+                                <div class="Client-Search d-flex mt-3">
+                                    <b-button class="ml-2" variant="primary" @click="onSearchClick">
+                                        <font-awesome-icon icon="search" />
+                                        搜尋
+                                    </b-button>
+                                    <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                                </div>
+                            </TitledCard>
+                        </transition>
                         <TitledCard title="客戶清單">
                             <div class="Client-Search d-flex mb-3">
-                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                                <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
+                                    開始搜尋</b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
                             <div class="Client-Table">
                                 <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
                                     :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
-                                    <template #top-row="data">
-                                        <b-td v-for="(field, index) in data.fields" :key="index">
-                                            <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
-                                        </b-td>
-                                    </template>
                                     <template #cell(phone)="data">
-                                        <router-link :to="`/home/user_detail?userId=${data.item.id}`">{{ data.value }}
+                                        <router-link :to="`/home/user_detail?userId=${data.item.id}`">
+                                            {{ data.value }}
                                         </router-link>
                                     </template>
                                     <template #cell(active)="data">
@@ -63,6 +70,7 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
+    import SearchBar from '@/components/Bar/SearchBar.vue'
 
     export default {
         name: "Client",
@@ -71,7 +79,8 @@
             DataCard,
             TitledCard,
             CustomTable,
-            UserCreateModal
+            UserCreateModal,
+            SearchBar,
         },
         async created() {
             this.isLoading = true;
@@ -93,7 +102,8 @@
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
-                isLoading: true
+                isLoading: true,
+                isSearch: false,
             }
         },
         methods: {
@@ -102,6 +112,7 @@
             },
             onSearchClick() {},
             onSearchClearClick() {
+                this.isSearch = false;
                 this.search = {};
             },
             onNewUserSaveClick() {
@@ -112,6 +123,9 @@
                     }
                 });
             },
+            onOpenSearchClick() {
+                this.isSearch = true;
+            }
         }
     }
 </script>
@@ -139,5 +153,18 @@
         #Client .Client-Area {
             padding: 0px;
         }
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+        {
+        opacity: 0;
     }
 </style>

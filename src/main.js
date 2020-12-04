@@ -35,6 +35,7 @@ import {
   faTachometerAlt,
   faLink,
   faSmile,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -55,6 +56,7 @@ library.add(
   faTachometerAlt,
   faLink,
   faSmile,
+  faSearch,
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
