@@ -1,13 +1,6 @@
 <template>
     <b-modal :id="id" @show="resetModal" :title="title">
-        <!-- <b-form-group>
-            <h5 for="scoreChange">新平均分數: <b-badge variant="success">{{input}}</b-badge>
-            </h5>
-            <b-form-input id="scoreChange" v-model="input" type="range" min="0" max="5" placeholder="1.0" step="0.5">
-            </b-form-input>
-        </b-form-group> -->
         <slot name="modalBody"></slot>
-
         <template #modal-footer="{ cancel }">
             <b-button variant="danger" @click="cancel">
                 取消

@@ -95,7 +95,7 @@
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
                                         <scale-loader v-if="isLoading">
                                         </scale-loader>
-                                        <b-form-input v-b-tooltip.v-danger="hasMatch.msg" v-model="selection"
+                                        <b-form-input v-b-tooltip.v-danger="streetMatch.msg" v-model="selection"
                                             @input="change" list="suggestion">
                                         </b-form-input>
                                         <datalist id="suggestion">
@@ -182,6 +182,8 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import AreaData from '@/config/arearaw.json'
 
+    import tigermaster from 'fdtigermaster-sdk'
+
     const convert = require("xml-js");
     import {
         getAddressData
@@ -208,8 +210,8 @@
                 areadata: AreaData,
                 selection: '',
                 open: true,
-                hasMatch: {
-                    msg: ''
+                streetMatch: {
+                    msg: '',
                 },
             };
         },
@@ -227,7 +229,7 @@
                 return this.streetNames.filter(item => {
                     return item.indexOf(this.selection) >= 0
                 });
-            }
+            },
         },
         watch: {
             streetNames: function () {
@@ -240,20 +242,9 @@
                 }
             }
         },
-        created() {
-            this.userData = {
-                id: "202011240001",
-                phone: "0975555319",
-                name: "陳柏瑞",
-                email: "rui.chen@fdtigermaster.com",
-                addressCity: "新北市",
-                addressArea: "永和區",
-                addressStreet: "文化路67巷3弄",
-                addressModify: "10號",
-                active: "1",
-                roleId: "1",
-                createDate: "2020/11/24 09:57"
-            }
+        async created() {
+            const user = await tigermaster.auth.getUserById(this.$route.query.userId);
+            this.userData = user.data;
             this.isLoading = false;
         },
         methods: {
@@ -286,7 +277,7 @@
                     this.$router.push({
                         path: '/home/user_detail',
                         query: {
-                            userId: "202011240001"
+                            userId: this.userData.id
                         }
                     });
                 }, 3000)
@@ -295,7 +286,7 @@
                 this.$router.push({
                     path: '/home/user_detail',
                     query: {
-                        userId: "202011240001"
+                        userId: this.userData.id
                     }
                 });
             },
@@ -304,9 +295,9 @@
                     this.open = true;
                 }
                 if (this.matches.length == 0 && this.selection.length !== 0) {
-                    this.hasMatch.msg = "抱歉，找不到輸入的地址";
-                } else {
-                    this.hasMatch.msg = "";
+                    this.streetMatch.msg = "抱歉，找不到輸入的地址";
+                } else if (this.matches.length !== 0 && this.selection.length !== 0) {
+                    this.streetMatch.msg = "";
                 }
             },
             suggestionClick(index) {
