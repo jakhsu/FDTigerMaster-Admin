@@ -1,17 +1,8 @@
 <template>
     <div>
-        <b-table id="custom-table" 
-        ref="broadcastTable"
-        :items="datas" 
-        :fields="fields" 
-        :per-page="perPage" 
-        :current-page="currentPage"
-        :busy="isBusy" 
-        bordered responsive foot-clone hover 
-        selectable 
-        :select-mode="selectMode"
-        @row-selected="onRowSelected">
-            <b-button>hello</b-button>
+        <b-table id="custom-table" ref="broadcastTable" :items="datas" :fields="fields" :per-page="perPage"
+            :current-page="currentPage" :busy="isBusy" bordered responsive foot-clone hover selectable
+            :select-mode="selectMode" @row-selected="onRowSelected">
             <template #table-busy>
                 <div class="text-center my-2">
                     <scale-loader color="#34558b" />
@@ -42,19 +33,19 @@
                 type: Boolean,
                 default: false
             },
-            isSelectAll: {
-            }
+            isSelectAll: {}
         },
         methods: {
             onRowSelected(items) {
                 this.selected = items
+                this.$emit("row-selected", this.selected)
             }
         },
         data() {
             return {
                 perPage: 10,
                 currentPage: 1,
-                selected:[],
+                selected: [],
                 selectMode: 'multi'
             }
         },
@@ -70,18 +61,11 @@
                     this.$refs.broadcastTable.selectAllRows()
                 }
                 if (this.isSelectAll == false) {
-                     this.$refs.broadcastTable.clearSelected()
+                    this.$refs.broadcastTable.clearSelected()
                 }
             },
-            NumOfSelected: function () {
-                this.$emit("selectedNumChange", this.NumOfSelected)
-            }
         },
-        computed: {
-            NumOfSelected() {
-                return this.selected.length
-            }
-        }
+        computed: {}
     }
 </script>
 

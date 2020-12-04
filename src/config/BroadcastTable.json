@@ -1,0 +1,43 @@
+[
+    "全選",
+    {
+        "key": "phone",
+        "label": "電話"
+    },
+    {
+        "key": "name",
+        "label": "姓名"
+    },
+    {
+        "key": "email",
+        "label": "郵件"
+    },
+    {
+        "key": "addressCity",
+        "label": "城市"
+    },
+    {
+        "key": "addressArea",
+        "label": "區"
+    },
+    {
+        "key": "addressStreet",
+        "label": "街道"
+    },
+    {
+        "key": "addressDetail",
+        "label": "樓層門牌"
+    },
+    {
+        "key": "active",
+        "label": "狀態"
+    },
+    {
+        "key": "roleId",
+        "label": "角色"
+    },
+    {
+        "key": "createDate",
+        "label": "加入日期"
+    }
+]
