@@ -7,8 +7,8 @@
                     <h3>登入</h3>
                     <span class="Login-Area-Error" v-if="formError">電話號碼或密碼輸入錯誤</span>
                     <b-form-group label="電話號碼">
-                        <b-form-input v-model="phone" type="number" placeholder="輸入電話..."
-                            :state="inputState[inputIndex.phone]" @update="phoneValidate" />
+                        <b-form-input v-model="phone" type="text" placeholder="輸入電話..."
+                            :state="inputState[inputIndex.phone]" @update="phoneValidate" maxlength='12' />
                     </b-form-group>
 
                     <b-form-group label="密碼">
@@ -45,13 +45,13 @@
                 isLoading: true
             }
         },
-        created(){
-            tigermaster.auth.onReady(()=>{
-                if(tigermaster.auth.currentUser){
+        created() {
+            tigermaster.auth.onReady(() => {
+                if (tigermaster.auth.currentUser) {
                     this.$router.push({
                         path: '/home'
                     });
-                }else{
+                } else {
                     this.isLoading = false;
                 }
             });
@@ -66,13 +66,13 @@
             },
             async onLoginClick() {
                 if (this.inputState[0] && this.inputState[1]) {
-                    try{
+                    try {
                         this.isLoading = true;
                         await tigermaster.auth.loginWithPhoneAndPassword(this.phone, this.password);
                         this.$router.push({
                             path: '/home'
                         });
-                    }catch(err){
+                    } catch (err) {
                         console.error(err);
                         this.isLoading = false;
                     }

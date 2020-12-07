@@ -4,8 +4,8 @@
             <b-form-row>
                 <b-col lg="6" md="12">
                     <b-form-group label="電話">
-                        <b-form-input v-model="newUser.phone" :state="inputState[inputIndex.phone]" type="number"
-                            placeholder="輸入電話..." @update="phoneValidate" />
+                        <b-form-input v-model="newUser.phone" :state="inputState[inputIndex.phone]" type="text"
+                            placeholder="輸入電話..." @update="phoneValidate" maxlength='10' />
                     </b-form-group>
                 </b-col>
                 <b-col lg="6" md="12">
@@ -73,7 +73,7 @@
         },
         methods: {
             phoneValidate() {
-                var phoneRegex = /09[0-9]{8}/;
+                var phoneRegex = /^09[0-9]{0,8}$/;
                 this.inputState[this.inputIndex.phone] = phoneRegex.test(this.newUser.phone);
             },
             nameValidate() {
@@ -94,13 +94,16 @@
                 };
                 this.formError = false;
                 this.roleValidate();
+                this.inputState = [];
             },
             onSaveClick() {
                 if (this.inputState[0] && this.inputState[1] && this.inputState[2] && this.inputState[3]) {
                     this.$emit('onSaveClick', this.newUser);
                     this.$bvModal.hide(this.id);
+                    this.inputState = [];
                 } else {
                     this.formError = true;
+                    this.inputState = [];
                 }
             }
         }
