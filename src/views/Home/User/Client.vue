@@ -36,7 +36,8 @@
                         <TitledCard title="客戶清單">
                             <div class="Client-Search d-flex mb-3">
                                 <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
-                                    開始搜尋</b-button>
+                                    開始搜尋
+                                </b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>

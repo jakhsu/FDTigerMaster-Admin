@@ -11,12 +11,24 @@
                 </b-row>
                 <b-row>
                     <b-col>
+                        <TitledCard v-if="isSearch" title="搜尋列">
+                            <SearchBar />
+                            <div class="Client-Search d-flex mt-3">
+                                <b-button class="ml-2" variant="primary" @click="onSearchClick">
+                                    <font-awesome-icon icon="search" />
+                                    搜尋
+                                </b-button>
+                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                            </div>
+                        </TitledCard>
                         <TitledCard title="推播用戶">
                             <div class="Broadcast-Search d-flex mb-3">
                                 <b-button class="ml-2" variant="primary">
                                     已選擇數量: <b-badge variant="light">{{numOfSelected}}</b-badge>
                                 </b-button>
-                                <b-button class="ml-auto" variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
+                                    開始搜尋
+                                </b-button>
                                 <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
                             </div>
@@ -61,6 +73,7 @@
     import BroadcastTableModel from '@/config/BroadcastTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import BroadcastTable from '@/components/Table/BroadcastTable.vue'
+    import SearchBar from '@/components/Bar/SearchBar.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -69,6 +82,7 @@
         components: {
             TitledCard,
             BroadcastTable,
+            SearchBar,
         },
         data() {
             return {
@@ -84,6 +98,7 @@
                     msg: '',
                 },
                 selected: [],
+                isSearch: false,
             }
         },
         async created() {
@@ -99,6 +114,9 @@
             this.isLoading = false;
         },
         methods: {
+            onOpenSearchClick() {
+                this.isSearch = true;
+            },
             onRowSelected(items) {
                 this.selected = items
             },

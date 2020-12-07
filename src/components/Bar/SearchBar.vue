@@ -20,25 +20,25 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <div>
-                        <div class="mt-2 queryList" v-for="(item, index) in searchOption" :key="index">
-                            <b-input-group class="w-50">
+                    <div class="mt-2 queryList" v-for="(item, index) in searchOption" :key="index">
+                        <b-form inline>
+                            <b-input-group class="col-6">
                                 <template #prepend>
                                     <b-input-group-text>
                                         <strong>
                                             {{item}}
                                         </strong>
                                     </b-input-group-text>
-                                    <b-dropdown :text="value">
-                                        <b-dropdown-item value="大於">大於</b-dropdown-item>
-                                        <b-dropdown-item value="">等於</b-dropdown-item>
-                                        <b-dropdown-item value="">小於</b-dropdown-item>
-                                        <b-dropdown-item value="">像</b-dropdown-item>
-                                    </b-dropdown>
+                                    <b-form-select>
+                                        <option value="大於">大於</option>
+                                        <option value="等於">等於</option>
+                                        <option value="小於">小於</option>
+                                        <option value="像">像</option>
+                                    </b-form-select>
                                 </template>
                                 <b-form-input></b-form-input>
                             </b-input-group>
-                        </div>
+                        </b-form>
                     </div>
                 </b-col>
             </b-row>
@@ -56,11 +56,14 @@
                 input: '',
                 searchOption: [],
                 options: queryOptions,
+                selectedRelation: '',
+                afterSearch: [],
             }
         },
         methods: {
             addToQuery() {
                 this.searchOption.push(this.input);
+                this.options = this.options.filter(element => element.value !== this.input)
                 this.input = ''
             }
         }
