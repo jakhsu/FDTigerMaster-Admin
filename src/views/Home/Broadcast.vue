@@ -29,7 +29,6 @@
                                 <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
                                     開始搜尋
                                 </b-button>
-                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
                             </div>
                             <div class="Broadcast-Table">
@@ -73,7 +72,7 @@
     import BroadcastTableModel from '@/config/BroadcastTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import BroadcastTable from '@/components/Table/BroadcastTable.vue'
-    import SearchBar from '@/components/Bar/SearchBar.vue'
+    import SearchBar from '@/components/Search/SearchBar.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -132,6 +131,7 @@
             },
             onSearchClick() {},
             onSearchClearClick() {
+                this.isSearch = false;
                 this.search = {};
             },
             onNewUserSaveClick() {

@@ -71,7 +71,7 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-    import SearchBar from '@/components/Bar/SearchBar.vue'
+    import SearchBar from '@/components/Search/SearchBar.vue'
 
     export default {
         name: "Client",

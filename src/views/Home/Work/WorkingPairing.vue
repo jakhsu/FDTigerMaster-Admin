@@ -1,59 +1,39 @@
 <template>
-    <div id="Working-Pairing">
+    <div id="Working-pairs">
         <b-container fluid>
-            <div class="PairingArea">
+            <div class="pairsArea">
                 <b-row>
                     <b-col>
-                        <div class="Pairing-Header">
+                        <div class="pairs-Header">
                             <h2>工項技能配對</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col lg="6" md="12">
-                        <TitledCard title="配對查詢表">
-                            <div class="Toolbar d-flex mb-3">
-                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                                <b-button variant="success" class="ml-auto">下載</b-button>
-                                <b-button variant="primary" class="ml-2">上傳</b-button>
-                            </div>
-                            <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="pairing"
-                                :isBusy="tableBusy" @dataRequire="onDataRequire">
-                                <template #top-row="pairing">
-                                    <b-td v-for="(field, index) in pairing.fields" :key="index">
-                                        <b-form-input v-model="search[field.key]" :name="field.key"
-                                            :placeholder="`${field.label}`" />
-                                    </b-td>
-                                </template>
-                                <template #cell(taskIds)="data">
-                                    <div v-for="(id, index) in data.value" :key="index">
-                                        {{id}}
-                                    </div>
-                                </template>
-                            </CustomTable>
-                        </TitledCard>
-                    </b-col>
-                    <b-col lg="6" md="12">
-                        <TitledCard title="單筆輸入">
-                            <div class="PairingTable mb-3">
-                                <b-form enctype="multipart/form-data">
-                                    <b-form-input type="text" list="skills" placeholder="師傅專長" v-model="selected" />
-                                    <datalist id="skills">
-                                        <option value="TM-X03010">排水溝清理</option>
-                                        <option value="TM-M01010">熱水器安裝維修</option>
-                                    </datalist>
-                                    <div class="mt-3 mb-3" v-for="(item, index) in target.taskIds" :key="index">
-                                        對應的工項編號: {{ item }}
-                                    </div>
-                                </b-form>
-                            </div>
-                            <div>
-                                <b-form-textarea v-b-tooltip.hover.left title="請用逗號分隔開不同工項" v-model="textUpload"
-                                    @change="parseTxtInput" name="" id="uploadTxt" cols="30" rows="10">
-                                </b-form-textarea>
-                                <b-button variant="success" class="mt-2" @click="submitInput">確定</b-button>
-                            </div>
+                        <TitledCard title="工項技能配對">
+                            <b-form inline @submit.prevent>
+                                <b-form-select required v-model="selected.skillId">
+                                    <option value="">技能</option>
+                                    <option value="TM-X03010">排水溝清理</option>
+                                    <option value="TM-M01010">熱水器安裝維修</option>
+                                </b-form-select>
+                                <b-form-select required v-model="selected.taskId" class="ml-auto">
+                                    <option value="null">工項</option>
+                                    <option value="TM-W0001111">TM-W0001111</option>
+                                    <option value="TM-W999999">TM-W999999</option>
+                                </b-form-select>
+                                <b-button type="submit" class="ml-2" variant="success" @click="addToPair">確認添加
+                                </b-button>
+                                <b-button class="ml-2" variant="primary">上傳</b-button>
+                                <b-button class="ml-2" variant="info">下載</b-button>
+                            </b-form>
+                            <b-card class="mt-2">
+                                <div class="d-flex" v-for="(item, key, index) in target.taskIds" :key="index">
+                                    <b-form-checkbox v-model="target.taskIds[key]" />
+                                    {{ key }}
+                                </div>
+                            </b-card>
                         </TitledCard>
                     </b-col>
                 </b-row>
@@ -64,13 +44,11 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import CustomTable from '@/components/Table/CustomTable.vue'
 
     export default {
-        name: 'WorkingPairing',
+        name: 'Workingpairs',
         components: {
             TitledCard,
-            CustomTable,
         },
         data() {
             return {
@@ -89,18 +67,35 @@
                         label: '對應工項'
                     }
                 ],
-                pairing: [{
+                pairs: [{
                         skillId: "TM-X03010",
                         detail: "排水溝清理",
-                        taskIds: ["TM-X03011", "TM-W01010"],
+                        taskIds: {
+                            'TM-X03011': true,
+                            'TM-W01010': true,
+                            'TM-W01012': true,
+                            'TM-W01444': true,
+                            'TM-W01522': true,
+                            'TM-W01123': true,
+                        }
                     },
                     {
                         skillId: "TM-M01010",
                         detail: "熱水器安裝維修",
-                        taskIds: ["TM-W02011", "TM-M01012"],
+                        taskIds: {
+                            'TM-W02011': true,
+                            'TM-M01012': true,
+                            'TM-W01015': true,
+                            'TM-W01444': true,
+                            'TM-W01522': true,
+                            'TM-W01123': true,
+                        }
                     },
                 ],
-                selected: "",
+                selected: {
+                    skillId: '',
+                    taskId: [],
+                },
                 target: {},
                 input: {
                     skillId: "",
@@ -108,6 +103,7 @@
                 },
                 parsed: "",
                 textUpload: "",
+                final: "",
             };
         },
         methods: {
@@ -118,9 +114,9 @@
                 this.parsed = parsed;
             },
             submitInput() {
-                for (var i = 0; i < this.pairing.length; i++) {
-                    if (this.pairing[i].skillId === this.selected) {
-                        this.pairing[i].taskIds = this.parsed;
+                for (var i = 0; i < this.pairs.length; i++) {
+                    if (this.pairs[i].skillId === this.selected) {
+                        this.pairs[i].taskIds = this.parsed;
                     }
                 }
                 this.textUpload = "";
@@ -130,12 +126,20 @@
             },
             onSearchClick() {},
             onSearchClearClick() {},
+            addToPair() {
+                if (Object.keys(this.target).length === 0) {
+                    return
+                }
+                this.$set(this.target.taskIds,
+                    this.selected.taskId, true
+                )
+            }
         },
         watch: {
-            "selected": function () {
-                for (var i = 0; i < this.pairing.length; i++) {
-                    if (this.pairing[i].skillId === this.selected) {
-                        this.target = this.pairing[i];
+            "selected.skillId": function () {
+                for (var i = 0; i < this.pairs.length; i++) {
+                    if (this.pairs[i].skillId === this.selected.skillId) {
+                        this.target = this.pairs[i];
                     }
                 }
                 return;
@@ -145,7 +149,7 @@
 </script>
 
 <style scoped>
-    #Working-Pairing {
+    #Working-pairs {
         max-width: 100%;
         display: flex;
         flex-direction: column;
@@ -153,18 +157,18 @@
         justify-content: center;
     }
 
-    #Working-Pairing .PairingArea {
+    #Working-pairs .pairsArea {
         padding: 0px 50px;
     }
 
-    #Working-Pairing .PairingArea .Pairing-Header {
+    #Working-pairs .pairsArea .pairs-Header {
         margin: 25px 0px;
         text-align: left;
         color: #000;
     }
 
     @media (max-width: 768px) {
-        #Working-Pairing .PairingArea {
+        #Working-pairs .pairsArea {
             padding: 0px;
         }
     }

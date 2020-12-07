@@ -71,5 +71,4 @@
 </script>
 
 <style scoped>
-    .queryList {}
 </style>
