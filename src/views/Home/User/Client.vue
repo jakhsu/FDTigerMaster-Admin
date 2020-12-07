@@ -22,16 +22,7 @@
                 <b-row>
                     <b-col>
                         <transition name="fade">
-                            <TitledCard v-if="isSearch" title="搜尋列">
-                                <SearchBar />
-                                <div class="Client-Search d-flex mt-3">
-                                    <b-button class="ml-2" variant="primary" @click="onSearchClick">
-                                        <font-awesome-icon icon="search" />
-                                        搜尋
-                                    </b-button>
-                                    <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                                </div>
-                            </TitledCard>
+                            <SearchBar :isSearch="isSearch" @isSearchChange="updateIsSearch" />
                         </transition>
                         <TitledCard title="客戶清單">
                             <div class="Client-Search d-flex mb-3">
@@ -126,6 +117,9 @@
             },
             onOpenSearchClick() {
                 this.isSearch = true;
+            },
+            updateIsSearch(obj) {
+                this.isSearch = obj
             }
         }
     }

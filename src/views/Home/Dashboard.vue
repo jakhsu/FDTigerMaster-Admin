@@ -23,6 +23,8 @@
                         <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46" />
                     </b-col>
                 </b-row>
+                <b-row>
+                </b-row>
             </div>
         </b-container>
     </div>
@@ -30,7 +32,6 @@
 
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
-
 
     export default {
         name: 'Dashboard',
@@ -42,7 +43,7 @@
                 users: {},
             }
         },
-        methods: {}
+        methods: {},
     }
 </script>
 

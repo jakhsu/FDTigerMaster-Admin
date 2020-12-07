@@ -14,7 +14,7 @@
                                         <b-list-group-item>證照敘述: 無</b-list-group-item>
                                     </b-list-group>
                                 </b-card-body>
-                                <b-button variant="danger">刪除</b-button>
+                                <b-button variant="outline-danger">刪除</b-button>
                             </b-card>
                             <b-card class="m-2" title="證照2:">
                                 <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
@@ -25,7 +25,7 @@
                                         <b-list-group-item>證照敘述: 無</b-list-group-item>
                                     </b-list-group>
                                 </b-card-body>
-                                <b-button variant="danger">刪除</b-button>
+                                <b-button variant="outline-danger">刪除</b-button>
                             </b-card>
                             <b-card class="m-2" title="證照3:">
                                 <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
@@ -36,7 +36,7 @@
                                         <b-list-group-item>證照敘述: 無</b-list-group-item>
                                     </b-list-group>
                                 </b-card-body>
-                                <b-button variant="danger">刪除</b-button>
+                                <b-button variant="outline-danger">刪除</b-button>
                             </b-card>
                         </div>
                     </TitledCard>

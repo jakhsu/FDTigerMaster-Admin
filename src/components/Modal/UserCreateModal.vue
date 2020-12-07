@@ -20,17 +20,17 @@
                     @update="emailValidate" />
             </b-form-group>
             <b-form-group label="角色">
-                <b-form-select v-model="newUser.role" :options="UserRole" :state="inputState[inputIndex.role]"
+                <b-form-select v-model="newUser.roleId" :options="UserRole" :state="inputState[inputIndex.role]"
                     @input="roleValidate" />
             </b-form-group>
         </b-form>
         <template #modal-footer="{ cancel }">
             <span class="User-Create-Error" v-if="formError">有些資料不符合規定</span>
-            <b-button variant="danger" @click="cancel">
+            <b-button variant="outline-danger" @click="cancel">
                 取消
             </b-button>
             <b-button variant="primary" @click="onSaveClick">
-                創建
+                確認
             </b-button>
         </template>
     </b-modal>
@@ -65,7 +65,7 @@
                     phone: '',
                     name: '',
                     email: '',
-                    role: this.defaultRole
+                    roleId: this.defaultRole
                 },
                 inputState: [null, null, null, null],
                 formError: false
@@ -83,14 +83,14 @@
                 this.inputState[this.inputIndex.email] = this.newUser.email !== '';
             },
             roleValidate() {
-                this.inputState[this.inputIndex.role] = this.newUser.role !== null;
+                this.inputState[this.inputIndex.role] = this.newUser.roleId !== null;
             },
             resetModal() {
                 this.newUser = {
                     phone: '',
                     name: '',
                     email: '',
-                    role: this.defaultRole
+                    roleId: this.defaultRole
                 };
                 this.formError = false;
                 this.roleValidate();

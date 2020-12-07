@@ -6,7 +6,7 @@
                     <TitledCard title="師傅技能">
                         <div class="Toolbar d-flex mb-3">
                             <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                            <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                            <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
                             <b-button variant="success" class="ml-auto">下載</b-button>
                             <b-button variant="primary" class="ml-2">上傳</b-button>
                         </div>

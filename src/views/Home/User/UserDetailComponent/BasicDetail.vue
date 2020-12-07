@@ -148,7 +148,7 @@
                                 <li>用戶資料仍被保留住</li>
                                 <li>相關訂單資訊也會被保留著</li>
                             </ul>
-                            <b-button variant="danger" v-b-modal="'Deactivate-Modal'">停權</b-button>
+                            <b-button variant="outline-danger" v-b-modal="'Deactivate-Modal'">停權</b-button>
                         </div>
                     </TitledCard>
                 </b-col>

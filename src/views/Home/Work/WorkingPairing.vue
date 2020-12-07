@@ -10,7 +10,7 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col lg="6" md="12">
+                    <b-col class="col-12">
                         <TitledCard title="工項技能配對">
                             <b-form inline @submit.prevent>
                                 <b-form-select required v-model="selected.skillId">
@@ -18,21 +18,26 @@
                                     <option value="TM-X03010">排水溝清理</option>
                                     <option value="TM-M01010">熱水器安裝維修</option>
                                 </b-form-select>
-                                <b-form-select required v-model="selected.taskId" class="ml-auto">
-                                    <option value="null">工項</option>
+                                <b-form-select required v-model="selected.taskId" class="ml-2">
+                                    <option value="">工項</option>
                                     <option value="TM-W0001111">TM-W0001111</option>
                                     <option value="TM-W999999">TM-W999999</option>
                                 </b-form-select>
-                                <b-button type="submit" class="ml-2" variant="success" @click="addToPair">確認添加
+                                <b-button type="submit" class="ml-2" variant="warning" @click="addToPair">加入
                                 </b-button>
-                                <b-button class="ml-2" variant="primary">上傳</b-button>
-                                <b-button class="ml-2" variant="info">下載</b-button>
+                                <b-button class="ml-auto" variant="primary">上傳</b-button>
+                                <b-button class="ml-2" variant="success">下載</b-button>
                             </b-form>
-                            <b-card class="mt-2">
-                                <div class="d-flex" v-for="(item, key, index) in target.taskIds" :key="index">
-                                    <b-form-checkbox v-model="target.taskIds[key]" />
-                                    {{ key }}
-                                </div>
+                            <b-card class="mt-2" title="對應工項">
+                                <b-card-body>
+                                    <div class="d-flex" v-for="(item, key, index) in target.taskIds" :key="index">
+                                        <b-form-checkbox v-model="target.taskIds[key]" />
+                                        {{ key }}
+                                    </div>
+                                </b-card-body>
+                                <b-card-footer>
+                                    <b-button variant="success">修改完成</b-button>
+                                </b-card-footer>
                             </b-card>
                         </TitledCard>
                     </b-col>

@@ -6,7 +6,7 @@
                     <TitledCard title="用戶註記:">
                         <div class="User-Note-Search d-flex mb-3">
                             <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                            <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                            <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
                         </div>
                         <div class="User-Note-Table">
                             <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="notes"
@@ -54,10 +54,6 @@
                 search: {},
                 tableBusy: false,
                 fields: [{
-                        "key": "orderId",
-                        "label": "訂單編號"
-                    },
-                    {
                         "key": "note",
                         "label": "註記"
                     },
@@ -67,23 +63,18 @@
                     }
                 ],
                 notes: [{
-                    orderId: "TH-TH001",
                     note: "此為客服人員寫的註記",
                     noteCreatedTime: "2020/11/03 14:53"
                 }, {
-                    orderId: "TH-TH001",
                     note: "此為客服人員寫的註記",
                     noteCreatedTime: "2020/11/03 14:53"
                 }, {
-                    orderId: "TH-TH001",
                     note: "此為客服人員寫的註記",
                     noteCreatedTime: "2020/11/03 14:53"
                 }, {
-                    orderId: "TH-TH001",
                     note: "此為客服人員寫的註記",
                     noteCreatedTime: "2020/11/03 14:53"
                 }, {
-                    orderId: "TH-TH001",
                     note: "此為客服人員寫的註記",
                     noteCreatedTime: "2020/11/03 14:53"
                 }],

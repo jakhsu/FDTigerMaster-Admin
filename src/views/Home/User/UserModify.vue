@@ -17,7 +17,7 @@
                             <font-awesome-icon icon="edit" />
                             完成
                         </b-button>
-                        <b-button class="ml-2" variant="danger" @click="onCancelEdit">
+                        <b-button class="ml-2" variant="outline-danger" @click="onCancelEdit">
                             取消
                         </b-button>
                     </div>
@@ -30,49 +30,49 @@
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="id: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="userData.id" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="電話: ">
-                                        <b-form-input id="phone" value="0900123456">
+                                        <b-form-input id="phone" v-model="userData.phone" disabled>
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="密碼: ">
-                                        <b-form-input type="password" value="" />
+                                        <b-form-input v-model="userData.pass" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="name" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="姓名: ">
-                                        <b-form-input id="name" value="徐子鈞">
+                                        <b-form-input id="name" v-model="userData.name">
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="角色: ">
-                                        <b-form-input id="roleId" value="師傅">
+                                        <b-form-input v-model="userData.roleId" disabled>
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-for="email" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="Email: ">
-                                        <b-form-input id="email" value="fdtaigermaster@email.com.tw">
+                                        <b-form-input id="email" v-model="userData.email">
                                         </b-form-input>
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="性別: ">
-                                        <b-form-input />
+                                        <b-form-input v-model="userData.sex" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="身分證號: ">
-                                        <b-form-input />
+                                        <b-form-input v-model="userData.idCardNo" />
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="出生年: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="userData.birthYear" />
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="出生月: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="userData.birthMon" />
                                     </b-form-group>
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="出生日: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="userData.birthDate" />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
@@ -213,6 +213,7 @@
                 streetMatch: {
                     msg: '',
                 },
+                currentUser: '',
             };
         },
         computed: {
@@ -244,6 +245,7 @@
         },
         async created() {
             const user = await tigermaster.auth.getUserById(this.$route.query.userId);
+            this.currentUser = user;
             this.userData = user.data;
             this.isLoading = false;
         },
@@ -271,7 +273,9 @@
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
             },
-            onFinishEdit() {
+            async onFinishEdit() {
+                await this.currentUser.update(this.userData);
+
                 this.$bvToast.show('successEdit')
                 setTimeout(() => {
                     this.$router.push({

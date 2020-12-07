@@ -11,6 +11,7 @@ import Fragment from 'vue-fragment'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+
 import {
   library
 } from '@fortawesome/fontawesome-svg-core'

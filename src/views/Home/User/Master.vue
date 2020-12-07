@@ -21,10 +21,14 @@
                 </b-row>
                 <b-row>
                     <b-col>
+                        <transition name="fade">
+                            <SearchBar :isSearch="isSearch" @isSearchChange="updateIsSearch" />
+                        </transition>
                         <TitledCard title="師傅列表">
                             <div class="Master-Search d-flex mb-3">
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                                <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
+                                </b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -55,6 +59,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
+    import SearchBar from '@/components/Search/SearchBar.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -66,6 +71,7 @@
             TitledCard,
             CustomTable,
             UserCreateModal,
+            SearchBar,
         },
         async created() {
             this.isLoading = true;
@@ -87,7 +93,9 @@
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
-                isLoading: true
+                isLoading: true,
+                newUser: {},
+                isSearch: false,
             }
         },
         methods: {
@@ -105,6 +113,9 @@
                         userId: "202011240001"
                     }
                 });
+            },
+            updateIsSearch(obj) {
+                this.isSearch = obj
             },
         }
     }
@@ -133,5 +144,18 @@
         #Master .Master-Area {
             padding: 0px;
         }
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+        {
+        opacity: 0;
     }
 </style>

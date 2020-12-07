@@ -2,7 +2,7 @@
     <b-modal :id="id" @show="resetModal" :title="title">
         <slot name="modalBody"></slot>
         <template #modal-footer="{ cancel }">
-            <b-button variant="danger" @click="cancel">
+            <b-button variant="outline-danger" @click="cancel">
                 取消
             </b-button>
             <b-button variant="primary" @click="onSaveClick">

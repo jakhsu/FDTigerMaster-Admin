@@ -11,22 +11,15 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <TitledCard v-if="isSearch" title="搜尋列">
-                            <SearchBar />
-                            <div class="Client-Search d-flex mt-3">
-                                <b-button class="ml-2" variant="primary" @click="onSearchClick">
-                                    <font-awesome-icon icon="search" />
-                                    搜尋
-                                </b-button>
-                                <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
-                            </div>
-                        </TitledCard>
+                        <transition name="fade">
+                            <SearchBar :isSearch="isSearch" @isSearchChange="updateIsSearch" />
+                        </transition>
                         <TitledCard title="推播用戶">
                             <div class="Broadcast-Search d-flex mb-3">
                                 <b-button class="ml-2" variant="primary">
                                     已選擇數量: <b-badge variant="light">{{numOfSelected}}</b-badge>
                                 </b-button>
-                                <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
+                                <b-button v-if="!isSearch" class="ml-auto" variant="primary" @click="onOpenSearchClick">
                                     開始搜尋
                                 </b-button>
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
@@ -129,7 +122,9 @@
                     this.isSelectAll = !this.isSelectAll;
                 }
             },
-            onSearchClick() {},
+            onSearchClick() {
+                this.isSearch = false;
+            },
             onSearchClearClick() {
                 this.isSearch = false;
                 this.search = {};
@@ -147,6 +142,9 @@
             },
             updateSelected(obj) {
                 this.selected = obj
+            },
+            updateIsSearch(obj) {
+                this.isSearch = obj
             }
         },
         computed: {
@@ -180,5 +178,18 @@
         #Broadcast .Broadcast-Area {
             padding: 0px;
         }
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+        {
+        opacity: 0;
     }
 </style>

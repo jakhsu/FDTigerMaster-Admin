@@ -1,58 +1,77 @@
 [{
-        "value": "電話"
+        "value": "電話",
+        "text": "電話"
     },
     {
-        "value": "姓名"
+        "value": "姓名",
+        "text": "姓名"
     },
     {
-        "value": "角色"
+        "value": "角色",
+        "text": "角色"
     },
     {
-        "value": "Email"
+        "value": "Email",
+        "text": "Email"
     },
     {
-        "value": "性别"
+        "value": "性别",
+        "text": "性别"
     },
     {
-        "value": "身分證號"
+        "value": "身分證號",
+        "text": "身分證號"
     },
     {
-        "value": "出生年"
+        "value": "出生年",
+        "text": "出生年"
     },
     {
-        "value": "出生月"
+        "value": "出生月",
+        "text": "出生月"
     },
     {
-        "value": "出生日"
+        "value": "出生日",
+        "text": "出生日"
     },
     {
-        "value": "城市"
+        "value": "城市",
+        "text": "城市"
     },
     {
-        "value": "區域"
+        "value": "區域",
+        "text": "區域"
     },
     {
-        "value": "街道"
+        "value": "街道",
+        "text": "街道"
     },
     {
-        "value": "門牌樓層"
+        "value": "門牌樓層",
+        "text": "門牌樓層"
     },
     {
-        "value": "經度"
+        "value": "經度",
+        "text": "經度"
     },
     {
-        "value": "緯度"
+        "value": "緯度",
+        "text": "緯度"
     },
     {
-        "value": "創建日期"
+        "value": "創建日期",
+        "text": "創建日期"
     },
     {
-        "value": "創建者"
+        "value": "創建者",
+        "text": "創建者"
     },
     {
-        "value": "更新日期"
+        "value": "更新日期",
+        "text": "更新日期"
     },
     {
-        "value": "Active"
+        "value": "Active",
+        "text": "Active"
     }
 ]

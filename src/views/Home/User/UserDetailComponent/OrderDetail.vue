@@ -20,7 +20,7 @@
                     <TitledCard title="訂單紀錄:">
                         <div class="Order-Search d-flex mb-3">
                             <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                            <b-button class="ml-2" variant="danger" @click="onSearchClearClick">清除搜尋</b-button>
+                            <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
                         </div>
                         <div class="Order-Table">
                             <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="orders"

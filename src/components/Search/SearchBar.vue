@@ -1,56 +1,79 @@
 <template>
-    <div id="search-bar">
-        <b-container fluid>
-            <b-row>
-                <b-col>
-                    <b-form>
-                        <b-input-group>
-                            <b-form-input list="queryOption" v-model="input" />
-                            <b-input-group-append>
-                                <b-button class="ml-2" variant="success" @click="addToQuery">加入</b-button>
-                            </b-input-group-append>
-                            <datalist id="queryOption">
-                                <option v-for="(item, index) in options" :key="index">
-                                    {{ item.value }}
-                                </option>
-                            </datalist>
-                        </b-input-group>
-                    </b-form>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col>
-                    <div class="mt-2 queryList" v-for="(item, index) in searchOption" :key="index">
-                        <b-form inline>
-                            <b-input-group class="col-6">
+    <TitledCard v-if="isSearch" title="搜索列">
+        <div id="search-bar">
+            <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <b-form>
+                            <b-input-group>
                                 <template #prepend>
                                     <b-input-group-text>
                                         <strong>
-                                            {{item}}
+                                            搜尋條件:
                                         </strong>
                                     </b-input-group-text>
-                                    <b-form-select>
-                                        <option value="大於">大於</option>
-                                        <option value="等於">等於</option>
-                                        <option value="小於">小於</option>
-                                        <option value="像">像</option>
-                                    </b-form-select>
                                 </template>
-                                <b-form-input></b-form-input>
+                                <b-form-select required v-model="input" :options="options">
+                                </b-form-select>
+                                <b-input-group-append>
+                                    <b-button type="submit" variant="success" @click="addToQuery">加入</b-button>
+                                </b-input-group-append>
                             </b-input-group>
                         </b-form>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <div class="mt-2 queryList" v-for="(item, index) in searchOption" :key="index">
+                            <b-form>
+                                <b-input-group class="w-50">
+                                    <template #prepend>
+                                        <b-input-group-text>
+                                            <strong>
+                                                {{item}}
+                                            </strong>
+                                        </b-input-group-text>
+                                        <b-form-select>
+                                            <option value="大於">大於</option>
+                                            <option value="等於">等於</option>
+                                            <option value="小於">小於</option>
+                                            <option value="像">像</option>
+                                        </b-form-select>
+                                    </template>
+                                    <b-form-input></b-form-input>
+                                </b-input-group>
+                            </b-form>
+                        </div>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <div class="d-flex mt-3">
+                        <b-button class="ml-2" variant="primary" @click="onSearchClick">
+                            <font-awesome-icon icon="search" />
+                            搜尋
+                        </b-button>
+                        <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
+                        </b-button>
                     </div>
-                </b-col>
-            </b-row>
-        </b-container>
-
-    </div>
+                </b-row>
+            </b-container>
+        </div>
+    </TitledCard>
 </template>
 
 <script>
     import queryOptions from '@/config/QueryOption.json'
+    import TitledCard from '@/components/Card/TitledCard.vue';
     export default {
+        components: {
+            TitledCard,
+        },
         name: "SearchBar",
+        props: {
+            isSearch: {
+                default: false,
+            }
+        },
         data() {
             return {
                 input: '',
@@ -65,7 +88,14 @@
                 this.searchOption.push(this.input);
                 this.options = this.options.filter(element => element.value !== this.input)
                 this.input = ''
-            }
+            },
+            onSearchClick() {
+                this.$emit('isSearchChange', false)
+            },
+            onSearchClearClick() {
+                this.search = {};
+                this.$emit('isSearchChange', false)
+            },
         }
     }
 </script>
