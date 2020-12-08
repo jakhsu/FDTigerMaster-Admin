@@ -21,7 +21,8 @@
                             </div>
                             <div class="CategoryTable">
                                 <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="categories"
-                                    :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    :isBusy="tableBusy" @dataRequire="onDataRequire" :isSelectable="isSelectable"
+                                    @row-selected="updateSelected" :selectMode="selectMode">
                                     <template #top-row="categories">
                                         <b-td v-for="(field, index) in categories.fields" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
@@ -62,6 +63,8 @@
         },
         data() {
             return {
+                selectMode: 'single',
+                isSelectable: true,
                 tableBusy: false,
                 search: {},
                 fields: [{
@@ -90,7 +93,8 @@
                         categoryDetail: "水龍頭漏水"
                     },
                 ],
-                input: {}
+                input: {},
+                selected: [],
             }
         },
         methods: {
@@ -99,6 +103,9 @@
             },
             onSearchClick() {},
             onSearchClearClick() {},
+            updateSelected(obj) {
+                this.selected = obj
+            },
         }
     }
 </script>

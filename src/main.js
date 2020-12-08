@@ -37,6 +37,7 @@ import {
   faLink,
   faSmile,
   faSearch,
+  faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -58,6 +59,7 @@ library.add(
   faLink,
   faSmile,
   faSearch,
+  faTrashAlt,
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

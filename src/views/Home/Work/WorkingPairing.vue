@@ -44,8 +44,12 @@
                                 <b-card-body>
                                     <b-form inline @submit.prevent>
                                         <b-input-group>
-                                            <b-form-input :value="taskPrefix" disabled />
-                                            <b-form-input class="ml-2" type="text" maxlength="1" v-model="taskSuffix">
+                                            <template #prepend>
+                                                <b-input-group-text>
+                                                    {{taskPrefix}}
+                                                </b-input-group-text>
+                                            </template>
+                                            <b-form-input class="w-50" type="text" maxlength="1" v-model="taskSuffix">
                                             </b-form-input>
                                             <template #append>
                                                 <b-button type="submit" variant="warning" @click="addToTask">加入

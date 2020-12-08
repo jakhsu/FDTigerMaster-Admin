@@ -1,7 +1,8 @@
 <template>
     <div>
         <b-table id="custom-table" :items="datas" :fields="fields" :per-page="perPage" :current-page="currentPage"
-            :busy="isBusy" bordered responsive foot-clone hover>
+            :busy="isBusy" bordered responsive foot-clone hover :selectable="isSelectable" :select-mode="selectMode"
+            @row-selected="onRowSelected">
             <template #table-busy>
                 <div class="text-center my-2">
                     <scale-loader color="#34558b" />
@@ -32,11 +33,20 @@
                 type: Boolean,
                 default: false
             },
+            isSelectable: {
+                type: Boolean,
+                default: false,
+            },
+            selectMode: {
+                type: String,
+                default: 'multi'
+            }
         },
         data() {
             return {
                 perPage: 10,
-                currentPage: 1
+                currentPage: 1,
+                selected: [],
             }
         },
         beforeUpdate() {
@@ -45,6 +55,12 @@
                 this.$emit("dataRequire", currentRows);
             }
         },
+        methods: {
+            onRowSelected(items) {
+                this.selected = items
+                this.$emit("row-selected", this.selected)
+            }
+        }
     }
 </script>
 

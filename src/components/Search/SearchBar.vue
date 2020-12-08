@@ -41,6 +41,11 @@
                                         </b-form-select>
                                     </template>
                                     <b-form-input></b-form-input>
+                                    <template #append>
+                                        <b-button @click="deleteQueryCondition(index)">
+                                            <font-awesome-icon icon="trash-alt" />
+                                        </b-button>
+                                    </template>
                                 </b-input-group>
                             </b-form>
                         </div>
@@ -100,6 +105,9 @@
                 this.search = {};
                 this.$emit('isSearchChange', false)
             },
+            deleteQueryCondition(index) {
+                this.searchOption.splice(index, 1);
+            }
         }
     }
 </script>

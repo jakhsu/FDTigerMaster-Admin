@@ -1,5 +1,6 @@
 <template>
-    <div id="Broadcast">
+    <Loading v-if="isLoading" />
+    <div v-else id="Broadcast">
         <b-container fluid>
             <div class="Broadcast-Area">
                 <b-row>
@@ -94,6 +95,7 @@
                 },
                 selected: [],
                 isSearch: false,
+                isLoading: true,
             }
         },
         async created() {
