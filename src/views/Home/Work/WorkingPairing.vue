@@ -10,8 +10,37 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col md="12" lg="4" xl="4">
-                        <TitledCard title="技能">
+                    <b-col md="12" lg="6" xl="6">
+                        <TitledCard title="技能:">
+                            <div class="Toolbar d-flex mb-3">
+                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
+                                </b-button>
+                                <b-button variant="success" class="ml-auto">下載</b-button>
+                                <b-button variant="primary" class="ml-2">上傳</b-button>
+                            </div>
+                            <div class="SkillTable">
+                                <CustomTable :queryRows="1" :totalRows="3" :datas="skills" :isBusy="tableBusy"
+                                    @dataRequire="onDataRequire" :isSelectable="isSelectable"
+                                    @row-selected="updateSelected" :selectMode="selectMode">
+                                    <template #top-row="categories">
+                                        <b-td v-for="(field, index) in categories.fields" :key="index">
+                                            <b-form-input v-model="search[field.key]" :name="field.key"
+                                                :placeholder="`${field.label}`" />
+                                        </b-td>
+                                    </template>
+                                    <template #head(skillId)>
+                                        技能編號
+                                    </template>
+                                    <template #head(skillDetail)>
+                                        技能描述
+                                    </template>
+                                </CustomTable>
+                            </div>
+                        </TitledCard>
+                    </b-col>
+                    <b-col md="12" lg="6" xl="6">
+                        <TitledCard title="工項">
                             <b-form inline @submit.prevent>
                                 <b-input-group>
                                     <b-form-select v-model="selected.skillId">
@@ -29,10 +58,6 @@
                                     </template>
                                 </b-input-group>
                             </b-form>
-                        </TitledCard>
-                    </b-col>
-                    <b-col md="12" lg="8" xl="8">
-                        <TitledCard title="工項">
                             <b-card class="mt-2" title="對應工項">
                                 <b-card-body>
                                     <div class="d-flex" v-for="(item, key, index) in target.taskIds" :key="index">
@@ -69,14 +94,27 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import CustomTable from '@/components/Table/CustomTable.vue'
 
     export default {
         name: 'Workingpairs',
         components: {
             TitledCard,
+            CustomTable,
         },
         data() {
             return {
+                isSelectable: true,
+                selectMode: 'single',
+                skills: [{
+                        skillId: "TM-X03010",
+                        skillDetail: "排水溝清理"
+                    },
+                    {
+                        skillId: "TM-W01010",
+                        skillDetail: "水塔清洗"
+                    }
+                ],
                 tableBusy: false,
                 search: {},
                 fields: [{
@@ -151,7 +189,13 @@
             },
             addToSkill() {
                 this.$set(this.pairs, this.pairs.length, this.skillInput)
-            }
+            },
+            updateSelected(obj) {
+                if (obj.length > 0) {
+                    this.selected.skillId = obj[0].skillId;
+                    this.selected.detail = obj[0].skillDetail
+                }
+            },
         },
         watch: {
             "selected.skillId": function () {
