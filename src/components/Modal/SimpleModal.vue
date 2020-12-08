@@ -1,7 +1,7 @@
 <template>
     <b-modal :id="id" @show="resetModal" :title="title">
-        <slot name="modalBody"></slot>
-        <template #modal-footer="{ cancel }">
+        <slot name="modal-body"></slot>
+        <template #modal-footer="{cancel}">
             <b-button variant="outline-danger" @click="cancel">
                 取消
             </b-button>
@@ -10,6 +10,7 @@
             </b-button>
         </template>
     </b-modal>
+
 </template>
 
 <script>
@@ -23,7 +24,7 @@
             title: {
                 type: String,
                 default: 'Simple Modal'
-            }
+            },
         },
         data() {
             return {}
@@ -31,6 +32,7 @@
         methods: {
             resetModal() {},
             onSaveClick() {
+                this.$emit("onSaveClick")
                 this.$bvModal.hide(this.id);
             }
         }

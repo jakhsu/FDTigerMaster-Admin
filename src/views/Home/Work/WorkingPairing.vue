@@ -10,34 +10,52 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col class="col-12">
-                        <TitledCard title="工項技能配對">
+                    <b-col md="12" lg="4" xl="4">
+                        <TitledCard title="技能">
                             <b-form inline @submit.prevent>
-                                <b-form-select required v-model="selected.skillId">
-                                    <option value="">技能</option>
-                                    <option value="TM-X03010">排水溝清理</option>
-                                    <option value="TM-M01010">熱水器安裝維修</option>
-                                </b-form-select>
-                                <b-form-select required v-model="selected.taskId" class="ml-2">
-                                    <option value="">工項</option>
-                                    <option value="TM-W0001111">TM-W0001111</option>
-                                    <option value="TM-W999999">TM-W999999</option>
-                                </b-form-select>
-                                <b-button type="submit" class="ml-2" variant="warning" @click="addToPair">加入
-                                </b-button>
-                                <b-button class="ml-auto" variant="primary">上傳</b-button>
-                                <b-button class="ml-2" variant="success">下載</b-button>
+                                <b-input-group>
+                                    <b-form-select v-model="selected.skillId">
+                                        <b-form-select-option :value="skill.skillId" v-for="(skill, index) in pairs"
+                                            :key="index">
+                                            {{ skill.skillId}}
+                                            {{ skill.detail }}
+                                        </b-form-select-option>
+                                    </b-form-select>
+
+
+                                    <b-form-input class="ml-2" placeholder="技能編號" v-model="skillInput.id" />
+                                    <b-form-input placeholder="技能描述" v-model="skillInput.detail" />
+                                    <template #append>
+                                        <b-button variant="warning" @click="addToSkill">加入
+                                        </b-button>
+                                    </template>
+                                </b-input-group>
                             </b-form>
+                        </TitledCard>
+                    </b-col>
+                    <b-col md="12" lg="8" xl="8">
+                        <TitledCard title="工項">
                             <b-card class="mt-2" title="對應工項">
                                 <b-card-body>
                                     <div class="d-flex" v-for="(item, key, index) in target.taskIds" :key="index">
-                                        <b-form-checkbox v-model="target.taskIds[key]" />
                                         {{ key }}
                                     </div>
                                 </b-card-body>
-                                <b-card-footer>
-                                    <b-button variant="success">修改完成</b-button>
-                                </b-card-footer>
+                            </b-card>
+                            <b-card class="mt-2" title="單筆修改">
+                                <b-card-body>
+                                    <b-form inline @submit.prevent>
+                                        <b-input-group>
+                                            <b-form-input :value="taskPrefix" disabled />
+                                            <b-form-input class="ml-2" type="text" maxlength="2" v-model="taskSuffix">
+                                            </b-form-input>
+                                            <template #append>
+                                                <b-button type="submit" variant="warning" @click="addToTask">加入
+                                                </b-button>
+                                            </template>
+                                        </b-input-group>
+                                    </b-form>
+                                </b-card-body>
                             </b-card>
                         </TitledCard>
                     </b-col>
@@ -77,23 +95,23 @@
                         detail: "排水溝清理",
                         taskIds: {
                             'TM-X03011': true,
-                            'TM-W01010': true,
-                            'TM-W01012': true,
-                            'TM-W01444': true,
-                            'TM-W01522': true,
-                            'TM-W01123': true,
+                            'TM-X03012': true,
+                            'TM-X03013': true,
+                            'TM-X03014': true,
+                            'TM-X03015': true,
+                            'TM-X03016': true,
                         }
                     },
                     {
-                        skillId: "TM-M01010",
-                        detail: "熱水器安裝維修",
+                        skillId: "TM-W01010",
+                        detail: "水塔清洗",
                         taskIds: {
-                            'TM-W02011': true,
-                            'TM-M01012': true,
+                            'TM-W01011': true,
+                            'TM-W01012': true,
+                            'TM-W01013': true,
+                            'TM-W01014': true,
                             'TM-W01015': true,
-                            'TM-W01444': true,
-                            'TM-W01522': true,
-                            'TM-W01123': true,
+                            'TM-W01016': true,
                         }
                     },
                 ],
@@ -106,38 +124,31 @@
                     skillId: "",
                     msg: "",
                 },
-                parsed: "",
-                textUpload: "",
                 final: "",
+                taskSuffix: '',
+                skillInput: {
+                    id: '',
+                    detail: '',
+                    taskIds: {}
+                },
             };
         },
         methods: {
-            parseTxtInput() {
-                let str = document.getElementById("uploadTxt").value;
-                let parsed = str.split(/(,)/);
-                parsed = parsed.filter((ele) => ele != ",");
-                this.parsed = parsed;
-            },
-            submitInput() {
-                for (var i = 0; i < this.pairs.length; i++) {
-                    if (this.pairs[i].skillId === this.selected) {
-                        this.pairs[i].taskIds = this.parsed;
-                    }
-                }
-                this.textUpload = "";
-            },
             onDataRequire() {
                 this.tableBusy = true;
             },
             onSearchClick() {},
             onSearchClearClick() {},
-            addToPair() {
+            addToTask() {
                 if (Object.keys(this.target).length === 0) {
                     return
                 }
                 this.$set(this.target.taskIds,
-                    this.selected.taskId, true
+                    this.taskInput, true
                 )
+            },
+            addToSkill() {
+                this.$set(this.pairs, this.pairs.length, this.skillInput)
             }
         },
         watch: {
@@ -150,6 +161,15 @@
                 return;
             },
         },
+        computed: {
+            taskPrefix() {
+                let end = this.selected.skillId.length;
+                return this.selected.skillId.slice(0, end - 2);
+            },
+            taskInput() {
+                return this.taskPrefix + this.taskSuffix;
+            }
+        }
     }
 </script>
 

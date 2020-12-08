@@ -107,7 +107,7 @@
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="門牌樓層: ">
-                                        <b-form-input />
+                                        <b-form-input v-model="address.detail" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
                                         <b-form-input disabled />
@@ -206,6 +206,12 @@
                     city: '',
                     area: ''
                 },
+                address: {
+                    city: '',
+                    area: '',
+                    street: '',
+                    detail: '',
+                },
                 streetNames: [],
                 areadata: AreaData,
                 selection: '',
@@ -274,6 +280,11 @@
                 this.currentComponent = this.tabComponentMap[name];
             },
             async onFinishEdit() {
+                // TODO: need to update userData from autocomplete component, then call update api
+                this.userData['addressCity'] = this.cityAndArea.city;
+                this.userData['addressArea'] = this.cityAndArea.area;
+                this.userData['addressStreet'] = this.selection;
+                this.userData['addressDetail'] = this.address.detail;
                 await this.currentUser.update(this.userData);
 
                 this.$bvToast.show('successEdit')

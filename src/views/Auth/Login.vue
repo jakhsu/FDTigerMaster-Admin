@@ -15,7 +15,6 @@
                         <b-form-input v-model="password" type="password" placeholder="輸入密碼..."
                             :state="inputState[inputIndex.password]" @update="passwordValidate" />
                     </b-form-group>
-
                     <b-button variant="primary" class="btn-block" @click="onLoginClick">登入</b-button>
                 </b-form>
             </div>

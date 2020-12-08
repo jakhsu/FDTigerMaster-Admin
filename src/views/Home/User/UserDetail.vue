@@ -12,10 +12,17 @@
                 </b-form-group>
             </template>
         </SimpleModal>
-        <SimpleModal id="Deactivate-Modal" title="停權">
-            <template #modalBody>
-                <b-form-group label="輸入停權理由">
-                    <b-form-textarea></b-form-textarea>
+        <SimpleModal @onSaveClick="onDeactivate" id="Deactivate-Modal" title="凍結">
+            <template #modal-body>
+                <b-form-group label="輸入凍結理由">
+                    <b-form-textarea required v-model="deactivateComment"></b-form-textarea>
+                </b-form-group>
+            </template>
+        </SimpleModal>
+        <SimpleModal @onSaveClick="onReactivate" id="Reactivate-Modal" title="恢復">
+            <template #modal-body>
+                <b-form-group label="輸入恢復理由">
+                    <b-form-textarea required v-model="reactivateComment"></b-form-textarea>
                 </b-form-group>
             </template>
         </SimpleModal>
@@ -93,11 +100,15 @@
                     certificate: CertificateDetail,
                     masterSkill: MasterSkillDetail,
                 },
-                userData: {}
+                userData: {},
+                deactivateComment: '',
+                reactivateComment: '',
+                currentUser: '',
             };
         },
         async created() {
             const user = await tigermaster.auth.getUserById(this.$route.query.userId);
+            this.currentUser = user;
             this.userData = user.data;
             this.isLoading = false;
         },
@@ -105,6 +116,18 @@
             onNavClick(name) {
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
+            },
+            async onDeactivate() {
+                if (this.deactivateComment !== '') {
+                    this.userData.active = 0
+                    await this.currentUser.update(this.userData);
+                }
+            },
+            async onReactivate() {
+                if (this.reactivateComment !== '') {
+                    this.userData.active = 1
+                    await this.currentUser.update(this.userData);
+                }
             }
         }
     }

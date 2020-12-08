@@ -85,9 +85,11 @@
         },
         methods: {
             addToQuery() {
-                this.searchOption.push(this.input);
-                this.options = this.options.filter(element => element.value !== this.input)
-                this.input = ''
+                if (this.input != '') {
+                    this.searchOption.push(this.input);
+                    this.input = ''
+                    this.options = this.options.filter(element => element.value !== this.input)
+                }
             },
             onSearchClick() {
                 this.$emit('isSearchChange', false)
