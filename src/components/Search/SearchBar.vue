@@ -85,10 +85,12 @@
         },
         methods: {
             addToQuery() {
-                if (this.input != '') {
+                if (this.input != '' && this.input != undefined) {
+                    this.options = this.options.filter(element => element.value !== this.input)
                     this.searchOption.push(this.input);
                     this.input = ''
-                    this.options = this.options.filter(element => element.value !== this.input)
+                } else {
+                    return
                 }
             },
             onSearchClick() {

@@ -21,9 +21,7 @@
                                             {{ skill.detail }}
                                         </b-form-select-option>
                                     </b-form-select>
-
-
-                                    <b-form-input class="ml-2" placeholder="技能編號" v-model="skillInput.id" />
+                                    <b-form-input class="ml-2" placeholder="技能編號" v-model="skillInput.skillId" />
                                     <b-form-input placeholder="技能描述" v-model="skillInput.detail" />
                                     <template #append>
                                         <b-button variant="warning" @click="addToSkill">加入
@@ -47,7 +45,7 @@
                                     <b-form inline @submit.prevent>
                                         <b-input-group>
                                             <b-form-input :value="taskPrefix" disabled />
-                                            <b-form-input class="ml-2" type="text" maxlength="2" v-model="taskSuffix">
+                                            <b-form-input class="ml-2" type="text" maxlength="1" v-model="taskSuffix">
                                             </b-form-input>
                                             <template #append>
                                                 <b-button type="submit" variant="warning" @click="addToTask">加入
@@ -127,7 +125,7 @@
                 final: "",
                 taskSuffix: '',
                 skillInput: {
-                    id: '',
+                    skillId: '',
                     detail: '',
                     taskIds: {}
                 },
@@ -164,7 +162,7 @@
         computed: {
             taskPrefix() {
                 let end = this.selected.skillId.length;
-                return this.selected.skillId.slice(0, end - 2);
+                return this.selected.skillId.slice(0, end - 1);
             },
             taskInput() {
                 return this.taskPrefix + this.taskSuffix;

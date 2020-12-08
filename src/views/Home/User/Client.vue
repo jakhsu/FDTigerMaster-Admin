@@ -43,6 +43,9 @@
                                     <template #cell(active)="data">
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
+                                    <template #cell(roleId)="data">
+                                        {{ data.value == "1" ? "師傅" : data.value == 0 ? "客戶" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
+                                    </template>
                                 </CustomTable>
                             </div>
                         </TitledCard>
