@@ -24,6 +24,9 @@
                     </b-col>
                 </b-row>
                 <b-row>
+                    <b-col class="col-4">
+                        <PieChart />
+                    </b-col>
                 </b-row>
             </div>
         </b-container>
@@ -32,11 +35,13 @@
 
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
+    import PieChart from '@/components/Chart/SimplePie.vue'
 
     export default {
         name: 'Dashboard',
         components: {
             DataCard,
+            PieChart,
         },
         data() {
             return {
