@@ -13,26 +13,27 @@
                     <b-col md="12" lg="6" xl="6">
                         <TitledCard title="技能:">
                             <div class="Toolbar d-flex mb-3">
-                                <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
+                                <b-button size="sm" class="ml-2" variant="primary" @click="onSearchClick">搜尋
+                                </b-button>
                                 <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
                                 </b-button>
                                 <b-button variant="success" class="ml-auto">下載</b-button>
                                 <b-button variant="primary" class="ml-2">上傳</b-button>
                             </div>
                             <div class="SkillTable">
-                                <CustomTable :queryRows="1" :totalRows="3" :datas="skills" :isBusy="tableBusy"
+                                <CustomTable :queryRows="1" :totalRows="3" :datas="pairs" :isBusy="tableBusy"
                                     @dataRequire="onDataRequire" :isSelectable="isSelectable"
-                                    @row-selected="updateSelected" :selectMode="selectMode">
-                                    <template #top-row="categories">
-                                        <b-td v-for="(field, index) in categories.fields" :key="index">
-                                            <b-form-input v-model="search[field.key]" :name="field.key"
+                                    @row-selected="updateSelected" :selectMode="selectMode" :fields="fields">
+                                    <template #top-row>
+                                        <b-td v-for="(field, index) in fields" :key="index">
+                                            <b-form-input v-model="search[fields.key]" :name="field.key"
                                                 :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
                                     <template #head(skillId)>
                                         技能編號
                                     </template>
-                                    <template #head(skillDetail)>
+                                    <template #head(detail)>
                                         技能描述
                                     </template>
                                 </CustomTable>
@@ -41,23 +42,6 @@
                     </b-col>
                     <b-col md="12" lg="6" xl="6">
                         <TitledCard title="工項">
-                            <b-form inline @submit.prevent>
-                                <b-input-group>
-                                    <b-form-select v-model="selected.skillId">
-                                        <b-form-select-option :value="skill.skillId" v-for="(skill, index) in pairs"
-                                            :key="index">
-                                            {{ skill.skillId}}
-                                            {{ skill.detail }}
-                                        </b-form-select-option>
-                                    </b-form-select>
-                                    <b-form-input class="ml-2" placeholder="技能編號" v-model="skillInput.skillId" />
-                                    <b-form-input placeholder="技能描述" v-model="skillInput.detail" />
-                                    <template #append>
-                                        <b-button variant="warning" @click="addToSkill">加入
-                                        </b-button>
-                                    </template>
-                                </b-input-group>
-                            </b-form>
                             <b-card class="mt-2" title="對應工項">
                                 <b-card-body>
                                     <div class="d-flex" v-for="(item, key, index) in target.taskIds" :key="index">
@@ -65,25 +49,58 @@
                                     </div>
                                 </b-card-body>
                             </b-card>
-                            <b-card class="mt-2" title="單筆修改">
-                                <b-card-body>
-                                    <b-form inline @submit.prevent>
-                                        <b-input-group>
-                                            <template #prepend>
-                                                <b-input-group-text>
-                                                    {{taskPrefix}}
-                                                </b-input-group-text>
-                                            </template>
-                                            <b-form-input class="w-50" type="text" maxlength="1" v-model="taskSuffix">
-                                            </b-form-input>
-                                            <template #append>
-                                                <b-button type="submit" variant="warning" @click="addToTask">加入
-                                                </b-button>
-                                            </template>
-                                        </b-input-group>
-                                    </b-form>
-                                </b-card-body>
-                            </b-card>
+                            <b-row>
+                                <b-col md="12" lg="12" xl="6">
+                                    <b-card class="mt-2" title="單筆技能修改">
+                                        <b-card-body>
+                                            <b-form @submit.prevent>
+                                                <b-input-group>
+                                                    <!-- <b-form-select v-model="selected.skillId">
+                                                        <b-form-select-option :value="skill.skillId"
+                                                            v-for="(skill, index) in pairs" :key="index">
+                                                            {{ skill.skillId}}
+                                                            {{ skill.detail }}
+                                                        </b-form-select-option>
+                                                    </b-form-select> -->
+                                                    <b-form-input class="ml-2" placeholder="技能編號"
+                                                        v-model="skillInput.skillId" />
+                                                    <b-form-input placeholder="技能描述" v-model="skillInput.detail" />
+                                                    <template #append>
+                                                        <b-button variant="warning" @click="addToSkill">加入
+                                                        </b-button>
+                                                        <b-button variant="outline-danger" @click="deleteFromSkill">刪除
+                                                        </b-button>
+                                                    </template>
+                                                </b-input-group>
+                                            </b-form>
+                                        </b-card-body>
+                                    </b-card>
+                                </b-col>
+                                <b-col md="12" lg="12" xl="6">
+                                    <b-card class="mt-2" title="單筆工項修改">
+                                        <b-card-body>
+                                            <b-form inline @submit.prevent>
+                                                <b-input-group>
+                                                    <template #prepend>
+                                                        <b-input-group-text>
+                                                            {{taskPrefix}}
+                                                        </b-input-group-text>
+                                                    </template>
+                                                    <b-form-input class="w-50" type="text" maxlength="1"
+                                                        v-model="taskSuffix">
+                                                    </b-form-input>
+                                                    <template #append>
+                                                        <b-button type="submit" variant="warning" @click="addToTask">加入
+                                                        </b-button>
+                                                        <b-button variant="outline-danger" @click="deleteFromTask">刪除
+                                                        </b-button>
+                                                    </template>
+                                                </b-input-group>
+                                            </b-form>
+                                        </b-card-body>
+                                    </b-card>
+                                </b-col>
+                            </b-row>
                         </TitledCard>
                     </b-col>
                 </b-row>
@@ -125,10 +142,6 @@
                         key: 'detail',
                         label: '技能描述'
                     },
-                    {
-                        key: 'taskIds',
-                        label: '對應工項'
-                    }
                 ],
                 pairs: [{
                         skillId: "TM-X03010",
@@ -186,9 +199,26 @@
                 this.$set(this.target.taskIds,
                     this.taskInput, true
                 )
+                this.taskSuffix = ''
+            },
+            deleteFromTask() {
+                if (Object.keys(this.target).length === 0) {
+                    return
+                }
+                this.$delete(this.target.taskIds, this.taskInput)
+                this.taskInpit = {}
             },
             addToSkill() {
                 this.$set(this.pairs, this.pairs.length, this.skillInput)
+                this.skillInput = {}
+            },
+            deleteFromSkill() {
+                for (var i = 0; i < this.pairs.length; i++) {
+                    if (this.pairs[i].skillId == this.skillInput.skillId) {
+                        this.pairs.splice(i, 1)
+                    }
+                }
+                this.skillInput = {}
             },
             updateSelected(obj) {
                 if (obj.length > 0) {
@@ -242,5 +272,6 @@
         #Working-pairs .pairsArea {
             padding: 0px;
         }
+
     }
 </style>

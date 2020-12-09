@@ -67,7 +67,7 @@
     import tigermaster from 'fdtigermaster-sdk'
 
     export default {
-        name: "Admin",
+        name: "Master",
         components: {
             Loading,
             DataCard,

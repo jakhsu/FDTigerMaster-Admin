@@ -271,23 +271,26 @@
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行帳號: ">
-                                        <b-form-input :disabled="!userData.active" />
+                                        <b-form-input v-model="userData.master.accountNo"
+                                            :disabled="!userData.active" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行名稱: ">
-                                        <b-form-input :disabled="!userData.active" />
+                                        <b-form-input v-model="userData.master.bankName" :disabled="!userData.active" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行代號: ">
-                                        <b-form-input :disabled="!userData.active" />
+                                        <b-form-input v-model="userData.master.bankCode" :disabled="!userData.active" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="分行代號: ">
-                                        <b-form-input :disabled="!userData.active" />
+                                        <b-form-input v-model="userData.master.branchCode"
+                                            :disabled="!userData.active" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="分行名稱: ">
-                                        <b-form-input :disabled="!userData.active" />
+                                        <b-form-input v-model="userData.master.branchName"
+                                            :disabled="!userData.active" />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
@@ -409,6 +412,7 @@
                     this.userData['addressArea'] = this.cityAndArea.area;
                     this.userData['addressStreet'] = this.selection;
                     this.userData['addressDetail'] = this.address.detail;
+                    console.log(this.userData)
                     await this.currentUser.update(this.userData);
 
                     this.$bvToast.show('successEdit')

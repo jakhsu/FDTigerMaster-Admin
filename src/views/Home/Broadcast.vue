@@ -70,6 +70,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import BroadcastTable from '@/components/Table/BroadcastTable.vue'
     import SearchBar from '@/components/Search/SearchBar.vue'
+    import Loading from '@/components/Loading'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -79,6 +80,7 @@
             TitledCard,
             BroadcastTable,
             SearchBar,
+            Loading,
         },
         data() {
             return {
