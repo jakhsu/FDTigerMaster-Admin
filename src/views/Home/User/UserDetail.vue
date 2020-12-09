@@ -43,10 +43,12 @@
                         :disabled="userData.roleId > 1">
                         訂單
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userComment'" @click="onNavClick('userComment')">
+                    <b-nav-item :active="currentTab == 'userComment'" :disabled="userData.roleId > 1"
+                        @click="onNavClick('userComment')">
                         用戶評分與評論
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userNote'" @click="onNavClick('userNote')">
+                    <b-nav-item :active="currentTab == 'userNote'" :disabled="userData.roleId > 1"
+                        @click="onNavClick('userNote')">
                         用戶註記
                     </b-nav-item>
                     <b-nav-item :active="currentTab == 'certificate'" :disabled="userData.roleId != 1"
