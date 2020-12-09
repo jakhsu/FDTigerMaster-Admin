@@ -1,9 +1,6 @@
 <template>
     <Loading v-if="isWholeLoading" />
     <div v-else id="UserModify">
-        <b-toast variant="success" id="successEdit" title="恭喜">
-            您已經完成修改
-        </b-toast>
         <b-container fluid>
             <b-row class="mt-3" align-h="end">
                 <b-col>
@@ -378,6 +375,9 @@
             const user = await tigermaster.auth.getUserById(this.$route.query.userId);
             this.currentUser = user;
             this.userData = user.data;
+            if (!this.userData.master) {
+                this.userData.master = {};
+            }
             this.isLoading = false;
         },
         methods: {
@@ -408,22 +408,18 @@
                 if (this.userData.active == 0) {
                     return
                 } else {
+                    this.Loading = true;
                     this.userData['addressCity'] = this.cityAndArea.city;
                     this.userData['addressArea'] = this.cityAndArea.area;
                     this.userData['addressStreet'] = this.selection;
                     this.userData['addressDetail'] = this.address.detail;
-                    console.log(this.userData)
                     await this.currentUser.update(this.userData);
-
-                    this.$bvToast.show('successEdit')
-                    setTimeout(() => {
-                        this.$router.push({
-                            path: '/home/user_detail',
-                            query: {
-                                userId: this.userData.id
-                            }
-                        });
-                    }, 3000)
+                    this.$router.push({
+                        path: '/home/user_detail',
+                        query: {
+                            userId: this.userData.id
+                        }
+                    });
                 }
             },
             onCancelEdit() {

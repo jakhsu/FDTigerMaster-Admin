@@ -35,6 +35,12 @@
                             <div class="Master-Table">
                                 <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
                                     :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    <template #top-row="data">
+                                        <b-td v-for="(field, index) in data.fields" :key="index">
+                                            <b-form-input v-model="search[field.key]" :name="field.key"
+                                                :placeholder="`${field.label}`" />
+                                        </b-td>
+                                    </template>
                                     <template #cell(phone)="data">
                                         <router-link :to="`/home/user_detail?userId=${data.item.id}`">{{ data.value }}
                                         </router-link>

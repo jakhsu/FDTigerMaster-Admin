@@ -76,7 +76,8 @@
         name: "SearchBar",
         props: {
             isSearch: {
-                default: false,
+                type: Boolean,
+                default: true,
             }
         },
         data() {
@@ -99,11 +100,12 @@
                 }
             },
             onSearchClick() {
-                this.$emit('isSearchChange', false)
+                this.isSearch = false;
+                this.$emit('onSearch', this.isSearch)
             },
             onSearchClearClick() {
-                this.search = {};
-                this.$emit('isSearchChange', false)
+                this.isSearch = false;
+                this.$emit('onSearch', this.isSearch)
             },
             deleteQueryCondition(index) {
                 this.searchOption.splice(index, 1);

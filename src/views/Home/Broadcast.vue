@@ -13,14 +13,14 @@
                 <b-row>
                     <b-col>
                         <transition name="fade">
-                            <SearchBar :isSearch="isSearch" @isSearchChange="updateIsSearch" />
+                            <SearchBar :isSearch="isSearch" @onSearch="updateisSearch" />
                         </transition>
-                        <TitledCard title="推播用戶">
+                        <TitledCard v-if="!isSearch" title="推播用戶">
                             <div class="Broadcast-Search d-flex mb-3">
                                 <b-button class="ml-2" variant="primary">
                                     已選擇數量: <b-badge variant="light">{{numOfSelected}}</b-badge>
                                 </b-button>
-                                <b-button v-if="!isSearch" class="ml-auto" variant="primary" @click="onOpenSearchClick">
+                                <b-button class="ml-auto" variant="primary" @click="onOpenSearchClick">
                                     開始搜尋
                                 </b-button>
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
@@ -96,7 +96,7 @@
                     msg: '',
                 },
                 selected: [],
-                isSearch: false,
+                isSearch: true,
                 isLoading: true,
             }
         },
@@ -150,7 +150,7 @@
             updateSelected(obj) {
                 this.selected = obj
             },
-            updateIsSearch(obj) {
+            updateisSearch(obj) {
                 this.isSearch = obj
             }
         },
