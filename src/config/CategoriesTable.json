@@ -1,0 +1,18 @@
+[
+    {
+        "key": "id",
+        "label": "工項編號"
+    },
+    {
+        "key": "description",
+        "label": "工項描述"
+    },
+    {
+        "key": "description2",
+        "label": "附加說明"
+    },
+    {
+        "key": "active",
+        "label": "啟用"
+    }
+]

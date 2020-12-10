@@ -1,0 +1,14 @@
+[
+    {
+        "key": "id",
+        "label": "技能編號"
+    },
+    {
+        "key": "description",
+        "label": "技能描述"
+    },
+    {
+        "key": "active",
+        "label": "啟用"
+    }
+]

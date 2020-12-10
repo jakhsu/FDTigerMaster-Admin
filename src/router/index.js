@@ -8,10 +8,8 @@ import HomeClient from '@/views/Home/User/Client.vue'
 import HomeMaster from '@/views/Home/User/Master.vue'
 import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
-import HomeWorkingSkill from '@/views/Home/Work/WorkingSkill.vue'
-import HomeWorkingCategory from '@/views/Home/Work/WorkingCategory.vue'
 import HomeBroadcast from '@/views/Home/Broadcast.vue'
-import HomeWorkingPairing from '@/views/Home/Work/WorkingPairing.vue'
+import HomeSkillAndCategory from '@/views/Home/Services/SkillAndCategory.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
@@ -48,27 +46,23 @@ const routes = [{
       },
       {
         path: 'user_detail',
+        name: 'HomeUserDetail',
         component: HomeUserDetail
       },
       {
         path: 'user_modify',
+        name: 'HomeUserModify',
         component: HomeUserModify
       },
       {
-        path: 'working_skill',
-        component: HomeWorkingSkill
-      },
-      {
-        path: 'working_category',
-        component: HomeWorkingCategory
-      },
-      {
         path: 'broadcast',
+        name: 'HomeBroadcast',
         component: HomeBroadcast
       },
       {
-        path: 'working_pairing',
-        component: HomeWorkingPairing
+        path: 'skill_and_category',
+        name: 'HomeSkillAndCategory',
+        component: HomeSkillAndCategory
       }
     ]
   },

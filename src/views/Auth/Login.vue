@@ -57,7 +57,7 @@
         },
         methods: {
             phoneValidate() {
-                var phoneRegex = /09[0-9]{8}/;
+                var phoneRegex = /^09[0-9]{8}$/;
                 this.inputState[this.inputIndex.phone] = phoneRegex.test(this.phone);
             },
             passwordValidate() {

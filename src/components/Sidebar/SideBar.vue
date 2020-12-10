@@ -2,7 +2,7 @@
     <b-nav class="sidebar flex-column" :class="{'toggled': toggled}">
         <b-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
             <img class="sidebar-brand-logo" alt="ttes logo" :src="logoImg" />
-            <div class="sidebar-brand-text">TigerMaster</div>
+            <div class="sidebar-brand-text ml-1">TigerMaster</div>
         </b-link>
 
         <SideBarButton to="/home" icon="tachometer-alt">
@@ -20,15 +20,9 @@
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="工項技能">
-            <SideBarButton to="/home/working_category" icon="tools">
-                工項維護
-            </SideBarButton>
-            <SideBarButton to="/home/working_skill" icon="address-card">
-                技能維護
-            </SideBarButton>
-            <SideBarButton to="/home/working_pairing" icon="link">
-                工項技能配對
+        <SideBarGroup text="服務項目">
+            <SideBarButton to="/home/skill_and_category" icon="link">
+                工項與技能
             </SideBarButton>
         </SideBarGroup>
 
