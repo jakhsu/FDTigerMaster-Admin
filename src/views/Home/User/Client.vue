@@ -21,14 +21,12 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <transition name="fade">
-                            <SearchBar :isSearch="isSearch" @isSearchChange="updateIsSearch" />
-                        </transition>
                         <TitledCard title="客戶清單">
-                            <div class="Client-Search d-flex mb-3">
-                                <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
+                            <div class="SearchBar d-flex mb-3">
+                                <b-button class="ml-2" variant="primary" @click="onOpenSearchClick">
                                     開始搜尋
                                 </b-button>
+                                <b-button class="ml-2" variant="outline-danger">取消搜尋</b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -71,7 +69,6 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-    import SearchBar from '@/components/Search/SearchBar.vue'
 
     export default {
         name: "Client",
@@ -81,7 +78,6 @@
             TitledCard,
             CustomTable,
             UserCreateModal,
-            SearchBar,
         },
         async created() {
             this.isLoading = true;
@@ -104,7 +100,6 @@
                 totalCount: 0,
                 tableBusy: false,
                 isLoading: true,
-                isSearch: false,
             }
         },
         methods: {
@@ -113,7 +108,6 @@
             },
             onSearchClick() {},
             onSearchClearClick() {
-                this.isSearch = false;
                 this.search = {};
             },
             onNewUserSaveClick() {
@@ -124,12 +118,7 @@
                     }
                 });
             },
-            onOpenSearchClick() {
-                this.isSearch = true;
-            },
-            updateIsSearch(obj) {
-                this.isSearch = obj
-            }
+            onOpenSearchClick() {},
         }
     }
 </script>
@@ -157,18 +146,5 @@
         #Client .Client-Area {
             padding: 0px;
         }
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity .5s;
-    }
-
-    .fade-enter,
-    .fade-leave-to
-
-    /* .fade-leave-active below version 2.1.8 */
-        {
-        opacity: 0;
     }
 </style>

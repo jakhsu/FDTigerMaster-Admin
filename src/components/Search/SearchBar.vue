@@ -57,7 +57,7 @@
                             <font-awesome-icon icon="search" />
                             搜尋
                         </b-button>
-                        <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
+                        <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">取消搜尋
                         </b-button>
                     </div>
                 </b-row>
@@ -100,12 +100,10 @@
                 }
             },
             onSearchClick() {
-                this.isSearch = false;
-                this.$emit('onSearch', this.isSearch)
+                this.$emit('onSearch', false)
             },
             onSearchClearClick() {
-                this.isSearch = false;
-                this.$emit('onSearch', this.isSearch)
+                this.$emit('onSearch', false)
             },
             deleteQueryCondition(index) {
                 this.searchOption.splice(index, 1);

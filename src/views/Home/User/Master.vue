@@ -21,14 +21,12 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <transition name="fade">
-                            <SearchBar :isSearch="isSearch" @isSearchChange="updateIsSearch" />
-                        </transition>
                         <TitledCard title="師傅列表">
-                            <div class="Master-Search d-flex mb-3">
-                                <b-button v-if="!isSearch" class="ml-2" variant="primary" @click="onOpenSearchClick">
+                            <div class="SearchBar d-flex mb-3">
+                                <b-button class="ml-2" variant="primary" @click="onOpenSearchClick">
                                     開始搜尋
                                 </b-button>
+                                <b-button class="ml-2" variant="outline-danger">取消搜尋</b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -68,7 +66,6 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
-    import SearchBar from '@/components/Search/SearchBar.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -80,7 +77,6 @@
             TitledCard,
             CustomTable,
             UserCreateModal,
-            SearchBar,
         },
         async created() {
             this.isLoading = true;
@@ -103,7 +99,6 @@
                 totalCount: 0,
                 tableBusy: false,
                 isLoading: true,
-                isSearch: false,
             }
         },
         methods: {
@@ -112,12 +107,9 @@
             },
             onSearchClick() {},
             onSearchClearClick() {
-                this.isSearch = false;
                 this.search = {};
             },
-            onOpenSearchClick() {
-                this.isSearch = true;
-            },
+            onOpenSearchClick() {},
             async onNewUserSaveClick(obj) {
                 let newUser = obj;
                 await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890", newUser);
@@ -127,9 +119,6 @@
                         userId: this.data.id
                     }
                 });
-            },
-            updateIsSearch(obj) {
-                this.isSearch = obj
             },
         }
     }
@@ -158,18 +147,5 @@
         #Master .Master-Area {
             padding: 0px;
         }
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity .5s;
-    }
-
-    .fade-enter,
-    .fade-leave-to
-
-    /* .fade-leave-active below version 2.1.8 */
-        {
-        opacity: 0;
     }
 </style>
