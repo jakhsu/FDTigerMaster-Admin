@@ -9,6 +9,9 @@
                             <h2>工項技能配對</h2>
                         </div>
                     </b-col>
+                    <b-col>
+                        <b-button variant="warning" @click="download">下載</b-button>
+                    </b-col>
                 </b-row>
                 <b-row>
                     <b-col lg="12" xl="6">
@@ -30,7 +33,7 @@
                                     @row-selected="updateSelectedSkill" selectMode='single' :fields="skillsField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">
-                                            <b-form-input :name="field.key"
+                                            <b-form-input v-model="search[field.key]" :name="field.key"
                                                 :placeholder="`${field.label}`" /> 
                                         </b-td>
                                     </template>
@@ -57,7 +60,7 @@
                                     @row-selected="updateSelectedCategory" selectMode='single' :fields="categoriesField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in categoriesField" :key="index">
-                                            <b-form-input :name="field.key"
+                                            <b-form-input v-model="search[field.key]" :name="field.key"
                                                 :placeholder="`${field.label}`" /> 
                                         </b-td>
                                     </template>
@@ -100,6 +103,8 @@
                 categoriesField: CategoriesTable,
                 categoriesSearch: {},
                 categories: {},
+                search: [],
+                result: '',
             };
         },
         async created(){
@@ -132,6 +137,20 @@
                 if (obj.length > 0) {
                     this.selectedCategory = obj[0].id;
                 }
+            },
+            async download() {
+                const skillsFile = await tigermaster.storage.Skills;
+                let file = await skillsFile.download();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.result = e.target.result;
+                }
+                await reader.readAsText(file);
+                const link = await document.createElement('a');
+                link.href = await "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(this.result);
+                link.target = await '_blank';
+                link.download = await "skills.csv"
+                await link.click();
             }
         }
     }
