@@ -110,11 +110,24 @@
             onSearchClearClick() {
                 this.search = {};
             },
-            onNewUserSaveClick() {
+            async onNewUserSaveClick(obj) {
+                this.isLoading = true;
+                let newUser = obj;
+                await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890", newUser);
+                const res = await tigermaster.database
+                    .query("user")
+                    .where("user.name", "=", newUser.name)
+                    .where("user.email", "=", newUser.email)
+                    .where("user.phone", "=", newUser.phone)
+                    .where("user.role_id", "=", newUser.roleId)
+                    .limit(0,1)
+                    .get();
+                let createdUser = res.data[0]
+                this.isLoading = false;
                 this.$router.push({
                     path: '/home/user_detail',
                     query: {
-                        userId: "202011240001"
+                        userId: createdUser.id
                     }
                 });
             },

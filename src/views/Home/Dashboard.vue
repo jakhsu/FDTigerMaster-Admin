@@ -53,7 +53,9 @@
             }
         },
         methods: {
-            test() {}
+            async test() {
+           
+            }
         },
     }
 </script>
