@@ -26,7 +26,7 @@
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
                             </div>
                             <div class="Broadcast-Table">
-                                <BroadcastTable @row-selected="updateSelected" @selectedNumChange="updateNumOfSelected"
+                                <CustomTable @row-selected="updateSelected" @selectedNumChange="updateNumOfSelected"
                                     :isSelectAll="isSelectAll" :queryRows="queryRows" :totalRows="totalCount"
                                     :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #cell(全選)>
@@ -43,7 +43,7 @@
                                     <template #cell(roleId)="data">
                                         {{ data.value == "1" ? "師傅" : data.value == 0 ? "客戶" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
                                     </template>
-                                </BroadcastTable>
+                                </CustomTable>
                             </div>
                         </TitledCard>
                     </b-col>
@@ -68,9 +68,9 @@
 <script>
     import BroadcastTableModel from '@/config/BroadcastTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import BroadcastTable from '@/components/Table/BroadcastTable.vue'
     import SearchBar from '@/components/Search/SearchBar.vue'
     import Loading from '@/components/Loading'
+    import CustomTable from '@/components/Table/CustomTable.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -78,9 +78,9 @@
         name: "Broadcast",
         components: {
             TitledCard,
-            BroadcastTable,
             SearchBar,
             Loading,
+            CustomTable,
         },
         data() {
             return {
