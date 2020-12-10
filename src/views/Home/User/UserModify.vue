@@ -290,6 +290,16 @@
                             </b-form>
                         </TitledCard>
                     </b-col>
+                    <b-col>
+                        <TitledCard title="用戶照片">
+                            <base64Img @FileUpload="onFileUpload" />
+                            <b-card class="mt-2" title="用戶大頭照">
+                                <b-card-body>
+                                    <img :src="userData.headShotPath" height="200" alt="">
+                                </b-card-body>
+                            </b-card>
+                        </TitledCard>
+                    </b-col>
                     <b-col lg="6" md="12">
                         <TitledCard v-if="userData.roleId == 1" title="專用資料:">
                             <b-form>
@@ -330,9 +340,8 @@
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import AreaData from '@/config/arearaw.json'
-
+    import Base64Img from '@/components/Upload/base64Img.vue'
     import tigermaster from 'fdtigermaster-sdk'
-
     const convert = require("xml-js");
     import {
         getAddressData
@@ -344,6 +353,7 @@
         components: {
             Loading,
             TitledCard,
+            Base64Img,
         },
         data() {
             return {
@@ -469,6 +479,10 @@
                 this.userData.addressStreet = this.matches[index];
                 this.open = false;
             },
+            onFileUpload(img) {
+                this.userData.headShotPath = img
+                console.log(img);
+            }
         }
     }
 </script>

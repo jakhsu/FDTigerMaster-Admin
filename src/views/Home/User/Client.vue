@@ -27,7 +27,7 @@
                                     開始搜尋
                                 </b-button>
                                 <b-button class="ml-2" variant="outline-danger">取消搜尋</b-button>
-                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
+                                <b-button class="ml-" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
                             <div class="Client-Table">

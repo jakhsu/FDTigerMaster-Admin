@@ -27,9 +27,9 @@
                     <b-col class="col-4">
                         <PieChart />
                     </b-col>
-                    <b-col>
-                        <test @FileUpload="FileUploaded" />
-                    </b-col>
+                    <!-- <b-col>
+                        <b-button @click="test">測試</b-button>
+                    </b-col> -->
                 </b-row>
             </div>
         </b-container>
@@ -39,24 +39,21 @@
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
     import PieChart from '@/components/Chart/SimplePie.vue'
-    import test from '@/components/Upload/base64Img.vue'
+
     export default {
         name: 'Dashboard',
         components: {
             DataCard,
             PieChart,
-            test,
         },
         data() {
             return {
                 users: {},
+                isLoading: false,
             }
         },
         methods: {
-            FileUploaded(obj) {
-                console.log("parent caught an emitted event!")
-                console.log("the file is this: \n", obj)
-            }
+            test() {}
         },
     }
 </script>

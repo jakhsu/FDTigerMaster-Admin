@@ -4,7 +4,7 @@
             <b-card>
                 <img height="200" :src="image" alt="">
                 <input type="file" @change="handleImage" class="custom-input" accept="image/*">
-                <b-button @click="onFileUpload" variant="warning">emit給parent</b-button>
+                <b-button @click="onFileUpload" variant="warning">確定上傳</b-button>
             </b-card>
         </div>
     </div>
@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: "base64Img",
+        name: "Base64Img",
         data() {
             return {
                 image: ''
