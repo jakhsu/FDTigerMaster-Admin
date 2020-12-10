@@ -25,13 +25,13 @@
                                 <b-button variant="primary" class="ml-2">上傳</b-button>
                             </div>
                             <div>
-                                <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount" :datas="skills.data" :isBusy="tableBusy"
+                                <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount" :datas="skills.data" :isBusy="skillsTableBusy"
                                     @dataRequire="onSkillsDataRequire" :isSelectable="true"
                                     @row-selected="updateSelectedSkill" selectMode='single' :fields="skillsField">
                                     <template #top-row>
-                                        <b-td v-for="(field, index) in fields" :key="index">
-                                            <b-form-input v-model="skillSearch[fields.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
+                                        <b-td v-for="(field, index) in skillsField" :key="index">
+                                            <b-form-input :name="field.key"
+                                                :placeholder="`${field.label}`" /> 
                                         </b-td>
                                     </template>
                                 </CustomTable>
@@ -52,13 +52,13 @@
                                 <b-button variant="primary" class="ml-2">上傳</b-button>
                             </div>
                             <div>
-                                <CustomTable :queryRows="categories.queryRows" :totalRows="categories.totalCount" :datas="categories.data" :isBusy="tableBusy"
+                                <CustomTable :queryRows="categories.queryRows" :totalRows="categories.totalCount" :datas="categories.data" :isBusy="categoriesTableBusy"
                                     @dataRequire="onCategoriesDataRequire" :isSelectable="true"
                                     @row-selected="updateSelectedCategory" selectMode='single' :fields="categoriesField">
                                     <template #top-row>
-                                        <b-td v-for="(field, index) in fields" :key="index">
-                                            <b-form-input v-model="search[fields.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
+                                        <b-td v-for="(field, index) in categoriesField" :key="index">
+                                            <b-form-input :name="field.key"
+                                                :placeholder="`${field.label}`" /> 
                                         </b-td>
                                     </template>
                                 </CustomTable>
