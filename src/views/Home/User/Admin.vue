@@ -26,7 +26,6 @@
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">
                                     開始搜尋
                                 </b-button>
-                                <b-button class="ml-2" variant="outline-danger" @click="onSeachClearClick">取消搜尋</b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -121,9 +120,6 @@
                  this.isLoading = false;
                  this.search = {}
             },
-            onSearchClearClick() {
-                this.search = {};
-            },
             async onNewUserSaveClick(obj) {
                 this.isLoading = true;
                 let newUser = obj;
@@ -145,7 +141,6 @@
                     }
                 });
             },
-            onOpenSearchClick() {},
         }
     }
 </script>
