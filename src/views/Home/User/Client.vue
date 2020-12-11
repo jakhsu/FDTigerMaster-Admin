@@ -35,7 +35,7 @@
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
+                                                :placeholder="`${field.label}`" v-b-popover.hover="searchTips(field)" />
                                         </b-td>
                                     </template>
                                     <template #cell(phone)="data">
@@ -102,6 +102,24 @@
             }
         },
         methods: {
+            searchTips(field) {
+                return {
+                    variant: 'info',
+                    html: true,
+                    title: () => {
+                        if (field.key == 'roleId') {
+                            return '說明: '
+                        }
+                        return
+                    },
+                    content: () => {
+                        if (field.key  == 'roleId') {
+                            return `客人: 0 師傅: 1 <br> 行銷: 70  財務: 80 <br> 客服: 90 超級使用者: 999 `
+                        }
+                        return
+                    }
+                }
+            },
             onDataRequire() {
                 this.tableBusy = true;
             },
@@ -109,10 +127,10 @@
                  this.isLoading = true;
                 const res = await tigermaster.database
                     .query("user")
-                    .where("user.name", "LIKE", `${'name' in this.search ? this.search.name : '%%%'}`)
+                    .where("user.name", "LIKE", `%${'name' in this.search ? this.search.name : '%'}%`)
                     .where("user.role_id", "=", `${'roleId' in this.search ? this.search.roleId : 0}`)
-                    .where("user.email", "LIKE", `${'email' in this.search ? this.search.email : '%%%'}`)
-                    .where("user.phone", "LIKE", `${'phone' in this.search ? this.search.phone : '%%%'}`)
+                    .where("user.email", "LIKE", `%${'email' in this.search ? this.search.email : '%'}%`)
+                    .where("user.phone", "LIKE", `%${'phone' in this.search ? this.search.phone : '%'}%`)
                     .limit(0,100)
                     .get();
                  this.data = res.data;
