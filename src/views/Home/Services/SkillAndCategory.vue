@@ -9,9 +9,6 @@
                             <h2>工項技能配對</h2>
                         </div>
                     </b-col>
-                    <b-col>
-                        <b-button variant="warning" @click="download">下載</b-button>
-                    </b-col>
                 </b-row>
                 <b-row>
                     <b-col lg="12" xl="6">
@@ -24,7 +21,7 @@
                                 </b-button>
                                 <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
                                 </b-button>
-                                <b-button variant="success" class="ml-auto">下載</b-button>
+                                <b-button variant="success" class="ml-auto" @click="skillsDownload">下載</b-button>
                                 <b-button variant="primary" class="ml-2">上傳</b-button>
                             </div>
                             <div>
@@ -138,19 +135,15 @@
                     this.selectedCategory = obj[0].id;
                 }
             },
-            async download() {
-                const skillsFile = await tigermaster.storage.Skills;
-                let file = await skillsFile.download();
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.result = e.target.result;
-                }
-                await reader.readAsText(file);
-                const link = await document.createElement('a');
-                link.href = await "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(this.result);
-                link.target = await '_blank';
-                link.download = await "skills.csv"
-                await link.click();
+             async skillsDownload() {
+                const skillsFile = tigermaster.storage.Skills;
+                const file = await skillsFile.download();
+                const link = document.createElement('a');
+                const url = window.URL.createObjectURL(file);
+                link.href = url;
+                link.download = "skills.csv";
+                link.click();
+                window.URL.revokeObjectURL(url);
             }
         }
     }

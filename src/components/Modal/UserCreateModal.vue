@@ -105,7 +105,7 @@
                     this.formError = true;
                     this.inputState = [];
                 }
-            }
+            },
         }
     }
 </script>

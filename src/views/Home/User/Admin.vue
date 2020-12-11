@@ -23,10 +23,10 @@
                     <b-col>
                         <TitledCard title="管理員列表">
                             <div class="SearchBar d-flex mb-3">
-                                <b-button class="ml-2" variant="primary" @click="onOpenSearchClick">
+                                <b-button class="ml-2" variant="primary" @click="onSearchClick">
                                     開始搜尋
                                 </b-button>
-                                <b-button class="ml-2" variant="outline-danger">取消搜尋</b-button>
+                                <b-button class="ml-2" variant="outline-danger" @click="onSeachClearClick">取消搜尋</b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -105,7 +105,22 @@
             onDataRequire() {
                 this.tableBusy = true;
             },
-            onSearchClick() {},
+            async onSearchClick() {
+                 this.isLoading = true;
+                const res = await tigermaster.database
+                    .query("user")
+                    .where("user.name", "LIKE", `${'name' in this.search ? this.search.name : '%%%'}`)
+                    .where("user.role_id", "LIKE", `${'roleId' in this.search ? this.search.roleId : '__%'}`)
+                    .where("user.email", "LIKE", `%${'email' in this.search ? this.search.email : '%'}%`)
+                    .where("user.phone", "LIKE", `%${'phone' in this.search ? this.search.phone : '%'}%`)
+                    .limit(0,100)
+                    .get();
+                 this.data = res.data;
+                 this.queryRows = res.queryRows;
+                 this.totalCount = res.totalCount;
+                 this.isLoading = false;
+                 this.search = {}
+            },
             onSearchClearClick() {
                 this.search = {};
             },

@@ -112,9 +112,6 @@
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
-                    <TitledCard title="用戶照片">
-                        <img :src="user.headShotPath" height="200" alt="">
-                    </TitledCard>
                     <TitledCard v-if="user.roleId == 1" title="師傅專用:">
                         <b-form>
                             <b-card class="m-4" bg-variant="light">

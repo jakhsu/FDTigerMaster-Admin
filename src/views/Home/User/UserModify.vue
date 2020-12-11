@@ -22,7 +22,7 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col v-if="userData.roleId == 1" xl="6" lg="12" md="12">
+                    <b-col xl="6" lg="12" md="12">
                         <TitledCard title="用戶共通:">
                             <b-form>
                                 <b-card class="m-4" bg-variant="light">
@@ -59,7 +59,10 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="性別: ">
-                                            <b-form-input v-model="userData.sex" :disabled="!userData.active" />
+                                            <b-form-select v-model="userData.sex" :disabled="!userData.active">
+                                                <option value="M">男性</option>
+                                                <option value="F">女性</option>
+                                            </b-form-select>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="身分證號: ">
@@ -101,7 +104,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="街道: ">
-                                            <scale-loader v-if="isLoading">
+                                            <scale-loader v-if="isAddressLoading">
                                             </scale-loader>
                                             <b-form-input v-b-tooltip.v-danger="streetMatch.msg"
                                                 v-model="userData.addressStreet" @input="change" list="suggestion"
@@ -156,141 +159,7 @@
                             </b-form>
                         </TitledCard>
                     </b-col>
-                    <b-col v-else xl="12" lg="12" md="12">
-                        <TitledCard title="用戶共通:">
-                            <b-form>
-                                <b-card class="m-4" bg-variant="light">
-                                    <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="id: ">
-                                            <b-form-input v-model="userData.id" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="電話: ">
-                                            <b-form-input id="phone" v-model="userData.phone" disabled>
-                                            </b-form-input>
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="密碼: ">
-                                            <b-form-input v-model="userData.pass" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-for="name" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="姓名: ">
-                                            <b-form-input id="name" v-model="userData.name"
-                                                :disabled="!userData.active">
-                                            </b-form-input>
-                                        </b-form-group>
-                                        <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="角色: ">
-                                            <b-form-input v-model="userData.roleId" disabled>
-                                            </b-form-input>
-                                        </b-form-group>
-                                        <b-form-group label-for="email" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="Email: ">
-                                            <b-form-input id="email" v-model="userData.email"
-                                                :disabled="!userData.active">
-                                            </b-form-input>
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="性別: ">
-                                            <b-form-input v-model="userData.sex" :disabled="!userData.active" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="身分證號: ">
-                                            <b-form-input v-model="userData.idCardNo" :disabled="!userData.active" />
-                                        </b-form-group>
-                                        <b-form-group label-for="" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="出生年: ">
-                                            <b-form-input v-model="userData.birthYear" :disabled="!userData.active" />
-                                        </b-form-group>
-                                        <b-form-group label-for="" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="出生月: ">
-                                            <b-form-input v-model="userData.birthMon" :disabled="!userData.active" />
-                                        </b-form-group>
-                                        <b-form-group label-for="" label-align-sm="right" label-cols="3"
-                                            label-cols-xl="2" label="出生日: ">
-                                            <b-form-input v-model="userData.birthDate" :disabled="!userData.active" />
-                                        </b-form-group>
-                                    </b-form-group>
-                                </b-card>
-                                <b-card class="m-4" bg-variant="light">
-                                    <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="城市: ">
-                                            <b-form-select id="city" v-model="userData.addressCity"
-                                                :disabled="!userData.active">
-                                                <option v-for="(list, index) in cityList" :key="index" :value="list">
-                                                    {{list}}
-                                                </option>
-                                            </b-form-select>
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="區域: ">
-                                            <b-form-select id="area" v-model="userData.addressArea"
-                                                @change="getAddress()" :disabled="!userData.active">
-                                                <option v-for="(list, index) in areaList" :key="index" :value="list">
-                                                    {{list}}
-                                                </option>
-                                            </b-form-select>
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="街道: ">
-                                            <scale-loader v-if="isLoading">
-                                            </scale-loader>
-                                            <b-form-input v-b-tooltip.v-danger="streetMatch.msg"
-                                                v-model="userData.addressStreet" @input="change" list="suggestion"
-                                                :disabled="!userData.active">
-                                            </b-form-input>
-                                            <datalist id="suggestion">
-                                                <option @click="suggestionClick(index)"
-                                                    v-for="(suggestion, index) in matches" :key="index">
-                                                    {{ suggestion }}
-                                                </option>
-                                            </datalist>
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="門牌樓層: ">
-                                            <b-form-input v-model="userData.addressDetail"
-                                                :disabled="!userData.active" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="緯度: ">
-                                            <b-form-input v-model="userData.addressLong" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="經度: ">
-                                            <b-form-input v-model="userData.addressLat" disabled />
-                                        </b-form-group>
-                                    </b-form-group>
-                                </b-card>
-                                <b-card class="m-4" bg-variant="light">
-                                    <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="創建日期: ">
-                                            <b-form-input v-model="userData.createDate" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="創建者: ">
-                                            <b-form-input v-model="userData.createBy" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="更新日期: ">
-                                            <b-form-input v-model="userData.updateDate" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="更新者: ">
-                                            <b-form-input v-model="userData.updateBy" disabled />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="Active: ">
-                                            <b-form-input v-model="userData.active" disabled />
-                                        </b-form-group>
-                                    </b-form-group>
-                                </b-card>
-                            </b-form>
-                        </TitledCard>
-                    </b-col>
-                    <b-col>
+                    <b-col xl="6" lg="12" md="12">
                         <TitledCard title="用戶照片">
                             <base64Img @FileUpload="onFileUpload" />
                             <b-card class="mt-2" title="用戶大頭照">
@@ -299,9 +168,7 @@
                                 </b-card-body>
                             </b-card>
                         </TitledCard>
-                    </b-col>
-                    <b-col lg="6" md="12">
-                        <TitledCard v-if="userData.roleId == 1" title="專用資料:">
+                          <TitledCard v-if="userData.roleId == 1" title="專用資料:">
                             <b-form>
                                 <b-card class="m-4" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
@@ -359,6 +226,7 @@
             return {
                 requestState: null,
                 isLoading: false,
+                isAddressLoading: false,
                 userData: {},
                 cityAndArea: {
                     city: '',
@@ -419,11 +287,11 @@
         },
         methods: {
             getAddress: async function () {
+                this.isAddressLoading = await true;
                 const params = {
                     city: this.userData.addressCity,
                     cityarea: this.userData.addressArea
                 };
-                this.isLoading = await true;
                 let res = await getAddressData(params)
 
                 let converted = await convert.xml2js(res.data, {
@@ -435,7 +303,7 @@
                 );
                 final = await final.filter(item => item != null);
                 this.streetNames = await final;
-                this.isLoading = await false;
+                this.isAddressLoading = await false;
             },
             onNavClick(name) {
                 this.currentTab = name;
