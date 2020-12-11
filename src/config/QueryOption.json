@@ -1,73 +1,74 @@
-[{
-        "value": "電話",
+[
+    {
+        "value": "phone",
         "text": "電話"
     },
     {
-        "value": "姓名",
+        "value": "name",
         "text": "姓名"
     },
     {
-        "value": "角色",
+        "value": "roleId",
         "text": "角色"
     },
     {
-        "value": "Email",
+        "value": "email",
         "text": "Email"
     },
     {
-        "value": "性别",
+        "value": "sex",
         "text": "性别"
     },
     {
-        "value": "身分證號",
+        "value": "idCardNo",
         "text": "身分證號"
     },
     {
-        "value": "出生年",
+        "value": "birthYear",
         "text": "出生年"
     },
     {
-        "value": "出生月",
+        "value": "birthMon",
         "text": "出生月"
     },
     {
-        "value": "出生日",
+        "value": "birthDate",
         "text": "出生日"
     },
     {
-        "value": "城市",
+        "value": "addressCity",
         "text": "城市"
     },
     {
-        "value": "區域",
+        "value": "addressArea",
         "text": "區域"
     },
     {
-        "value": "街道",
+        "value": "addressStreet",
         "text": "街道"
     },
     {
-        "value": "門牌樓層",
+        "value": "addressDetail",
         "text": "門牌樓層"
     },
     {
-        "value": "經度",
+        "value": "addressLong",
         "text": "經度"
     },
     {
-        "value": "緯度",
+        "value": "addressLat",
         "text": "緯度"
     },
     {
-        "value": "創建日期",
+        "value": "createDate",
         "text": "創建日期"
     },
     {
-        "value": "創建者",
+        "value": "createBy",
         "text": "創建者"
     },
     {
-        "value": "更新日期",
+        "value": "updateDate",
         "text": "更新日期"
     },
     {
