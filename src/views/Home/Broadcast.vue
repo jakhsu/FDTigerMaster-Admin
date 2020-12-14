@@ -11,7 +11,7 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col>
+                    <b-col md="12" lg="12" xl="6">
                         <transition name="fade">
                             <SearchBar :isSearch="isSearch" @onSearch="updateisSearch" />
                         </transition>
@@ -47,7 +47,7 @@
                             </div>
                         </TitledCard>
                     </b-col>
-                    <b-col>
+                    <b-col md="12" lg="12" xl="6">
                         <TitledCard title="推播訊息">
                             <div class="Broadcast-Msg">
                                 <b-form>
@@ -72,7 +72,7 @@
     import Loading from '@/components/Loading'
     import CustomTable from '@/components/Table/CustomTable.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    // import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: "Broadcast",
@@ -97,21 +97,21 @@
                 },
                 selected: [],
                 isSearch: true,
-                isLoading: true,
+                isLoading: false,
             }
         },
-        async created() {
-            this.isLoading = true;
-            const res = await tigermaster.database
-                .query("user")
-                .where("user.role_id", "<=", 1)
-                .limit(0, 100)
-                .get();
-            this.data = res.data;
-            this.queryRows = res.queryRows;
-            this.totalCount = res.totalCount;
-            this.isLoading = false;
-        },
+        // async created() {
+        //     this.isLoading = true;
+        //     const res = await tigermaster.database
+        //         .query("user")
+        //         .where("user.role_id", "<=", 1)
+        //         .limit(0, 100)
+        //         .get();
+        //     this.data = res.data;
+        //     this.queryRows = res.queryRows;
+        //     this.totalCount = res.totalCount;
+        //     this.isLoading = false;
+        // },
         methods: {
             onOpenSearchClick() {
                 this.isSearch = true;
@@ -130,7 +130,10 @@
                 }
             },
             onSearchClick() {
+                this.isLoading = true;
+                
                 this.isSearch = false;
+                this.isLoading = false;
             },
             onSearchClearClick() {
                 this.isSearch = false;

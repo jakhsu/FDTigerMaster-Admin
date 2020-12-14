@@ -10,6 +10,7 @@ import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
 import HomeBroadcast from '@/views/Home/Broadcast.vue'
 import HomeSkillAndCategory from '@/views/Home/Services/SkillAndCategory.vue'
+import HomeCategory from '@/views/Home/Services/Category.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
@@ -63,6 +64,11 @@ const routes = [{
         path: 'skill_and_category',
         name: 'HomeSkillAndCategory',
         component: HomeSkillAndCategory
+      },
+      {
+        path: 'category',
+        name: 'HomeCategory',
+        component: HomeCategory
       }
     ]
   },

@@ -1,18 +1,18 @@
 <template>
     <Loading v-if="isLoading"/>
-    <div v-else id="SkillAndCategory">
+    <div v-else id="Category">
         <b-container fluid>
-            <div class="SkillAndCategory-Area">
+            <div class="Category-Area">
                 <b-row>
                     <b-col>
-                        <div class="SkillAndCategory-Header">
+                        <div class="Category-Header">
                             <h2>工項技能配對</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col col="12">
-                        <TitledCard title="技能:">
+                        <TitledCard title="工項:">
                             <div class="Toolbar d-flex mb-3">
                                 <b-form-file accept=".csv"></b-form-file>
                             </div>
@@ -21,15 +21,15 @@
                                 </b-button>
                                 <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
                                 </b-button>
-                                <b-button variant="success" class="ml-auto" @click="skillsDownload">下載</b-button>
+                                <b-button variant="success" class="ml-auto">下載</b-button>
                                 <b-button variant="primary" class="ml-2">上傳</b-button>
                             </div>
                             <div>
-                                <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount" :datas="skills.data" :isBusy="skillsTableBusy"
-                                    @dataRequire="onSkillsDataRequire" :isSelectable="true"
-                                    @row-selected="updateSelectedSkill" selectMode='single' :fields="skillsField">
+                                <CustomTable :queryRows="categories.queryRows" :totalRows="categories.totalCount" :datas="categories.data" :isBusy="categoriesTableBusy"
+                                    @dataRequire="onCategoriesDataRequire" :isSelectable="true"
+                                    @row-selected="updateSelectedCategory" selectMode='single' :fields="categoriesField">
                                     <template #top-row>
-                                        <b-td v-for="(field, index) in skillsField" :key="index">
+                                        <b-td v-for="(field, index) in categoriesField" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
                                                 :placeholder="`${field.label}`" /> 
                                         </b-td>
@@ -54,7 +54,7 @@
     import tigermaster from 'fdtigermaster-sdk'
 
     export default {
-        name: 'SkillAndCategory',
+        name: 'Category',
         components: {
             Loading,
             TitledCard,
@@ -123,7 +123,7 @@
 </script>
 
 <style scoped>
-    #SkillAndCategory {
+    #Category {
         max-width: 100%;
         display: flex;
         flex-direction: column;
@@ -131,18 +131,18 @@
         justify-content: center;
     }
 
-    #SkillAndCategory .SkillAndCategory-Area {
+    #Category .Category-Area {
         padding: 0px 50px;
     }
 
-    #SkillAndCategory .SkillAndCategory-Header {
+    #Category .Category-Header {
         margin: 25px 0px;
         text-align: left;
         color: #000;
     }
 
     @media (max-width: 768px) {
-        #SkillAndCategory .SkillAndCategory-Area {
+        #Category .Category-Area {
             padding: 0px;
         }
     }

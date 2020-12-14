@@ -22,7 +22,10 @@
 
         <SideBarGroup text="服務項目">
             <SideBarButton to="/home/skill_and_category" icon="link">
-                工項與技能
+                技能
+            </SideBarButton>
+            <SideBarButton to="/home/category" icon="link">
+                工項
             </SideBarButton>
         </SideBarGroup>
 

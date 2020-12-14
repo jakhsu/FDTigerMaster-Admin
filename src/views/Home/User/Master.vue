@@ -126,10 +126,10 @@
                  this.isLoading = true;
                 const res = await tigermaster.database
                     .query("user")
-                    .where("user.name", "LIKE", `%${'name' in this.search ? this.search.name : '%'}%`)
+                    .where("user.name", "LIKE", `${'name' in this.search ? '%' + this.search.name + '%' : '%'}`)
                     .where("user.role_id", "=", `${'roleId' in this.search ? this.search.roleId : 1}`)
-                    .where("user.email", "LIKE", `%${'email' in this.search ? this.search.email : '%'}%`)
-                    .where("user.phone", "LIKE", `%${'phone' in this.search ? this.search.phone : '%'}%`)
+                    .where("user.email", "LIKE", `${'email' in this.search ? '%' + this.search.email + '%' : '%'}`)
+                    .where("user.phone", "LIKE", `${'phone' in this.search ? '%' + this.search.phone + '%' : '%'}`)
                     .limit(0,100)
                     .get();
                  this.data = res.data;
