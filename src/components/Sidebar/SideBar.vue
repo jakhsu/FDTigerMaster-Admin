@@ -21,7 +21,7 @@
         </SideBarGroup>
 
         <SideBarGroup text="服務項目">
-            <SideBarButton to="/home/skill_and_category" icon="link">
+            <SideBarButton to="/home/skill" icon="link">
                 技能
             </SideBarButton>
             <SideBarButton to="/home/category" icon="link">

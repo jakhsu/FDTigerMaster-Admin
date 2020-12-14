@@ -26,6 +26,9 @@
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">
                                     開始搜尋
                                 </b-button>
+                                <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
+                                    清空搜尋列
+                                </b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -113,7 +116,7 @@
                         return
                     },
                     content: () => {
-                        if (field.key  == 'roleId') {
+                        if (field.key == 'roleId') {
                             return `客人: 0 師傅: 1 <br> 行銷: 70  財務: 80 <br> 客服: 90 超級使用者: 999 `
                         }
                         return
@@ -131,32 +134,24 @@
                     .where("user.role_id", "=", `${'roleId' in this.search ? this.search.roleId : 0}`)
                     .where("user.email", "LIKE", `${'email' in this.search ? '%' + this.search.email + '%' : '%'}`)
                     .where("user.phone", "LIKE", `${'phone' in this.search ? '%' + this.search.phone + '%' : '%'}`)
-                    .limit(0,100)
+                    .limit(0, 100)
                     .get();
-                 this.data = res.data;
-                 this.queryRows = res.queryRows;
-                 this.totalCount = res.totalCount;
-                 this.isLoading = false;
-                 this.search = {}
+                this.data = res.data;
+                this.queryRows = res.queryRows;
+                this.totalCount = res.totalCount;
+                this.isLoading = false;
+                this.search = {}
             },
             async onNewUserSaveClick(obj) {
                 this.isLoading = true;
                 let newUser = obj;
-                await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890", newUser);
-                const res = await tigermaster.database
-                    .query("user")
-                    .where("user.name", "=", newUser.name)
-                    .where("user.email", "=", newUser.email)
-                    .where("user.phone", "=", newUser.phone)
-                    .where("user.role_id", "=", newUser.roleId)
-                    .limit(0,1)
-                    .get();
-                let createdUser = res.data[0]
+                const id = await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890",
+                    newUser);
                 this.isLoading = false;
                 this.$router.push({
                     path: '/home/user_detail',
                     query: {
-                        userId: createdUser.id
+                        userId: id
                     }
                 });
             },

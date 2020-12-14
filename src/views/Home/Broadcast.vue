@@ -13,7 +13,7 @@
                 <b-row>
                     <b-col md="12" lg="12" xl="6">
                         <transition name="fade">
-                            <SearchBar :isSearch="isSearch" @onSearch="updateisSearch" />
+                            <SearchBar @completeSearch="updateData" :isSearch="isSearch" @onSearch="updateisSearch" />
                         </transition>
                         <TitledCard v-if="!isSearch" title="推播用戶">
                             <div class="Broadcast-Search d-flex mb-3">
@@ -72,7 +72,7 @@
     import Loading from '@/components/Loading'
     import CustomTable from '@/components/Table/CustomTable.vue'
 
-    // import tigermaster from 'fdtigermaster-sdk'
+    //  import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: "Broadcast",
@@ -100,18 +100,6 @@
                 isLoading: false,
             }
         },
-        // async created() {
-        //     this.isLoading = true;
-        //     const res = await tigermaster.database
-        //         .query("user")
-        //         .where("user.role_id", "<=", 1)
-        //         .limit(0, 100)
-        //         .get();
-        //     this.data = res.data;
-        //     this.queryRows = res.queryRows;
-        //     this.totalCount = res.totalCount;
-        //     this.isLoading = false;
-        // },
         methods: {
             onOpenSearchClick() {
                 this.isSearch = true;
@@ -129,24 +117,6 @@
                     this.isSelectAll = !this.isSelectAll;
                 }
             },
-            onSearchClick() {
-                this.isLoading = true;
-                
-                this.isSearch = false;
-                this.isLoading = false;
-            },
-            onSearchClearClick() {
-                this.isSearch = false;
-                this.search = {};
-            },
-            onNewUserSaveClick() {
-                this.$router.push({
-                    path: '/home/user_detail',
-                    query: {
-                        userId: "202011240001"
-                    }
-                });
-            },
             updateNumOfSelected(obj) {
                 this.numOfSelected = obj
             },
@@ -155,6 +125,9 @@
             },
             updateisSearch(obj) {
                 this.isSearch = obj
+            },
+            updateData(obj) {
+                this.data = obj
             }
         },
         computed: {

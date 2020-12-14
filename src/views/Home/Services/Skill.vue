@@ -1,40 +1,47 @@
 <template>
-    <Loading v-if="isLoading"/>
+    <Loading v-if="isLoading" />
     <div v-else id="SkillAndCategory">
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
                     <b-col>
                         <div class="SkillAndCategory-Header">
-                            <h2>工項技能配對</h2>
+                            <h2>技能總表</h2>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col col="12">
+                    <b-col class="col-12">
                         <TitledCard title="技能:">
                             <div class="Toolbar d-flex mb-3">
-                                <b-form-file accept=".csv"></b-form-file>
-                            </div>
-                            <div class="Toolbar d-flex mb-3">
+                                <input style="display:none" ref="file" type="file">
                                 <b-button size="sm" class="ml-2" variant="primary" @click="onSearchClick">搜尋
                                 </b-button>
-                                <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋
+                                <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
+                                    清空搜尋列
                                 </b-button>
-                                <b-button variant="success" class="ml-auto" @click="skillsDownload">下載</b-button>
-                                <b-button variant="primary" class="ml-2">上傳</b-button>
+                                <b-button class="input-file__button ml-auto" @click="selectFile()" variant="primary">上傳
+                                </b-button>
+                                <b-button @click="skillsDownload" variant="success" class="ml-2">下載</b-button>
                             </div>
                             <div>
-                                <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount" :datas="skills.data" :isBusy="skillsTableBusy"
-                                    @dataRequire="onSkillsDataRequire" :isSelectable="true"
-                                    @row-selected="updateSelectedSkill" selectMode='single' :fields="skillsField">
+                                <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount"
+                                    :datas="skills.data" :isBusy="skillsTableBusy" @dataRequire="onSkillsDataRequire"
+                                    :isSelectable="true" @row-selected="updateSelectedSkill" selectMode='single'
+                                    :fields="skillsField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" /> 
+                                                :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
                                 </CustomTable>
+                                <div>
+                                    <label for="">對應工項</label>
+                                    <b-tags placeholder="" v-model="categories" disabled tag-pills
+                                        tag-variant="success">
+                                    </b-tags>
+                                </div>
                             </div>
                         </TitledCard>
                     </b-col>
@@ -54,11 +61,11 @@
     import tigermaster from 'fdtigermaster-sdk'
 
     export default {
-        name: 'SkillAndCategory',
+        name: 'Skill',
         components: {
             Loading,
             TitledCard,
-            CustomTable
+            CustomTable,
         },
         data() {
             return {
@@ -72,14 +79,13 @@
                 selectedCategory: '',
                 categoriesField: CategoriesTable,
                 categoriesSearch: {},
-                categories: {},
+                categories: [],
                 search: [],
                 result: '',
             };
         },
-        async created(){
+        async created() {
             this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-            this.categories = await tigermaster.database.query("working_category").limit(0, 100).get();
             this.isLoading = false;
         },
         methods: {
@@ -90,25 +96,25 @@
                 this.categoriesTableBusy = true;
             },
             onSearchClick() {},
-            onSearchClearClick() {},
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
+                this.categories = [];
                 if (obj.length > 0) {
                     this.selectedSkill = obj[0].id;
-                    this.categories = await tigermaster.database
-                                            .query("working_category")
-                                            .where("working_category.skill_item_id", "=", this.selectedSkill)
-                                            .limit(0, 100)
-                                            .get();
+                    const res = await tigermaster.database
+                        .query("working_category")
+                        .where("working_category.skill_item_id", "=", this.selectedSkill)
+                        .limit(0, 100)
+                        .get();
+                    res.data.forEach((element) => {
+                        if ("id" in element) {
+                            this.categories.push(element.id)
+                        }
+                    })
                 }
                 this.categoriesTableBusy = false;
             },
-            updateSelectedCategory(obj) {
-                if (obj.length > 0) {
-                    this.selectedCategory = obj[0].id;
-                }
-            },
-             async skillsDownload() {
+            async skillsDownload() {
                 const skillsFile = tigermaster.storage.Skills;
                 const file = await skillsFile.download();
                 const link = document.createElement('a');
@@ -117,7 +123,11 @@
                 link.download = "skills.csv";
                 link.click();
                 window.URL.revokeObjectURL(url);
-            }
+            },
+            selectFile() {
+                let fileInputElement = this.$refs.file;
+                fileInputElement.click();
+            },
         }
     }
 </script>

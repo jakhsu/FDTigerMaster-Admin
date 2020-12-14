@@ -1,10 +1,11 @@
 <template>
-    <TitledCard v-if="isSearch" title="搜索列">
+    <Loading v-if="isLoading" />
+    <TitledCard v-else-if="isSearch" title="搜索列">
         <div id="search-bar">
             <b-container fluid>
                 <b-row>
                     <b-col>
-                         <div class="mt-2 queryList" v-for="(item, index) in selectedQueryConditions" :key="index">
+                        <div class="mt-2 queryList" v-for="(item, index) in selectedQueryConditions" :key="index">
                             <b-form>
                                 <b-input-group>
                                     <template #prepend>
@@ -13,7 +14,7 @@
                                                 {{item.condition}}
                                             </strong>
                                         </b-input-group-text>
-                                       <b-form-select v-model=selectedQueryConditions[index].operator>
+                                        <b-form-select v-model=selectedQueryConditions[index].operator>
                                             <option value=">">大於</option>
                                             <option value="=">等於</option>
                                             <option value="<">小於</option>
@@ -23,28 +24,28 @@
                                         </b-form-input>
                                     </template>
                                     <template #append>
-                                        <b-button class="delete-icon"  @click="deleteQueryCondition(index)">
+                                        <b-button class="delete-icon" @click="deleteQueryCondition(index)">
                                             <font-awesome-icon icon="trash-alt" />
                                         </b-button>
                                     </template>
                                 </b-input-group>
                             </b-form>
                         </div>
-                        
+
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                       <b-form class="mt-2">
+                        <b-form class="mt-2">
                             <b-input-group>
                                 <template #prepend>
                                     <b-input-group-text>
-                                        <strong>
+                                        <strong v-b-popover.hover="searchTips()">
                                             搜尋條件:
                                         </strong>
                                     </b-input-group-text>
                                 </template>
-                                <b-form-select required v-model="queryEntity.condition" :options="options" style="width:auto">
+                                <b-form-select required v-model="queryEntity.condition" :options="options">
                                 </b-form-select>
                                 <b-form-select required v-model="queryEntity.operator">
                                     <option value=">">大於</option>
@@ -67,7 +68,7 @@
                             <font-awesome-icon icon="search" />
                             搜尋
                         </b-button>
-                        <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">取消搜尋
+                        <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清空搜尋列
                         </b-button>
                     </div>
                 </b-row>
@@ -79,10 +80,13 @@
 <script>
     import allselectedQueryConditions from '@/config/QueryOption.json'
     import TitledCard from '@/components/Card/TitledCard.vue';
+    import Loading from '@/components/Loading'
     import tigermaster from 'fdtigermaster-sdk';
+
     export default {
         components: {
             TitledCard,
+            Loading,
         },
         name: "SearchBar",
         props: {
@@ -93,7 +97,8 @@
         },
         data() {
             return {
-                queryEntity:{
+                isLoading: false,
+                queryEntity: {
                     condition: '',
                     operator: '',
                     input: '',
@@ -102,13 +107,27 @@
                 options: allselectedQueryConditions,
                 selectedOperator: '',
                 search: [],
+                data: [],
             }
         },
         methods: {
+            searchTips() {
+                return {
+                    variant: 'info',
+                    html: true,
+                    title: () => {
+                        '說明'
+                    },
+                    content: () => {
+                        return `如有需要可以在這放入搜索列說明`
+                    },
+                    placement: 'top',
+                }
+            },
             addToQuery() {
-                if (this.queryEntity.condition != '' && this.queryEntity.condition != undefined 
-                && this.queryEntity.operator != '' && this.queryEntity.operator != undefined
-                && this.queryEntity.input != '' && this.queryEntity.input != undefined) {
+                if (this.queryEntity.condition != '' && this.queryEntity.condition != undefined &&
+                    this.queryEntity.operator != '' && this.queryEntity.operator != undefined &&
+                    this.queryEntity.input != '' && this.queryEntity.input != undefined) {
                     this.options = this.options.filter(element => element.value !== this.queryEntity.condition)
                     this.selectedQueryConditions.push(this.queryEntity);
                     this.queryEntity = {}
@@ -117,18 +136,24 @@
                 }
             },
             async onSearchClick() {
-                const res = tigermaster.database
+                this.isLoading = true;
+                let query = tigermaster.database
                     .query("user")
                 this.selectedQueryConditions.forEach((element) => {
                     if (element.operator == 'LIKE') {
-                        // element.input = '%' + element.input + '%';
+                        element.input = '%' + element.input + '%';
+                    } else if (element.condition == 'roleId') {
+                        element.condition = 'role_id';
                     }
-                    res.where(`user.${element.condition}`, `${element.operator}`, `${element.input}`)
+                    query.where(`user.${element.condition}`, `${element.operator}`, `${element.input}`);
                 })
-                res.limit(0,100);
-                await res.get();
-                console.log(res.data);
-                this.$emit('onSearch', false)
+                query.limit(0, 100);
+                const res = await query.get();
+                this.data = res.data;
+                this.$emit('completeSearch', this.data)
+                this.$emit('onSearch', false);
+                this.selectedQueryConditions = [];
+                this.isLoading = false;
             },
             onSearchClearClick() {
                 this.$emit('onSearch', false)
@@ -136,8 +161,7 @@
             deleteQueryCondition(index) {
                 this.options.push(this.selectedQueryConditions[index].condition);
                 this.selectedQueryConditions.splice(index, 1);
-
-            }
+            },
         },
         created() {
 
@@ -146,8 +170,8 @@
 </script>
 
 <style scoped>
-b-form-select:disabled, input:disabled {
-    background-color: white;
-}
-
+    b-form-select:disabled,
+    input:disabled {
+        background-color: white;
+    }
 </style>

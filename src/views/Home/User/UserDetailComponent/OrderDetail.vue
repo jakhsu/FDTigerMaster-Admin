@@ -175,7 +175,9 @@
                 this.tableBusy = true;
             },
             onSearchClick() {},
-            onSearchClearClick() {},
+            onSearchClearClick() {
+                this.search = {}
+            },
         }
     }
 </script>

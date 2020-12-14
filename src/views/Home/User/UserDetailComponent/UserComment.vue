@@ -81,7 +81,9 @@
         },
         methods: {
             onSearchClick() {},
-            onSearchClearClick() {},
+            onSearchClearClick() {
+                this.search = {}
+            },
             onDataRequire() {},
         }
     }

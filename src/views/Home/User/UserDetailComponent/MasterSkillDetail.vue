@@ -123,7 +123,9 @@
                 this.tableBusy = true;
             },
             onSearchClick() {},
-            onSearchClearClick() {},
+            onSearchClearClick() {
+                this.search = {}
+            },
         },
         watch: {
             "selected": function () {

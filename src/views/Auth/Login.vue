@@ -13,7 +13,8 @@
 
                     <b-form-group label="密碼">
                         <b-form-input v-model="password" type="password" placeholder="輸入密碼..."
-                            :state="inputState[inputIndex.password]" @update="passwordValidate" />
+                            :state="inputState[inputIndex.password]" @update="passwordValidate"
+                            @keyup.enter="onLoginClick" />
                     </b-form-group>
                     <b-button variant="primary" class="btn-block" @click="onLoginClick">登入</b-button>
                 </b-form>

@@ -9,8 +9,9 @@ import HomeMaster from '@/views/Home/User/Master.vue'
 import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
 import HomeBroadcast from '@/views/Home/Broadcast.vue'
-import HomeSkillAndCategory from '@/views/Home/Services/SkillAndCategory.vue'
+import HomeSkill from '@/views/Home/Services/Skill.vue'
 import HomeCategory from '@/views/Home/Services/Category.vue'
+import HomeCategoryModify from '@/views/Home/Services/CategoryModify.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
@@ -61,14 +62,19 @@ const routes = [{
         component: HomeBroadcast
       },
       {
-        path: 'skill_and_category',
-        name: 'HomeSkillAndCategory',
-        component: HomeSkillAndCategory
+        path: 'skill',
+        name: 'HomeSkill',
+        component: HomeSkill
       },
       {
         path: 'category',
         name: 'HomeCategory',
         component: HomeCategory
+      },
+      {
+        path: 'category_modify',
+        name: 'HomeCategotyModify',
+        component: HomeCategoryModify
       }
     ]
   },

@@ -1,5 +1,4 @@
-[
-    {
+[{
         "key": "id",
         "label": "工項編號"
     },
@@ -14,5 +13,37 @@
     {
         "key": "active",
         "label": "啟用"
+    },
+    {
+        "key": "commercialWarrantyDay",
+        "label": "企業保固(日)"
+    },
+    {
+        "key": "consumerWarrantyDay",
+        "label": "一般消費者保固(日)"
+    },
+    {
+        "key": "maxPrice",
+        "label": "最高價格"
+    },
+    {
+        "key": "maxPricePercentage",
+        "label": "最高價格比例(%)"
+    },
+    {
+        "key": "minPrice",
+        "label": "最低價格"
+    },
+    {
+        "key": "minPricePercentage",
+        "label": "最低價格比例(%)"
+    },
+    {
+        "key": "warrentyDescription",
+        "label": "保固說明"
+    },
+    {
+        "key": "priceRangeDescription",
+        "label": "價格說明"
     }
 ]
