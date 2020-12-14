@@ -27,9 +27,6 @@
                     <b-col class="col-4">
                         <PieChart />
                     </b-col>
-                    <!-- <b-col>
-                        <b-button @click="test">測試</b-button>
-                    </b-col> -->
                 </b-row>
             </div>
         </b-container>
@@ -54,7 +51,7 @@
         },
         methods: {
             async test() {
-           
+
             }
         },
     }
