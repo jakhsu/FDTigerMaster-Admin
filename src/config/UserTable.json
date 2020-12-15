@@ -1,5 +1,4 @@
-[
-    {
+[{
         "key": "phone",
         "label": "電話"
     },
@@ -37,6 +36,6 @@
     },
     {
         "key": "createDate",
-        "label": "加入日期,"
+        "label": "加入日期"
     }
 ]

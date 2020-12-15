@@ -96,7 +96,9 @@
             return {
                 fields: UserTableModel,
                 data: [],
-                search: {},
+                search: {
+                    roleId: ""
+                },
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
@@ -127,15 +129,29 @@
             },
             async onSearchClick() {
                 this.tableBusy = true;
-                const res = await tigermaster.database
-                    .query("user")
-                    .where("user.name", "LIKE", `${'name' in this.search ? '%' + this.search.name + '%' : '%'}`)
-                    .where("user.role_id", "LIKE",
-                        `${'roleId' in this.search ? '%' + this.search.roleId + '%' : '__%'}`)
-                    .where("user.email", "LIKE", `${'email' in this.search ? '%' + this.search.email + '%' : '%'}`)
-                    .where("user.phone", "LIKE", `${'phone' in this.search ? '%' + this.search.phone + '%' : '%'}`)
-                    .limit(0, 100)
-                    .get();
+                let query = tigermaster.database.query("user");
+
+                let searchArray = Object.entries(this.search);
+                searchArray.forEach(element => {
+                    if (element[0] == 'roleId') {
+                        element[0] = 'role_id';
+                    }
+                    if (element[0] == 'role_id') {
+                        element[2] = '=';
+                    } else {
+                        element[2] = 'LIKE'
+                    }
+                    if (element[2] == 'LIKE') {
+                        element[1] = '%' + element[1] + '%'
+                    }
+                    if (element[0] == 'role_id') {
+                        element[2] = '>'
+                        element[1] = '1'
+                    }
+                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                });
+                query.limit(0, 100);
+                const res = await query.get();
                 this.data = res.data;
                 this.queryRows = res.queryRows;
                 this.totalCount = res.totalCount;

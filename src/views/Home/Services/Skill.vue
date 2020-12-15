@@ -21,7 +21,9 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
-                                <b-button class="input-file__button ml-auto" @click="selectFile()" variant="primary">上傳
+                                <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
+                                    style="display:none">
+                                <b-button class="input-button ml-auto" @click="uploadFile()" variant="primary">上傳
                                 </b-button>
                                 <b-button @click="skillsDownload" variant="success" class="ml-2">下載</b-button>
                             </div>
@@ -36,7 +38,6 @@
                                                 :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
-
                                     <template #cell(id)="data">
                                         <b-button variant="outline-success" pill v-b-modal="'Skill-Create-Modal'">
                                             {{data.value}}
@@ -91,6 +92,7 @@
                 categories: [],
                 search: [],
                 result: '',
+                upload: {},
             };
         },
         async created() {
@@ -134,9 +136,17 @@
                 link.click();
                 window.URL.revokeObjectURL(url);
             },
-            selectFile() {
-                let fileInputElement = this.$refs.file;
-                fileInputElement.click();
+            async handleFileUpload() {
+                console.log('handling file upload, whatever that means...')
+                let fileInput = this.$refs.file;
+                this.upload = fileInput.files[0];
+                console.log(this.upload)
+                // const skillsFile = tigermaster.storage.Skills;
+                // await skillsFile.upload(this.upload);
+            },
+            uploadFile() {
+                let fileInput = this.$refs.file;
+                fileInput.click();
             },
         }
     }
