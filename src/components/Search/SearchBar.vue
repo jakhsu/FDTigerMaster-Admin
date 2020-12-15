@@ -70,6 +70,7 @@
                         </b-button>
                         <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清空搜尋列
                         </b-button>
+                        <b-button @click="translate(queryEntity.condition)">測試</b-button>
                     </div>
                 </b-row>
             </b-container>
@@ -128,7 +129,11 @@
                 if (this.queryEntity.condition != '' && this.queryEntity.condition != undefined &&
                     this.queryEntity.operator != '' && this.queryEntity.operator != undefined &&
                     this.queryEntity.input != '' && this.queryEntity.input != undefined) {
+                    let target = this.options.find(function (element) {
+                        return element.value == this.queryEntity.condition
+                    })
                     this.options = this.options.filter(element => element.value !== this.queryEntity.condition)
+                    this.queryEntity.condition = target.text
                     this.selectedQueryConditions.push(this.queryEntity);
                     this.queryEntity = {}
                 } else {
@@ -162,10 +167,13 @@
                 this.options.push(this.selectedQueryConditions[index].condition);
                 this.selectedQueryConditions.splice(index, 1);
             },
+            // translate(data) {
+            //     let target = this.options.find(function (element) {
+            //         return element.value === data;
+            //     })
+            //     return target.text
+            // }
         },
-        created() {
-
-        }
     }
 </script>
 
