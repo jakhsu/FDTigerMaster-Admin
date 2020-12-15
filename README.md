@@ -1,29 +1,42 @@
-# fdtigermaster-admin-web
+# FD Taiger Master Admin Documentation
 
-## Project setup
-```
-npm install
-```
+## Naming Convention
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Variable Names
 
-### Compiles and minifies for production
-```
-npm run build
+#### For simple variables, use camelCase
+
+```js
+let simpleVariable = 3;
 ```
 
-### Run your unit tests
-```
-npm run test:unit
+### Functions and Methods
+
+#### use camelCase style, but try to use descriptive verb as prefix
+
+```js
+function getTime() {
+    \\Do something to retrieve time
+}
 ```
 
-### Lints and fixes files
-```
-npm run lint
+### Classes and Components( for frameworks like ReactJs and VueJs )
+
+#### Always Use PascalCase
+
+```js
+Class Task {...}
+
+export default {
+    name: 'MyComponent.vue'
+}
+
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Reference for naming convention and style guide:
+
+W3SCHOOL JS style guide:
+https://www.w3schools.com/js/js_conventions.asp
+
+VueJs official style guide: 
+https://vuejs.org/v2/style-guide/#Self-closing-components-strongly-recommended

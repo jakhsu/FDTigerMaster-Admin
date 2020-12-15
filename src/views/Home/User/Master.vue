@@ -126,7 +126,7 @@
                 this.tableBusy = true;
             },
             async onSearchClick() {
-                this.isLoading = true;
+                this.tableBusy = true;
                 const res = await tigermaster.database
                     .query("user")
                     .where("user.name", "LIKE", `${'name' in this.search ? '%' + this.search.name + '%' : '%'}`)
@@ -138,7 +138,7 @@
                 this.data = res.data;
                 this.queryRows = res.queryRows;
                 this.totalCount = res.totalCount;
-                this.isLoading = false;
+                this.tableBusy = false;
                 this.search = {}
             },
             async onNewUserSaveClick(obj) {

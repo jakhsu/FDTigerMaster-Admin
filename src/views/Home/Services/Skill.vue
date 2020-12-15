@@ -1,6 +1,7 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="SkillAndCategory">
+        <SimpleModal id="Skill-Create-Modal" />
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -35,6 +36,12 @@
                                                 :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
+
+                                    <template #cell(id)="data">
+                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Create-Modal'">
+                                            {{data.value}}
+                                        </b-button>
+                                    </template>
                                 </CustomTable>
                                 <div>
                                     <label for="">對應工項</label>
@@ -57,6 +64,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CategoriesTable from '@/config/CategoriesTable.json'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -66,6 +74,7 @@
             Loading,
             TitledCard,
             CustomTable,
+            SimpleModal,
         },
         data() {
             return {
@@ -95,6 +104,7 @@
             onCategoriesDataRequire() {
                 this.categoriesTableBusy = true;
             },
+            onSearchClearClick() {},
             onSearchClick() {},
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
