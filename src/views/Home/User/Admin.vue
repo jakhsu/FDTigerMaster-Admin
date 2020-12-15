@@ -142,6 +142,7 @@
                 this.tableBusy = false;
                 this.search = {}
             },
+            onSearchClearClick() {},
             async onNewUserSaveClick(obj) {
                 this.isLoading = true;
                 let newUser = obj;

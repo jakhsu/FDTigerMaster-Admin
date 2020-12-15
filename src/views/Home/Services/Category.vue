@@ -26,7 +26,7 @@
               <div>
                 <CustomTable :queryRows="categories.queryRows" :totalRows="categories.totalCount"
                   :datas="categories.data" :isBusy="categoriesTableBusy" @dataRequire="onCategoriesDataRequire"
-                  :isSelectable="false" @row-selected="updateSelectedCategory" selectMode="single"
+                  :isSelectable="false" @rowSelected="updateSelectedCategory" selectMode="single"
                   :fields="categoriesField">
                   <template #top-row>
                     <b-td v-for="(field, index) in categoriesField" :key="index">

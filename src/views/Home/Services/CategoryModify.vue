@@ -98,7 +98,14 @@
         },
         methods: {
             onCancelEdit() {},
-            onFinishEdit() {},
+            async onFinishEdit() {
+                this.isLoading = true;
+                const workingCategory = tigermaster.services.WorkingCategory;
+                await workingCategory.update(this.category)
+                this.$router.push({
+                    path: '/home/category',
+                });
+            },
         }
 
     }

@@ -26,7 +26,7 @@
                                 <b-button class="ml-2" variant="warning" @click="onSelectAllClick">全選 / 取消全選</b-button>
                             </div>
                             <div class="Broadcast-Table">
-                                <CustomTable @row-selected="updateSelected" @selectedNumChange="updateNumOfSelected"
+                                <CustomTable @rowSelected="updateSelected" @selectedNumChange="updateNumOfSelected"
                                     :isSelectAll="isSelectAll" :queryRows="queryRows" :totalRows="totalCount"
                                     :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #cell(全選)>

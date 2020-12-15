@@ -49,11 +49,7 @@
                 isLoading: false,
             }
         },
-        methods: {
-            async test() {
-
-            }
-        },
+        methods: {},
     }
 </script>
 

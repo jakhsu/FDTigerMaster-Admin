@@ -28,7 +28,7 @@
                             <div>
                                 <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount"
                                     :datas="skills.data" :isBusy="skillsTableBusy" @dataRequire="onSkillsDataRequire"
-                                    :isSelectable="true" @row-selected="updateSelectedSkill" selectMode='single'
+                                    :isSelectable="true" @rowSelected="updateSelectedSkill" selectMode='single'
                                     :fields="skillsField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">

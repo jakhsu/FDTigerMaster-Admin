@@ -58,7 +58,7 @@
         methods: {
             onRowSelected(items) {
                 this.selected = items
-                this.$emit("row-selected", this.selected)
+                this.$emit("rowSelected", this.selected)
             }
         }
     }
