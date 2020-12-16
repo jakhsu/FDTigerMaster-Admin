@@ -2,7 +2,7 @@
     <Loading v-if="isLoading" />
     <div v-else id="SkillAndCategory">
         <SimpleModal @onSaveClick="updateSkill" :isLoading="isLoadingModal" @modalHidden="clearModalData"
-            id="Skill-Create-Modal" title="單一技能修改">
+            id="Skill-Modify-Modal" title="單一技能修改">
             <template #modal-body>
                 <b-form>
                     <b-card>
@@ -14,6 +14,23 @@
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
                             <b-input v-model="skillToBeEdited.active" />
+                        </b-form-group>
+                    </b-card>
+                </b-form>
+            </template>
+        </SimpleModal>
+        <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData" id="Skill-Create-Modal">
+            <template #modal-body>
+                <b-form>
+                    <b-card>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
+                            <b-input v-model="skillToBeAdded.id" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
+                            <b-input v-model="skillToBeAdded.description" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
+                            <b-input v-model="skillToBeAdded.active" />
                         </b-form-group>
                     </b-card>
                 </b-form>
@@ -38,6 +55,8 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
+                                <b-button size="sm" class="ml-2" variant="outline-warning"
+                                    v-b-modal="'Skill-Create-Modal'">新增技能</b-button>
                                 <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
                                     style="display:none">
                                 <b-button class="input-button ml-auto" @click="uploadFile()" variant="primary">上傳
@@ -56,7 +75,7 @@
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
-                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Create-Modal'"
+                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Modify-Modal'"
                                             @click="startEditSkill(data)">
                                             {{data.value}}
                                         </b-button>
@@ -108,6 +127,7 @@
                 upload: {},
                 skillToBeEdited: {},
                 isLoadingModal: false,
+                skillToBeAdded: {},
             };
         },
         async created() {
@@ -195,6 +215,17 @@
                     id: this.skillToBeEdited.id,
                     description: this.skillToBeEdited.description,
                     active: this.skillToBeEdited.active,
+                });
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                this.skillsTableBusy = false;
+            },
+            async createSkill() {
+                this.skillsTableBusy = true;
+                const skill = tigermaster.services.Skill;
+                await skill.create({
+                    id: this.skillToBeAdded.id,
+                    description: this.skillToBeAdded.description,
+                    active: 1,
                 });
                 this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
                 this.skillsTableBusy = false;

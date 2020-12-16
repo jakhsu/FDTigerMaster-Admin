@@ -36,7 +36,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="一般消費者保固(日): ">
-                                            <b-form-input class="m-2" v-model.number="category.consumerWarrentyDay" />
+                                            <b-form-input class="m-2" v-model.number="category.consumerWarrantyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最高價格: ">

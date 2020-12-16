@@ -1,6 +1,23 @@
 <template>
   <Loading v-if="isLoading" />
   <div v-else id="Category">
+    <SimpleModal @onSaveClick="createCategory" title="新增工項" @modalHidden="clearModalData" id="Category-Create-Modal">
+      <template #modal-body>
+        <b-form>
+          <b-card>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
+              <b-input v-model="categoryToBeAdded.id" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
+              <b-input v-model="categoryToBeAdded.description" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="附加說明: ">
+              <b-input v-model="categoryToBeAdded.description2" />
+            </b-form-group>
+          </b-card>
+        </b-form>
+      </template>
+    </SimpleModal>
     <b-container fluid>
       <div class="Category-Area">
         <b-row>
@@ -19,6 +36,8 @@
                 </b-button>
                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                   清空搜尋列
+                </b-button>
+                <b-button size="sm" class="ml-2" variant="outline-warning" v-b-modal="'Category-Create-Modal'">新增工項
                 </b-button>
                 <b-button class="input-file__button ml-auto" @click="selectFile()" variant="primary">上傳</b-button>
                 <b-button @click="categoriesDownload" variant="success" class="ml-2">下載</b-button>
@@ -53,6 +72,7 @@
   import TitledCard from "@/components/Card/TitledCard.vue";
   import CategoriesTable from "@/config/CategoriesTable.json";
   import CustomTable from "@/components/Table/CustomTable.vue";
+  import SimpleModal from "@/components/Modal/SimpleModal.vue";
 
   import tigermaster from "fdtigermaster-sdk";
 
@@ -62,6 +82,7 @@
       Loading,
       TitledCard,
       CustomTable,
+      SimpleModal,
     },
     data() {
       return {
@@ -75,6 +96,7 @@
         categories: {},
         search: {},
         result: "",
+        categoryToBeAdded: {},
       };
     },
     async created() {
@@ -116,6 +138,25 @@
       },
       onSearchClearClick() {
         this.search = {}
+      },
+      clearModalData(arg) {
+        if (arg == true) {
+          this.categoryToBeEdited = {};
+        }
+      },
+      async createCategory() {
+        this.categoriesTableBusy = true;
+        const workingCategory = tigermaster.services.WorkingCategory;
+        await workingCategory.create({
+          id: this.categoryToBeAdded.id,
+          description: this.categoryToBeAdded.description,
+          active: 1,
+        });
+        this.categories = await tigermaster.database
+          .query("working_category")
+          .limit(0, 100)
+          .get();
+        this.categoriesTableBusy = false;
       }
     },
   };
