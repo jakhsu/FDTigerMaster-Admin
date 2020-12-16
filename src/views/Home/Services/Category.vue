@@ -50,7 +50,6 @@
 
 <script>
   import Loading from "@/components/Loading.vue";
-  import SkillsTable from "@/config/SkillsTable.json";
   import TitledCard from "@/components/Card/TitledCard.vue";
   import CategoriesTable from "@/config/CategoriesTable.json";
   import CustomTable from "@/components/Table/CustomTable.vue";
@@ -67,26 +66,24 @@
     data() {
       return {
         isLoading: false,
-        skillsTableBusy: false,
         selectedSkill: "",
-        skillsSearch: {},
-        skillsField: SkillsTable,
         skills: {},
         categoriesTableBusy: false,
         selectedCategory: "",
         categoriesField: CategoriesTable,
         categoriesSearch: {},
         categories: {},
-        search: [],
+        search: {},
         result: "",
       };
     },
     async created() {
+      this.categoriesTableBusy = true;
       this.categories = await tigermaster.database
         .query("working_category")
         .limit(0, 100)
         .get();
-      this.isLoading = false;
+      this.categoriesTableBusy = false;
     },
     methods: {
       onSkillsDataRequire() {
@@ -95,18 +92,8 @@
       onCategoriesDataRequire() {
         this.categoriesTableBusy = true;
       },
-      onSearchClick() {},
-      async updateSelectedSkill(obj) {
-        this.categoriesTableBusy = true;
-        if (obj.length > 0) {
-          this.selectedSkill = obj[0].id;
-          this.categories = await tigermaster.database
-            .query("working_category")
-            .where("working_category.skill_item_id", "=", this.selectedSkill)
-            .limit(0, 100)
-            .get();
-        }
-        this.categoriesTableBusy = false;
+      onSearchClick() {
+        this.search = {};
       },
       updateSelectedCategory(obj) {
         if (obj.length > 0) {

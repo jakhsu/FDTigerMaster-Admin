@@ -32,11 +32,11 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="企業保固(日): ">
-                                            <b-form-input class="m-2" v-model="category.commercialWarrantyDay" />
+                                            <b-form-input class="m-2" v-model.number="category.commercialWarrantyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="一般消費者保固(日): ">
-                                            <b-form-input class="m-2" v-model="category.consumerWarrentyDay" />
+                                            <b-form-input class="m-2" v-model.number="category.consumerWarrentyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最高價格: ">
@@ -97,7 +97,11 @@
             this.isLoading = false;
         },
         methods: {
-            onCancelEdit() {},
+            onCancelEdit() {
+                this.$router.push({
+                    path: '/home/category',
+                });
+            },
             async onFinishEdit() {
                 this.isLoading = true;
                 const workingCategory = tigermaster.services.WorkingCategory;

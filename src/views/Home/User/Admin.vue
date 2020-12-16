@@ -96,9 +96,7 @@
             return {
                 fields: UserTableModel,
                 data: [],
-                search: {
-                    roleId: ""
-                },
+                search: {},
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
@@ -130,27 +128,15 @@
             async onSearchClick() {
                 this.tableBusy = true;
                 let query = tigermaster.database.query("user");
-
                 let searchArray = Object.entries(this.search);
+                searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
                 searchArray.forEach(element => {
-                    if (element[0] == 'roleId') {
-                        element[0] = 'role_id';
-                    }
-                    if (element[0] == 'role_id') {
-                        element[2] = '=';
-                    } else {
-                        element[2] = 'LIKE'
-                    }
-                    if (element[2] == 'LIKE') {
-                        element[1] = '%' + element[1] + '%'
-                    }
-                    if (element[0] == 'role_id') {
-                        element[2] = '>'
-                        element[1] = '1'
-                    }
+                    element[2] = 'LIKE'
+                    element[1] = '%' + element[1] + '%'
                     query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
                 });
-                query.limit(0, 100);
+                query.where('user.role_id', '>', '1').limit(0, 100);
+                await query.get();
                 const res = await query.get();
                 this.data = res.data;
                 this.queryRows = res.queryRows;

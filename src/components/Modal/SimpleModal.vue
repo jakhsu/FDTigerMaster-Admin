@@ -1,21 +1,27 @@
 <template>
-    <b-modal :id="id" @show="resetModal" :title="title">
-        <slot name="modal-body"></slot>
-        <template #modal-footer="{cancel}">
-            <b-button variant="outline-danger" @click="cancel">
-                取消
-            </b-button>
-            <b-button variant="primary" @click="onSaveClick">
-                確認
-            </b-button>
-        </template>
-    </b-modal>
-
+    <div>
+        <b-modal :isLoading="isLoading" @hidden="modalHidden" :id="id" @show="resetModal" :title="title">
+            <Loading v-if="isLoading" />
+            <slot name="modal-body"></slot>
+            <template #modal-footer="{cancel}">
+                <b-button variant="outline-danger" @click="cancel">
+                    取消
+                </b-button>
+                <b-button variant="primary" @click="onSaveClick">
+                    確認
+                </b-button>
+            </template>
+        </b-modal>
+    </div>
 </template>
 
 <script>
+    import Loading from '@/components/Loading.vue'
     export default {
         name: 'SimpleModal',
+        components: {
+            Loading,
+        },
         props: {
             id: {
                 type: String,
@@ -25,6 +31,10 @@
                 type: String,
                 default: 'Simple Modal'
             },
+            isLoading: {
+                type: Boolean,
+                default: false
+            }
         },
         data() {
             return {}
@@ -34,6 +44,9 @@
             onSaveClick() {
                 this.$emit("onSaveClick")
                 this.$bvModal.hide(this.id);
+            },
+            modalHidden() {
+                this.$emit("modalHidden", true)
             }
         }
     }

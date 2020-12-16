@@ -1,7 +1,24 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="SkillAndCategory">
-        <SimpleModal id="Skill-Create-Modal" />
+        <SimpleModal @onSaveClick="updateSkill" :isLoading="isLoadingModal" @modalHidden="clearModalData"
+            id="Skill-Create-Modal" title="單一技能修改">
+            <template #modal-body>
+                <b-form>
+                    <b-card>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
+                            <b-input v-model="skillToBeEdited.id" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
+                            <b-input v-model="skillToBeEdited.description" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
+                            <b-input v-model="skillToBeEdited.active" />
+                        </b-form-group>
+                    </b-card>
+                </b-form>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -39,7 +56,8 @@
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
-                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Create-Modal'">
+                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Create-Modal'"
+                                            @click="startEditSkill(data)">
                                             {{data.value}}
                                         </b-button>
                                     </template>
@@ -82,22 +100,20 @@
                 isLoading: false,
                 skillsTableBusy: false,
                 selectedSkill: '',
-                skillsSearch: {},
                 skillsField: SkillsTable,
                 skills: {},
-                categoriesTableBusy: false,
-                selectedCategory: '',
                 categoriesField: CategoriesTable,
-                categoriesSearch: {},
                 categories: [],
-                search: [],
-                result: '',
+                search: {},
                 upload: {},
+                skillToBeEdited: {},
+                isLoadingModal: false,
             };
         },
         async created() {
+            this.skillsTableBusy = true;
             this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-            this.isLoading = false;
+            this.skillsTableBusy = false;
         },
         methods: {
             onSkillsDataRequire() {
@@ -106,8 +122,20 @@
             onCategoriesDataRequire() {
                 this.categoriesTableBusy = true;
             },
-            onSearchClearClick() {},
-            onSearchClick() {},
+            onSearchClearClick() {
+                this.search = {};
+            },
+            async onSearchClick() {
+                this.skillsTableBusy = true;
+                const skill = tigermaster.services.Skill;
+                const skillItem = await skill.get(this.search.id);
+                console.log(skillItem);
+                console.log(this.skills._data);
+                this.skills._data = this.skills._data.filter(element => element.id == skillItem.id)
+                console.log(this.skills._data);
+                this.search = {};
+                this.skillsTableBusy = false;
+            },
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
@@ -137,17 +165,40 @@
                 window.URL.revokeObjectURL(url);
             },
             async handleFileUpload() {
-                console.log('handling file upload, whatever that means...')
                 let fileInput = this.$refs.file;
                 this.upload = fileInput.files[0];
-                console.log(this.upload)
-                // const skillsFile = tigermaster.storage.Skills;
-                // await skillsFile.upload(this.upload);
+                this.isLoading = true;
+                const skillsFile = tigermaster.storage.Skills;
+                await skillsFile.upload(this.upload);
+                this.isLoading = false;
             },
             uploadFile() {
                 let fileInput = this.$refs.file;
                 fileInput.click();
             },
+            async startEditSkill(data) {
+                this.isLoadingModal = true;
+                const skill = tigermaster.services.Skill;
+                const skillItem = await skill.get(data.value);
+                this.skillToBeEdited = skillItem;
+                this.isLoadingModal = false;
+            },
+            clearModalData(arg) {
+                if (arg == true) {
+                    this.skillToBeEdited = {};
+                }
+            },
+            async updateSkill() {
+                this.skillsTableBusy = true;
+                const skill = tigermaster.services.Skill;
+                await skill.update({
+                    id: this.skillToBeEdited.id,
+                    description: this.skillToBeEdited.description,
+                    active: this.skillToBeEdited.active,
+                });
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                this.skillsTableBusy = false;
+            }
         }
     }
 </script>

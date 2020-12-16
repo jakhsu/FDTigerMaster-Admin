@@ -107,7 +107,8 @@
                     this.inputState = [];
                 }
             },
-        }
+        },
+        computed: {}
     }
 </script>
 
