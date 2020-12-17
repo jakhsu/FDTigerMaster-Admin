@@ -160,7 +160,9 @@
                     }
                 });
             },
-            onSearchClearClick() {},
+            onSearchClearClick() {
+                this.search = {};
+            },
         }
     }
 </script>

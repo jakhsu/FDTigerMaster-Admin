@@ -1,7 +1,8 @@
 <template>
   <Loading v-if="isLoading" />
   <div v-else id="Category">
-    <SimpleModal @onSaveClick="createCategory" title="新增工項" @modalHidden="clearModalData" id="Category-Create-Modal">
+    <SimpleModal size='lg' @onSaveClick="createCategory" title="新增工項" @modalHidden="clearModalData"
+      id="Category-Create-Modal">
       <template #modal-body>
         <b-form>
           <b-card>
@@ -10,9 +11,6 @@
             </b-form-group>
             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
               <b-input v-model="categoryToBeAdded.description" />
-            </b-form-group>
-            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="附加說明: ">
-              <b-input v-model="categoryToBeAdded.description2" />
             </b-form-group>
           </b-card>
         </b-form>
@@ -150,13 +148,25 @@
         await workingCategory.create({
           id: this.categoryToBeAdded.id,
           description: this.categoryToBeAdded.description,
-          active: 1,
+          commercialWarrantyDay: 0,
+          consumerWarrantyDay: 0,
+          priceRangeDescription: "",
+          warrantyDescription: "",
+          maxPrice: 0,
+          maxPricePercentage: 0,
+          minPrice: 0,
+          minPricePercentage: 0,
         });
         this.categories = await tigermaster.database
           .query("working_category")
           .limit(0, 100)
           .get();
-        this.categoriesTableBusy = false;
+        this.$router.push({
+          path: "/home/category_modify",
+          query: {
+            categoryId: this.categoryToBeAdded.id
+          }
+        });
       }
     },
   };

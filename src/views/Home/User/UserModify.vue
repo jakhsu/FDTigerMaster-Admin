@@ -193,6 +193,13 @@
                                             <b-form-input v-model="master.branchName" :disabled="!userData.active" />
                                         </b-form-group>
                                     </b-form-group>
+                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="技能: ">
+                                            <b-form-input v-model="userData.master.skillItems"
+                                                :disabled="!userData.active" />
+                                        </b-form-group>
+                                    </b-form-group>
                                 </b-card>
                             </b-form>
                         </TitledCard>
