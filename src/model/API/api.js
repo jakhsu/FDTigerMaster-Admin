@@ -1,4 +1,5 @@
 import service from './request'
+import fetchRequest from './fetch'
 
 export const getAddressData = data => {
     return service({
@@ -7,3 +8,11 @@ export const getAddressData = data => {
         data
     })
 };
+
+export const fetchAddressData = data => {
+    return fetchRequest({
+        url: '',
+        method: 'POST',
+        data
+    })
+}

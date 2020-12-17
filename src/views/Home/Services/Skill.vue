@@ -29,9 +29,6 @@
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
                             <b-input v-model="skillToBeAdded.description" />
                         </b-form-group>
-                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
-                            <b-input v-model="skillToBeAdded.active" />
-                        </b-form-group>
                     </b-card>
                 </b-form>
             </template>
@@ -55,8 +52,8 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
-                                <b-button size="sm" class="ml-2" variant="outline-warning"
-                                    v-b-modal="'Skill-Create-Modal'">新增技能</b-button>
+                                <b-button size="sm" class="ml-2" variant="success" v-b-modal="'Skill-Create-Modal'">新增技能
+                                </b-button>
                                 <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
                                     style="display:none">
                                 <b-button class="input-button ml-auto" @click="uploadFile()" variant="primary">上傳
@@ -83,9 +80,13 @@
                                 </CustomTable>
                                 <div>
                                     <label for="">對應工項</label>
-                                    <b-tags placeholder="" v-model="categories" disabled tag-pills
-                                        tag-variant="success">
-                                    </b-tags>
+                                    <scale-loader v-if="categoriesTableBusy" />
+                                    <div v-else>
+                                        <b-tags placeholder="" v-model="categories" disabled tag-pills
+                                            tag-variant="success">
+                                        </b-tags>
+                                    </div>
+
                                 </div>
                             </div>
                         </TitledCard>
@@ -128,6 +129,7 @@
                 skillToBeEdited: {},
                 isLoadingModal: false,
                 skillToBeAdded: {},
+                categoriesTableBusy: false,
             };
         },
         async created() {
@@ -143,16 +145,20 @@
                 this.categoriesTableBusy = true;
             },
             onSearchClearClick() {
+                this.skills = {};
                 this.search = {};
             },
             async onSearchClick() {
                 this.skillsTableBusy = true;
-                const skill = tigermaster.services.Skill;
-                const skillItem = await skill.get(this.search.id);
-                console.log(skillItem);
-                console.log(this.skills._data);
-                this.skills._data = this.skills._data.filter(element => element.id == skillItem.id)
-                console.log(this.skills._data);
+                let query = tigermaster.database.query("skill_item");
+                let searchArray = Object.entries(this.search);
+                searchArray.forEach(element => {
+                    element[2] = 'LIKE';
+                    element[1] = '%' + element[1] + '%';
+                    query.where(`skill_item.${element[0]}`, `${element[2]}`, `${element[1]}`);
+                })
+                query.limit(0, 100);
+                this.skills = await query.get()
                 this.search = {};
                 this.skillsTableBusy = false;
             },
@@ -190,6 +196,7 @@
                 this.isLoading = true;
                 const skillsFile = tigermaster.storage.Skills;
                 await skillsFile.upload(this.upload);
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
                 this.isLoading = false;
             },
             uploadFile() {

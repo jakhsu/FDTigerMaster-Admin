@@ -57,11 +57,11 @@
                     </b-nav-item>
                     <b-nav-item :active="currentTab == 'masterSkill'" :disabled="userData.roleId != 1"
                         @click="onNavClick('masterSkill')">
-                        師傅技能
+                        技能工項
                     </b-nav-item>
                 </b-nav>
             </div>
-            <component :is="currentComponent" :user="userData"></component>
+            <component :is="currentComponent" :user="userData" :currentUser="currentUser"></component>
         </b-container>
     </div>
 </template>

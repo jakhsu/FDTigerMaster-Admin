@@ -35,9 +35,10 @@
                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                   清空搜尋列
                 </b-button>
-                <b-button size="sm" class="ml-2" variant="outline-warning" v-b-modal="'Category-Create-Modal'">新增工項
+                <b-button size="sm" class="ml-2" variant="success" v-b-modal="'Category-Create-Modal'">新增工項
                 </b-button>
-                <b-button class="input-file__button ml-auto" @click="selectFile()" variant="primary">上傳</b-button>
+                <input name="categoryUpload" type="file" ref="file" @change="handleFileUpload" style="display:none">
+                <b-button class="input-file__button ml-auto" @click="uploadFile()" variant="primary">上傳</b-button>
                 <b-button @click="categoriesDownload" variant="success" class="ml-2">下載</b-button>
               </div>
               <div>
@@ -112,8 +113,19 @@
       onCategoriesDataRequire() {
         this.categoriesTableBusy = true;
       },
-      onSearchClick() {
+      async onSearchClick() {
+        this.categoriesTableBusy = true;
+        let query = tigermaster.database.query("working_category");
+        let searchArray = Object.entries(this.search);
+        searchArray.forEach(element => {
+          element[2] = 'LIKE';
+          element[1] = '%' + element[1] + '%';
+          query.where(`working_category.${element[0]}`, `${element[2]}`, `${element[1]}`);
+        })
+        query.limit(0, 100);
+        this.categories = await query.get()
         this.search = {};
+        this.categoriesTableBusy = false;
       },
       updateSelectedCategory(obj) {
         if (obj.length > 0) {
@@ -130,12 +142,25 @@
         link.click();
         window.URL.revokeObjectURL(url);
       },
-      selectFile() {
-        let fileInputElement = this.$refs.file;
-        fileInputElement.click();
+      uploadFile() {
+        let fileInput = this.$refs.file;
+        fileInput.click();
+      },
+      async handleFileUpload() {
+        let fileInput = this.$refs.file;
+        this.upload = fileInput.files[0];
+        this.isLoading = true;
+        const workingCategoriesFile = tigermaster.storage.WorkingCategories;
+        await workingCategoriesFile.upload(this.upload);
+        this.categories = await tigermaster.database
+          .query("working_category")
+          .limit(0, 100)
+          .get();
+        this.isLoading = false;
       },
       onSearchClearClick() {
-        this.search = {}
+        this.categories = {};
+        this.search = {};
       },
       clearModalData(arg) {
         if (arg == true) {

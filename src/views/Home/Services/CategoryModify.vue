@@ -62,6 +62,9 @@
                                             label="保固說明: ">
                                             <b-form-input class="m-2" v-model="category.warrantyDescription" />
                                         </b-form-group>
+                                        <b-form-group label="skill_item_id">
+                                            <b-form-input v-model="category.skillItemId"></b-form-input>
+                                        </b-form-group>
                                     </b-form-group>
                                 </b-card>
                             </b-form>

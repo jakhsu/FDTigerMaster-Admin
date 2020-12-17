@@ -1,8 +1,8 @@
 <template>
     <div>
-        <b-modal :isLoading="isLoading" @hidden="modalHidden" :id="id" @show="resetModal" :title="title">
+        <b-modal :size="size" :isLoading="isLoading" @hidden="modalHidden" :id="id" @show="resetModal" :title="title">
             <Loading v-if="isLoading" />
-            <slot name="modal-body"></slot>
+            <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
                 <b-button variant="outline-danger" @click="cancel">
                     取消
@@ -34,6 +34,10 @@
             isLoading: {
                 type: Boolean,
                 default: false
+            },
+            size: {
+                type: String,
+                default: 'lg'
             }
         },
         data() {
