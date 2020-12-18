@@ -25,10 +25,11 @@
                     <TitledCard title="添加註記">
                         <b-form>
                             <b-form-group label="註記內容">
-                                <b-form-textarea id="textarea" placeholder="輸入內文..." rows="5" max-rows="20">
+                                <b-form-textarea v-model="noteToBeAdded" id="textarea" placeholder="輸入內文..." rows="5"
+                                    max-rows="20">
                                 </b-form-textarea>
                             </b-form-group>
-                            <b-button variant="primary" type=submit>送出</b-button>
+                            <b-button variant="primary" @click="submitNote">送出</b-button>
                         </b-form>
                     </TitledCard>
                 </b-col>
@@ -40,6 +41,7 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import tigermaster from 'fdtigermaster-sdk'
     export default {
         name: "UserNote",
         components: {
@@ -50,6 +52,7 @@
             return {
                 search: {},
                 tableBusy: false,
+                noteToBeAdded: '',
                 fields: [{
                         "key": "note",
                         "label": "註記"
@@ -59,22 +62,7 @@
                         "label": "註記時間"
                     }
                 ],
-                notes: [{
-                    note: "此為客服人員寫的註記",
-                    noteCreatedTime: "2020/11/03 14:53"
-                }, {
-                    note: "此為客服人員寫的註記",
-                    noteCreatedTime: "2020/11/03 14:53"
-                }, {
-                    note: "此為客服人員寫的註記",
-                    noteCreatedTime: "2020/11/03 14:53"
-                }, {
-                    note: "此為客服人員寫的註記",
-                    noteCreatedTime: "2020/11/03 14:53"
-                }, {
-                    note: "此為客服人員寫的註記",
-                    noteCreatedTime: "2020/11/03 14:53"
-                }]
+                notes: [],
             }
         },
         methods: {
@@ -85,6 +73,15 @@
             onSearchClearClick() {
                 this.search = {}
             },
-        }
+            async submitNote() {
+                const note = tigermaster.note;
+                const noteId = await note.createUeserNote("2020121600002", "note", note.UseFor.Normal);
+                console.log(noteId);
+            }
+        },
+        async created() {
+            // const res = await tigermaster.database.query("note").get();
+            // console.log(res);
+        },
     }
 </script>

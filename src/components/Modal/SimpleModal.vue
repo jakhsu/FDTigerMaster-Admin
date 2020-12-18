@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal :size="size" :isLoading="isLoading" @hidden="modalHidden" :id="id" @show="resetModal" :title="title">
-            <Loading v-if="isLoading" />
+            <scale-loader v-if="isLoading" />
             <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
                 <b-button variant="outline-danger" @click="cancel">
@@ -16,12 +16,9 @@
 </template>
 
 <script>
-    import Loading from '@/components/Loading.vue'
     export default {
         name: 'SimpleModal',
-        components: {
-            Loading,
-        },
+        components: {},
         props: {
             id: {
                 type: String,

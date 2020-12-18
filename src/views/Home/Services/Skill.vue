@@ -7,19 +7,23 @@
                 <b-form>
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-input v-model="skillToBeEdited.id" />
+                            <b-input v-model="skillToBeEdited.id" @update="skillIdValidate()"
+                                :state="skillInputState[0]" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
                             <b-input v-model="skillToBeEdited.description" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
-                            <b-input v-model="skillToBeEdited.active" />
+                            <b-select v-model="skillToBeEdited.active">
+                                <option value="0">停用</option>
+                                <option value="1">啟用</option>
+                            </b-select>
                         </b-form-group>
                     </b-card>
                 </b-form>
             </template>
         </SimpleModal>
-        <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData" id="Skill-Create-Modal">
+        <!-- <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData" id="Skill-Create-Modal">
             <template #modal-body>
                 <b-form>
                     <b-card>
@@ -32,7 +36,8 @@
                     </b-card>
                 </b-form>
             </template>
-        </SimpleModal>
+        </SimpleModal> -->
+        <SkillModal id="Skill-Create-Modal" title="新增技能" />
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -68,7 +73,8 @@
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
+                                                :placeholder="`${field.label}`"
+                                                v-b-popover.hover.top="searchTips(field)" />
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
@@ -76,6 +82,9 @@
                                             @click="startEditSkill(data)">
                                             {{data.value}}
                                         </b-button>
+                                    </template>
+                                    <template #cell(active)="data">
+                                        {{ data.value == "1" ? "啟用" : data.value == 0 ? "停用" : data.value}}
                                     </template>
                                 </CustomTable>
                                 <div>
@@ -106,7 +115,7 @@
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-
+    import SkillModal from '@/components/Modal/SkillModal.vue'
     export default {
         name: 'Skill',
         components: {
@@ -114,6 +123,7 @@
             TitledCard,
             CustomTable,
             SimpleModal,
+            SkillModal,
         },
         data() {
             return {
@@ -130,15 +140,38 @@
                 isLoadingModal: false,
                 skillToBeAdded: {},
                 categoriesTableBusy: false,
+                skillInputState: [null, null],
             };
         },
         async created() {
             this.skillsTableBusy = true;
             this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-            console.log(this.skills);
             this.skillsTableBusy = false;
         },
         methods: {
+            skillIdValidate() {
+                var skillIdRegex = /^TM-[A-Z]{1}[0-9]{4}00$/;
+                this.skillInputState[0] = skillIdRegex.test(this.skillToBeEdited.id);
+            },
+            skillDescriptionValidate() {},
+            searchTips(field) {
+                return {
+                    variant: 'info',
+                    html: true,
+                    title: () => {
+                        if (field.key == 'active') {
+                            return '說明: '
+                        }
+                        return
+                    },
+                    content: () => {
+                        if (field.key == 'active') {
+                            return `停用: 0 啟用: 1`
+                        }
+                        return
+                    }
+                }
+            },
             onSkillsDataRequire() {
                 this.skillTableBusy = true;
             },
@@ -163,21 +196,18 @@
                 this.search = {};
                 this.skillsTableBusy = false;
             },
-            async updateSelectedSkill(obj) {
+            updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
-                if (obj.length > 0) {
-                    this.selectedSkill = obj[0].id;
-                    const res = await tigermaster.database
-                        .query("working_category")
-                        .where("working_category.skill_item_id", "=", this.selectedSkill)
-                        .limit(0, 100)
-                        .get();
-                    res.data.forEach((element) => {
-                        if ("id" in element) {
-                            this.categories.push(element.id)
-                        }
+                try {
+                    let selectedSkillId = obj[0].id;
+                    let skillIndex = this.skills.data.findIndex((element) => element.id == selectedSkillId)
+                    let respectiveCategories = this.skills.data[skillIndex].workingCategories;
+                    respectiveCategories.forEach((element) => {
+                        this.categories.push(element.id + " | " + element.description)
                     })
+                } catch (exeception) {
+                    alert(`${exeception}`)
                 }
                 this.categoriesTableBusy = false;
             },
@@ -214,6 +244,7 @@
             clearModalData(arg) {
                 if (arg == true) {
                     this.skillToBeEdited = {};
+                    this.skillInputState = [];
                 }
             },
             async updateSkill() {
@@ -238,7 +269,7 @@
                 this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
                 this.skillsTableBusy = false;
             }
-        }
+        },
     }
 </script>
 

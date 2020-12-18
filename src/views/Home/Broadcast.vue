@@ -13,49 +13,40 @@
                     <b-col>
                         <SimpleCard>
                             <div class="Broadcast-Body">
-                                <b-button
-                                    id="NotifyToggle"
+                                <b-button id="NotifyToggle"
                                     class="Broadcast-Collapse-Toggle p-0 text-decoration-none d-flex align-items-center"
-                                    variant="link"
-                                    :class="display[0] ? null : 'collapsed'"
-                                    :aria-expanded="display[0] ? 'true' : 'false'"
-                                    @click="collapseToggle(0)"
-                                >
-                                    <div class="Collapse-Index d-flex justify-content-center align-items-center" :class="step > 1 ? 'finished' : null">1</div>
+                                    variant="link" :class="display[0] ? null : 'collapsed'"
+                                    :aria-expanded="display[0] ? 'true' : 'false'" @click="collapseToggle(0)">
+                                    <div class="Collapse-Index d-flex justify-content-center align-items-center"
+                                        :class="step > 1 ? 'finished' : null">1</div>
                                     <div>通知</div>
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border py-3">
                                     <b-collapse v-model="display[0]" id="NotifyCollapse" class="my-2 pl-3">
-                                        <BroadcastContent @next="contentReady"/>
+                                        <BroadcastContent @next="contentReady" />
                                     </b-collapse>
                                 </div>
-                                <b-button
-                                    id="SearchToggle"
+                                <b-button id="SearchToggle"
                                     class="Broadcast-Collapse-Toggle p-0 text-decoration-none d-flex align-items-center"
-                                    variant="link"
-                                    :class="display[1] ? null : 'collapsed'"
-                                    :aria-expanded="display[1] ? 'true' : 'false'"
-                                    @click="collapseToggle(1)"
-                                    :disabled="step < 1"
-                                >
-                                    <div class="Collapse-Index d-flex align-items-center justify-content-center" :class="step > 1 ? 'finished' : null">2</div>
+                                    variant="link" :class="display[1] ? null : 'collapsed'"
+                                    :aria-expanded="display[1] ? 'true' : 'false'" @click="collapseToggle(1)"
+                                    :disabled="step < 1">
+                                    <div class="Collapse-Index d-flex align-items-center justify-content-center"
+                                        :class="step > 1 ? 'finished' : null">2</div>
                                     <div>發送條件</div>
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border py-3">
                                     <b-collapse v-model="display[1]" id="SearchCollapse" class="py-3 pl-3">
-                                        <BroadcastSearch @search="searchReady"/>
+                                        <BroadcastSearch @search="searchReady" />
                                     </b-collapse>
                                 </div>
-                                <b-button
-                                    id="UsersToggle"
+                                <b-button id="UsersToggle"
                                     class="Broadcast-Collapse-Toggle p-0 text-decoration-none d-flex align-items-center"
-                                    variant="link"
-                                    :class="display[2] ? null : 'collapsed'"
-                                    :aria-expanded="display[2] ? 'true' : 'false'"
-                                    @click="collapseToggle(2)"
-                                    :disabled="step < 2"
-                                >
-                                    <div class="Collapse-Index d-flex align-items-center justify-content-center" :class="step > 2 ? 'finished' : null">3</div>
+                                    variant="link" :class="display[2] ? null : 'collapsed'"
+                                    :aria-expanded="display[2] ? 'true' : 'false'" @click="collapseToggle(2)"
+                                    :disabled="step < 2">
+                                    <div class="Collapse-Index d-flex align-items-center justify-content-center"
+                                        :class="step > 2 ? 'finished' : null">3</div>
                                     <div>目標使用者</div>
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border py-3">
@@ -64,7 +55,8 @@
                                             <b-button variant="primary">
                                                 已選擇數量: <b-badge variant="light">{{numOfSelected}}</b-badge>
                                             </b-button>
-                                            <b-button class="ml-2" variant="warning" @click="isSelectAll = !isSelectAll">全選 / 取消全選</b-button>
+                                            <b-button class="ml-2" variant="warning"
+                                                @click="isSelectAll = !isSelectAll">全選 / 取消全選</b-button>
                                         </div>
                                         <CustomTable @rowSelected="updateSelected" :isSelectAll="isSelectAll"
                                             :queryRows="totalCount" :totalRows="totalCount" :isSelectable="true"
@@ -79,16 +71,13 @@
                                         <b-button variant="primary" @click="tableReady">下一步</b-button>
                                     </b-collapse>
                                 </div>
-                                <b-button
-                                    id="VerifyToggle"
+                                <b-button id="VerifyToggle"
                                     class="Broadcast-Collapse-Toggle p-0 text-decoration-none d-flex align-items-center"
-                                    variant="link"
-                                    :class="display[3] ? null : 'collapsed'"
-                                    :aria-expanded="display[3] ? 'true' : 'false'"
-                                    @click="collapseToggle(3)"
-                                    :disabled="step < 3"
-                                >
-                                    <div class="Collapse-Index d-flex align-items-center justify-content-center" :class="step > 3 ? 'finished' : null">4</div>
+                                    variant="link" :class="display[3] ? null : 'collapsed'"
+                                    :aria-expanded="display[3] ? 'true' : 'false'" @click="collapseToggle(3)"
+                                    :disabled="step < 3">
+                                    <div class="Collapse-Index d-flex align-items-center justify-content-center"
+                                        :class="step > 3 ? 'finished' : null">4</div>
                                     <div>確認</div>
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border">
@@ -137,13 +126,13 @@
             }
         },
         methods: {
-            contentReady(content){
+            contentReady(content) {
                 this.content = content;
                 this.step = 1;
                 this.collapseToggle(1);
             },
-            searchReady(condiction){
-                this.condiction = Object.assign([], condiction);
+            searchReady(condiction) {
+                this.condiction = JSON.parse(JSON.stringify(condiction));
                 this.step = 2;
                 this.collapseToggle(2);
                 this.tableBusy = true;
@@ -158,16 +147,16 @@
                 query.limit(0, 100);
                 query.get().then(this.tableDataReady);
             },
-            tableDataReady(result){
+            tableDataReady(result) {
                 this.totalCount = result.totalCount;
                 this.data = result.data;
                 this.tableBusy = false;
             },
-            tableReady(){
+            tableReady() {
                 this.step = 3;
                 this.collapseToggle(3);
             },
-            collapseToggle(index){
+            collapseToggle(index) {
                 this.display = [false, false, false, false];
                 this.display[index] = true;
             },
@@ -198,7 +187,7 @@
         color: #000;
     }
 
-    #Broadcast .Broadcast-Area .Broadcast-Body{
+    #Broadcast .Broadcast-Area .Broadcast-Body {
         margin: 25px 0px;
         padding: 0px 20px;
     }
@@ -208,7 +197,7 @@
         font-size: 20px;
     }
 
-    #Broadcast .Broadcast-Collapse-Toggle .Collapse-Index{
+    #Broadcast .Broadcast-Collapse-Toggle .Collapse-Index {
         color: #ffffff;
         width: 24px;
         height: 24px;
@@ -218,7 +207,7 @@
         background-color: #757575;
     }
 
-    #Broadcast .Broadcast-Collapse-Toggle .Collapse-Index.finished{
+    #Broadcast .Broadcast-Collapse-Toggle .Collapse-Index.finished {
         background-color: #007bff;
     }
 

@@ -31,32 +31,12 @@
                                         :placeholder="`${field.label}`" />
                                 </b-td>
                             </template>
-                            <!-- <template #cell(id)="data">
-                                <b-button variant="outline-success" pill v-b-modal="'Master-Skill-Modify-Modal'"
-                                    @click="startEditSkill(data)">
-                                    {{data.value}}
-                                </b-button>
-                            </template> -->
                         </CustomTable>
                         <div>
                             <label for="">對應工項</label>
                             <b-tags v-model="categories" placeholder="" disabled tag-pills tag-variant="success">
                             </b-tags>
                         </div>
-                        <!-- <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="pairing" :isBusy="tableBusy"
-                            @dataRequire="onDataRequire">
-                            <template #top-row="pairing">
-                                <b-td v-for="(field, index) in pairing.fields" :key="index">
-                                    <b-form-input v-model="search[field.key]" :name="field.key"
-                                        :placeholder="`${field.label}`" />
-                                </b-td>
-                            </template>
-                            <template #cell(taskIds)="data">
-                                <div v-for="(id, index) in data.value" :key="index">
-                                    {{id}}
-                                </div>
-                            </template>
-                        </CustomTable> -->
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
@@ -110,7 +90,7 @@
                 categories: [],
                 skillOptions: [],
                 categoryToBeIgnored: '',
-                ignoredCategories: this.currentUser.data.master.ignoreWorkingCategories,
+                ignoredCategories: [],
                 ignoreOptions: [],
             }
         },
@@ -119,19 +99,13 @@
             let queryArray = this.user.master.skillItems;
             queryArray = queryArray.split(/(,)/);
             queryArray = queryArray.filter((element) => element != ",");
-            queryArray.forEach((ele) => {
-                return ele = {
-                    id: `${ele}`,
-                    description: '',
-                    active: 1
-                }
-            })
-            const skill = tigermaster.services.Skill;
 
-            for (let i = 0; i < queryArray.length; i++) {
-                let skillItem = await skill.get(queryArray[i])
-                this.skills.push(skillItem);
-            }
+            const response = await tigermaster.database.query("skill_item").limit(0, 100)
+                .where("skill_item.id", "IN", queryArray)
+                .get();
+            this.skills = response.data
+
+            // query and iteratively build select options for skills
             let temp = await tigermaster.database.query("skill_item").limit(0, 100).get();
             temp = temp.data;
 
@@ -144,31 +118,13 @@
             categoryArray = categoryArray.filter((element) => element != ",");
             this.ignoredCategories = categoryArray;
 
+            // query and iteratively build select options for categories
             let temp1 = await tigermaster.database.query("working_category").limit(0, 100).get();
             temp1 = temp1.data;
 
             temp1.forEach((ele) => {
                 this.ignoreOptions.push(ele.id)
             })
-
-            // const category = tigermaster.services.WorkingCategories;
-            // for (let i = 0; i < categoryArray.length; i++) {
-            //     let categoryItem = await category.get(categoryArray[i])
-            //     this.ignoredCategories.push(categoryItem)
-            // }
-            // const category = tigermaster.services.WorkingCategories;
-            // for (let i = 0; i < queryArray.length; i++) {
-            //     let categoryItem = await category.get(queryArray[i])
-            //     this.skills.push(skillItem);
-            // }
-            // let temp1 = await tigermaster.database.query("skill_item").limit(0, 100).get();
-            // temp = temp.data;
-
-            // temp.forEach((ele) => {
-            //     this.skillOptions.push(ele.id)
-            // })
-
-
 
             this.skillsTableBusy = false;
         },
@@ -205,9 +161,14 @@
             onSaveClick() {},
             async createSkill() {
                 this.skillsTableBusy = true;
+                let skillsToBeUpdated = this.user.master.skillItems;
+                skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
                 this.user.master.skillItems = this.user.master.skillItems + "," + this.skillToBeAdded;
-                console.log(this.user.master.skillItems)
-                await this.currentUser.update(this.user)
+                await this.currentUser.update(this.user, {
+                    master: {
+                        skillItems: skillsToBeUpdated
+                    }
+                });
                 this.user = await await tigermaster.auth.getUserById(this.user.id)
                 this.skillsTableBusy = false;
             },

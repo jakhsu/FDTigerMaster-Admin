@@ -24,46 +24,47 @@
                                     <b-form-group label-class="font-weight-bold pt-0" label="工項資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="工項編號: ">
-                                            <b-form-input class="m-2" v-model="category.id" />
+                                            <b-form-input v-model="category.id" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="工項描述: ">
-                                            <b-form-input class="m-2" v-model="category.description" />
+                                            <b-form-input v-model="category.description" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="企業保固(日): ">
-                                            <b-form-input class="m-2" v-model.number="category.commercialWarrantyDay" />
+                                            <b-form-input v-model.number="category.commercialWarrantyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="一般消費者保固(日): ">
-                                            <b-form-input class="m-2" v-model.number="category.consumerWarrantyDay" />
+                                            <b-form-input v-model.number="category.consumerWarrantyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最高價格: ">
-                                            <b-form-input class="m-2" v-model="category.maxPrice" />
+                                            <b-form-input v-model="category.maxPrice" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最高價格比例(%): ">
-                                            <b-form-input class="m-2" v-model="category.maxPricePercentage" />
+                                            <b-form-input v-model="category.maxPricePercentage" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最低價格: ">
-                                            <b-form-input class="m-2" v-model="category.minPrice" />
+                                            <b-form-input v-model="category.minPrice" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最低價格比例(%): ">
-                                            <b-form-input class="m-2" v-model="category.minPricePercentage" />
+                                            <b-form-input v-model="category.minPricePercentage" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="價格說明: ">
-                                            <b-form-input class="m-2" v-model="category.priceRangeDescription" />
+                                            <b-form-input v-model="category.priceRangeDescription" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="保固說明: ">
-                                            <b-form-input class="m-2" v-model="category.warrantyDescription" />
+                                            <b-form-input v-model="category.warrantyDescription" />
                                         </b-form-group>
-                                        <b-form-group label="skill_item_id">
-                                            <b-form-input v-model="category.skillItemId" disabled></b-form-input>
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="對應技能編號">
+                                            <b-form-input v-model="category.skillItemId" disabled />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>

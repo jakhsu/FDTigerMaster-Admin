@@ -59,6 +59,15 @@
                       {{ data.value }}
                     </router-link>
                   </template>
+                  <template #cell(active)="data">
+                    {{data.value == 1 ? "啟用" : data.value == 0 ? "停用" : data.value}}
+                  </template>
+                  <template #cell(commercialWarrantyDay)="data">
+                    {{data.value += " 日"}}
+                  </template>
+                  <template #cell(consumerWarrantyDay)="data">
+                    {{data.value += " 日"}}
+                  </template>
                 </CustomTable>
               </div>
             </TitledCard>
