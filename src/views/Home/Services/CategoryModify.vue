@@ -32,11 +32,11 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="企業保固(日): ">
-                                            <b-form-input class="m-2" v-model="category.commercialWarrantyDay" />
+                                            <b-form-input class="m-2" v-model.number="category.commercialWarrantyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="一般消費者保固(日): ">
-                                            <b-form-input class="m-2" v-model="category.consumerWarrentyDay" />
+                                            <b-form-input class="m-2" v-model.number="category.consumerWarrantyDay" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="最高價格: ">
@@ -61,6 +61,9 @@
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="保固說明: ">
                                             <b-form-input class="m-2" v-model="category.warrantyDescription" />
+                                        </b-form-group>
+                                        <b-form-group label="skill_item_id">
+                                            <b-form-input v-model="category.skillItemId" disabled></b-form-input>
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -97,8 +100,19 @@
             this.isLoading = false;
         },
         methods: {
-            onCancelEdit() {},
-            onFinishEdit() {},
+            onCancelEdit() {
+                this.$router.push({
+                    path: '/home/category',
+                });
+            },
+            async onFinishEdit() {
+                this.isLoading = true;
+                const workingCategory = tigermaster.services.WorkingCategory;
+                await workingCategory.update(this.category)
+                this.$router.push({
+                    path: '/home/category',
+                });
+            },
         }
 
     }

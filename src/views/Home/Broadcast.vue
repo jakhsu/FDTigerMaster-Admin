@@ -111,7 +111,7 @@
     import BroadcastSearch from '@/components/Broadcast/BroadcastSearch.vue'
     import BroadcastContent from '@/components/Broadcast/BroadcastContent.vue'
 
-     import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: "Broadcast",
@@ -128,7 +128,7 @@
                 display: [true, false, false, false],
                 content: {},
                 condiction: {},
-                isSelectAll: true,
+                isSelectAll: false,
                 tableBusy: true,
                 numOfSelected: 0,
                 selected: {},
@@ -143,7 +143,7 @@
                 this.collapseToggle(1);
             },
             searchReady(condiction){
-                this.condiction = condiction;
+                this.condiction = Object.assign([], condiction);
                 this.step = 2;
                 this.collapseToggle(2);
                 this.tableBusy = true;

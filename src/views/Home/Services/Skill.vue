@@ -1,6 +1,38 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="SkillAndCategory">
+        <SimpleModal @onSaveClick="updateSkill" :isLoading="isLoadingModal" @modalHidden="clearModalData"
+            id="Skill-Modify-Modal" title="單一技能修改">
+            <template #modal-body>
+                <b-form>
+                    <b-card>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
+                            <b-input v-model="skillToBeEdited.id" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
+                            <b-input v-model="skillToBeEdited.description" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
+                            <b-input v-model="skillToBeEdited.active" />
+                        </b-form-group>
+                    </b-card>
+                </b-form>
+            </template>
+        </SimpleModal>
+        <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData" id="Skill-Create-Modal">
+            <template #modal-body>
+                <b-form>
+                    <b-card>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
+                            <b-input v-model="skillToBeAdded.id" />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
+                            <b-input v-model="skillToBeAdded.description" />
+                        </b-form-group>
+                    </b-card>
+                </b-form>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -20,14 +52,18 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
-                                <b-button class="input-file__button ml-auto" @click="selectFile()" variant="primary">上傳
+                                <b-button size="sm" class="ml-2" variant="success" v-b-modal="'Skill-Create-Modal'">新增技能
+                                </b-button>
+                                <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
+                                    style="display:none">
+                                <b-button class="input-button ml-auto" @click="uploadFile()" variant="primary">上傳
                                 </b-button>
                                 <b-button @click="skillsDownload" variant="success" class="ml-2">下載</b-button>
                             </div>
                             <div>
                                 <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount"
                                     :datas="skills.data" :isBusy="skillsTableBusy" @dataRequire="onSkillsDataRequire"
-                                    :isSelectable="true" @row-selected="updateSelectedSkill" selectMode='single'
+                                    :isSelectable="true" @rowSelected="updateSelectedSkill" selectMode='single'
                                     :fields="skillsField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">
@@ -35,12 +71,22 @@
                                                 :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
+                                    <template #cell(id)="data">
+                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Modify-Modal'"
+                                            @click="startEditSkill(data)">
+                                            {{data.value}}
+                                        </b-button>
+                                    </template>
                                 </CustomTable>
                                 <div>
                                     <label for="">對應工項</label>
-                                    <b-tags placeholder="" v-model="categories" disabled tag-pills
-                                        tag-variant="success">
-                                    </b-tags>
+                                    <scale-loader v-if="categoriesTableBusy" />
+                                    <div v-else>
+                                        <b-tags placeholder="" v-model="categories" disabled tag-pills
+                                            tag-variant="success">
+                                        </b-tags>
+                                    </div>
+
                                 </div>
                             </div>
                         </TitledCard>
@@ -57,6 +103,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CategoriesTable from '@/config/CategoriesTable.json'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -66,27 +113,30 @@
             Loading,
             TitledCard,
             CustomTable,
+            SimpleModal,
         },
         data() {
             return {
                 isLoading: false,
                 skillsTableBusy: false,
                 selectedSkill: '',
-                skillsSearch: {},
                 skillsField: SkillsTable,
                 skills: {},
-                categoriesTableBusy: false,
-                selectedCategory: '',
                 categoriesField: CategoriesTable,
-                categoriesSearch: {},
                 categories: [],
-                search: [],
-                result: '',
+                search: {},
+                upload: {},
+                skillToBeEdited: {},
+                isLoadingModal: false,
+                skillToBeAdded: {},
+                categoriesTableBusy: false,
             };
         },
         async created() {
+            this.skillsTableBusy = true;
             this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-            this.isLoading = false;
+            console.log(this.skills);
+            this.skillsTableBusy = false;
         },
         methods: {
             onSkillsDataRequire() {
@@ -95,7 +145,24 @@
             onCategoriesDataRequire() {
                 this.categoriesTableBusy = true;
             },
-            onSearchClick() {},
+            onSearchClearClick() {
+                this.skills = {};
+                this.search = {};
+            },
+            async onSearchClick() {
+                this.skillsTableBusy = true;
+                let query = tigermaster.database.query("skill_item");
+                let searchArray = Object.entries(this.search);
+                searchArray.forEach(element => {
+                    element[2] = 'LIKE';
+                    element[1] = '%' + element[1] + '%';
+                    query.where(`skill_item.${element[0]}`, `${element[2]}`, `${element[1]}`);
+                })
+                query.limit(0, 100);
+                this.skills = await query.get()
+                this.search = {};
+                this.skillsTableBusy = false;
+            },
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
@@ -124,10 +191,53 @@
                 link.click();
                 window.URL.revokeObjectURL(url);
             },
-            selectFile() {
-                let fileInputElement = this.$refs.file;
-                fileInputElement.click();
+            async handleFileUpload() {
+                let fileInput = this.$refs.file;
+                this.upload = fileInput.files[0];
+                this.isLoading = true;
+                const skillsFile = tigermaster.storage.Skills;
+                await skillsFile.upload(this.upload);
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                this.isLoading = false;
             },
+            uploadFile() {
+                let fileInput = this.$refs.file;
+                fileInput.click();
+            },
+            async startEditSkill(data) {
+                this.isLoadingModal = true;
+                const skill = tigermaster.services.Skill;
+                const skillItem = await skill.get(data.value);
+                this.skillToBeEdited = skillItem;
+                this.isLoadingModal = false;
+            },
+            clearModalData(arg) {
+                if (arg == true) {
+                    this.skillToBeEdited = {};
+                }
+            },
+            async updateSkill() {
+                this.skillsTableBusy = true;
+                const skill = tigermaster.services.Skill;
+                await skill.update({
+                    id: this.skillToBeEdited.id,
+                    description: this.skillToBeEdited.description,
+                    active: this.skillToBeEdited.active,
+                });
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                this.skillsTableBusy = false;
+            },
+            async createSkill() {
+                this.skillsTableBusy = true;
+                const skill = tigermaster.services.Skill;
+                await skill.create({
+                    id: this.skillToBeAdded.id,
+                    description: this.skillToBeAdded.description,
+                    active: 1,
+                });
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                this.skillsTableBusy = false;
+            }
         }
     }
 </script>

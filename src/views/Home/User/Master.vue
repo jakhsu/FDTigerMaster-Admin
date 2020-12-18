@@ -1,7 +1,7 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="Master">
-        <UserCreateModal id="User-Create-Modal" :default-role="1" @onSaveClick="onNewUserSaveClick" />
+        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick" />
         <b-container fluid>
             <div class="Master-Area">
                 <b-row>
@@ -13,7 +13,7 @@
                 </b-row>
                 <b-row>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="25419" :trend="460" />
+                        <DataCard color="#4e73df" title="師傅數" :data="totalCount" :trend="1" />
                     </b-col>
                     <b-col xl="3" sm="6">
                         <DataCard color="#4e73df" title="被停權數" :data="25" :trend="-3" />
@@ -96,7 +96,9 @@
             return {
                 fields: UserTableModel,
                 data: [],
-                search: {},
+                search: {
+                    roleId: "1"
+                },
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
@@ -126,20 +128,26 @@
                 this.tableBusy = true;
             },
             async onSearchClick() {
-                this.isLoading = true;
-                const res = await tigermaster.database
-                    .query("user")
-                    .where("user.name", "LIKE", `${'name' in this.search ? '%' + this.search.name + '%' : '%'}`)
-                    .where("user.role_id", "=", `${'roleId' in this.search ? this.search.roleId : 1}`)
-                    .where("user.email", "LIKE", `${'email' in this.search ? '%' + this.search.email + '%' : '%'}`)
-                    .where("user.phone", "LIKE", `${'phone' in this.search ? '%' + this.search.phone + '%' : '%'}`)
-                    .limit(0, 100)
-                    .get();
+                this.tableBusy = true;
+                let query = tigermaster.database.query("user");
+                let searchArray = Object.entries(this.search);
+                searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
+                searchArray.forEach(element => {
+                    element[2] = 'LIKE'
+                    element[1] = '%' + element[1] + '%'
+                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                });
+                query.where('user.role_id', '=', `${this.search.roleId}`).limit(0, 100);
+                await query.get();
+                const res = await query.get();
                 this.data = res.data;
                 this.queryRows = res.queryRows;
                 this.totalCount = res.totalCount;
-                this.isLoading = false;
+                this.tableBusy = false;
                 this.search = {}
+            },
+            onSearchClearClick() {
+                this.search = {};
             },
             async onNewUserSaveClick(obj) {
                 this.isLoading = true;

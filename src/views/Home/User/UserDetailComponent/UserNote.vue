@@ -24,9 +24,6 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="添加註記">
                         <b-form>
-                            <b-form-group label="選擇訂單">
-                                <b-form-select :options="orders"></b-form-select>
-                            </b-form-group>
                             <b-form-group label="註記內容">
                                 <b-form-textarea id="textarea" placeholder="輸入內文..." rows="5" max-rows="20">
                                 </b-form-textarea>
@@ -77,16 +74,7 @@
                 }, {
                     note: "此為客服人員寫的註記",
                     noteCreatedTime: "2020/11/03 14:53"
-                }],
-                orders: [{
-                        value: null,
-                        text: "選擇訂單"
-                    },
-                    {
-                        value: 'TH-TH001',
-                        text: "TH-TH001"
-                    }
-                ]
+                }]
             }
         },
         methods: {

@@ -168,7 +168,7 @@
                                 </b-card-body>
                             </b-card>
                         </TitledCard>
-                          <TitledCard v-if="userData.roleId == 1" title="專用資料:">
+                        <TitledCard v-if="userData.roleId == 1" title="專用資料:">
                             <b-form>
                                 <b-card class="m-4" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
@@ -193,6 +193,18 @@
                                             <b-form-input v-model="master.branchName" :disabled="!userData.active" />
                                         </b-form-group>
                                     </b-form-group>
+                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="技能: ">
+                                            <b-form-input v-model="userData.master.skillItems"
+                                                :disabled="!userData.active" />
+                                        </b-form-group>
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="不會的技能: ">
+                                            <b-form-input v-model="userData.master.ignoreWorkingCategories"
+                                                :disabled="!userData.active" />
+                                        </b-form-group>
+                                    </b-form-group>
                                 </b-card>
                             </b-form>
                         </TitledCard>
@@ -209,9 +221,12 @@
     import AreaData from '@/config/arearaw.json'
     import Base64Img from '@/components/Upload/base64Img.vue'
     import tigermaster from 'fdtigermaster-sdk'
-    const convert = require("xml-js");
+    const convert = require("xml-js")
     import {
         getAddressData
+    } from '@/model/API/api.js'
+    import {
+        fetchAddressData
     } from '@/model/API/api.js'
 
 
@@ -280,9 +295,6 @@
             const user = await tigermaster.auth.getUserById(this.$route.query.userId);
             this.currentUser = user;
             this.userData = user.data;
-            // if (!this.userData.master) {
-            //     this.userData.master = {};
-            // }
             this.isLoading = false;
         },
         methods: {
@@ -305,6 +317,26 @@
                 this.streetNames = await final;
                 this.isAddressLoading = await false;
             },
+            // fetc address is not yet working, but just an attempt to encapsulate fetch instead of axios
+            fetchAddress: async function () {
+                this.isAddressLoading = await true;
+                const params = {
+                    city: this.userData.addressCity,
+                    cityarea: this.userData.addressArea
+                };
+                let res = await fetchAddressData(params)
+
+                let converted = await convert.xml2js(res.data, {
+                    compact: true,
+                    spaces: 4
+                });
+                let final = await Object.values(converted.street.road_name).map(
+                    item => item["_text"]
+                );
+                final = await final.filter(item => item != null);
+                this.streetNames = await final;
+                this.isAddressLoading = await false;
+            },
             onNavClick(name) {
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
@@ -315,7 +347,7 @@
                 } else if (this.streetMatch.msg !== '') {
                     return
                 } else {
-                    this.Loading = true;
+                    this.isLoading = true;
                     await this.currentUser.update(this.userData);
                     this.$router.push({
                         path: '/home/user_detail',

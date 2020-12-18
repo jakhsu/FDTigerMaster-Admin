@@ -1,4 +1,7 @@
 [{
+        "key": "skillItemId",
+        "label": "對應技能"
+    }, {
         "key": "id",
         "label": "工項編號"
     },
@@ -7,20 +10,20 @@
         "label": "工項描述"
     },
     {
-        "key": "description2",
-        "label": "附加說明"
-    },
-    {
         "key": "active",
         "label": "啟用"
     },
     {
         "key": "commercialWarrantyDay",
-        "label": "企業保固(日)"
+        "label": "企業保固"
     },
     {
         "key": "consumerWarrantyDay",
-        "label": "一般消費者保固(日)"
+        "label": "一般保固"
+    },
+    {
+        "key": "warrentyDescription",
+        "label": "保固說明"
     },
     {
         "key": "maxPrice",
@@ -38,10 +41,7 @@
         "key": "minPricePercentage",
         "label": "最低價格比例(%)"
     },
-    {
-        "key": "warrentyDescription",
-        "label": "保固說明"
-    },
+
     {
         "key": "priceRangeDescription",
         "label": "價格說明"

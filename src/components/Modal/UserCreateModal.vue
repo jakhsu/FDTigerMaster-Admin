@@ -80,7 +80,8 @@
                 this.inputState[this.inputIndex.name] = this.newUser.name !== '';
             },
             emailValidate() {
-                this.inputState[this.inputIndex.email] = this.newUser.email !== '';
+                var emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+                this.inputState[this.inputIndex.email] = emailRegex.test(this.newUser.email);
             },
             roleValidate() {
                 this.inputState[this.inputIndex.role] = this.newUser.roleId !== null;
@@ -106,7 +107,8 @@
                     this.inputState = [];
                 }
             },
-        }
+        },
+        computed: {}
     }
 </script>
 

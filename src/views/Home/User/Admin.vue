@@ -126,21 +126,26 @@
                 this.tableBusy = true;
             },
             async onSearchClick() {
-                this.isLoading = true;
-                const res = await tigermaster.database
-                    .query("user")
-                    .where("user.name", "LIKE", `${'name' in this.search ? this.search.name : '%'}`)
-                    .where("user.role_id", "LIKE",
-                        `${'roleId' in this.search ? '%' + this.search.roleId + '%' : '__%'}`)
-                    .where("user.email", "LIKE", `${'email' in this.search ? '%' + this.search.email + '%' : '%'}`)
-                    .where("user.phone", "LIKE", `${'phone' in this.search ? '%' + this.search.phone + '%' : '%'}`)
-                    .limit(0, 100)
-                    .get();
+                this.tableBusy = true;
+                let query = tigermaster.database.query("user");
+                let searchArray = Object.entries(this.search);
+                searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
+                searchArray.forEach(element => {
+                    element[2] = 'LIKE'
+                    element[1] = '%' + element[1] + '%'
+                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                });
+                query.where('user.role_id', '>', '1').limit(0, 100);
+                await query.get();
+                const res = await query.get();
                 this.data = res.data;
                 this.queryRows = res.queryRows;
                 this.totalCount = res.totalCount;
-                this.isLoading = false;
+                this.tableBusy = false;
                 this.search = {}
+            },
+            onSearchClearClick() {
+                this.search = {};
             },
             async onNewUserSaveClick(obj) {
                 this.isLoading = true;
