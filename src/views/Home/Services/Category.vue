@@ -46,6 +46,9 @@
                   :datas="categories.data" :isBusy="categoriesTableBusy" @dataRequire="onCategoriesDataRequire"
                   :isSelectable="false" @rowSelected="updateSelectedCategory" selectMode="single"
                   :fields="categoriesField">
+                  <template #cell(skillItemId)="data">
+                    {{data.item.skillItemId}}
+                  </template>
                   <template #top-row>
                     <b-td v-for="(field, index) in categoriesField" :key="index">
                       <b-form-input v-model="search[field.key]" :name="field.key" :placeholder="`${field.label}`" />

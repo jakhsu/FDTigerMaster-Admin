@@ -63,9 +63,15 @@
                     <TitledCard title="師傅工項">
                         <b-card>
                             <b-form-group label="師傅不會的工項">
-                                <b-form-input v-model="categoryToBeIgnored"></b-form-input>
+                                <b-select v-model="categoryToBeIgnored" :options="ignoreOptions" />
                             </b-form-group>
                             <b-button variant="success" @click="onIgnoreCategory">確定送出</b-button>
+                            <div class="mt-2">
+                                <label for="">不會的工項</label>
+                                <b-tags v-model="ignoredCategories" placeholder="" disabled tag-pills
+                                    tag-variant="danger">
+                                </b-tags>
+                            </div>
                         </b-card>
                     </TitledCard>
                 </b-col>
@@ -104,6 +110,8 @@
                 categories: [],
                 skillOptions: [],
                 categoryToBeIgnored: '',
+                ignoredCategories: this.currentUser.data.master.ignoreWorkingCategories,
+                ignoreOptions: [],
             }
         },
         async created() {
@@ -119,6 +127,7 @@
                 }
             })
             const skill = tigermaster.services.Skill;
+
             for (let i = 0; i < queryArray.length; i++) {
                 let skillItem = await skill.get(queryArray[i])
                 this.skills.push(skillItem);
@@ -129,12 +138,44 @@
             temp.forEach((ele) => {
                 this.skillOptions.push(ele.id)
             })
+
+            let categoryArray = this.currentUser.data.master.ignoreWorkingCategories;
+            categoryArray = categoryArray.split(/(,)/);
+            categoryArray = categoryArray.filter((element) => element != ",");
+            this.ignoredCategories = categoryArray;
+
+            let temp1 = await tigermaster.database.query("working_category").limit(0, 100).get();
+            temp1 = temp1.data;
+
+            temp1.forEach((ele) => {
+                this.ignoreOptions.push(ele.id)
+            })
+
+            // const category = tigermaster.services.WorkingCategories;
+            // for (let i = 0; i < categoryArray.length; i++) {
+            //     let categoryItem = await category.get(categoryArray[i])
+            //     this.ignoredCategories.push(categoryItem)
+            // }
+            // const category = tigermaster.services.WorkingCategories;
+            // for (let i = 0; i < queryArray.length; i++) {
+            //     let categoryItem = await category.get(queryArray[i])
+            //     this.skills.push(skillItem);
+            // }
+            // let temp1 = await tigermaster.database.query("skill_item").limit(0, 100).get();
+            // temp = temp.data;
+
+            // temp.forEach((ele) => {
+            //     this.skillOptions.push(ele.id)
+            // })
+
+
+
             this.skillsTableBusy = false;
         },
         methods: {
             onIgnoreCategory() {
-                this.currentUser.master.ignoreWorkingCategories = this.user.master.ignoreWorkingCategories + ',' + this
-                    .categoryToBeIgnored;
+                this.ignoredCategories.push(this.categoryToBeIgnored);
+                this.categoryToBeIgnored = '';
             },
             onSkillsDataRequire() {},
             parseTxtInput() {
@@ -186,6 +227,7 @@
                         }
                     })
                 }
+                this.categories = this.categories.filter(item => !this.ignoredCategories.includes(item));
                 this.categoriesTableBusy = false;
             },
         },
