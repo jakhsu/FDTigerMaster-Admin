@@ -102,9 +102,8 @@
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
                                         <b-form-input :value="user.updateBy" disabled />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="Active: ">
-                                        <b-form-input :value="user.active" disabled />
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
+                                        <b-form-input :value="user.status" disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>

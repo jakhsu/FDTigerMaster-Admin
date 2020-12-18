@@ -1,5 +1,4 @@
-[
-    {
+[{
         "value": "phone",
         "text": "電話"
     },
@@ -52,7 +51,7 @@
         "text": "門牌樓層"
     },
     {
-        "value": "active",
-        "text": "啟用"
+        "value": "status",
+        "text": "狀態"
     }
 ]

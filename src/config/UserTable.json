@@ -27,7 +27,7 @@
         "label": "樓層門牌"
     },
     {
-        "key": "active",
+        "key": "status",
         "label": "狀態"
     },
     {

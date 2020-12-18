@@ -46,7 +46,7 @@
                                             {{ data.value }}
                                         </router-link>
                                     </template>
-                                    <template #cell(active)="data">
+                                    <template #cell(status)="data">
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                     <template #cell(roleId)="data">

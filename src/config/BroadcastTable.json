@@ -1,5 +1,4 @@
-[
-    {
+[{
         "key": "name",
         "label": "姓名"
     },
@@ -12,7 +11,7 @@
         "label": "城市"
     },
     {
-        "key": "active",
+        "key": "status",
         "label": "狀態"
     },
     {

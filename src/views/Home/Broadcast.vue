@@ -61,7 +61,7 @@
                                         <CustomTable @rowSelected="updateSelected" :isSelectAll="isSelectAll"
                                             :queryRows="totalCount" :totalRows="totalCount" :isSelectable="true"
                                             :fields="fields" :datas="data" :isBusy="tableBusy">
-                                            <template #cell(active)="data">
+                                            <template #cell(status)="data">
                                                 {{ data.value == "1" ? "啟用" : "凍結" }}
                                             </template>
                                             <template #cell(roleId)="data">
