@@ -31,6 +31,7 @@ export default {
 @media (max-width: 767px){
     #simple-card{
         margin: 10px 0px;
+        padding: 16px 0px;
     }
 }
 </style>

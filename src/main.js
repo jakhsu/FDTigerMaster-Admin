@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import {
-  BootstrapVue,
-  LayoutPlugin
+    BootstrapVue,
+    LayoutPlugin
 } from 'bootstrap-vue'
 import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import Fragment from 'vue-fragment'
@@ -13,53 +13,57 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
 import {
-  library
+    library
 } from '@fortawesome/fontawesome-svg-core'
 import {
-  FontAwesomeIcon
+    FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome'
 import {
-  faBars,
-  faUser,
-  faEdit,
-  faUsers,
-  faTools,
-  faHardHat,
-  faAngleLeft,
-  faEllipsisV,
-  faUserShield,
-  faSignOutAlt,
-  faAngleRight,
-  faPaperPlane,
-  faAddressCard,
-  faFileContract,
-  faTachometerAlt,
-  faLink,
-  faSmile,
-  faSearch,
-  faTrashAlt,
+    faBars,
+    faUser,
+    faEdit,
+    faLink,
+    faUsers,
+    faTools,
+    faSmile,
+    faSearch,
+    faUpload,
+    faHardHat,
+    faTrashAlt,
+    faAngleLeft,
+    faEllipsisV,
+    faUserShield,
+    faSignOutAlt,
+    faAngleRight,
+    faPaperPlane,
+    faPlusSquare,
+    faAddressCard,
+    faFileContract,
+    faTachometerAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
-  faBars,
-  faUser,
-  faEdit,
-  faUsers,
-  faTools,
-  faHardHat,
-  faAngleLeft,
-  faEllipsisV,
-  faUserShield,
-  faSignOutAlt,
-  faAngleRight,
-  faPaperPlane,
-  faAddressCard,
-  faFileContract,
-  faTachometerAlt,
-  faLink,
-  faSmile,
-  faSearch,
-  faTrashAlt,
+    faBars,
+    faUser,
+    faEdit,
+    faLink,
+    faUsers,
+    faTools,
+    faSmile,
+    faSearch,
+    faUpload,
+    faHardHat,
+    faTrashAlt,
+    faAngleLeft,
+    faEllipsisV,
+    faUserShield,
+    faSignOutAlt,
+    faAngleRight,
+    faPaperPlane,
+    faPlusSquare,
+    faAddressCard,
+    faFileContract,
+    faTachometerAlt
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="custom-table" :items="datas" :fields="fields" :per-page="perPage" :current-page="currentPage"
+        <b-table id="custom-table" :items="datas" :fields="fields" ref="selectableTable" :per-page="perPage" :current-page="currentPage"
             :busy="isBusy" bordered responsive foot-clone hover :selectable="isSelectable" :select-mode="selectMode"
             @row-selected="onRowSelected">
             <template #table-busy>
@@ -29,6 +29,7 @@
             datas: Array,
             queryRows: Number,
             totalRows: Number,
+            isSelectAll: Boolean,
             isBusy: {
                 type: Boolean,
                 default: false
@@ -58,9 +59,20 @@
         methods: {
             onRowSelected(items) {
                 this.selected = items
-                this.$emit("row-selected", this.selected)
+                this.$emit("rowSelected", this.selected);
             }
-        }
+        },
+        watch: {
+            isSelectAll: function () {
+                if (this.isSelectAll == true) {
+                    this.$refs.selectableTable.selectAllRows()
+                }
+                if (this.isSelectAll == false) {
+                    this.$refs.selectableTable.clearSelected()
+                }
+            }
+        },
+
     }
 </script>
 

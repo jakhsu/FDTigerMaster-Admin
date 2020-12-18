@@ -1,4 +1,5 @@
-[{
+[
+    {
         "value": "phone",
         "text": "電話"
     },
@@ -7,7 +8,7 @@
         "text": "姓名"
     },
     {
-        "value": "roleId",
+        "value": "role_id",
         "text": "角色"
     },
     {
@@ -19,59 +20,39 @@
         "text": "性别"
     },
     {
-        "value": "idCardNo",
+        "value": "id_card_no",
         "text": "身分證號"
     },
     {
-        "value": "birthYear",
+        "value": "birth_year",
         "text": "出生年"
     },
     {
-        "value": "birthMon",
+        "value": "birth_mon",
         "text": "出生月"
     },
     {
-        "value": "birthDate",
+        "value": "birth_date",
         "text": "出生日"
     },
     {
-        "value": "addressCity",
+        "value": "address_city",
         "text": "城市"
     },
     {
-        "value": "addressArea",
+        "value": "address_area",
         "text": "區域"
     },
     {
-        "value": "addressStreet",
+        "value": "address_atreet",
         "text": "街道"
     },
     {
-        "value": "addressDetail",
+        "value": "address_detail",
         "text": "門牌樓層"
     },
     {
-        "value": "addressLong",
-        "text": "經度"
-    },
-    {
-        "value": "addressLat",
-        "text": "緯度"
-    },
-    {
-        "value": "createDate",
-        "text": "創建日期"
-    },
-    {
-        "value": "createBy",
-        "text": "創建者"
-    },
-    {
-        "value": "updateDate",
-        "text": "更新日期"
-    },
-    {
-        "value": "Active",
-        "text": "Active"
+        "value": "active",
+        "text": "啟用"
     }
 ]
