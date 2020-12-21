@@ -116,7 +116,7 @@
                 step: 0,
                 display: [true, false, false, false],
                 content: {},
-                condiction: {},
+                condition: {},
                 isSelectAll: false,
                 tableBusy: true,
                 numOfSelected: 0,
@@ -131,14 +131,14 @@
                 this.step = 1;
                 this.collapseToggle(1);
             },
-            searchReady(condiction) {
-                this.condiction = JSON.parse(JSON.stringify(condiction));
+            searchReady(condition) {
+                this.condition = JSON.parse(JSON.stringify(condition));
                 this.step = 2;
                 this.collapseToggle(2);
                 this.tableBusy = true;
                 let query = tigermaster.database
                     .query("user")
-                this.condiction.forEach((element) => {
+                this.condition.forEach((element) => {
                     if (element.operator == 'LIKE') {
                         element.condition = '%' + element.condition + '%';
                     }

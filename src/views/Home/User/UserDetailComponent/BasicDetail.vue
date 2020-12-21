@@ -117,23 +117,23 @@
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行帳號: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="user.master.accountNo" disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行名稱: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="user.master.bankName" disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行代號: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="user.master.bankCode" disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="分行代號: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="user.master.branchCode" disabled />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="分行名稱: ">
-                                        <b-form-input disabled />
+                                        <b-form-input v-model="user.master.branchName" disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>

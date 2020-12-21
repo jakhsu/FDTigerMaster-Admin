@@ -129,7 +129,6 @@
             res.data.forEach((ele) => {
                 this.ignoredCategories.push(ele.id + " | " + ele.description)
             });
-            // this.ignoredCategories = categoryArray;
 
             // query and iteratively build select options for categories
             queryArray = [];
@@ -145,8 +144,16 @@
             this.skillsTableBusy = false;
         },
         methods: {
-            onIgnoreCategory() {
-                this.ignoredCategories.push(this.categoryToBeIgnored);
+            async onIgnoreCategory() {
+                console.log(this.user.master.ignoreWorkingCategories)
+                // this.user.master.ignoreWorkingCategories = this.user.ignoreWorkingCategories + ',' + this
+                //     .categoryToBeIgnored;
+                // const workingCategory = tigermaster.services.WorkingCategory;
+                // let res = await workingCategory.get(this.categoryToBeIgnored)
+                // let category = res.id + " | " + res.description;
+                // this.ignoredCategories.push(category);
+                // console.log(this.user)
+                // await this.currentUser.update(this.user)
                 this.categoryToBeIgnored = '';
             },
             onSkillsDataRequire() {},
@@ -167,7 +174,18 @@
             onDataRequire() {
                 this.tableBusy = true;
             },
-            onSearchClick() {},
+            onSearchClick() {
+                let resultArray = [];
+                this.skills.forEach((ele) => {
+                    if (ele.id == this.search.id) {
+                        resultArray.push(ele)
+                    } else if (ele.description == this.search.description) {
+                        resultArray.push(ele)
+                    }
+                })
+                this.skills = resultArray;
+                this.search = {};
+            },
             onSearchClearClick() {
                 this.search = {}
             },

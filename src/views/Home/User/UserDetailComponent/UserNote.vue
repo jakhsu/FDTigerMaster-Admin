@@ -23,7 +23,8 @@
                 </b-col>
                 <b-col lg='6' md='12'>
                     <TitledCard title="添加註記">
-                        <b-form>
+                        <scale-loader v-if="isLoading" />
+                        <b-form v-else>
                             <b-form-group label="註記內容">
                                 <b-form-textarea v-model="noteToBeAdded" id="textarea" placeholder="輸入內文..." rows="5"
                                     max-rows="20">
@@ -48,21 +49,31 @@
             TitledCard,
             CustomTable,
         },
+        props: {
+            currentUser: {
+                type: Object
+            }
+        },
         data() {
             return {
                 search: {},
                 tableBusy: false,
                 noteToBeAdded: '',
                 fields: [{
-                        "key": "note",
-                        "label": "註記"
+                        "key": "content",
+                        "label": "註記內容"
                     },
                     {
-                        "key": "noteCreatedTime",
+                        "key": "useFor",
+                        "label": "註記類型"
+                    },
+                    {
+                        "key": "createDate",
                         "label": "註記時間"
-                    }
+                    },
                 ],
                 notes: [],
+                isLoading: false,
             }
         },
         methods: {
@@ -74,14 +85,19 @@
                 this.search = {}
             },
             async submitNote() {
+                this.isLoading = true
                 const note = tigermaster.note;
-                const noteId = await note.createUeserNote("2020121600002", "note", note.UseFor.Normal);
-                console.log(noteId);
-            }
+                await note.createUserNote(this.currentUser.id, this.noteToBeAdded, note.UseFor
+                    .Normal);
+                this.noteToBeAdded = '';
+                this.notes = await note.listByUserId(this.currentUser.id);
+                this.isLoading = false
+            },
+            async test() {}
         },
         async created() {
-            // const res = await tigermaster.database.query("note").get();
-            // console.log(res);
+            const note = tigermaster.note;
+            this.notes = await note.listByUserId(this.currentUser.id);
         },
     }
 </script>

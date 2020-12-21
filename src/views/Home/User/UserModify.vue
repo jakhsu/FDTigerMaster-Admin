@@ -43,7 +43,7 @@
                                         <b-form-group label-for="name" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="姓名: ">
                                             <b-form-input id="name" v-model="userData.name"
-                                                :disabled="!userData.active">
+                                                :disabled="!userData.status">
                                             </b-form-input>
                                         </b-form-group>
                                         <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
@@ -54,31 +54,31 @@
                                         <b-form-group label-for="email" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="Email: ">
                                             <b-form-input id="email" v-model="userData.email"
-                                                :disabled="!userData.active">
+                                                :disabled="!userData.status">
                                             </b-form-input>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="性別: ">
-                                            <b-form-select v-model="userData.sex" :disabled="!userData.active">
+                                            <b-form-select v-model="userData.sex" :disabled="!userData.status">
                                                 <option value="M">男性</option>
                                                 <option value="F">女性</option>
                                             </b-form-select>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="身分證號: ">
-                                            <b-form-input v-model="userData.idCardNo" :disabled="!userData.active" />
+                                            <b-form-input v-model="userData.idCardNo" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生年: ">
-                                            <b-form-input v-model="userData.birthYear" :disabled="!userData.active" />
+                                            <b-form-input v-model="userData.birthYear" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生月: ">
-                                            <b-form-input v-model="userData.birthMon" :disabled="!userData.active" />
+                                            <b-form-input v-model="userData.birthMon" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生日: ">
-                                            <b-form-input v-model="userData.birthDate" :disabled="!userData.active" />
+                                            <b-form-input v-model="userData.birthDate" :disabled="!userData.status" />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -87,7 +87,7 @@
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="城市: ">
                                             <b-form-select id="city" v-model="userData.addressCity"
-                                                :disabled="!userData.active">
+                                                :disabled="!userData.status">
                                                 <option v-for="(list, index) in cityList" :key="index" :value="list">
                                                     {{list}}
                                                 </option>
@@ -96,7 +96,7 @@
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="區域: ">
                                             <b-form-select id="area" v-model="userData.addressArea"
-                                                @change="getAddress()" :disabled="!userData.active">
+                                                @change="getAddress()" :disabled="!userData.status">
                                                 <option v-for="(list, index) in areaList" :key="index" :value="list">
                                                     {{list}}
                                                 </option>
@@ -108,7 +108,7 @@
                                             </scale-loader>
                                             <b-form-input v-b-tooltip.v-danger="streetMatch.msg"
                                                 v-model="userData.addressStreet" @input="change" list="suggestion"
-                                                :disabled="!userData.active">
+                                                :disabled="!userData.status">
                                             </b-form-input>
                                             <datalist id="suggestion">
                                                 <option @click="suggestionClick(index)"
@@ -120,7 +120,7 @@
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="門牌樓層: ">
                                             <b-form-input v-model="userData.addressDetail"
-                                                :disabled="!userData.active" />
+                                                :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="緯度: ">
@@ -152,7 +152,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="Active: ">
-                                            <b-form-input v-model="userData.active" disabled />
+                                            <b-form-input v-model="userData.status" disabled />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -174,35 +174,23 @@
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行帳號: ">
-                                            <b-form-input v-model="master.accountNo" :disabled="!userData.active" />
+                                            <b-form-input v-model="master.accountNo" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行名稱: ">
-                                            <b-form-input v-model="master.bankName" :disabled="!userData.active" />
+                                            <b-form-input v-model="master.bankName" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行代號: ">
-                                            <b-form-input v-model="master.bankCode" :disabled="!userData.active" />
+                                            <b-form-input v-model="master.bankCode" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="分行代號: ">
-                                            <b-form-input v-model="master.branchCode" :disabled="!userData.active" />
+                                            <b-form-input v-model="master.branchCode" :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="分行名稱: ">
-                                            <b-form-input v-model="master.branchName" :disabled="!userData.active" />
-                                        </b-form-group>
-                                    </b-form-group>
-                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="技能: ">
-                                            <b-form-input v-model="userData.master.skillItems"
-                                                :disabled="!userData.active" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="不會的技能: ">
-                                            <b-form-input v-model="userData.master.ignoreWorkingCategories"
-                                                :disabled="!userData.active" />
+                                            <b-form-input v-model="master.branchName" :disabled="!userData.status" />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -342,7 +330,7 @@
                 this.currentComponent = this.tabComponentMap[name];
             },
             async onFinishEdit() {
-                if (this.userData.active == 0) {
+                if (this.userData.status == 0) {
                     return
                 } else if (this.streetMatch.msg !== '') {
                     return

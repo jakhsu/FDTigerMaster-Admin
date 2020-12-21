@@ -18,7 +18,7 @@
     "bootstrap-vue": "^2.19.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
-    "fdtigermaster-sdk": "^0.4.1",
+    "fdtigermaster-sdk": "^0.4.2",
     "node-fetch": "^2.6.1",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",

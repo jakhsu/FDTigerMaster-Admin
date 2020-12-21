@@ -254,6 +254,7 @@
                 if (arg == true) {
                     this.skillToBeEdited = {};
                     this.skillInputState = [];
+                    this.formError = null;
                 }
             },
             async updateSkill() {

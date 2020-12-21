@@ -4,8 +4,6 @@
 
 [naming convention](#Naming-Convention)
 
-[demo](#Demo)
-
 ## Naming Convention
 
 ### Variable Names
@@ -50,4 +48,3 @@ export default {
 
     <https://vuejs.org/v2/style-guide>
 
-## Demo
