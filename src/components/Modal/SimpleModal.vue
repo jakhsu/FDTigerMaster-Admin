@@ -44,7 +44,6 @@
             resetModal() {},
             onSaveClick() {
                 this.$emit("onSaveClick")
-                this.$bvModal.hide(this.id);
             },
             modalHidden() {
                 this.$emit("modalHidden", true)

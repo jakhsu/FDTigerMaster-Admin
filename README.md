@@ -1,5 +1,11 @@
 # FD Taiger Master Admin Documentation
 
+## Table of Contents
+
+[naming convention](#Naming-Convention)
+
+[demo](#Demo)
+
 ## Naming Convention
 
 ### Variable Names
@@ -9,6 +15,7 @@
 ```js
 let simpleVariable = 3;
 ```
+
 
 ### Functions and Methods
 
@@ -35,8 +42,12 @@ export default {
 
 ### Reference for naming convention and style guide:
 
-W3SCHOOL JS style guide:
-https://www.w3schools.com/js/js_conventions.asp
+* W3SCHOOL JS style guide:
 
-VueJs official style guide: 
-https://vuejs.org/v2/style-guide/#Self-closing-components-strongly-recommended
+    <https://www.w3schools.com/js/js_conventions.asp>
+
+* VueJs official style guide:
+
+    <https://vuejs.org/v2/style-guide>
+
+## Demo

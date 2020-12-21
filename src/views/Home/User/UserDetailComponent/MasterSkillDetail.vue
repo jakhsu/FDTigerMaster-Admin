@@ -6,7 +6,12 @@
                 <b-form>
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-select v-model="skillToBeAdded" :options="skillOptions" />
+                            <b-form-input list="available skills" v-model="skillToBeAdded" autocomplete="off">
+                            </b-form-input>
+                            <datalist id="available skills">
+                                <option value=""></option>
+                                <option v-for="(option, index) in skillOptions" :key="index">{{ option }}</option>
+                            </datalist>
                         </b-form-group>
                     </b-card>
                 </b-form>
@@ -104,11 +109,13 @@
                 .where("skill_item.id", "IN", queryArray)
                 .get();
             this.skills = response.data
-
+            this.skills = this.skills.filter((element) =>
+                element.active != 0
+            );
             // query and iteratively build select options for skills
             let temp = await tigermaster.database.query("skill_item").limit(0, 100).get();
             temp = temp.data;
-
+            temp = temp.filter((ele) => ele.active != 0);
             temp.forEach((ele) => {
                 this.skillOptions.push(ele.id)
             })
@@ -116,16 +123,25 @@
             let categoryArray = this.currentUser.data.master.ignoreWorkingCategories;
             categoryArray = categoryArray.split(/(,)/);
             categoryArray = categoryArray.filter((element) => element != ",");
-            this.ignoredCategories = categoryArray;
+            let res = await tigermaster.database.query("working_category").limit(0, 100)
+                .where("working_category.id", "IN", categoryArray)
+                .get();
+            res.data.forEach((ele) => {
+                this.ignoredCategories.push(ele.id + " | " + ele.description)
+            });
+            // this.ignoredCategories = categoryArray;
 
             // query and iteratively build select options for categories
-            let temp1 = await tigermaster.database.query("working_category").limit(0, 100).get();
-            temp1 = temp1.data;
-
-            temp1.forEach((ele) => {
+            queryArray = [];
+            this.skills.forEach((ele) => {
+                queryArray.push(ele.id)
+            });
+            res = await tigermaster.database.query("working_category").limit(0, 100)
+                .where("working_category.skill_item_id", "IN", queryArray)
+                .get();
+            res.data.forEach((ele) => {
                 this.ignoreOptions.push(ele.id)
-            })
-
+            });
             this.skillsTableBusy = false;
         },
         methods: {
@@ -161,6 +177,7 @@
             onSaveClick() {},
             async createSkill() {
                 this.skillsTableBusy = true;
+                this.isLoadingModal = true;
                 let skillsToBeUpdated = this.user.master.skillItems;
                 skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
                 this.user.master.skillItems = this.user.master.skillItems + "," + this.skillToBeAdded;
@@ -170,6 +187,7 @@
                     }
                 });
                 this.user = await await tigermaster.auth.getUserById(this.user.id)
+                this.isLoadingModal = false;
                 this.skillsTableBusy = false;
             },
             async updateSelectedSkill(obj) {
@@ -184,7 +202,7 @@
                         .get();
                     res.data.forEach((element) => {
                         if ("id" in element) {
-                            this.categories.push(element.id)
+                            this.categories.push(element.id + " | " + element.description)
                         }
                     })
                 }

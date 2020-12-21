@@ -7,11 +7,12 @@
                 <b-form>
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-input v-model="skillToBeEdited.id" @update="skillIdValidate()"
+                            <b-input v-model="skillToBeEdited.id" @update="skillIdValidate(skillToBeEdited.id)"
                                 :state="skillInputState[0]" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
-                            <b-input v-model="skillToBeEdited.description" />
+                            <b-input v-model="skillToBeEdited.description" :state="skillInputState[1]"
+                                @update="skillDescriptionValidate(skillToBeEdited.description)" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
                             <b-select v-model="skillToBeEdited.active">
@@ -19,25 +20,32 @@
                                 <option value="1">啟用</option>
                             </b-select>
                         </b-form-group>
+                        <span class="Skill-Input-Error" v-if="formError">有些資料不符合規定</span>
+
                     </b-card>
                 </b-form>
             </template>
         </SimpleModal>
-        <!-- <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData" id="Skill-Create-Modal">
+        <SimpleModal @onSaveClick="createSkill" :isLoading="isLoadingModal" title="新增技能" @modalHidden="clearModalData"
+            id="Skill-Create-Modal">
             <template #modal-body>
                 <b-form>
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-input v-model="skillToBeAdded.id" />
+                            <b-input v-model="skillToBeAdded.id" @update="skillIdValidate(skillToBeAdded.id)"
+                                :state="skillInputState[0]" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
-                            <b-input v-model="skillToBeAdded.description" />
+                            <b-input v-model="skillToBeAdded.description"
+                                @update="skillDescriptionValidate(skillToBeAdded.description)"
+                                :state="skillInputState[1]" />
                         </b-form-group>
+                        <span class="Skill-Input-Error" v-if="formError">有些資料不符合規定</span>
+
                     </b-card>
                 </b-form>
             </template>
-        </SimpleModal> -->
-        <SkillModal id="Skill-Create-Modal" title="新增技能" />
+        </SimpleModal>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -112,10 +120,9 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CategoriesTable from '@/config/CategoriesTable.json'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue';
 
     import tigermaster from 'fdtigermaster-sdk'
-    import SkillModal from '@/components/Modal/SkillModal.vue'
     export default {
         name: 'Skill',
         components: {
@@ -123,7 +130,6 @@
             TitledCard,
             CustomTable,
             SimpleModal,
-            SkillModal,
         },
         data() {
             return {
@@ -141,6 +147,7 @@
                 skillToBeAdded: {},
                 categoriesTableBusy: false,
                 skillInputState: [null, null],
+                formError: false
             };
         },
         async created() {
@@ -149,11 +156,13 @@
             this.skillsTableBusy = false;
         },
         methods: {
-            skillIdValidate() {
+            skillIdValidate(id) {
                 var skillIdRegex = /^TM-[A-Z]{1}[0-9]{4}00$/;
-                this.skillInputState[0] = skillIdRegex.test(this.skillToBeEdited.id);
+                this.skillInputState[0] = skillIdRegex.test(id);
             },
-            skillDescriptionValidate() {},
+            skillDescriptionValidate(input) {
+                this.skillInputState[1] = input !== '';
+            },
             searchTips(field) {
                 return {
                     variant: 'info',
@@ -248,26 +257,44 @@
                 }
             },
             async updateSkill() {
-                this.skillsTableBusy = true;
-                const skill = tigermaster.services.Skill;
-                await skill.update({
-                    id: this.skillToBeEdited.id,
-                    description: this.skillToBeEdited.description,
-                    active: this.skillToBeEdited.active,
-                });
-                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-                this.skillsTableBusy = false;
+                if (this.skillInputState[0] && this.skillInputState[1]) {
+                    this.isLoadingModal = true
+                    this.skillsTableBusy = true;
+                    const skill = tigermaster.services.Skill;
+                    await skill.update({
+                        id: this.skillToBeEdited.id,
+                        description: this.skillToBeEdited.description,
+                        active: this.skillToBeEdited.active,
+                    });
+                    this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                    this.$bvModal.hide("Skill-Modify-Modal");
+                    this.isLoadingModal = false
+                    this.skillsTableBusy = false;
+                } else {
+                    this.formError = true;
+                    this.skillInputState = [];
+                }
+
             },
             async createSkill() {
-                this.skillsTableBusy = true;
-                const skill = tigermaster.services.Skill;
-                await skill.create({
-                    id: this.skillToBeAdded.id,
-                    description: this.skillToBeAdded.description,
-                    active: 1,
-                });
-                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-                this.skillsTableBusy = false;
+                if (this.skillInputState[0] && this.skillInputState[1]) {
+                    this.isLoadingModal = true
+                    this.skillsTableBusy = true;
+                    const skill = tigermaster.services.Skill;
+                    await skill.create({
+                        id: this.skillToBeAdded.id,
+                        description: this.skillToBeAdded.description,
+                        active: 1,
+                    });
+                    this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                    this.$bvModal.hide("Skill-Create-Modal");
+                    this.isLoadingModal = false
+                    this.skillsTableBusy = false;
+                } else {
+                    this.formError = true;
+                    this.skillInputState = [];
+                }
+
             }
         },
     }
@@ -296,5 +323,10 @@
         #SkillAndCategory .SkillAndCategory-Area {
             padding: 0px;
         }
+    }
+
+    .Skill-Input-Error {
+        color: #dd2a0e;
+        font-size: 10px;
     }
 </style>
