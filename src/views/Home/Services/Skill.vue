@@ -98,7 +98,7 @@
                                     <label for="">對應工項</label>
                                     <scale-loader v-if="categoriesTableBusy" />
                                     <div v-else>
-                                        <b-tags placeholder="" v-model="categories" disabled tag-pills
+                                        <b-tags size="lg" placeholder="" v-model="categories" disabled tag-pills
                                             tag-variant="success">
                                         </b-tags>
                                     </div>

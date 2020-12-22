@@ -10,8 +10,9 @@
                             <b-form-input list="Available-Skills" v-model="skillToBeAdded" autocomplete="off">
                             </b-form-input>
                             <datalist id="Available-Skills">
-                                <option value=""></option>
-                                <option v-for="(option, index) in skillOptions" :key="index">{{ option }}</option>
+                                <option v-for="(option, index) in skillOptions" :key="index" :value="option">
+                                    {{ skillOptionTexts[index] }}
+                                </option>
                             </datalist>
                         </b-form-group>
                     </b-card>
@@ -42,7 +43,8 @@
                             <label for="">對應工項</label>
                             <scale-loader v-if="categoriesTableBusy" />
                             <div v-else>
-                                <b-tags v-model="categories" placeholder="" disabled tag-pills tag-variant="success">
+                                <b-tags size="lg" v-model="categories" placeholder="" disabled tag-pills
+                                    tag-variant="success">
                                 </b-tags>
                             </div>
                         </div>
@@ -56,8 +58,8 @@
                                     autocomplete="off">
                                 </b-form-input>
                                 <datalist id="Available-Ignore-Options">
-                                    <option value=""></option>
-                                    <option v-for="(option, index) in ignoreOptions" :key="index">{{ option }}
+                                    <option v-for="(option, index) in ignoreOptions" :key="index" :value="option">
+                                        {{ignoreOptionTexts[index]}}
                                     </option>
                                 </datalist>
                             </b-form-group>
@@ -66,8 +68,8 @@
                                 <label for="">不會的工項</label>
                                 <scale-loader v-if="isLoadingIgnored" />
                                 <div v-else>
-                                    <b-tags v-model="ignoredCategories" placeholder="" disabled tag-pills
-                                        tag-variant="danger">
+                                    <b-tags size="lg" @input="updateIgnoredCategories" v-model="ignoredCategories"
+                                        placeholder="" tag-pills tag-variant="danger">
                                     </b-tags>
                                 </div>
                             </div>
@@ -117,10 +119,13 @@
                 categoriesTableBusy: false,
                 selectedSkill: '',
                 isLoadingIgnored: false,
+                ignoreOptionTexts: [],
+                skillOptionTexts: [],
             }
         },
         async created() {
             this.skillsTableBusy = true;
+            this.isLoadingIgnored = true
             let queryArray = this.user.master.skillItems;
             queryArray = queryArray.split(/(,)/);
             queryArray = queryArray.filter((element) => element != ",");
@@ -138,6 +143,7 @@
             temp = temp.filter((ele) => ele.active != 0);
             temp.forEach((ele) => {
                 this.skillOptions.push(ele.id)
+                this.skillOptionTexts.push(ele.description)
             })
 
             let categoryArray = this.currentUser.data.master.ignoreWorkingCategories;
@@ -161,14 +167,17 @@
             res.data.forEach((ele) => {
                 if (categoryArray.indexOf(ele.id) == -1) {
                     this.ignoreOptions.push(ele.id)
+                    this.ignoreOptionTexts.push(ele.description)
                 }
             });
+            this.isLoadingIgnored = false;
             this.skillsTableBusy = false;
         },
         methods: {
             async onIgnoreCategory() {
                 this.isLoadingIgnored = true;
-                console.log(this.user.master.ignoreWorkingCategories)
+                let selectedSkill = this.selectedSkill;
+                console.log(selectedSkill);
                 this.user.master.ignoreWorkingCategories = this.user.master.ignoreWorkingCategories + ',' + this
                     .categoryToBeIgnored;
                 delete this.user.pass
@@ -183,6 +192,7 @@
                 res.data.forEach((ele) => {
                     this.ignoredCategories.push(ele.id + " | " + ele.description)
                 });
+                this.updateSelectedSkill(this.selectedSkill);
                 this.isLoadingIgnored = false;
             },
             onSkillsDataRequire() {},
@@ -225,15 +235,17 @@
             async createSkill() {
                 this.skillsTableBusy = true;
                 this.isLoadingModal = true;
-                let skillsToBeUpdated = this.user.master.skillItems;
+                let userData = this.user;
+                let skillsToBeUpdated = userData.master.skillItems;
                 skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
-                this.user.master.skillItems = this.user.master.skillItems + "," + this.skillToBeAdded;
-                await this.currentUser.update(this.user, {
+                userData.master.skillItems = userData.master.skillItems + "," + this.skillToBeAdded;
+                delete userData.pass;
+                await this.currentUser.update(userData, {
                     master: {
                         skillItems: skillsToBeUpdated
                     }
                 });
-                this.user = await await tigermaster.auth.getUserById(this.user.id)
+                this.$router.go();
                 this.isLoadingModal = false;
                 this.skillsTableBusy = false;
             },
@@ -241,19 +253,42 @@
                 this.categoriesTableBusy = true;
                 this.categories = [];
                 try {
-                    this.selectedSkill = obj[0].id;
+                    if (obj !== String) {
+                        this.selectedSkill = obj[0].id;
+                    }
                     let skillIndex = this.skills.findIndex((element) => element.id == this.selectedSkill)
+                    console.log(skillIndex)
                     let respectiveCategories = this.skills[skillIndex].workingCategories;
+                    console.log(respectiveCategories)
                     respectiveCategories.forEach((ele) => {
                         this.categories.push(ele.id + " | " + ele.description)
                     })
-                    console.log(this.categories);
                     this.categories = this.categories.filter(item => !this.ignoredCategories.includes(item));
                 } catch (e) {
                     console.log(e)
                 }
                 this.categoriesTableBusy = false;
             },
+            async updateIgnoredCategories(obj) {
+                this.isLoadingIgnored = true;
+                let userData = this.user;
+                let splited = obj.map((ele) => {
+                    return ele.split(" ")
+                })
+                let array = splited.flat();
+                let categoryRegex = /^TM-[A-Z]{1}[0-9]{4}.+(?<!00)$/
+                let result = array.filter((ele) => {
+                    return categoryRegex.test(ele)
+                })
+                result = result.reduce((a, b) => {
+                    return a + "," + b;
+                })
+                userData.master.ignoreWorkingCategories = result;
+                delete userData.pass;
+                await this.currentUser.update(userData)
+                this.updateSelectedSkill(this.selectedSkill);
+                this.isLoadingIgnored = false;
+            }
         },
         watch: {
             "selected": function () {
