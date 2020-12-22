@@ -9,7 +9,7 @@
                             <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
                         </div>
                         <div class="User-Note-Table">
-                            <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="notes"
+                            <CustomTable :queryRows="queryRows" :totalRows="totalRows" :fields="fields" :datas="notes"
                                 :isBusy="tableBusy" @dataRequire="onDataRequire">
                                 <template #top-row="notes">
                                     <b-td v-for="(field, index) in notes.fields" :key="index">
@@ -74,6 +74,8 @@
                 ],
                 notes: [],
                 isLoading: false,
+                totalRows: 0,
+                queryRows: 0,
             }
         },
         methods: {
@@ -98,6 +100,8 @@
         async created() {
             const note = tigermaster.note;
             this.notes = await note.listByUserId(this.currentUser.id);
+            this.totalRows = this.notes.length;
+            this.queryRows = this.notes.length;
         },
     }
 </script>

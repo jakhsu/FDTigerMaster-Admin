@@ -193,6 +193,19 @@
                                             <b-form-input v-model="master.branchName" :disabled="!userData.status" />
                                         </b-form-group>
                                     </b-form-group>
+                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="技能: ">
+                                            <b-form-input v-model="userData.master.skillItems"
+                                                :disabled="!userData.status" />
+                                        </b-form-group>
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="不會的技能: ">
+                                            <b-form-input v-model="userData.master.ignoreWorkingCategories"
+                                                :disabled="!userData.status" />
+                                        </b-form-group>
+                                    </b-form-group>
+
                                 </b-card>
                             </b-form>
                         </TitledCard>
@@ -247,7 +260,7 @@
                 streetMatch: {
                     msg: '',
                 },
-                currentUser: '',
+                currentUser: {},
                 master: {},
             };
         },
@@ -336,6 +349,7 @@
                     return
                 } else {
                     this.isLoading = true;
+                    delete this.userData["pass"];
                     await this.currentUser.update(this.userData);
                     this.$router.push({
                         path: '/home/user_detail',
@@ -343,6 +357,7 @@
                             userId: this.userData.id
                         }
                     });
+                    this.isLoading = false;
                 }
             },
             onCancelEdit() {

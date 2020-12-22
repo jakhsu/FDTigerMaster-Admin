@@ -41,7 +41,6 @@
                                 :state="skillInputState[1]" />
                         </b-form-group>
                         <span class="Skill-Input-Error" v-if="formError">有些資料不符合規定</span>
-
                     </b-card>
                 </b-form>
             </template>
@@ -216,7 +215,7 @@
                         this.categories.push(element.id + " | " + element.description)
                     })
                 } catch (exeception) {
-                    alert(`${exeception}`)
+                    console.log(exeception)
                 }
                 this.categoriesTableBusy = false;
             },

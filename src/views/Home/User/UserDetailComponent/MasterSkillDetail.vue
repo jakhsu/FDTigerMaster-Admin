@@ -1,14 +1,15 @@
 <template>
-    <div id="MasterSkillDetail">
+    <Loading v-if="isLoading" />
+    <div v-else id="MasterSkillDetail">
         <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData"
             id="Master-Skill-Create-Modal">
             <template #modal-body>
                 <b-form>
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-form-input list="available skills" v-model="skillToBeAdded" autocomplete="off">
+                            <b-form-input list="Available-Skills" v-model="skillToBeAdded" autocomplete="off">
                             </b-form-input>
-                            <datalist id="available skills">
+                            <datalist id="Available-Skills">
                                 <option value=""></option>
                                 <option v-for="(option, index) in skillOptions" :key="index">{{ option }}</option>
                             </datalist>
@@ -39,23 +40,36 @@
                         </CustomTable>
                         <div>
                             <label for="">對應工項</label>
-                            <b-tags v-model="categories" placeholder="" disabled tag-pills tag-variant="success">
-                            </b-tags>
+                            <scale-loader v-if="categoriesTableBusy" />
+                            <div v-else>
+                                <b-tags v-model="categories" placeholder="" disabled tag-pills tag-variant="success">
+                                </b-tags>
+                            </div>
                         </div>
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
                     <TitledCard title="師傅工項">
                         <b-card>
-                            <b-form-group label="師傅不會的工項">
-                                <b-select v-model="categoryToBeIgnored" :options="ignoreOptions" />
+                            <b-form-group label="可用工項選項">
+                                <b-form-input v-model="categoryToBeIgnored" list="Available-Ignore-Options"
+                                    autocomplete="off">
+                                </b-form-input>
+                                <datalist id="Available-Ignore-Options">
+                                    <option value=""></option>
+                                    <option v-for="(option, index) in ignoreOptions" :key="index">{{ option }}
+                                    </option>
+                                </datalist>
                             </b-form-group>
                             <b-button variant="success" @click="onIgnoreCategory">確定送出</b-button>
                             <div class="mt-2">
                                 <label for="">不會的工項</label>
-                                <b-tags v-model="ignoredCategories" placeholder="" disabled tag-pills
-                                    tag-variant="danger">
-                                </b-tags>
+                                <scale-loader v-if="isLoadingIgnored" />
+                                <div v-else>
+                                    <b-tags v-model="ignoredCategories" placeholder="" disabled tag-pills
+                                        tag-variant="danger">
+                                    </b-tags>
+                                </div>
                             </div>
                         </b-card>
                     </TitledCard>
@@ -71,6 +85,7 @@
     import SkillsTable from '@/config/SkillsTable.json'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import tigermaster from 'fdtigermaster-sdk'
+    import Loading from '@/components/Loading.vue'
 
     export default {
         name: "MasterSkillDetail",
@@ -78,6 +93,7 @@
             TitledCard,
             CustomTable,
             SimpleModal,
+            Loading,
         },
         props: {
             user: Object,
@@ -97,6 +113,10 @@
                 categoryToBeIgnored: '',
                 ignoredCategories: [],
                 ignoreOptions: [],
+                isLoading: false,
+                categoriesTableBusy: false,
+                selectedSkill: '',
+                isLoadingIgnored: false,
             }
         },
         async created() {
@@ -139,22 +159,31 @@
                 .where("working_category.skill_item_id", "IN", queryArray)
                 .get();
             res.data.forEach((ele) => {
-                this.ignoreOptions.push(ele.id)
+                if (categoryArray.indexOf(ele.id) == -1) {
+                    this.ignoreOptions.push(ele.id)
+                }
             });
             this.skillsTableBusy = false;
         },
         methods: {
             async onIgnoreCategory() {
+                this.isLoadingIgnored = true;
                 console.log(this.user.master.ignoreWorkingCategories)
-                // this.user.master.ignoreWorkingCategories = this.user.ignoreWorkingCategories + ',' + this
-                //     .categoryToBeIgnored;
-                // const workingCategory = tigermaster.services.WorkingCategory;
-                // let res = await workingCategory.get(this.categoryToBeIgnored)
-                // let category = res.id + " | " + res.description;
-                // this.ignoredCategories.push(category);
-                // console.log(this.user)
-                // await this.currentUser.update(this.user)
+                this.user.master.ignoreWorkingCategories = this.user.master.ignoreWorkingCategories + ',' + this
+                    .categoryToBeIgnored;
+                delete this.user.pass
+                await this.currentUser.update(this.user)
                 this.categoryToBeIgnored = '';
+                let categoryArray = this.currentUser.data.master.ignoreWorkingCategories;
+                categoryArray = categoryArray.split(/(,)/);
+                categoryArray = categoryArray.filter((element) => element != ",");
+                let res = await tigermaster.database.query("working_category").limit(0, 100)
+                    .where("working_category.id", "IN", categoryArray)
+                    .get();
+                res.data.forEach((ele) => {
+                    this.ignoredCategories.push(ele.id + " | " + ele.description)
+                });
+                this.isLoadingIgnored = false;
             },
             onSkillsDataRequire() {},
             parseTxtInput() {
@@ -211,20 +240,18 @@
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
-                if (obj.length > 0) {
+                try {
                     this.selectedSkill = obj[0].id;
-                    const res = await tigermaster.database
-                        .query("working_category")
-                        .where("working_category.skill_item_id", "=", this.selectedSkill)
-                        .limit(0, 100)
-                        .get();
-                    res.data.forEach((element) => {
-                        if ("id" in element) {
-                            this.categories.push(element.id + " | " + element.description)
-                        }
+                    let skillIndex = this.skills.findIndex((element) => element.id == this.selectedSkill)
+                    let respectiveCategories = this.skills[skillIndex].workingCategories;
+                    respectiveCategories.forEach((ele) => {
+                        this.categories.push(ele.id + " | " + ele.description)
                     })
+                    console.log(this.categories);
+                    this.categories = this.categories.filter(item => !this.ignoredCategories.includes(item));
+                } catch (e) {
+                    console.log(e)
                 }
-                this.categories = this.categories.filter(item => !this.ignoredCategories.includes(item));
                 this.categoriesTableBusy = false;
             },
         },

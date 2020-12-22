@@ -24,11 +24,14 @@
                                     <b-form-group label-class="font-weight-bold pt-0" label="工項資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="工項編號: ">
-                                            <b-form-input v-model="category.id" />
+                                            <b-form-input v-model="category.id" :state="categoryInputState[0]"
+                                                @update="categoryIdValidate(category.id)" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="工項描述: ">
-                                            <b-form-input v-model="category.description" />
+                                            <b-form-input v-model="category.description" :state="categoryInputState[1]"
+                                                @update="categoryDescriptionValidate(category.description)" />
+                                            <span class="Category-Input-Error" v-if="formError">有些資料不符合規定</span>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="企業保固(日): ">
@@ -91,6 +94,9 @@
             return {
                 category: {},
                 isLoading: false,
+                categoryToBeAdded: {},
+                categoryInputState: [null, null],
+                formError: false
             }
         },
         async created() {
@@ -101,18 +107,31 @@
             this.isLoading = false;
         },
         methods: {
+            categoryIdValidate(id) {
+                var categoryIdRegex = /^TM-[A-Z]{1}[0-9]{4}.+(?<!00)$/;
+                this.categoryInputState[0] = categoryIdRegex.test(id);
+            },
+            categoryDescriptionValidate(input) {
+                this.categoryInputState[1] = input !== '';
+            },
             onCancelEdit() {
                 this.$router.push({
                     path: '/home/category',
                 });
             },
             async onFinishEdit() {
-                this.isLoading = true;
-                const workingCategory = tigermaster.services.WorkingCategory;
-                await workingCategory.update(this.category)
-                this.$router.push({
-                    path: '/home/category',
-                });
+                if (this.categoryInputState[0] && this.categoryInputState[1]) {
+                    this.isLoading = true;
+                    const workingCategory = tigermaster.services.WorkingCategory;
+                    await workingCategory.update(this.category)
+                    this.$router.push({
+                        path: '/home/category',
+                    });
+                } else {
+                    this.formError = true;
+                    this.categoryToBeAdded = {}
+                }
+
             },
         }
 
@@ -169,5 +188,10 @@
         .container-fluid {
             padding: 0px;
         }
+    }
+
+    .Category-Input-Error {
+        color: #dd2a0e;
+        font-size: 10px;
     }
 </style>

@@ -13,6 +13,7 @@ import HomeSkill from '@/views/Home/Services/Skill.vue'
 import HomeCategory from '@/views/Home/Services/Category.vue'
 import HomeCategoryModify from '@/views/Home/Services/CategoryModify.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
+import HomeOrder from '@/views/Home/Order/Order.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
 
@@ -75,6 +76,11 @@ const routes = [{
         path: 'category_modify',
         name: 'HomeCategotyModify',
         component: HomeCategoryModify
+      },
+      {
+        path: 'order',
+        name: 'HomeOrder',
+        component: HomeOrder
       }
     ]
   },

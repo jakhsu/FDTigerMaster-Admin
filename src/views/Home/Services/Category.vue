@@ -2,16 +2,19 @@
   <Loading v-if="isLoading" />
   <div v-else id="Category">
     <SimpleModal size='lg' @onSaveClick="createCategory" title="新增工項" @modalHidden="clearModalData"
-      id="Category-Create-Modal">
+      id="Category-Create-Modal" :isLoading="categoriesTableBusy">
       <template #modal-body>
         <b-form>
           <b-card>
             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
-              <b-input v-model="categoryToBeAdded.id" />
+              <b-input v-model="categoryToBeAdded.id" :state="categoryInputState[0]"
+                @update="categoryIdValidate(categoryToBeAdded.id)" />
             </b-form-group>
             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
-              <b-input v-model="categoryToBeAdded.description" />
+              <b-input v-model="categoryToBeAdded.description" :state="categoryInputState[1]"
+                @update="categoryDescriptionValidate(categoryToBeAdded.description)" />
             </b-form-group>
+            <span class="Category-Input-Error" v-if="formError">有些資料不符合規定</span>
           </b-card>
         </b-form>
       </template>
@@ -108,6 +111,8 @@
         search: {},
         result: "",
         categoryToBeAdded: {},
+        categoryInputState: [null, null],
+        formError: false
       };
     },
     async created() {
@@ -119,6 +124,13 @@
       this.categoriesTableBusy = false;
     },
     methods: {
+      categoryIdValidate(id) {
+        var categoryIdRegex = /^TM-[A-Z]{1}[0-9]{4}.+(?<!00)$/;
+        this.categoryInputState[0] = categoryIdRegex.test(id);
+      },
+      categoryDescriptionValidate(input) {
+        this.categoryInputState[1] = input !== '';
+      },
       onSkillsDataRequire() {
         this.skillTableBusy = true;
       },
@@ -183,30 +195,36 @@
         }
       },
       async createCategory() {
-        this.categoriesTableBusy = true;
-        const workingCategory = tigermaster.services.WorkingCategory;
-        await workingCategory.create({
-          id: this.categoryToBeAdded.id,
-          description: this.categoryToBeAdded.description,
-          commercialWarrantyDay: 0,
-          consumerWarrantyDay: 0,
-          priceRangeDescription: "",
-          warrantyDescription: "",
-          maxPrice: 0,
-          maxPricePercentage: 0,
-          minPrice: 0,
-          minPricePercentage: 0,
-        });
-        this.categories = await tigermaster.database
-          .query("working_category")
-          .limit(0, 100)
-          .get();
-        this.$router.push({
-          path: "/home/category_modify",
-          query: {
-            categoryId: this.categoryToBeAdded.id
-          }
-        });
+        if (this.categoryInputState[0] && this.categoryInputState[1]) {
+          this.categoriesTableBusy = true;
+          const workingCategory = tigermaster.services.WorkingCategory;
+          await workingCategory.create({
+            id: this.categoryToBeAdded.id,
+            description: this.categoryToBeAdded.description,
+            commercialWarrantyDay: 0,
+            consumerWarrantyDay: 0,
+            priceRangeDescription: "",
+            warrantyDescription: "",
+            maxPrice: 0,
+            maxPricePercentage: 0,
+            minPrice: 0,
+            minPricePercentage: 0,
+          });
+          this.categories = await tigermaster.database
+            .query("working_category")
+            .limit(0, 100)
+            .get();
+          this.$router.push({
+            path: "/home/category_modify",
+            query: {
+              categoryId: this.categoryToBeAdded.id
+            }
+          });
+          this.categoriesTableBusy = false;
+        } else {
+          this.formError = true;
+          this.categoryToBeAdded = {}
+        }
       }
     },
   };
@@ -239,5 +257,10 @@
 
   .custom-file-input:lang(en)~.custom-file-label::after {
     content: "hello";
+  }
+
+  .Category-Input-Error {
+    color: #dd2a0e;
+    font-size: 10px;
   }
 </style>
