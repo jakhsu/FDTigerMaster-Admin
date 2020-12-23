@@ -176,8 +176,8 @@
         methods: {
             async onIgnoreCategory() {
                 this.isLoadingIgnored = true;
-                let selectedSkill = this.selectedSkill;
-                console.log(selectedSkill);
+                this.categoriesTableBusy = true;
+                let store = this.selectedSkill;
                 this.user.master.ignoreWorkingCategories = this.user.master.ignoreWorkingCategories + ',' + this
                     .categoryToBeIgnored;
                 delete this.user.pass
@@ -192,33 +192,20 @@
                 res.data.forEach((ele) => {
                     this.ignoredCategories.push(ele.id + " | " + ele.description)
                 });
-                this.updateSelectedSkill(this.selectedSkill);
+                this.updateSelectedSkill(store);
+                this.categoriesTableBusy = false
                 this.isLoadingIgnored = false;
             },
             onSkillsDataRequire() {},
-            parseTxtInput() {
-                let str = document.getElementById("uploadTxt").value;
-                let parsed = str.split(/(,)/);
-                parsed = parsed.filter((ele) => ele != ",");
-                this.parsed = parsed;
-            },
-            submitInput() {
-                for (var i = 0; i < this.pairing.length; i++) {
-                    if (this.pairing[i].skillId === this.selected) {
-                        this.pairing[i].taskIds = this.parsed;
-                    }
-                }
-                this.textUpload = "";
-            },
             onDataRequire() {
                 this.tableBusy = true;
             },
             onSearchClick() {
                 let resultArray = [];
                 this.skills.forEach((ele) => {
-                    if (ele.id == this.search.id) {
+                    if (ele.id.indexOf(this.search.id) > -1) {
                         resultArray.push(ele)
-                    } else if (ele.description == this.search.description) {
+                    } else if (ele.description.indexOf(this.search.description) > -1) {
                         resultArray.push(ele)
                     }
                 })
@@ -228,10 +215,6 @@
             onSearchClearClick() {
                 this.search = {}
             },
-            async startEditSkill() {},
-            updateSkill() {},
-            clearModalData() {},
-            onSaveClick() {},
             async createSkill() {
                 this.skillsTableBusy = true;
                 this.isLoadingModal = true;
@@ -252,25 +235,23 @@
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
-                try {
-                    if (obj !== String) {
-                        this.selectedSkill = obj[0].id;
-                    }
-                    let skillIndex = this.skills.findIndex((element) => element.id == this.selectedSkill)
-                    console.log(skillIndex)
-                    let respectiveCategories = this.skills[skillIndex].workingCategories;
-                    console.log(respectiveCategories)
-                    respectiveCategories.forEach((ele) => {
-                        this.categories.push(ele.id + " | " + ele.description)
-                    })
-                    this.categories = this.categories.filter(item => !this.ignoredCategories.includes(item));
-                } catch (e) {
-                    console.log(e)
+                if (typeof (obj) == "string") {
+                    this.selectedSkill = obj
+                } else {
+                    this.selectedSkill = obj[0].id
                 }
+                let skillIndex = this.skills.findIndex((element) => element.id == this.selectedSkill)
+                let respectiveCategories = this.skills[skillIndex].workingCategories;
+                respectiveCategories.forEach((ele) => {
+                    this.categories.push(ele.id + " | " + ele.description)
+                })
+                this.categories = this.categories.filter(item => !this.ignoredCategories.includes(item));
                 this.categoriesTableBusy = false;
             },
             async updateIgnoredCategories(obj) {
                 this.isLoadingIgnored = true;
+                this.categoriesTableBusy = true;
+                let store = this.selectedSkill;
                 let userData = this.user;
                 let splited = obj.map((ele) => {
                     return ele.split(" ")
@@ -281,24 +262,16 @@
                     return categoryRegex.test(ele)
                 })
                 result = result.reduce((a, b) => {
-                    return a + "," + b;
-                })
+                    return a + "," + b
+                });
                 userData.master.ignoreWorkingCategories = result;
                 delete userData.pass;
                 await this.currentUser.update(userData)
-                this.updateSelectedSkill(this.selectedSkill);
+                this.updateSelectedSkill(store)
+                this.categoriesTableBusy = false;
                 this.isLoadingIgnored = false;
-            }
-        },
-        watch: {
-            "selected": function () {
-                for (var i = 0; i < this.pairing.length; i++) {
-                    if (this.pairing[i].skillId === this.selected) {
-                        this.target = this.pairing[i];
-                    }
-                }
-                return;
             },
+            clearModalData() {},
         },
     }
 </script>
