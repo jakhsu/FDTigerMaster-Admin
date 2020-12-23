@@ -63,6 +63,10 @@
                 tableBusy: false,
                 noteToBeAdded: '',
                 fields: [{
+                        "key": "id",
+                        "label": "註記內容"
+                    },
+                    {
                         "key": "content",
                         "label": "註記內容"
                     },

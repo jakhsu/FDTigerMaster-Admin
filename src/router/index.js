@@ -11,7 +11,6 @@ import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
 import HomeBroadcast from '@/views/Home/Broadcast.vue'
 import HomeSkill from '@/views/Home/Services/Skill.vue'
 import HomeCategory from '@/views/Home/Services/Category.vue'
-import HomeCategoryModify from '@/views/Home/Services/CategoryModify.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
 import HomeOrder from '@/views/Home/Order/Order.vue'
 
@@ -71,11 +70,6 @@ const routes = [{
         path: 'category',
         name: 'HomeCategory',
         component: HomeCategory
-      },
-      {
-        path: 'category_modify',
-        name: 'HomeCategotyModify',
-        component: HomeCategoryModify
       },
       {
         path: 'order',

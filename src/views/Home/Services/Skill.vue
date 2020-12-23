@@ -8,7 +8,7 @@
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
                             <b-input v-model="skillToBeEdited.id" @update="skillIdValidate(skillToBeEdited.id)"
-                                :state="skillInputState[0]" />
+                                :state="skillInputState[0]" maxlength="10" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
                             <b-input v-model="skillToBeEdited.description" :state="skillInputState[1]"
@@ -33,7 +33,7 @@
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
                             <b-input v-model="skillToBeAdded.id" @update="skillIdValidate(skillToBeAdded.id)"
-                                :state="skillInputState[0]" />
+                                :state="skillInputState[0]" maxlength="10" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
                             <b-input v-model="skillToBeAdded.description"

@@ -8,7 +8,7 @@
           <b-card>
             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
               <b-input v-model="categoryToBeAdded.id" :state="categoryInputState[0]"
-                @update="categoryIdValidate(categoryToBeAdded.id)" />
+                @update="categoryIdValidate(categoryToBeAdded.id)" maxlength="10" />
             </b-form-group>
             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
               <b-input v-model="categoryToBeAdded.description" :state="categoryInputState[1]"
@@ -245,12 +245,6 @@
             .query("working_category")
             .limit(0, 100)
             .get();
-          this.$router.push({
-            path: "/home/category_modify",
-            query: {
-              categoryId: this.categoryToBeAdded.id
-            },
-          });
           this.categoriesTableBusy = false;
         } else {
           this.formError = true;

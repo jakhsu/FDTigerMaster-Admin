@@ -139,7 +139,7 @@
                             </b-card>
                         </b-form>
                     </TitledCard>
-                    <TitledCard v-if="user.active == 1" title="用戶凍結:" titleBackgroundColor="#dd2a0e">
+                    <TitledCard v-if="user.status == 1" title="用戶凍結:" titleBackgroundColor="#dd2a0e">
                         <div class="BasicDetail-Deactivate">
                             <p>將用戶停權有以下效果:</p>
                             <ul>
@@ -150,7 +150,7 @@
                             <b-button variant="outline-danger" v-b-modal="'Deactivate-Modal'">停權</b-button>
                         </div>
                     </TitledCard>
-                    <TitledCard v-else-if="user.active == 0" title="用戶解凍:" titleBackgroundColor="#2edd0e">
+                    <TitledCard v-else-if="user.status == 0" title="用戶解凍:" titleBackgroundColor="#2edd0e">
                         <div class="BasicDetail-Deactivate">
                             <p>將用戶解凍有以下效果:</p>
                             <ul>
