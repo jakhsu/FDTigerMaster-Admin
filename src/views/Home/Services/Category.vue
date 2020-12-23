@@ -19,6 +19,31 @@
         </b-form>
       </template>
     </SimpleModal>
+    <SimpleModal @onSaveClick="updateCategory" :isLoading="isLoadingModal" @modalHidden="clearModalData"
+      id="Category-Modify-Modal" title="單一工項修改">
+      <template #modal-body>
+        <b-form>
+          <b-card>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
+              <b-input v-model="categoryToBeEdited.id" @update="categoryIdValidate(categoryToBeEdited.id)"
+                :state="categoryInputState[0]" maxlength="10" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
+              <b-input v-model="categoryToBeEdited.description" :state="categoryInputState[1]"
+                @update="categoryDescriptionValidate(categoryToBeEdited.description)" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
+              <b-select v-model="categoryToBeEdited.active">
+                <option value="0">停用</option>
+                <option value="1">啟用</option>
+              </b-select>
+            </b-form-group>
+            <span class="Category-Input-Error" v-if="formError">有些資料不符合規定</span>
+
+          </b-card>
+        </b-form>
+      </template>
+    </SimpleModal>
     <b-container fluid>
       <div class="Category-Area">
         <b-row>
@@ -58,9 +83,10 @@
                     </b-td>
                   </template>
                   <template #cell(id)="data">
-                    <router-link :to="`/home/category_modify?categoryId=${data.item.id}`">
+                    <b-button variant="outline-success" pill v-b-modal="'Category-Modify-Modal'"
+                      @click="startEditCategory(data)">
                       {{ data.value }}
-                    </router-link>
+                    </b-button>
                   </template>
                   <template #cell(active)="data">
                     {{data.value == 1 ? "啟用" : data.value == 0 ? "停用" : data.value}}
@@ -112,7 +138,9 @@
         result: "",
         categoryToBeAdded: {},
         categoryInputState: [null, null],
-        formError: false
+        formError: false,
+        isLoadingModal: false,
+        categoryToBeEdited: {},
       };
     },
     async created() {
@@ -192,6 +220,9 @@
       clearModalData(arg) {
         if (arg == true) {
           this.categoryToBeEdited = {};
+          this.categoryInputState = [];
+
+          this.formError = null;
         }
       },
       async createCategory() {
@@ -218,14 +249,45 @@
             path: "/home/category_modify",
             query: {
               categoryId: this.categoryToBeAdded.id
-            }
+            },
           });
           this.categoriesTableBusy = false;
         } else {
           this.formError = true;
           this.categoryToBeAdded = {}
         }
-      }
+      },
+      startEditCategory(data) {
+        this.isLoadingModal = true,
+          this.categories.data.forEach((ele) => {
+            if (ele.id == data.value) {
+              this.categoryToBeEdited = ele
+            }
+          })
+        this.isLoadingModal = false;
+      },
+      async updateCategory() {
+        if (this.categoryInputState[0] && this.categoryInputState[1]) {
+          this.isLoadingModal = true
+          this.categorysTableBusy = true;
+          const workingCategory = tigermaster.services.WorkingCategory;
+          await workingCategory.update({
+            id: this.categoryToBeEdited.id,
+            description: this.categoryToBeEdited.description,
+            active: this.categoryToBeEdited.active,
+          });
+          this.categories = await tigermaster.database
+            .query("working_category")
+            .limit(0, 100)
+            .get();
+          this.$bvModal.hide("Category-Modify-Modal");
+          this.isLoadingModal = false
+          this.categorysTableBusy = false;
+        } else {
+          this.formError = true;
+          this.categoryInputState = [];
+        }
+      },
     },
   };
 </script>

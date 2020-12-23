@@ -32,6 +32,7 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
+                                <b-button variant="warning" @click="test">測試用按鈕</b-button>
                                 <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
                                 </b-button>
                             </div>
@@ -110,6 +111,7 @@
             }
         },
         methods: {
+            test() {},
             searchTips(field) {
                 return {
                     variant: 'info',

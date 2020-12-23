@@ -244,9 +244,11 @@
             },
             async startEditSkill(data) {
                 this.isLoadingModal = true;
-                const skill = tigermaster.services.Skill;
-                const skillItem = await skill.get(data.value);
-                this.skillToBeEdited = skillItem;
+                this.skills.data.forEach((ele) => {
+                    if (ele.id == data.value) {
+                        this.skillToBeEdited = ele
+                    }
+                })
                 this.isLoadingModal = false;
             },
             clearModalData(arg) {
@@ -274,7 +276,6 @@
                     this.formError = true;
                     this.skillInputState = [];
                 }
-
             },
             async createSkill() {
                 if (this.skillInputState[0] && this.skillInputState[1]) {
