@@ -1,5 +1,6 @@
 <template>
-    <div id="UserNote">
+    <Loading v-if="isLoading" />
+    <div v-else id="UserNote">
         <b-container fluid>
             <b-row>
                 <b-col lg='6' md='12'>
@@ -23,7 +24,7 @@
                 </b-col>
                 <b-col lg='6' md='12'>
                     <TitledCard title="添加註記">
-                        <scale-loader v-if="isLoading" />
+                        <scale-loader v-if="isLoadingNote" />
                         <b-form v-else>
                             <b-form-group label="註記內容">
                                 <b-form-textarea v-model="noteToBeAdded" id="textarea" placeholder="輸入內文..." rows="5"
@@ -43,11 +44,13 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import tigermaster from 'fdtigermaster-sdk'
+    import Loading from '@/components/Loading.vue'
     export default {
         name: "UserNote",
         components: {
             TitledCard,
             CustomTable,
+            Loading,
         },
         props: {
             currentUser: {
@@ -76,6 +79,7 @@
                 isLoading: false,
                 totalRows: 0,
                 queryRows: 0,
+                isLoadingNote: false,
             }
         },
         methods: {
@@ -87,21 +91,27 @@
                 this.search = {}
             },
             async submitNote() {
-                this.isLoading = true
+                this.isLoadingNote = true;
+                this.tableBusy = true;
                 const note = tigermaster.note;
                 await note.createUserNote(this.currentUser.id, this.noteToBeAdded, note.UseFor
                     .Normal);
                 this.noteToBeAdded = '';
                 this.notes = await note.listByUserId(this.currentUser.id);
-                this.isLoading = false
+                this.totalRows = this.notes.length;
+                this.queryRows = this.notes.length;
+                this.tableBusy = false;
+                this.isLoadingNote = false;
             },
             async test() {}
         },
         async created() {
+            this.isLoading = true;
             const note = tigermaster.note;
             this.notes = await note.listByUserId(this.currentUser.id);
             this.totalRows = this.notes.length;
             this.queryRows = this.notes.length;
+            this.isLoading = false;
         },
     }
 </script>
