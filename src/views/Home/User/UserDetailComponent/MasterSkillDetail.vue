@@ -88,6 +88,8 @@
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import tigermaster from 'fdtigermaster-sdk'
     import Loading from '@/components/Loading.vue'
+    import * as request from '@/model/Requests/requests.js'
+    import * as parse from '@/model/Parsers/parsers.js'
 
     export default {
         name: "MasterSkillDetail",
@@ -126,46 +128,34 @@
         async created() {
             this.skillsTableBusy = true;
             this.isLoadingIgnored = true
-            let queryArray = this.user.master.skillItems;
-            queryArray = queryArray.split(/(,)/);
-            queryArray = queryArray.filter((element) => element != ",");
-
-            const response = await tigermaster.database.query("skill_item").limit(0, 100)
-                .where("skill_item.id", "IN", queryArray)
-                .get();
+            let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
+            let response = await request.querySomeSkills(queryArray);
             this.skills = response.data
             this.skills = this.skills.filter((element) =>
                 element.active != 0
             );
-            // query and iteratively build select options for skills
-            let temp = await tigermaster.database.query("skill_item").limit(0, 100).get();
-            temp = temp.data;
-            temp = temp.filter((ele) => ele.active != 0);
-            temp.forEach((ele) => {
+            response = await request.queryAllSkills();
+            let allSkillItems = response.data;
+            allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
+            allSkillItems.forEach((ele) => {
                 this.skillOptions.push(ele.id)
                 this.skillOptionTexts.push(ele.description)
             })
-
-            let categoryArray = this.currentUser.data.master.ignoreWorkingCategories;
-            categoryArray = categoryArray.split(/(,)/);
-            categoryArray = categoryArray.filter((element) => element != ",");
-            let res = await tigermaster.database.query("working_category").limit(0, 100)
-                .where("working_category.id", "IN", categoryArray)
-                .get();
-            res.data.forEach((ele) => {
+            queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
+            response = await request.querySomeCategories(queryArray);
+            let ignoredCategories = response.data;
+            ignoredCategories.forEach((ele) => {
                 this.ignoredCategories.push(ele.id + " | " + ele.description)
-            });
+            })
 
-            // query and iteratively build select options for categories
             queryArray = [];
             this.skills.forEach((ele) => {
                 queryArray.push(ele.id)
             });
-            res = await tigermaster.database.query("working_category").limit(0, 100)
-                .where("working_category.skill_item_id", "IN", queryArray)
-                .get();
-            res.data.forEach((ele) => {
-                if (categoryArray.indexOf(ele.id) == -1) {
+            response = await request.querySomeCategoriesBySkillId(queryArray);
+            let possibleIgnoreOptions = response.data;
+            possibleIgnoreOptions.forEach((ele) => {
+                if (ignoredCategories.indexOf(ele.id) == -1) {
                     this.ignoreOptions.push(ele.id)
                     this.ignoreOptionTexts.push(ele.description)
                 }
