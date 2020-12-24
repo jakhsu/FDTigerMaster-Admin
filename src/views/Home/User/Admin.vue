@@ -37,8 +37,21 @@
                                     :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
-                                            <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" v-b-popover.hover="searchTips(field)" />
+                                            <b-form-select v-if="field.key == 'status'" v-model="search['status']">
+                                                <option value="0">停用</option>
+                                                <option value="1">啟用</option>
+                                            </b-form-select>
+                                            <b-form-select v-if="field.key == 'roleId'" v-model="search[field.key]">
+                                                <option value="0">客戶</option>
+                                                <option value="1">師傅</option>
+                                                <option value="70">行銷</option>
+                                                <option value="80">財務</option>
+                                                <option value="90">客服</option>
+                                                <option value="999">超級使用者</option>
+                                            </b-form-select>
+                                            <b-form-input v-if="field.key !== 'status' && field.key !== 'roleId'"
+                                                v-model="search[field.key]" :name="field.key"
+                                                :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
                                     <template #cell(phone)="data">
@@ -104,24 +117,6 @@
             }
         },
         methods: {
-            searchTips(field) {
-                return {
-                    variant: 'info',
-                    html: true,
-                    title: () => {
-                        if (field.key == 'roleId') {
-                            return '說明: '
-                        }
-                        return
-                    },
-                    content: () => {
-                        if (field.key == 'roleId') {
-                            return `客人: 0 師傅: 1 <br> 行銷: 70  財務: 80 <br> 客服: 90 超級使用者: 999 `
-                        }
-                        return
-                    }
-                }
-            },
             onDataRequire() {
                 this.tableBusy = true;
             },

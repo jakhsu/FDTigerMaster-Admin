@@ -32,8 +32,7 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
-                                <b-button variant="warning" @click="test">測試用按鈕</b-button>
-                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增用戶
+                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增訂單
                                 </b-button>
                             </div>
                             <div class="Order-Table">
@@ -68,7 +67,7 @@
 
 <script>
     import Loading from '@/components/Loading'
-    import UserTableModel from '@/config/UserTable.json'
+    import OrderTable from '@/config/OrderTable.json'
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
@@ -87,19 +86,19 @@
         },
         async created() {
             this.isLoading = true;
-            const res = await tigermaster.database
-                .query("user")
-                .where("user.role_id", "=", 0)
-                .limit(0, 100)
-                .get();
-            this.data = res.data;
-            this.queryRows = res.queryRows;
-            this.totalCount = res.totalCount;
+            // const res = await tigermaster.database
+            //     .query("user")
+            //     .where("user.role_id", "=", 0)
+            //     .limit(0, 100)
+            //     .get();
+            // this.data = res.data;
+            // this.queryRows = res.queryRows;
+            // this.totalCount = res.totalCount;
             this.isLoading = false;
         },
         data() {
             return {
-                fields: UserTableModel,
+                fields: OrderTable,
                 data: [],
                 search: {
                     roleId: "0"

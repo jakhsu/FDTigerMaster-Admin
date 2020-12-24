@@ -1,0 +1,49 @@
+[{
+        "key": "id",
+        "label": "編號"
+    },
+    {
+        "key": "addressCity",
+        "label": "城市"
+    },
+    {
+        "key": "addressArea",
+        "label": "區"
+    },
+    {
+        "key": "addressStreet",
+        "label": "街道"
+    },
+    {
+        "key": "addressDetail",
+        "label": "地址細項"
+    },
+    {
+        "key": "addressLat",
+        "label": "緯度"
+    },
+    {
+        "key": "addressLong",
+        "label": "經度"
+    },
+    {
+        "key": "status",
+        "label": "訂單狀態"
+    },
+    {
+        "key": "addressStreet",
+        "label": "編號"
+    },
+    {
+        "key": "masterUserId",
+        "label": "師傅編號"
+    },
+    {
+        "key": "expectWorkingDate",
+        "label": "預期完工日"
+    },
+    {
+        "key": "warrtyEndDate",
+        "label": "保固結束日"
+    }
+]

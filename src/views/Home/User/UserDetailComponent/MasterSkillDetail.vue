@@ -128,38 +128,44 @@
         async created() {
             this.skillsTableBusy = true;
             this.isLoadingIgnored = true
-            let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
-            let response = await request.querySomeSkills(queryArray);
-            this.skills = response.data
-            this.skills = this.skills.filter((element) =>
-                element.active != 0
-            );
-            response = await request.queryAllSkills();
-            let allSkillItems = response.data;
-            allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
-            allSkillItems.forEach((ele) => {
-                this.skillOptions.push(ele.id)
-                this.skillOptionTexts.push(ele.description)
-            })
-            queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
-            response = await request.querySomeCategories(queryArray);
-            let ignoredCategories = response.data;
-            ignoredCategories.forEach((ele) => {
-                this.ignoredCategories.push(ele.id + " | " + ele.description)
-            })
-
-            queryArray = [];
-            this.skills.forEach((ele) => {
-                queryArray.push(ele.id)
-            });
-            response = await request.querySomeCategoriesBySkillId(queryArray);
-            let possibleIgnoreOptions = response.data;
-            possibleIgnoreOptions.forEach((ele) => {
-                if (ignoredCategories.indexOf(ele.id) == -1) {
-                    this.ignoreOptions.push(ele.id)
-                    this.ignoreOptionTexts.push(ele.description)
-                }
-            });
+            try {
+                let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
+                let response = await request.querySomeSkills(queryArray);
+                this.skills = response.data
+                this.skills = this.skills.filter((element) =>
+                    element.active != 0
+                );
+                queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
+                response = await request.querySomeCategories(queryArray);
+                let ignoredCategories = response.data;
+                ignoredCategories.forEach((ele) => {
+                    this.ignoredCategories.push(ele.id + " | " + ele.description)
+                })
+                queryArray = [];
+                this.skills.forEach((ele) => {
+                    queryArray.push(ele.id)
+                });
+                response = await request.querySomeCategoriesBySkillId(queryArray);
+                let possibleIgnoreOptions = response.data;
+                console.log(ignoredCategories)
+                console.log(possibleIgnoreOptions)
+                possibleIgnoreOptions.forEach((ele) => {
+                    if (ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
+                        this.ignoreOptions.push(ele.id)
+                        this.ignoreOptionTexts.push(ele.description)
+                    }
+                })
+            } catch (e) {
+                console.log(e)
+            } finally {
+                let response = await request.queryAllSkills();
+                let allSkillItems = response.data;
+                allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
+                allSkillItems.forEach((ele) => {
+                    this.skillOptions.push(ele.id)
+                    this.skillOptionTexts.push(ele.description)
+                })
+            }
             this.isLoadingIgnored = false;
             this.skillsTableBusy = false;
         },
@@ -173,9 +179,7 @@
                 delete this.user.pass
                 await this.currentUser.update(this.user)
                 this.categoryToBeIgnored = '';
-                let categoryArray = this.currentUser.data.master.ignoreWorkingCategories;
-                categoryArray = categoryArray.split(/(,)/);
-                categoryArray = categoryArray.filter((element) => element != ",");
+                let categoryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
                 let res = await tigermaster.database.query("working_category").limit(0, 100)
                     .where("working_category.id", "IN", categoryArray)
                     .get();

@@ -79,7 +79,12 @@
                   </template>
                   <template #top-row>
                     <b-td v-for="(field, index) in categoriesField" :key="index">
-                      <b-form-input v-model="search[field.key]" :name="field.key" :placeholder="`${field.label}`" />
+                      <b-form-select v-if="field.key == 'active'" v-model="search['active']">
+                        <option value="0">停用</option>
+                        <option value="1">啟用</option>
+                      </b-form-select>
+                      <b-form-input v-if="field.key !== 'active'" v-model="search[field.key]" :name="field.key"
+                        :placeholder="`${field.label}`" />
                     </b-td>
                   </template>
                   <template #cell(id)="data">

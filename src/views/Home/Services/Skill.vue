@@ -79,9 +79,12 @@
                                     :fields="skillsField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">
-                                            <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`"
-                                                v-b-popover.hover.top="searchTips(field)" />
+                                            <b-form-select v-if="field.key == 'active'" v-model="search['active']">
+                                                <option value="0">停用</option>
+                                                <option value="1">啟用</option>
+                                            </b-form-select>
+                                            <b-form-input v-if="field.key !== 'active'" v-model="search[field.key]"
+                                                :name="field.key" :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
@@ -161,24 +164,6 @@
             },
             skillDescriptionValidate(input) {
                 this.skillInputState[1] = input !== '';
-            },
-            searchTips(field) {
-                return {
-                    variant: 'info',
-                    html: true,
-                    title: () => {
-                        if (field.key == 'active') {
-                            return '說明: '
-                        }
-                        return
-                    },
-                    content: () => {
-                        if (field.key == 'active') {
-                            return `停用: 0 啟用: 1`
-                        }
-                        return
-                    }
-                }
             },
             onSkillsDataRequire() {
                 this.skillTableBusy = true;
