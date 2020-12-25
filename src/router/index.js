@@ -12,7 +12,8 @@ import HomeBroadcast from '@/views/Home/Broadcast.vue'
 import HomeSkill from '@/views/Home/Services/Skill.vue'
 import HomeCategory from '@/views/Home/Services/Category.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
-import HomeOrder from '@/views/Home/Order/Order.vue'
+import HomeClosedOrder from '@/views/Home/Order/ClosedOrder.vue'
+import HomeOngoingOrder from '@/views/Home/Order/OngoingOrder.vue'
 
 import Page404 from '@/views/Error/Page404.vue'
 
@@ -24,7 +25,7 @@ const routes = [{
     component: Login
   },
   {
-    path: '/home',
+    path: '/home/',
     component: Home,
     children: [{
         path: '',
@@ -72,10 +73,15 @@ const routes = [{
         component: HomeCategory
       },
       {
-        path: 'order',
-        name: 'HomeOrder',
-        component: HomeOrder
-      }
+        path: 'closed_order',
+        name: 'HomeClosedOrder',
+        component: HomeClosedOrder
+      },
+      {
+        path: 'ongoing_order',
+        name: 'HomeOngoingdOrder',
+        component: HomeOngoingOrder
+      },
     ]
   },
   {

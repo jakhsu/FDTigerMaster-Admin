@@ -38,7 +38,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="密碼: ">
-                                            <b-form-input v-model="userData.pass" disabled />
+                                            <b-form-input v-model="userData.pass" />
                                         </b-form-group>
                                         <b-form-group label-for="name" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="姓名: ">

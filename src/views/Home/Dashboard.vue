@@ -24,7 +24,7 @@
                     </b-col>
                 </b-row>
             </div>
-            <b-button @click="test">測試</b-button>
+            <!-- <b-button @click="test">測試</b-button> -->
         </b-container>
     </div>
 </template>

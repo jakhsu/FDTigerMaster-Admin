@@ -19,7 +19,7 @@
         </b-form>
       </template>
     </SimpleModal>
-    <SimpleModal @onSaveClick="updateCategory" :isLoading="isLoadingModal" @modalHidden="clearModalData"
+    <SimpleModal size="xl" @onSaveClick="updateCategory" :isLoading="isLoadingModal" @modalHidden="clearModalData"
       id="Category-Modify-Modal" title="單一工項修改">
       <template #modal-body>
         <b-form>
@@ -39,6 +39,33 @@
               </b-select>
             </b-form-group>
             <span class="Category-Input-Error" v-if="formError">有些資料不符合規定</span>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="企業保固(日): ">
+              <b-form-input v-model.number="categoryToBeEdited.commercialWarrantyDay" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="一般消費者保固(日): ">
+              <b-form-input v-model.number="categoryToBeEdited.consumerWarrantyDay" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最高價格: ">
+              <b-form-input v-model="categoryToBeEdited.maxPrice" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最高價格比例(%): ">
+              <b-form-input v-model="categoryToBeEdited.maxPricePercentage" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最低價格: ">
+              <b-form-input v-model="categoryToBeEdited.minPrice" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最低價格比例(%): ">
+              <b-form-input v-model="categoryToBeEdited.minPricePercentage" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="價格說明: ">
+              <b-form-input v-model="categoryToBeEdited.priceRangeDescription" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="保固說明: ">
+              <b-form-input v-model="categoryToBeEdited.warrantyDescription" />
+            </b-form-group>
+            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="對應技能編號">
+              <b-form-input v-model="categoryToBeEdited.skillItemId" disabled />
+            </b-form-group>
 
           </b-card>
         </b-form>
@@ -79,7 +106,7 @@
                   </template>
                   <template #top-row>
                     <b-td v-for="(field, index) in categoriesField" :key="index">
-                      <b-form-select v-if="field.key == 'active'" v-model="search['active']">
+                      <b-form-select v-if="field.key == 'active'" v-model="search['active']" autofocus>
                         <option value="0">停用</option>
                         <option value="1">啟用</option>
                       </b-form-select>

@@ -29,12 +29,18 @@
             </SideBarButton>
         </SideBarGroup>
 
+        <SideBarGroup text="訂單">
+            <SideBarButton to="/home/ongoing_order" icon="hourglass-half">
+                進行中訂單
+            </SideBarButton>
+            <SideBarButton to="/home/closed_order" icon="file-contract">
+                已完成訂單
+            </SideBarButton>
+        </SideBarGroup>
+
         <SideBarGroup text="其餘功能">
             <SideBarButton to="/home/broadcast" icon="paper-plane">
                 系統推播
-            </SideBarButton>
-            <SideBarButton to="/home/order" icon="file-contract">
-                訂單資訊
             </SideBarButton>
         </SideBarGroup>
 

@@ -39,7 +39,8 @@ import {
     faPlusSquare,
     faAddressCard,
     faFileContract,
-    faTachometerAlt
+    faTachometerAlt,
+    faHourglassHalf,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -63,7 +64,8 @@ library.add(
     faPlusSquare,
     faAddressCard,
     faFileContract,
-    faTachometerAlt
+    faTachometerAlt,
+    faHourglassHalf,
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -76,7 +78,7 @@ Vue.use(LayoutPlugin)
 Vue.use(Fragment.Plugin)
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

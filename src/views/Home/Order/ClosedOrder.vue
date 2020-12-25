@@ -1,13 +1,12 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="Order">
-        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick" />
         <b-container fluid>
             <div class="Order-Area">
                 <b-row>
                     <b-col>
                         <div class="Order-Header">
-                            <h2>訂單資訊</h2>
+                            <h2>已完成訂單</h2>
                         </div>
                     </b-col>
                 </b-row>
@@ -37,7 +36,7 @@
                             </div>
                             <div class="Order-Table">
                                 <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
-                                    :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    :datas="orders" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
@@ -48,9 +47,6 @@
                                         <router-link :to="`/home/user_detail?userId=${data.item.id}`">
                                             {{ data.value }}
                                         </router-link>
-                                    </template>
-                                    <template #cell(status)="data">
-                                        {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                     <template #cell(roleId)="data">
                                         {{ data.value == "1" ? "師傅" : data.value == 0 ? "客戶" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
@@ -71,18 +67,16 @@
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
     export default {
-        name: "Order",
+        name: "ClosedOrder",
         components: {
             Loading,
             DataCard,
             TitledCard,
             CustomTable,
-            UserCreateModal,
         },
         async created() {
             this.isLoading = true;
@@ -99,7 +93,43 @@
         data() {
             return {
                 fields: OrderTable,
-                data: [],
+                orders: [{
+                    "id": "RO1213",
+                    "clientUserId": "benny139",
+                    "addressCity": "台北市",
+                    "addressArea": "中正區",
+                    "addressStreet": "八德路１段",
+                    "addressDetail": "1号",
+                    "workingCategoryId": "TM-K010101",
+                    "status": 5,
+                    "expectWorkingDate": "2020-12-24 08:06:12",
+                    "additionalDistancePrice": 0,
+                    "createBy": "Call-center"
+                }, {
+                    "id": "RO1213",
+                    "clientUserId": "jack123",
+                    "addressCity": "新北市",
+                    "addressArea": "三重區",
+                    "addressStreet": "三重路１段",
+                    "addressDetail": "5號",
+                    "workingCategoryId": "TM-X010101",
+                    "status": 15,
+                    "expectWorkingDate": "2020-12-24 08:06:12",
+                    "additionalDistancePrice": 0,
+                    "createBy": "Call-center"
+                }, {
+                    "id": "RO1213",
+                    "clientUserId": "rui123",
+                    "addressCity": "台中市",
+                    "addressArea": "中山區",
+                    "addressStreet": "八德路１段",
+                    "addressDetail": "2號",
+                    "workingCategoryId": "TM-Q010101",
+                    "status": 35,
+                    "expectWorkingDate": "2020-12-24 08:06:12",
+                    "additionalDistancePrice": 0,
+                    "createBy": "Call-center"
+                }, ],
                 search: {
                     roleId: "0"
                 },

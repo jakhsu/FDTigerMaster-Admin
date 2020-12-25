@@ -15,18 +15,6 @@
         "label": "街道"
     },
     {
-        "key": "addressDetail",
-        "label": "地址細項"
-    },
-    {
-        "key": "addressLat",
-        "label": "緯度"
-    },
-    {
-        "key": "addressLong",
-        "label": "經度"
-    },
-    {
         "key": "status",
         "label": "訂單狀態"
     },
@@ -39,11 +27,11 @@
         "label": "師傅編號"
     },
     {
-        "key": "expectWorkingDate",
-        "label": "預期完工日"
+        "key": "masterPhone",
+        "label": "師傅電話"
     },
     {
-        "key": "warrtyEndDate",
-        "label": "保固結束日"
+        "key": "expectWorkingDate",
+        "label": "預期開工日"
     }
 ]

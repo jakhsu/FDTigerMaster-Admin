@@ -1,8 +1,8 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserNote">
-        <SimpleModal @onSaveClick="updateNote" :isLoading="isLoadingModal" @modalHidden="clearModalData"
-            id="Note-Modify-Modal" title="註記修改">
+        <SimpleModal @onDeleteClick="deleteSingleNote" :canBeDeleted="true" @onSaveClick="updateNote"
+            :isLoading="isLoadingModal" @modalHidden="clearModalData" id="Note-Modify-Modal" title="註記修改">
             <template #modal-body>
                 <b-card>
                     <b-form>
@@ -15,9 +15,6 @@
                         </b-form-group>
                     </b-form>
                 </b-card>
-            </template>
-            <template>
-                {{'hello'}}
             </template>
         </SimpleModal>
         <SimpleModal @onSaveClick="createNote" :isLoading="isLoadingModal" @modalHidden="clearModalData"
@@ -54,23 +51,16 @@
                                             :placeholder="`${field.label}`" />
                                     </b-td>
                                 </template>
+                                <template #cell(content)="notes">
+                                    {{notes.value}}
+                                </template>
+                                <template #cell(useFor)="notes">
+                                    {{notes.value == "0" ? "一般" : notes.value == "1" ? "停權" : notes.value == "2" ? "修改評分" : notes.value}}
+                                </template>
                             </CustomTable>
                         </div>
                     </TitledCard>
                 </b-col>
-                <!-- <b-col lg='6' md='12'>
-                    <TitledCard title="添加註記">
-                        <scale-loader v-if="isLoadingNote" />
-                        <b-form v-else>
-                            <b-form-group label="註記內容">
-                                <b-form-textarea v-model="noteToBeAdded" id="textarea" placeholder="輸入內文..." rows="5"
-                                    max-rows="20">
-                                </b-form-textarea>
-                            </b-form-group>
-                            <b-button variant="primary" @click="submitNote">送出</b-button>
-                        </b-form>
-                    </TitledCard>
-                </b-col> -->
             </b-row>
         </b-container>
     </div>
@@ -106,10 +96,6 @@
                     id: '',
                 },
                 fields: [{
-                        "key": "id",
-                        "label": "編號"
-                    },
-                    {
                         "key": "content",
                         "label": "內容"
                     },
@@ -153,8 +139,6 @@
                 this.isLoadingModal = false;
             },
             onRowSelected(obj) {
-                console.log("row is selected!")
-                console.log(obj[0].content)
                 this.$bvModal.show("Note-Modify-Modal");
                 this.noteToBeEdited.content = obj[0].content;
                 this.noteToBeEdited.id = obj[0].id;
@@ -172,13 +156,29 @@
                 this.isLoadingModal = false;
             },
             clearModalData() {},
+            async deleteSingleNote() {
+                this.isLoadingModal = true;
+                this.isLoading = true;
+                const note = tigermaster.note;
+                await note.delete(this.noteToBeEdited.id)
+                this.$bvModal.hide("Note-Modify-Modal");
+                this.notes = await note.listByUserId(this.currentUser.id);
+                this.totalRows = this.notes.length;
+                this.queryRows = this.notes.length;
+                this.isLoading = false;
+                this.isLoadingModal = false;
+            },
         },
         async created() {
             this.isLoading = true;
             const note = tigermaster.note;
-            this.notes = await note.listByUserId(this.currentUser.id);
-            this.totalRows = this.notes.length;
-            this.queryRows = this.notes.length;
+            try {
+                this.notes = await note.listByUserId(this.currentUser.id);
+                this.totalRows = this.notes.length;
+                this.queryRows = this.notes.length;
+            } catch (e) {
+                console.log(e)
+            }
             this.isLoading = false;
         },
     }
