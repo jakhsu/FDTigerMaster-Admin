@@ -1,6 +1,4 @@
-export function stringToArray(string, seperator) {
-    string = string || '';
-    seperator = seperator || '';
+export function stringToArray(string = '', seperator = '') {
     let array = string.split(`${seperator}`);
     array.filter((element) => element != `${seperator}`);
     return array;

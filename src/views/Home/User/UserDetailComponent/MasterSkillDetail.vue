@@ -128,6 +128,7 @@
         async created() {
             this.skillsTableBusy = true;
             this.isLoadingIgnored = true
+            this.user.master.skillItems = this.user.master.skillItems || "";
             try {
                 let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
                 let response = await request.querySomeSkills(queryArray);
@@ -147,14 +148,19 @@
                 });
                 response = await request.querySomeCategoriesBySkillId(queryArray);
                 let possibleIgnoreOptions = response.data;
-                console.log(ignoredCategories)
-                console.log(possibleIgnoreOptions)
-                possibleIgnoreOptions.forEach((ele) => {
-                    if (ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
-                        this.ignoreOptions.push(ele.id)
-                        this.ignoreOptionTexts.push(ele.description)
-                    }
-                })
+                if (Array.isArray(ignoredCategories) && ignoredCategories.length) {
+                    possibleIgnoreOptions.forEach((ele) => {
+                        if (ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
+                            this.ignoreOptions.push(ele.id)
+                            this.ignoreOptionTexts.push(ele.description)
+                        }
+                    })
+                } else {
+                    possibleIgnoreOptions.forEach((ele) => {
+                        this.ignoreOptions.push(ele.id);
+                        this.ignoreOptionTexts.push(ele.description);
+                    })
+                }
             } catch (e) {
                 console.log(e)
             } finally {
@@ -213,16 +219,18 @@
                 this.skillsTableBusy = true;
                 this.isLoadingModal = true;
                 let userData = this.user;
-                let skillsToBeUpdated = userData.master.skillItems;
+                let skillsToBeUpdated = parse.stringToArray(userData.master.skillItems, ',');
+                skillsToBeUpdated.concat(this.skillToBeAdded);
+                console.log(this.skillToBeAdded)
                 skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
-                userData.master.skillItems = userData.master.skillItems + "," + this.skillToBeAdded;
-                delete userData.pass;
-                await this.currentUser.update(userData, {
-                    master: {
-                        skillItems: skillsToBeUpdated
-                    }
-                });
-                this.$router.go();
+                // userData.master.skillItems = userData.master.skillItems + "," + this.skillToBeAdded;
+                // delete userData.pass;
+                // await this.currentUser.update(userData, {
+                //     master: {
+                //         skillItems: skillsToBeUpdated
+                //     }
+                // });
+                // this.$router.go();
                 this.isLoadingModal = false;
                 this.skillsTableBusy = false;
             },
