@@ -24,14 +24,12 @@
                     </b-col>
                 </b-row>
             </div>
-            <!-- <b-button @click="test">測試</b-button> -->
         </b-container>
     </div>
 </template>
 
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
-    import * as parse from '@/model/Parsers/parsers.js'
 
     export default {
         name: 'Dashboard',
@@ -44,12 +42,7 @@
                 isLoading: false,
             }
         },
-        methods: {
-            test() {
-                console.log("test is fired...")
-                console.log(parse.stringToArray("1 2 3 4", " "))
-            }
-        },
+        methods: {},
     }
 </script>
 

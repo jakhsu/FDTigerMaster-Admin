@@ -128,7 +128,6 @@
         async created() {
             this.skillsTableBusy = true;
             this.isLoadingIgnored = true
-            this.user.master.skillItems = this.user.master.skillItems || "";
             try {
                 let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
                 let response = await request.querySomeSkills(queryArray);
@@ -176,6 +175,9 @@
             this.skillsTableBusy = false;
         },
         methods: {
+            // function 1: fetch skill data from the master's skill
+            // function 2: fetch category data from 
+
             async onIgnoreCategory() {
                 this.isLoadingIgnored = true;
                 this.categoriesTableBusy = true;
@@ -220,9 +222,12 @@
                 this.isLoadingModal = true;
                 let userData = this.user;
                 let skillsToBeUpdated = parse.stringToArray(userData.master.skillItems, ',');
-                skillsToBeUpdated.concat(this.skillToBeAdded);
-                console.log(this.skillToBeAdded)
-                skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
+                console.log(skillsToBeUpdated)
+                console.log(skillsToBeUpdated.concat("TM-X010100"))
+                console.log(skillsToBeUpdated)
+                // skillsToBeUpdated.concat(this.skillToBeAdded);
+                // console.log(this.skillToBeAdded)
+                // skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
                 // userData.master.skillItems = userData.master.skillItems + "," + this.skillToBeAdded;
                 // delete userData.pass;
                 // await this.currentUser.update(userData, {
