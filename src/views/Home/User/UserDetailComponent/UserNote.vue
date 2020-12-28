@@ -1,37 +1,7 @@
 <template>
-    <Loading v-if="isLoading" />
-    <div v-else id="UserNote">
-        <SimpleModal @onDeleteClick="deleteSingleNote" :canBeDeleted="true" @onSaveClick="updateNote"
-            :isLoading="isLoadingModal" @modalHidden="clearModalData" id="Note-Modify-Modal" title="註記修改">
-            <template #modal-body>
-                <b-card>
-                    <b-form>
-                        <b-form-group>
-                            <b-form-group label="註記內容">
-                                <b-form-textarea v-model="noteToBeEdited.content" placeholder="輸入內文..." rows="5"
-                                    max-rows="20">
-                                </b-form-textarea>
-                            </b-form-group>
-                        </b-form-group>
-                    </b-form>
-                </b-card>
-            </template>
-        </SimpleModal>
-        <SimpleModal @onSaveClick="createNote" :isLoading="isLoadingModal" @modalHidden="clearModalData"
-            id="Note-Create-Modal" title="新增註記">
-            <template #modal-body>
-                <b-card>
-                    <b-form>
-                        <b-form-group>
-                            <b-form-group label="註記內容">
-                                <b-form-textarea v-model="noteToBeAdded" placeholder="輸入內文..." rows="5" max-rows="20">
-                                </b-form-textarea>
-                            </b-form-group>
-                        </b-form-group>
-                    </b-form>
-                </b-card>
-            </template>
-        </SimpleModal>
+    <div id="UserNote">
+        <CreateNoteModal @finish="onRefresh" :userId="currentUser.id" />
+        <ModifyNoteModal @finish="onRefresh" :noteId="selectedNote.id" :initNoteContent="selectedNote.content" />
         <b-container fluid>
             <b-row>
                 <b-col>
@@ -42,9 +12,8 @@
                             <b-button class="ml-auto" variant="success" v-b-modal="'Note-Create-Modal'">新增註記</b-button>
                         </div>
                         <div class="User-Note-Table">
-                            <CustomTable :isSelectable="true" selectMode="single" :queryRows="queryRows"
-                                :totalRows="totalRows" :fields="fields" :datas="notes" :isBusy="tableBusy"
-                                @dataRequire="onDataRequire" @rowSelected="onRowSelected">
+                            <CustomTable :queryRows="totalRows" :totalRows="totalRows" :fields="fields" :datas="notes"
+                                :isBusy="tableBusy" @dataRequire="onDataRequire" @rowClick="onRowClick">
                                 <template #top-row="notes">
                                     <b-td v-for="(field, index) in notes.fields" :key="index">
                                         <b-form-input v-model="search[field.key]" :name="field.key"
@@ -69,17 +38,18 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import CreateNoteModal from '@/components/Modal/CreateNoteModal.vue'
+    import ModifyNoteModal from '@/components/Modal/ModifyNoteModal.vue'
+
     import tigermaster from 'fdtigermaster-sdk'
-    import Loading from '@/components/Loading.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     export default {
         name: "UserNote",
         components: {
             TitledCard,
             CustomTable,
-            Loading,
-            SimpleModal,
+            CreateNoteModal,
+            ModifyNoteModal
         },
         props: {
             currentUser: {
@@ -89,11 +59,10 @@
         data() {
             return {
                 search: {},
-                tableBusy: false,
-                noteToBeAdded: '',
-                noteToBeEdited: {
+                tableBusy: true,
+                selectedNote: {
                     content: '',
-                    id: '',
+                    id: 0
                 },
                 fields: [{
                         "key": "content",
@@ -106,14 +75,21 @@
                     {
                         "key": "createDate",
                         "label": "時間"
-                    },
+                    }
                 ],
                 notes: [],
-                isLoading: false,
-                totalRows: 0,
-                queryRows: 0,
-                isLoadingNote: false,
-                isLoadingModal: false,
+                totalRows: 0
+            }
+        },
+        async created() {
+            const note = tigermaster.note;
+            try {
+                this.notes = await note.listByUserId(this.currentUser.id);
+                this.totalRows = this.notes.length;
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.tableBusy = false;
             }
         },
         methods: {
@@ -138,49 +114,27 @@
             onSearchClearClick() {
                 this.search = {}
             },
-            async createNote() {
-                this.isLoadingModal = true;
-                this.tableBusy = true;
-                const note = tigermaster.note;
-                await note.createUserNote(this.currentUser.id, this.noteToBeAdded, note.UseFor
-                    .Normal);
-                this.noteToBeAdded = '';
-                this.notes = await note.listByUserId(this.currentUser.id);
-                this.totalRows = this.notes.length;
-                this.queryRows = this.notes.length;
-                this.$bvModal.hide("Note-Create-Modal");
-                this.tableBusy = false;
-                this.isLoadingModal = false;
-            },
-            onRowSelected(obj) {
+            onRowClick(item) {
+                this.selectedNote.content = item.content;
+                this.selectedNote.id = item.id;
                 this.$bvModal.show("Note-Modify-Modal");
-                this.noteToBeEdited.content = obj[0].content;
-                this.noteToBeEdited.id = obj[0].id;
             },
-            async updateNote() {
-                this.isLoadingModal = true;
+            async onRefresh() {
                 this.tableBusy = true;
                 const note = tigermaster.note;
-                await note.update(this.noteToBeEdited.id, this.noteToBeEdited.content)
-                this.$bvModal.hide("Note-Modify-Modal");
-                this.notes = await note.listByUserId(this.currentUser.id);
-                this.totalRows = this.notes.length;
-                this.queryRows = this.notes.length;
-                this.tableBusy = false;
-                this.isLoadingModal = false;
-            },
-            clearModalData() {},
-            async deleteSingleNote() {
-                this.isLoadingModal = true;
-                const note = tigermaster.note;
-                await note.delete(this.noteToBeEdited.id)
-                this.$bvModal.hide("Note-Modify-Modal");
-                this.fetchUserNotes();
-                this.isLoadingModal = false;
-            },
-        },
-        async created() {
-            this.fetchUserNotes();
+                try {
+                    this.notes = await note.listByUserId(this.currentUser.id);
+                    this.totalRows = this.notes.length;
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.tableBusy = false;
+                    this.selectedNote = {
+                        content: '',
+                        id: 0
+                    }
+                }
+            }
         },
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserDetail">
-        <SimpleModal :isLoading="isLoadingModal" id="Score-Modal" title="修改平均分數" @modalHidden="clearModalData">
+        <SimpleModal id="Score-Modal" title="修改平均分數">
             <template #modalBody>
                 <b-form-group>
                     <h5 for="scoreChange">新平均分數: <b-badge variant="success">{{scoreModal.scoreInput}}</b-badge>
@@ -9,22 +9,6 @@
                     <b-form-input id="scoreChange" v-model="scoreModal.scoreInput" type="range" min="0" max="5"
                         placeholder="1.0" step="0.5">
                     </b-form-input>
-                </b-form-group>
-            </template>
-        </SimpleModal>
-        <SimpleModal :isLoading="isLoadingModal" @onSaveClick="onDeactivate" id="Deactivate-Modal" title="凍結"
-            @modalHidden="clearModalData">
-            <template #modal-body>
-                <b-form-group label="輸入凍結理由">
-                    <b-form-textarea required v-model="deactivateComment"></b-form-textarea>
-                </b-form-group>
-            </template>
-        </SimpleModal>
-        <SimpleModal :isLoading="isLoadingModal" @onSaveClick="onReactivate" id="Reactivate-Modal" title="恢復"
-            @modalHidden="clearModalData">
-            <template #modal-body>
-                <b-form-group label="輸入恢復理由">
-                    <b-form-textarea required v-model="reactivateComment"></b-form-textarea>
                 </b-form-group>
             </template>
         </SimpleModal>
@@ -63,7 +47,7 @@
                     </b-nav-item>
                 </b-nav>
             </div>
-            <component :is="currentComponent" :user="userData" :currentUser="currentUser"></component>
+            <component :is="currentComponent" :user="userData" :currentUser="currentUser" @refresh="onRefresh"></component>
         </b-container>
     </div>
 </template>
@@ -105,10 +89,7 @@
                     masterSkill: MasterSkillDetail,
                 },
                 userData: {},
-                deactivateComment: '',
-                reactivateComment: '',
-                currentUser: '',
-                isLoadingModal: false,
+                currentUser: undefined
             };
         },
         async created() {
@@ -122,34 +103,13 @@
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
             },
-            async onDeactivate() {
-                if (this.deactivateComment !== '') {
-                    this.isLoadingModal = true;
-                    this.userData.status = 0
-                    delete this.userData.pass;
-                    await this.currentUser.update(this.userData);
-                    const note = tigermaster.note;
-                    await note.createUserNote(this.currentUser.id, this.deactivateComment, note.UseFor.Deactive)
-                    this.isLoadingModal = false;
-                    this.$bvModal.hide("Deactivate-Modal");
-                }
-            },
-            async onReactivate() {
-                if (this.reactivateComment !== '') {
-                    this.isLoadingModal = true;
-                    this.userData.status = 1
-                    delete this.userData.pass;
-                    await this.currentUser.update(this.userData);
-                    const note = tigermaster.note;
-                    await note.createUserNote(this.currentUser.id, this.reactivateComment, note.UseFor.Normal)
-                    this.isLoadingModal = false;
-                    this.$bvModal.hide("Reactivate-Modal");
-                }
-            },
-            clearModalData() {
-                this.deactivateComment = '';
-                this.reactivateComment = '';
-            },
+            async onRefresh(){
+                this.isLoading = true;
+                const user = await tigermaster.auth.getUserById(this.$route.query.userId);
+                this.currentUser = user;
+                this.userData = user.data;
+                this.isLoading = false;
+            }
         }
     }
 </script>

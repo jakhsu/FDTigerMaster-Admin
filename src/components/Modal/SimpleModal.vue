@@ -1,10 +1,10 @@
 <template>
     <div>
-        <b-modal :size="size" :isLoading="isLoading" @hidden="modalHidden" :id="id" @show="resetModal" :title="title">
+        <b-modal :size="size" :isLoading="isLoading" :id="id" @show="resetModal" :title="title">
             <scale-loader v-if="isLoading" />
             <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
-                <b-button v-if="canBeDeleted" variant="outline-danger" @click="onDeleteClick">刪除</b-button>
+                <slot name="modal-button"></slot>
                 <b-button class="ml-auto" variant="outline-secondary" @click="cancel">
                     取消
                 </b-button>
@@ -36,25 +36,17 @@
             size: {
                 type: String,
                 default: 'lg'
-            },
-            canBeDeleted: {
-                type: Boolean,
-                default: false,
             }
         },
         data() {
             return {}
         },
         methods: {
-            resetModal() {},
             onSaveClick() {
                 this.$emit("onSaveClick");
             },
-            modalHidden() {
-                this.$emit("modalHidden", true);
-            },
-            onDeleteClick() {
-                this.$emit("onDeleteClick");
+            resetModal() {
+                this.$emit("resetModal");
             }
         }
     }

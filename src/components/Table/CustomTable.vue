@@ -2,7 +2,7 @@
     <div>
         <b-table id="custom-table" :items="datas" :fields="fields" ref="selectableTable" :per-page="perPage"
             :current-page="currentPage" :busy="isBusy" bordered responsive foot-clone hover :selectable="isSelectable"
-            :select-mode="selectMode" @row-selected="onRowSelected">
+            :select-mode="selectMode" @row-selected="onRowSelected" @row-clicked="onRowClick">
             <template #table-busy>
                 <div class="text-center my-2">
                     <scale-loader color="#34558b" />
@@ -58,8 +58,11 @@
         },
         methods: {
             onRowSelected(items) {
-                this.selected = items
+                this.selected = items;
                 this.$emit("rowSelected", this.selected);
+            },
+            onRowClick(items, index) {
+                this.$emit("rowClick", items, index);
             }
         },
         watch: {
