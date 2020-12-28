@@ -41,8 +41,10 @@
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-input v-if="field.key == 'roleId'" v-model="search[field.key]"
-                                                :name="field.key" :placeholder="`${field.label}`" disabled />
+                                            <b-form-select v-if="field.key == 'roleId'" v-model="search['roleId']">
+                                                <option value="1">一般客戶</option>
+                                                <option value="2">企業用戶</option>
+                                            </b-form-select>
                                             <b-form-input v-if="field.key !== 'status' && field.key !== 'roleId'"
                                                 v-model="search[field.key]" :name="field.key"
                                                 :placeholder="`${field.label}`" />
@@ -57,7 +59,7 @@
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                     <template #cell(roleId)="data">
-                                        {{ data.value == "1" ? "師傅" : data.value == 0 ? "客戶" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
+                                        {{ data.value == "1" ? "一般客戶" : data.value == "2" ? "企業用戶" : data.value == 0 ? "師傅" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
                                     </template>
                                 </CustomTable>
                             </div>
@@ -92,7 +94,7 @@
             this.isLoading = true;
             const res = await tigermaster.database
                 .query("user")
-                .where("user.role_id", "=", 0)
+                .where("user.role_id", "IN", [1, 2])
                 .limit(0, 100)
                 .get();
             this.data = res.data;

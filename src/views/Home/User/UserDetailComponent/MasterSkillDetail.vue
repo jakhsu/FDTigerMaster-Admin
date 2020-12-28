@@ -128,55 +128,75 @@
         async created() {
             this.skillsTableBusy = true;
             this.isLoadingIgnored = true
-            try {
-                let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
-                let response = await request.querySomeSkills(queryArray);
-                this.skills = response.data
-                this.skills = this.skills.filter((element) =>
-                    element.active != 0
-                );
-                queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
-                response = await request.querySomeCategories(queryArray);
-                let ignoredCategories = response.data;
-                ignoredCategories.forEach((ele) => {
-                    this.ignoredCategories.push(ele.id + " | " + ele.description)
-                })
-                queryArray = [];
-                this.skills.forEach((ele) => {
-                    queryArray.push(ele.id)
-                });
-                response = await request.querySomeCategoriesBySkillId(queryArray);
-                let possibleIgnoreOptions = response.data;
-                if (Array.isArray(ignoredCategories) && ignoredCategories.length) {
-                    possibleIgnoreOptions.forEach((ele) => {
-                        if (ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
-                            this.ignoreOptions.push(ele.id)
-                            this.ignoreOptionTexts.push(ele.description)
-                        }
-                    })
-                } else {
-                    possibleIgnoreOptions.forEach((ele) => {
-                        this.ignoreOptions.push(ele.id);
-                        this.ignoreOptionTexts.push(ele.description);
-                    })
-                }
-            } catch (e) {
-                console.log(e)
-            } finally {
-                let response = await request.queryAllSkills();
-                let allSkillItems = response.data;
-                allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
-                allSkillItems.forEach((ele) => {
-                    this.skillOptions.push(ele.id)
-                    this.skillOptionTexts.push(ele.description)
-                })
-            }
+            // this.fetchMasterSkillsData;
+            // this.fetchMasterIgnoreCategoryData;
+            this.generateIgnoreOptions;
+            let response = await request.queryAllSkills();
+            let allSkillItems = response.data;
+            allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
+            allSkillItems.forEach((ele) => {
+                this.skillOptions.push(ele.id)
+                this.skillOptionTexts.push(ele.description)
+            })
             this.isLoadingIgnored = false;
             this.skillsTableBusy = false;
         },
         methods: {
-            // function 1: fetch skill data from the master's skill
-            // function 2: fetch category data from 
+            // TODO: clean up functionalities in created hook and refractor into managable functions here
+            async fetchMasterSkillsData() {
+                try {
+                    let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
+                    let response = await request.querySomeSkills(queryArray);
+                    let skills = response.data.filter((element) =>
+                        element.active != 0
+                    );
+                    this.skills = skills;
+                } catch (error) {
+                    console.log(error)
+                    this.skills = [];
+                }
+            },
+            async fetchMasterIgnoreCategoryData() {
+                try {
+                    let queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
+                    let response = await request.querySomeCategories(queryArray);
+                    let ignoredCategories = response.data;
+                    ignoredCategories.forEach((ele) => {
+                        this.ignoredCategories.push(ele.id + " | " + ele.description)
+                    })
+                } catch (error) {
+                    console.log(error)
+                    this.ignoredCategories = [];
+                }
+            },
+            async generateIgnoreOptions() {
+                let queryArray = [];
+                let response;
+                this.skills.forEach((ele) => {
+                    queryArray.push(ele.id)
+                });
+                if (Array.isArray(this.ignoredCategories) && this.ignoredCategories.length) {
+                    response = await request.querySomeCategoriesBySkillId(queryArray);
+                } else {
+                    response = await request.queryAllCategories();
+                }
+                let possibleIgnoreOptions = response.data;
+                possibleIgnoreOptions.forEach((ele) => {
+                    if (this.ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
+                        this.ignoreOptions.push(ele.id)
+                        this.ignoreOptionTexts.push(ele.description)
+                    }
+                })
+            },
+
+
+
+
+
+
+
+
+
 
             async onIgnoreCategory() {
                 this.isLoadingIgnored = true;

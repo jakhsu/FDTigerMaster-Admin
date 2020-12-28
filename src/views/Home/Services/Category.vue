@@ -177,13 +177,16 @@
     },
     async created() {
       this.categoriesTableBusy = true;
-      this.categories = await tigermaster.database
-        .query("working_category")
-        .limit(0, 100)
-        .get();
+      this.fetchCategoryData();
       this.categoriesTableBusy = false;
     },
     methods: {
+      async fetchCategoryData() {
+        this.categories = await tigermaster.database
+          .query("working_category")
+          .limit(0, 100)
+          .get();
+      },
       categoryIdValidate(id) {
         var categoryIdRegex = /^TM-[A-Z]{1}[0-9]{4}.+(?<!00)$/;
         this.categoryInputState[0] = categoryIdRegex.test(id);
