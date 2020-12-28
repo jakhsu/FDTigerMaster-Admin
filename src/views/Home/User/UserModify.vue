@@ -219,7 +219,7 @@
 <script>
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import AreaData from '@/config/arearaw.json'
+    import AreaData from '@/config/AreaData.json'
     import Base64Img from '@/components/Upload/base64Img.vue'
     import tigermaster from 'fdtigermaster-sdk'
     const convert = require("xml-js")

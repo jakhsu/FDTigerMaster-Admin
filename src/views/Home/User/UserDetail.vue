@@ -29,19 +29,19 @@
                         :disabled="userData.roleId > 1">
                         訂單
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userComment'" :disabled="userData.roleId > 1"
+                    <b-nav-item :active="currentTab == 'userComment'" :disabled="userData.roleId > 2"
                         @click="onNavClick('userComment')">
                         用戶評分與評論
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'userNote'" :disabled="userData.roleId > 1"
+                    <b-nav-item :active="currentTab == 'userNote'" :disabled="userData.roleId > 2"
                         @click="onNavClick('userNote')">
                         用戶註記
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'certificate'" :disabled="userData.roleId != 1"
+                    <b-nav-item :active="currentTab == 'certificate'" :disabled="userData.roleId != 0"
                         @click="onNavClick('certificate')">
                         證照
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'masterSkill'" :disabled="userData.roleId != 1"
+                    <b-nav-item :active="currentTab == 'masterSkill'" :disabled="userData.roleId != 0"
                         @click="onNavClick('masterSkill')">
                         技能工項
                     </b-nav-item>

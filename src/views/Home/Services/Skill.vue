@@ -154,10 +154,17 @@
         },
         async created() {
             this.skillsTableBusy = true;
-            this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+            try {
+                this.fetchSkillData();
+            } catch (error) {
+                console.log(error)
+            }
             this.skillsTableBusy = false;
         },
         methods: {
+            async fetchSkillData() {
+                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+            },
             skillIdValidate(id) {
                 var skillIdRegex = /^TM-[A-Z]{1}[0-9]{4}00$/;
                 this.skillInputState[0] = skillIdRegex.test(id);
