@@ -1,5 +1,5 @@
 <template>
-    <SimpleModal @onSaveClick="onDeactivate" :id="id" title="凍結"
+    <SimpleModal :isLoading="isLoading" @onSaveClick="onDeactivate" :id="id" title="凍結"
         @resetModal="clearModalData">
         <template #modal-body>
             <b-form-group label="輸入凍結理由">
@@ -28,12 +28,14 @@
         },
         data(){
             return {
-                comment: ''
+                comment: '',
+                isLoading: false
             }
         },
         methods:{
             async onDeactivate() {
                 if (this.comment !== '') {
+                    this.isLoading = true;
                     await this.currentUser.update({status: 0});
                     const note = tigermaster.note;
                     await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive);
@@ -42,6 +44,7 @@
                 }
             },
             clearModalData(){
+                this.isLoading = false;
                 this.comment = '';
             }
         }

@@ -4,7 +4,7 @@
             <scale-loader v-if="isLoading" />
             <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
-                <b-button v-if="canBeDeleted" variant="outline-danger" @click="onDeleteClick">刪除</b-button>
+                <slot name="modal-button"></slot>
                 <b-button class="ml-auto" variant="outline-secondary" @click="cancel">
                     取消
                 </b-button>
@@ -36,10 +36,6 @@
             size: {
                 type: String,
                 default: 'lg'
-            },
-            canBeDeleted: {
-                type: Boolean,
-                default: false,
             }
         },
         data() {
@@ -50,10 +46,7 @@
                 this.$emit("onSaveClick");
             },
             resetModal() {
-                this.$emit("resetModal", true);
-            },
-            onDeleteClick() {
-                this.$emit("onDeleteClick");
+                this.$emit("resetModal");
             }
         }
     }

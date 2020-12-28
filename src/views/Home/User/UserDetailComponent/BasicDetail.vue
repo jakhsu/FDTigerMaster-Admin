@@ -1,7 +1,7 @@
 <template>
     <div id="BasicDetail">
-        <ActivateModal :currentUser="currentUser"/>
-        <DeactivateModal :currentUser="currentUser"/>
+        <ActivateModal :currentUser="currentUser" @finish="onStatusChangeFinish"/>
+        <DeactivateModal :currentUser="currentUser" @finish="onStatusChangeFinish"/>
         <b-container fluid>
             <div class="d-flex mt-3">
                 <b-button class="ml-auto" variant="primary" @click="onModifyClick">
@@ -10,7 +10,7 @@
                 </b-button>
             </div>
             <b-row>
-                <b-col xl="6" lg="12" md="12">
+                <b-col xl="6" lg="12">
                     <TitledCard title="用戶共通:">
                         <b-form>
                             <b-card class="m-2" bg-variant="light">
@@ -112,8 +112,8 @@
                         </b-form>
                     </TitledCard>
                 </b-col>
-                <b-col lg="6" md="12">
-                    <TitledCard v-if="user.roleId == 1" title="師傅專用:">
+                <b-col xl="6" lg="12">
+                    <TitledCard v-if="user.roleId == 0" title="師傅專用:">
                         <b-form>
                             <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
@@ -159,7 +159,7 @@
                                 <li>用戶將會能夠登入</li>
                                 <li>仍會有紀錄被凍結的歷史</li>
                             </ul>
-                            <b-button variant="outline-success" v-b-modal="'Reactivate-Modal'">恢復</b-button>
+                            <b-button variant="outline-success" v-b-modal="'Activate-Modal'">恢復</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
@@ -192,6 +192,9 @@
                         userId: this.user.id
                     }
                 });
+            },
+            onStatusChangeFinish() {
+                this.$emit("refresh");
             }
         }
     }
