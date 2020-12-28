@@ -25,7 +25,7 @@
                     <b-col xl="6" lg="12" md="12">
                         <TitledCard title="用戶共通:">
                             <b-form>
-                                <b-card class="m-4" bg-variant="light">
+                                <b-card class="m-2" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="id: ">
@@ -82,7 +82,7 @@
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
-                                <b-card class="m-4" bg-variant="light">
+                                <b-card class="m-2" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="城市: ">
@@ -132,7 +132,7 @@
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
-                                <b-card class="m-4" bg-variant="light">
+                                <b-card class="m-2" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="創建日期: ">
@@ -170,7 +170,7 @@
                         </TitledCard>
                         <TitledCard v-if="userData.roleId == 1" title="專用資料:">
                             <b-form>
-                                <b-card class="m-4" bg-variant="light">
+                                <b-card class="m-2" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行帳號: ">
@@ -200,7 +200,7 @@
                                                 :disabled="!userData.status" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="不會的技能: ">
+                                            label="忽略工項: ">
                                             <b-form-input v-model="userData.master.ignoreWorkingCategories"
                                                 :disabled="!userData.status" />
                                         </b-form-group>

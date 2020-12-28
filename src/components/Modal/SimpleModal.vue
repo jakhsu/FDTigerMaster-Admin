@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal :size="size" :isLoading="isLoading" @hidden="modalHidden" :id="id" @show="resetModal" :title="title">
+        <b-modal :size="size" :isLoading="isLoading" :id="id" @show="resetModal" :title="title">
             <scale-loader v-if="isLoading" />
             <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
@@ -46,12 +46,11 @@
             return {}
         },
         methods: {
-            resetModal() {},
             onSaveClick() {
                 this.$emit("onSaveClick");
             },
-            modalHidden() {
-                this.$emit("modalHidden", true);
+            resetModal() {
+                this.$emit("resetModal", true);
             },
             onDeleteClick() {
                 this.$emit("onDeleteClick");

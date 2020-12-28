@@ -1,5 +1,7 @@
 <template>
     <div id="BasicDetail">
+        <ActivateModal :currentUser="currentUser"/>
+        <DeactivateModal :currentUser="currentUser"/>
         <b-container fluid>
             <div class="d-flex mt-3">
                 <b-button class="ml-auto" variant="primary" @click="onModifyClick">
@@ -11,7 +13,7 @@
                 <b-col xl="6" lg="12" md="12">
                     <TitledCard title="用戶共通:">
                         <b-form>
-                            <b-card class="m-4" bg-variant="light">
+                            <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
                                     <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="id: ">
@@ -63,7 +65,7 @@
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
-                            <b-card class="m-4" bg-variant="light">
+                            <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
                                         <b-form-input :value="user.addressCity" disabled />
@@ -86,7 +88,7 @@
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>
-                            <b-card class="m-4" bg-variant="light">
+                            <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="創建日期: ">
@@ -113,7 +115,7 @@
                 <b-col lg="6" md="12">
                     <TitledCard v-if="user.roleId == 1" title="師傅專用:">
                         <b-form>
-                            <b-card class="m-4" bg-variant="light">
+                            <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="銀行帳號: ">
@@ -168,14 +170,19 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import ActivateModal from '@/components/Modal/ActivateModal.vue'
+    import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
 
     export default {
         name: "BasicDetail",
         components: {
             TitledCard,
+            ActivateModal,
+            DeactivateModal
         },
         props: {
-            user: {}
+            user: {},
+            currentUser: undefined
         },
         methods: {
             onModifyClick() {
