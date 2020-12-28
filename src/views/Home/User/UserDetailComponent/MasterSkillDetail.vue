@@ -126,26 +126,23 @@
             }
         },
         async created() {
-            this.skillsTableBusy = true;
-            this.isLoadingIgnored = true
-            // this.fetchMasterSkillsData;
-            // this.fetchMasterIgnoreCategoryData;
-            this.generateIgnoreOptions;
-            let response = await request.queryAllSkills();
-            let allSkillItems = response.data;
-            allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
-            allSkillItems.forEach((ele) => {
-                this.skillOptions.push(ele.id)
-                this.skillOptionTexts.push(ele.description)
-            })
-            this.isLoadingIgnored = false;
-            this.skillsTableBusy = false;
+            await this.fetchMasterSkillsData();
+            await this.fetchSkillOptions();
+            await this.generateIgnoreOptions();
+            // this.skillsTableBusy = true;
+            // this.isLoadingIgnored = true
+
+            // this.isLoadingIgnored = false;
+            // this.skillsTableBusy = false;
         },
         methods: {
-            // TODO: clean up functionalities in created hook and refractor into managable functions here
             async fetchMasterSkillsData() {
+                if (this.user.master.skillItems == '') {
+                    return
+                }
                 try {
-                    let queryArray = parse.stringToArray(this.user.master.skillItems, ",");
+                    this.skillsTableBusy = true
+                    let queryArray = parse.stringToArray(this.user.master.skillItems);
                     let response = await request.querySomeSkills(queryArray);
                     let skills = response.data.filter((element) =>
                         element.active != 0
@@ -154,9 +151,27 @@
                 } catch (error) {
                     console.log(error)
                     this.skills = [];
+                } finally {
+                    this.skillsTableBusy = false;
+                }
+            },
+            async fetchSkillOptions() {
+                try {
+                    let response = await request.queryAllSkills();
+                    let allSkillItems = response.data;
+                    allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
+                    allSkillItems.forEach((ele) => {
+                        this.skillOptions.push(ele.id)
+                        this.skillOptionTexts.push(ele.description)
+                    })
+                } catch (error) {
+                    console.log(error)
                 }
             },
             async fetchMasterIgnoreCategoryData() {
+                if (this.user.master.ignoredWorkingCategories == '') {
+                    return
+                }
                 try {
                     let queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
                     let response = await request.querySomeCategories(queryArray);
@@ -175,29 +190,23 @@
                 this.skills.forEach((ele) => {
                     queryArray.push(ele.id)
                 });
-                if (Array.isArray(this.ignoredCategories) && this.ignoredCategories.length) {
-                    response = await request.querySomeCategoriesBySkillId(queryArray);
-                } else {
-                    response = await request.queryAllCategories();
+                if (queryArray == []) {
+                    return;
                 }
-                let possibleIgnoreOptions = response.data;
-                possibleIgnoreOptions.forEach((ele) => {
-                    if (this.ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
-                        this.ignoreOptions.push(ele.id)
-                        this.ignoreOptionTexts.push(ele.description)
-                    }
-                })
+                try {
+                    response = await request.querySomeCategoriesBySkillId(queryArray);
+                    let possibleIgnoreOptions = response.data;
+                    possibleIgnoreOptions.forEach((ele) => {
+                        if (this.ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
+                            this.ignoreOptions.push(ele.id)
+                            this.ignoreOptionTexts.push(ele.description)
+                        }
+                    })
+                } catch (error) {
+                    console.log(error)
+                    this.ignoreOptions = []
+                }
             },
-
-
-
-
-
-
-
-
-
-
             async onIgnoreCategory() {
                 this.isLoadingIgnored = true;
                 this.categoriesTableBusy = true;
@@ -241,21 +250,19 @@
                 this.skillsTableBusy = true;
                 this.isLoadingModal = true;
                 let userData = this.user;
-                let skillsToBeUpdated = parse.stringToArray(userData.master.skillItems, ',');
-                console.log(skillsToBeUpdated)
-                console.log(skillsToBeUpdated.concat("TM-X010100"))
-                console.log(skillsToBeUpdated)
-                // skillsToBeUpdated.concat(this.skillToBeAdded);
-                // console.log(this.skillToBeAdded)
-                // skillsToBeUpdated = skillsToBeUpdated + "," + this.skillToBeAdded;
-                // userData.master.skillItems = userData.master.skillItems + "," + this.skillToBeAdded;
-                // delete userData.pass;
-                // await this.currentUser.update(userData, {
-                //     master: {
-                //         skillItems: skillsToBeUpdated
-                //     }
-                // });
-                // this.$router.go();
+                let skills = parse.stringToArray(userData.master.skillItems, ",");
+                if (skills == '') {
+                    skills = this.skillToBeAdded;
+                } else {
+                    skills = skills.concat(this.skillToBeAdded);
+                }
+                delete userData.pass;
+                userData.master.skillItems = skills;
+                await this.currentUser.update(userData);
+                await this.fetchMasterSkillsData();
+                await this.fetchSkillOptions();
+                await this.generateIgnoreOptions();
+                this.$bvModal.hide('Master-Skill-Create-Modal');
                 this.isLoadingModal = false;
                 this.skillsTableBusy = false;
             },

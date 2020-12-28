@@ -168,7 +168,7 @@
                                 </b-card-body>
                             </b-card>
                         </TitledCard>
-                        <TitledCard v-if="userData.roleId == 1" title="專用資料:">
+                        <TitledCard v-if="userData.roleId == 0" title="專用資料:">
                             <b-form>
                                 <b-card class="m-4" bg-variant="light">
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">

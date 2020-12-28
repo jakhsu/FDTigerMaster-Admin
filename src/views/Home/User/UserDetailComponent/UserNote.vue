@@ -117,6 +117,20 @@
             }
         },
         methods: {
+            async fetchUserNotes() {
+                try {
+                    this.isLoading = true;
+                    const note = tigermaster.note;
+                    this.notes = await note.listByUserId(this.currentUser.id);
+                    this.totalRows = this.notes.length;
+                    this.queryRows = this.notes.length;
+                } catch (error) {
+                    console.log(error)
+                    this.notes = [];
+                } finally {
+                    this.isLoading = false;
+                }
+            },
             onDataRequire() {
                 this.tableBusy = true;
             },
@@ -158,28 +172,15 @@
             clearModalData() {},
             async deleteSingleNote() {
                 this.isLoadingModal = true;
-                this.isLoading = true;
                 const note = tigermaster.note;
                 await note.delete(this.noteToBeEdited.id)
                 this.$bvModal.hide("Note-Modify-Modal");
-                this.notes = await note.listByUserId(this.currentUser.id);
-                this.totalRows = this.notes.length;
-                this.queryRows = this.notes.length;
-                this.isLoading = false;
+                this.fetchUserNotes();
                 this.isLoadingModal = false;
             },
         },
         async created() {
-            this.isLoading = true;
-            const note = tigermaster.note;
-            try {
-                this.notes = await note.listByUserId(this.currentUser.id);
-                this.totalRows = this.notes.length;
-                this.queryRows = this.notes.length;
-            } catch (e) {
-                console.log(e)
-            }
-            this.isLoading = false;
+            this.fetchUserNotes();
         },
     }
 </script>

@@ -176,16 +176,21 @@
       };
     },
     async created() {
-      this.categoriesTableBusy = true;
       this.fetchCategoryData();
-      this.categoriesTableBusy = false;
     },
     methods: {
       async fetchCategoryData() {
-        this.categories = await tigermaster.database
-          .query("working_category")
-          .limit(0, 100)
-          .get();
+        try {
+          this.categoriesTableBusy = true;
+          this.categories = await tigermaster.database
+            .query("working_category")
+            .limit(0, 100)
+            .get();
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.categoriesTableBusy = false;
+        }
       },
       categoryIdValidate(id) {
         var categoryIdRegex = /^TM-[A-Z]{1}[0-9]{4}.+(?<!00)$/;

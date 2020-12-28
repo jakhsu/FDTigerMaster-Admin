@@ -111,7 +111,7 @@
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
-                    <TitledCard v-if="user.roleId == 1" title="師傅專用:">
+                    <TitledCard v-if="user.roleId == 0" title="師傅專用:">
                         <b-form>
                             <b-card class="m-4" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">

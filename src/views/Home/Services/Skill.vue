@@ -153,17 +153,18 @@
             };
         },
         async created() {
-            this.skillsTableBusy = true;
-            try {
-                this.fetchSkillData();
-            } catch (error) {
-                console.log(error)
-            }
-            this.skillsTableBusy = false;
+            this.fetchSkillData();
         },
         methods: {
             async fetchSkillData() {
-                this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                try {
+                    this.skillsTableBusy = true;
+                    this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    this.skillsTableBusy = false;
+                }
             },
             skillIdValidate(id) {
                 var skillIdRegex = /^TM-[A-Z]{1}[0-9]{4}00$/;
@@ -260,7 +261,8 @@
                         description: this.skillToBeEdited.description,
                         active: this.skillToBeEdited.active,
                     });
-                    this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                    this.skills = await tigermaster.database.query("skill_item").limit(0,
+                        100).get();
                     this.$bvModal.hide("Skill-Modify-Modal");
                     this.isLoadingModal = false
                     this.skillsTableBusy = false;
@@ -279,7 +281,8 @@
                         description: this.skillToBeAdded.description,
                         active: 1,
                     });
-                    this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
+                    this.skills = await tigermaster.database.query("skill_item").limit(
+                        0, 100).get();
                     this.$bvModal.hide("Skill-Create-Modal");
                     this.isLoadingModal = false
                     this.skillsTableBusy = false;

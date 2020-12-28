@@ -95,16 +95,7 @@
             UserCreateModal,
         },
         async created() {
-            this.isLoading = true;
-            const res = await tigermaster.database
-                .query("user")
-                .where("user.role_id", ">", 2)
-                .limit(0, 100)
-                .get();
-            this.data = res.data;
-            this.queryRows = res.queryRows;
-            this.totalCount = res.totalCount;
-            this.isLoading = false;
+            this.fetchAdmin();
         },
         data() {
             return {
@@ -118,6 +109,23 @@
             }
         },
         methods: {
+            async fetchAdmin() {
+                try {
+                    this.isLoading = true;
+                    const res = await tigermaster.database
+                        .query("user")
+                        .where("user.role_id", ">", 2)
+                        .limit(0, 100)
+                        .get();
+                    this.data = res.data;
+                    this.queryRows = res.queryRows;
+                    this.totalCount = res.totalCount;
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    this.isLoading = false;
+                }
+            },
             onDataRequire() {
                 this.tableBusy = true;
             },
