@@ -88,8 +88,9 @@
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import tigermaster from 'fdtigermaster-sdk'
     import Loading from '@/components/Loading.vue'
-    import * as request from '@/model/Requests/requests.js'
+    import * as sdkQuery from '@/model/sdkRepackage/query.js'
     import * as parse from '@/model/Parsers/parsers.js'
+    // import regex from '@/model/InputValidators/regex.js'
 
     export default {
         name: "MasterSkillDetail",
@@ -126,43 +127,43 @@
             }
         },
         async created() {
+            this.skillsTableBusy = true;
+            this.isLoadingIgnored = true
             await this.fetchMasterSkillsData();
             await this.fetchSkillOptions();
             await this.generateIgnoreOptions();
-            // this.skillsTableBusy = true;
-            // this.isLoadingIgnored = true
-
-            // this.isLoadingIgnored = false;
-            // this.skillsTableBusy = false;
+            await this.fetchMasterIgnoreCategoryData();
+            this.isLoadingIgnored = false;
+            this.skillsTableBusy = false;
         },
         methods: {
             async fetchMasterSkillsData() {
-                if (this.user.master.skillItems == '') {
+                if (this.user.master.skillItems === '') {
                     return
                 }
                 try {
                     this.skillsTableBusy = true
-                    let queryArray = parse.stringToArray(this.user.master.skillItems);
-                    let response = await request.querySomeSkills(queryArray);
-                    let skills = response.data.filter((element) =>
+                    const queryArray = parse.stringToArray(this.user.master.skillItems);
+                    let response = await sdkQuery.querySomeSkills(queryArray);
+                    this.skills = response.data.filter((element) =>
                         element.active != 0
                     );
-                    this.skills = skills;
                 } catch (error) {
                     console.log(error)
-                    this.skills = [];
                 } finally {
                     this.skillsTableBusy = false;
                 }
             },
             async fetchSkillOptions() {
                 try {
-                    let response = await request.queryAllSkills();
-                    let allSkillItems = response.data;
-                    allSkillItems = allSkillItems.filter((ele) => ele.active != 0);
+                    let response = await sdkQuery.queryAllSkills();
+                    let allSkillItems = response.data.filter((ele) => ele.active != 0);
+                    let existingSkills = this.skills.map(e => e.id);
                     allSkillItems.forEach((ele) => {
-                        this.skillOptions.push(ele.id)
-                        this.skillOptionTexts.push(ele.description)
+                        if (!existingSkills.includes(ele.id)) {
+                            this.skillOptions.push(ele.id)
+                            this.skillOptionTexts.push(ele.description)
+                        }
                     })
                 } catch (error) {
                     console.log(error)
@@ -174,7 +175,7 @@
                 }
                 try {
                     let queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
-                    let response = await request.querySomeCategories(queryArray);
+                    let response = await sdkQuery.querySomeCategories(queryArray);
                     let ignoredCategories = response.data;
                     ignoredCategories.forEach((ele) => {
                         this.ignoredCategories.push(ele.id + " | " + ele.description)
@@ -194,7 +195,7 @@
                     return;
                 }
                 try {
-                    response = await request.querySomeCategoriesBySkillId(queryArray);
+                    response = await sdkQuery.querySomeCategoriesBySkillId(queryArray);
                     let possibleIgnoreOptions = response.data;
                     possibleIgnoreOptions.forEach((ele) => {
                         if (this.ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
@@ -250,11 +251,11 @@
                 this.skillsTableBusy = true;
                 this.isLoadingModal = true;
                 let userData = this.user;
-                let skills = parse.stringToArray(userData.master.skillItems, ",");
-                if (skills == '') {
+                let skills = userData.master.skillItems;
+                if (skills === '') {
                     skills = this.skillToBeAdded;
                 } else {
-                    skills = skills.concat(this.skillToBeAdded);
+                    skills = skills + ',' + this.skillToBeAdded;
                 }
                 delete userData.pass;
                 userData.master.skillItems = skills;
@@ -295,10 +296,14 @@
                 let result = array.filter((ele) => {
                     return categoryRegex.test(ele)
                 })
-                result = result.reduce((a, b) => {
-                    return a + "," + b
-                });
-                userData.master.ignoreWorkingCategories = result;
+                if (result.length === 0) {
+                    userData.master.ignoreWorkingCategories = '';
+                } else {
+                    result = result.reduce((a, b) => {
+                        return a + "," + b
+                    });
+                    userData.master.ignoreWorkingCategories = result;
+                }
                 delete userData.pass;
                 await this.currentUser.update(userData)
                 this.updateSelectedSkill(store)
