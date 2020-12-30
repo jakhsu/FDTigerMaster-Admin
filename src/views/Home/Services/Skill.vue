@@ -139,7 +139,6 @@
                 this.skillsTableBusy = true;
                 let query = tigermaster.database.query("skill_item");
                 let searchArray = Object.entries(this.search);
-                console.log(searchArray)
                 searchArray.forEach(element => {
                     element[2] = 'LIKE';
                     element[1] = '%' + element[1] + '%';
