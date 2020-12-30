@@ -1,7 +1,6 @@
 <template>
-    <Loading v-if="isLoading" />
-    <div v-else id="Client">
-        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick" />
+    <div id="Client">
+        <UserCreateModal :defaultRole="1" />
         <b-container fluid>
             <div class="Client-Area">
                 <b-row>
@@ -33,7 +32,7 @@
                                 </b-button>
                             </div>
                             <div class="Client-Table">
-                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
+                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
                                     :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
@@ -59,7 +58,7 @@
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                     <template #cell(roleId)="data">
-                                        {{ data.value == "1" ? "一般客戶" : data.value == "2" ? "企業用戶" : data.value == 0 ? "師傅" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
+                                        {{ roleIdMap[data.value] }}
                                     </template>
                                 </CustomTable>
                             </div>
@@ -72,7 +71,6 @@
 </template>
 
 <script>
-    import Loading from '@/components/Loading'
     import UserTableModel from '@/config/UserTable.json'
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
@@ -80,36 +78,36 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
 
     export default {
         name: "Client",
         components: {
-            Loading,
             DataCard,
             TitledCard,
             CustomTable,
             UserCreateModal,
         },
-        async created() {
-            this.fetchClients();
-        },
         data() {
             return {
                 fields: UserTableModel,
                 data: [],
+                roleIdMap: RoleIdMapping(),
                 search: {
-                    roleId: "0"
+                    roleId: 1
                 },
                 queryRows: 0,
                 totalCount: 0,
-                tableBusy: false,
-                isLoading: true,
+                tableBusy: false
             }
         },
+        async created() {
+            await this.fetchClient();
+        },
         methods: {
-            async fetchClients() {
+            async fetchClient(){
                 try {
-                    this.isLoading = true;
+                    this.tableBusy = true;
                     const res = await tigermaster.database
                         .query("user")
                         .where("user.role_id", "IN", [1, 2])
@@ -118,10 +116,10 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                } catch (error) {
-                    console.log(error)
+                } catch (e) {
+                    console.log(e);
                 } finally {
-                    this.isLoading = false;
+                    this.tableBusy = false;
                 }
             },
             onDataRequire() {
@@ -144,24 +142,12 @@
                 this.queryRows = res.queryRows;
                 this.totalCount = res.totalCount;
                 this.tableBusy = false;
-                this.search = {}
             },
-            async onNewUserSaveClick(obj) {
-                this.isLoading = true;
-                let newUser = obj;
-                const id = await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890",
-                    newUser);
-                this.isLoading = false;
-                this.$router.push({
-                    path: '/home/user_detail',
-                    query: {
-                        userId: id
-                    }
-                });
-            },
-            onSearchClearClick() {
+            async onSearchClearClick() {
+                await this.fetchClient();
+                this.$refs.customTable.toFirstPage();
                 this.search = {};
-            },
+            }
         }
     }
 </script>

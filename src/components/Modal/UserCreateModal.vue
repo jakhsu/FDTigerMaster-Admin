@@ -1,6 +1,7 @@
 <template>
     <b-modal :id="id" @show="resetModal" title="創建用戶">
-        <b-form>
+        <scale-loader v-if="isLoading" />
+        <b-form v-else>
             <b-form-row>
                 <b-col lg="6" md="12">
                     <b-form-group label="電話">
@@ -25,7 +26,7 @@
             </b-form-group>
         </b-form>
         <template #modal-footer="{ cancel }">
-            <span class="User-Create-Error" v-if="formError">有些資料不符合規定</span>
+            <span class="User-Create-Error" v-if="formErrorMesssage !== ''">{{ formErrorMesssage }}</span>
             <b-button variant="outline-danger" @click="cancel">
                 取消
             </b-button>
@@ -38,6 +39,8 @@
 
 <script>
     import UserRole from '@/config/UserRole.json'
+
+    import tigermaster from 'fdtigermaster-sdk'
 
     const inputIndex = Object.freeze({
         phone: 0,
@@ -68,7 +71,8 @@
                     roleId: this.defaultRole
                 },
                 inputState: [null, null, null, null],
-                formError: false
+                formErrorMesssage: '',
+                isLoading: false
             }
         },
         methods: {
@@ -93,22 +97,34 @@
                     email: '',
                     roleId: this.defaultRole
                 };
-                this.formError = false;
+                this.formErrorMesssage = '';
                 this.roleValidate();
-                this.inputState = [];
+                this.inputState = [null, null, null, this.defaultRole !== null];
+                this.isLoading = false;
             },
-            onSaveClick() {
+            async onSaveClick() {
                 if (this.inputState[0] && this.inputState[1] && this.inputState[2] && this.inputState[3]) {
-                    this.$emit('onSaveClick', this.newUser);
-                    this.$bvModal.hide(this.id);
-                    this.inputState = [];
+                    this.isLoading = true;
+                    try{
+                        const id = await tigermaster.auth.createUserWithPhoneAndPassword(
+                            this.newUser.phone, "1234567890", this.newUser
+                        );
+                        this.$router.push({
+                            path: '/home/user_detail',
+                            query: {
+                                userId: id
+                            }
+                        });
+                    }catch(e){
+                        this.formErrorMesssage = '創建失敗';
+                    }finally{
+                        this.isLoading = false;
+                    }
                 } else {
-                    this.formError = true;
-                    this.inputState = [];
+                    this.formErrorMesssage = '有些資料不符合規定';
                 }
-            },
-        },
-        computed: {}
+            }
+        }
     }
 </script>
 

@@ -1,7 +1,6 @@
 <template>
-    <Loading v-if="isLoading" />
-    <div v-else id="Master">
-        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick" />
+    <div id="Master">
+        <UserCreateModal :defaultRole="0" />
         <b-container fluid>
             <div class="Master-Area">
                 <b-row>
@@ -33,7 +32,7 @@
                                 </b-button>
                             </div>
                             <div class="Master-Table">
-                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
+                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
                                     :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
@@ -41,11 +40,10 @@
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-input v-if="field.key == 'roleId'" v-model="search[field.key]"
-                                                :name="field.key" :placeholder="`${field.label}`" disabled />
+                                            <b-form-input v-if="field.key == 'roleId'" :name="field.key" :value="'師傅'" disabled />
                                             <b-form-input v-if="field.key !== 'status' && field.key !== 'roleId'"
                                                 v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
+                                                :placeholder="field.label" />
                                         </b-td>
                                     </template>
                                     <template #cell(phone)="data">
@@ -56,7 +54,7 @@
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                     <template #cell(roleId)="data">
-                                        {{ data.value == "1" ? "一般客戶" : data.value == "2" ? "企業用戶" : data.value == 0 ? "師傅" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
+                                        {{ roleIdMap[data.value] }}
                                     </template>
                                 </CustomTable>
                             </div>
@@ -69,7 +67,6 @@
 </template>
 
 <script>
-    import Loading from '@/components/Loading'
     import DataCard from '@/components/Card/DataCard.vue'
     import UserTableModel from '@/config/UserTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
@@ -77,15 +74,15 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
 
     export default {
         name: "Master",
         components: {
-            Loading,
             DataCard,
             TitledCard,
             CustomTable,
-            UserCreateModal,
+            UserCreateModal
         },
         async created() {
             this.fetchMasters();
@@ -94,19 +91,19 @@
             return {
                 fields: UserTableModel,
                 data: [],
+                roleIdMap: RoleIdMapping(),
                 search: {
-                    roleId: "0"
+                    roleId: 0
                 },
                 queryRows: 0,
                 totalCount: 0,
-                tableBusy: false,
-                isLoading: true,
+                tableBusy: false
             }
         },
         methods: {
             async fetchMasters() {
                 try {
-                    this.isLoading = true;
+                    this.tableBusy = true;
                     const res = await tigermaster.database
                         .query("user")
                         .where("user.role_id", "=", 0)
@@ -115,10 +112,10 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                } catch (error) {
-                    console.log(error)
+                } catch (e) {
+                    console.log(e);
                 } finally {
-                    this.isLoading = false;
+                    this.tableBusy = false;
                 }
             },
             onDataRequire() {
@@ -143,22 +140,11 @@
                 this.tableBusy = false;
                 this.search = {}
             },
-            onSearchClearClick() {
+            async onSearchClearClick() {
+                await this.fetchMasters();
+                this.$refs.customTable.toFirstPage();
                 this.search = {};
-            },
-            async onNewUserSaveClick(obj) {
-                this.isLoading = true;
-                let newUser = obj;
-                const id = await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890",
-                    newUser);
-                this.isLoading = false;
-                this.$router.push({
-                    path: '/home/user_detail',
-                    query: {
-                        userId: id
-                    }
-                });
-            },
+            }
         },
     }
 </script>

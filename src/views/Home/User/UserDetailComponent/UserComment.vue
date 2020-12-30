@@ -1,5 +1,6 @@
 <template>
     <div id="UserComment">
+        <ScoreModal/>
         <b-container fluid>
             <b-row align-h="start">
                 <b-col cols="4" align-self="center">
@@ -27,17 +28,18 @@
     </div>
 </template>
 <script>
-    import TitledCard from '@/components/Card/TitledCard.vue'
     import DataCard from '@/components/Card/DataCard.vue'
+    import TitledCard from '@/components/Card/TitledCard.vue'
+    import ScoreModal from '@/components/Modal/ScoreModal.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
 
     export default {
         name: "UserComment",
         components: {
-            TitledCard,
             DataCard,
-            CustomTable,
-
+            TitledCard,
+            ScoreModal,
+            CustomTable
         },
         data() {
             return {

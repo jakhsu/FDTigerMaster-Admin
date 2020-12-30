@@ -34,15 +34,8 @@
     export default {
         name: 'Dashboard',
         components: {
-            DataCard,
-        },
-        data() {
-            return {
-                users: {},
-                isLoading: false,
-            }
-        },
-        methods: {},
+            DataCard
+        }
     }
 </script>
 

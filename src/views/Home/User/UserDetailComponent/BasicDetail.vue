@@ -4,7 +4,7 @@
         <DeactivateModal :currentUser="currentUser" @finish="onStatusChangeFinish" />
         <b-container fluid>
             <div class="d-flex mt-3">
-                <b-button class="ml-auto" variant="primary" @click="onModifyClick">
+                <b-button class="ml-auto" variant="primary" @click="onModifyClick" :disabled="user.status === 0">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
                 </b-button>
@@ -35,8 +35,7 @@
                                     </b-form-group>
                                     <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="角色: ">
-                                        <b-form-input id="roleId" :value="user.roleId" disabled>
-                                        </b-form-input>
+                                        <b-form-input :value="roleIdMap[user.roleId]" disabled />
                                     </b-form-group>
                                     <b-form-group label-for="email" label-align-sm="right" label-cols="3"
                                         label-cols-xl="2" label="Email: ">
@@ -169,9 +168,12 @@
 </template>
 
 <script>
+    import UserRole from '@/config/UserRole.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ActivateModal from '@/components/Modal/ActivateModal.vue'
     import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
+
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
 
     export default {
         name: "BasicDetail",
@@ -182,7 +184,13 @@
         },
         props: {
             user: {},
-            currentUser: undefined
+            currentUser: Object
+        },
+        data(){
+            return {
+                UserRole,
+                roleIdMap: RoleIdMapping()
+            }
         },
         methods: {
             onModifyClick() {

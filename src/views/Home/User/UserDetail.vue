@@ -1,17 +1,6 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="UserDetail">
-        <SimpleModal id="Score-Modal" title="修改平均分數">
-            <template #modalBody>
-                <b-form-group>
-                    <h5 for="scoreChange">新平均分數: <b-badge variant="success">{{scoreModal.scoreInput}}</b-badge>
-                    </h5>
-                    <b-form-input id="scoreChange" v-model="scoreModal.scoreInput" type="range" min="0" max="5"
-                        placeholder="1.0" step="0.5">
-                    </b-form-input>
-                </b-form-group>
-            </template>
-        </SimpleModal>
         <b-container fluid>
             <div class="UserDetail-Area">
                 <b-row>

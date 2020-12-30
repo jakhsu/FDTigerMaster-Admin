@@ -63,15 +63,18 @@
             },
             onRowClick(items, index) {
                 this.$emit("rowClick", items, index);
+            },
+            toFirstPage(){
+                this.currentPage = 1;
             }
         },
         watch: {
-            isSelectAll: function () {
+            isSelectAll() {
                 if (this.isSelectAll == true) {
-                    this.$refs.selectableTable.selectAllRows()
+                    this.$refs.selectableTable.selectAllRows();
                 }
                 if (this.isSelectAll == false) {
-                    this.$refs.selectableTable.clearSelected()
+                    this.$refs.selectableTable.clearSelected();
                 }
             }
         },

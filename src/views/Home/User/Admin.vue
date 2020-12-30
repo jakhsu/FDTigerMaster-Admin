@@ -1,7 +1,6 @@
 <template>
-    <Loading v-if="isLoading" />
-    <div v-else id="Admin">
-        <UserCreateModal id="User-Create-Modal" @onSaveClick="onNewUserSaveClick" />
+    <div id="Admin">
+        <UserCreateModal :defaultRole="70" />
         <b-container fluid>
             <div class="Admin-Area">
                 <b-row>
@@ -33,7 +32,7 @@
                                 </b-button>
                             </div>
                             <div class="Admin-Table">
-                                <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
+                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount" :fields="UserTableModel"
                                     :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
@@ -42,9 +41,6 @@
                                                 <option value="1">啟用</option>
                                             </b-form-select>
                                             <b-form-select v-if="field.key == 'roleId'" v-model="search[field.key]">
-                                                <option value="0">師傅</option>
-                                                <option value="1">一般客戶</option>
-                                                <option value="2">企業用戶</option>
                                                 <option value="70">行銷</option>
                                                 <option value="80">財務</option>
                                                 <option value="90">客服</option>
@@ -63,7 +59,7 @@
                                         {{ data.value == "1" ? "啟用" : "凍結" }}
                                     </template>
                                     <template #cell(roleId)="data">
-                                        {{ data.value == "1" ? "一般客戶" : data.value == "2" ? "企業用戶" : data.value == 0 ? "師傅" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
+                                        {{ roleIdMap[data.value] }}
                                     </template>
                                 </CustomTable>
                             </div>
@@ -76,7 +72,7 @@
 </template>
 
 <script>
-    import Loading from '@/components/Loading'
+    import UserRole from '@/config/UserRole.json'
     import UserTableModel from '@/config/UserTable.json'
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
@@ -84,34 +80,37 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
 
     export default {
         name: "Admin",
         components: {
-            Loading,
             DataCard,
             TitledCard,
             CustomTable,
-            UserCreateModal,
-        },
-        async created() {
-            this.fetchAdmin();
+            UserCreateModal
         },
         data() {
             return {
-                fields: UserTableModel,
+                UserRole,
+                UserTableModel,
                 data: [],
-                search: {},
+                roleIdMap: RoleIdMapping(),
+                search: {
+                    roleId: 70
+                },
                 queryRows: 0,
                 totalCount: 0,
-                tableBusy: false,
-                isLoading: true,
+                tableBusy: false
             }
         },
+        async created() {
+            await this.fetchAdmin();
+        },
         methods: {
-            async fetchAdmin() {
+            async fetchAdmin(){
                 try {
-                    this.isLoading = true;
+                    this.tableBusy = true;
                     const res = await tigermaster.database
                         .query("user")
                         .where("user.role_id", ">", 2)
@@ -120,10 +119,10 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                } catch (error) {
-                    console.log(error)
+                } catch (e) {
+                    console.log(e);
                 } finally {
-                    this.isLoading = false;
+                    this.tableBusy = false;
                 }
             },
             onDataRequire() {
@@ -137,9 +136,9 @@
                 searchArray.forEach(element => {
                     element[2] = 'LIKE'
                     element[1] = '%' + element[1] + '%'
-                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                    query.where(`user.${element[0]}`, element[2], element[1]);
                 });
-                query.where('user.role_id', '>', '1').limit(0, 100);
+                query.where('user.role_id', '>', 1).limit(0, 100);
                 await query.get();
                 const res = await query.get();
                 this.data = res.data;
@@ -148,22 +147,11 @@
                 this.tableBusy = false;
                 this.search = {}
             },
-            onSearchClearClick() {
+            async onSearchClearClick() {
+                await this.fetchAdmin();
+                this.$refs.customTable.toFirstPage();
                 this.search = {};
-            },
-            async onNewUserSaveClick(obj) {
-                this.isLoading = true;
-                let newUser = obj;
-                const id = await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890",
-                    newUser);
-                this.isLoading = false;
-                this.$router.push({
-                    path: '/home/user_detail',
-                    query: {
-                        userId: id
-                    }
-                });
-            },
+            }
         }
     }
 </script>

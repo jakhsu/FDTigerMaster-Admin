@@ -11,7 +11,7 @@
                     </b-col>
                     <b-col>
                         <div class="d-flex">
-                            <b-button class="ml-auto" variant="success" @click="onFinishEdit">
+                            <b-button class="ml-auto" variant="primary" @click="onFinishEdit">
                                 <font-awesome-icon icon="edit" />
                                 完成
                             </b-button>
@@ -33,52 +33,46 @@
                                         </b-form-group>
                                         <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="電話: ">
-                                            <b-form-input id="phone" v-model="userData.phone" disabled>
-                                            </b-form-input>
+                                            <b-form-input id="phone" v-model="userData.phone" disabled />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="密碼: ">
+                                            label="密碼: " disabled>
                                             <b-form-input v-model="userData.pass" />
                                         </b-form-group>
                                         <b-form-group label-for="name" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="姓名: ">
-                                            <b-form-input id="name" v-model="userData.name"
-                                                :disabled="!userData.status">
-                                            </b-form-input>
+                                            <b-form-input id="name" v-model="userData.name" />
                                         </b-form-group>
                                         <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="角色: ">
-                                            <b-form-input v-model="userData.roleId" disabled>
-                                            </b-form-input>
+                                            <b-form-input :value="roleIdMap[userData.roleId]" disabled />
                                         </b-form-group>
                                         <b-form-group label-for="email" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="Email: ">
-                                            <b-form-input id="email" v-model="userData.email"
-                                                :disabled="!userData.status">
-                                            </b-form-input>
+                                            <b-form-input id="email" v-model="userData.email" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="性別: ">
-                                            <b-form-select v-model="userData.sex" :disabled="!userData.status">
+                                            <b-form-select v-model="userData.sex">
                                                 <option value="M">男性</option>
                                                 <option value="F">女性</option>
                                             </b-form-select>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="身分證號: ">
-                                            <b-form-input v-model="userData.idCardNo" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.idCardNo"/>
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生年: ">
-                                            <b-form-input v-model="userData.birthYear" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.birthYear"/>
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生月: ">
-                                            <b-form-input v-model="userData.birthMon" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.birthMon"/>
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生日: ">
-                                            <b-form-input v-model="userData.birthDate" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.birthDate"/>
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -86,8 +80,7 @@
                                     <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="城市: ">
-                                            <b-form-select id="city" v-model="userData.addressCity"
-                                                :disabled="!userData.status">
+                                            <b-form-select id="city" v-model="userData.addressCity">
                                                 <option v-for="(list, index) in cityList" :key="index" :value="list">
                                                     {{list}}
                                                 </option>
@@ -95,8 +88,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="區域: ">
-                                            <b-form-select id="area" v-model="userData.addressArea"
-                                                @change="getAddress()" :disabled="!userData.status">
+                                            <b-form-select id="area" v-model="userData.addressArea" @change="fetchRoadName()">
                                                 <option v-for="(list, index) in areaList" :key="index" :value="list">
                                                     {{list}}
                                                 </option>
@@ -106,9 +98,8 @@
                                             label="街道: ">
                                             <scale-loader v-if="isAddressLoading">
                                             </scale-loader>
-                                            <b-form-input v-b-tooltip.v-danger="streetMatch.msg"
-                                                v-model="userData.addressStreet" @input="change" list="suggestion"
-                                                :disabled="!userData.status">
+                                            <b-form-input v-b-tooltip.v-danger="streetErrorMessage"
+                                                v-model="userData.addressStreet" @input="change" list="suggestion">
                                             </b-form-input>
                                             <datalist id="suggestion">
                                                 <option @click="suggestionClick(index)"
@@ -119,8 +110,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="門牌樓層: ">
-                                            <b-form-input v-model="userData.addressDetail"
-                                                :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.addressDetail"/>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="緯度: ">
@@ -174,38 +164,35 @@
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行帳號: ">
-                                            <b-form-input v-model="master.accountNo" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.accountNo"/>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行名稱: ">
-                                            <b-form-input v-model="master.bankName" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.bankName"/>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行代號: ">
-                                            <b-form-input v-model="master.bankCode" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.bankCode"/>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="分行代號: ">
-                                            <b-form-input v-model="master.branchCode" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.branchCode"/>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="分行名稱: ">
-                                            <b-form-input v-model="master.branchName" :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.branchName"/>
                                         </b-form-group>
                                     </b-form-group>
                                     <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="技能: ">
-                                            <b-form-input v-model="userData.master.skillItems"
-                                                :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.skillItems"/>
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="忽略工項: ">
-                                            <b-form-input v-model="userData.master.ignoreWorkingCategories"
-                                                :disabled="!userData.status" />
+                                            <b-form-input v-model="userData.master.ignoreWorkingCategories"/>
                                         </b-form-group>
                                     </b-form-group>
-
                                 </b-card>
                             </b-form>
                         </TitledCard>
@@ -217,19 +204,16 @@
 </template>
 
 <script>
+    import AreaData from '@/config/AreaData.json'
+    import UserRole from '@/config/UserRole.json'
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import AreaData from '@/config/AreaData.json'
     import Base64Img from '@/components/Upload/base64Img.vue'
-    import tigermaster from 'fdtigermaster-sdk'
-    const convert = require("xml-js")
-    import {
-        getAddressData
-    } from '@/model/API/api.js'
-    import {
-        fetchAddressData
-    } from '@/model/API/api.js'
 
+    import * as xmljs from 'xml-js'
+    import * as iconv from 'iconv-lite'
+    import tigermaster from 'fdtigermaster-sdk'
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
 
     export default {
         name: 'UserModify',
@@ -240,28 +224,16 @@
         },
         data() {
             return {
-                requestState: null,
+                UserRole,
                 isLoading: false,
                 isAddressLoading: false,
                 userData: {},
-                cityAndArea: {
-                    city: '',
-                    area: ''
-                },
-                address: {
-                    city: '',
-                    area: '',
-                    street: '',
-                    detail: '',
-                },
                 streetNames: [],
                 areadata: AreaData,
                 open: true,
-                streetMatch: {
-                    msg: '',
-                },
-                currentUser: {},
-                master: {},
+                streetErrorMessage: '',
+                currentUser: Object,
+                roleIdMap: RoleIdMapping()
             };
         },
         computed: {
@@ -280,17 +252,6 @@
                 });
             },
         },
-        watch: {
-            streetNames: function () {
-                if (this.streetNames.length == 0) {
-                    this.requestState = false;
-                } else if (this.streetNames.length >= 1) {
-                    this.requestState = true;
-                } else {
-                    this.requestState = null;
-                }
-            }
-        },
         async created() {
             this.isLoading = true
             const user = await tigermaster.auth.getUserById(this.$route.query.userId);
@@ -299,55 +260,29 @@
             this.isLoading = false;
         },
         methods: {
-            getAddress: async function () {
-                this.isAddressLoading = await true;
-                const params = {
-                    city: this.userData.addressCity,
-                    cityarea: this.userData.addressArea
-                };
-                let res = await getAddressData(params)
-
-                let converted = await convert.xml2js(res.data, {
+            async fetchRoadName() {
+                this.isAddressLoading = true;
+                const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.post.gov.tw/post/streetNameData?city=${this.userData.addressCity}&cityarea=${this.userData.addressArea}`,{
+                    method: "POST"
+                });
+                const buffer = await result.arrayBuffer();
+                const text = iconv.decode(new Buffer(buffer), 'Big5');
+                const converted = await xmljs.xml2js(text, {
                     compact: true,
                     spaces: 4
                 });
-                let final = await Object.values(converted.street.road_name).map(
+                const streets = Object.values(converted.street.road_name).map(
                     item => item["_text"]
                 );
-                final = await final.filter(item => item != null);
-                this.streetNames = await final;
-                this.isAddressLoading = await false;
-            },
-            // fetc address is not yet working, but just an attempt to encapsulate fetch instead of axios
-            fetchAddress: async function () {
-                this.isAddressLoading = await true;
-                const params = {
-                    city: this.userData.addressCity,
-                    cityarea: this.userData.addressArea
-                };
-                let res = await fetchAddressData(params)
-
-                let converted = await convert.xml2js(res.data, {
-                    compact: true,
-                    spaces: 4
-                });
-                let final = await Object.values(converted.street.road_name).map(
-                    item => item["_text"]
-                );
-                final = await final.filter(item => item != null);
-                this.streetNames = await final;
-                this.isAddressLoading = await false;
+                this.streetNames = streets.filter(item => item != null)
+                this.isAddressLoading = false;
             },
             onNavClick(name) {
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
             },
             async onFinishEdit() {
-                if (this.userData.status == 0) {
-                    return
-                } else if (this.streetMatch.msg !== '') {
-                    return
-                } else {
+                if (this.streetErrorMessage === '') {
                     this.isLoading = true;
                     delete this.userData["pass"];
                     await this.currentUser.update(this.userData);
@@ -373,9 +308,9 @@
                     this.open = true;
                 }
                 if (this.matches.length == 0 && this.userData.addressStreet.length !== 0) {
-                    this.streetMatch.msg = "抱歉，找不到輸入的地址";
+                    this.streetErrorMessage = "抱歉，找不到輸入的地址";
                 } else if (this.matches.length !== 0 && this.userData.addressStreet.length !== 0) {
-                    this.streetMatch.msg = "";
+                    this.streetErrorMessage = "";
                 }
             },
             suggestionClick(index) {

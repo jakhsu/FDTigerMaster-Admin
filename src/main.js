@@ -38,9 +38,10 @@ import {
     faPaperPlane,
     faPlusSquare,
     faAddressCard,
+    faMapMarkerAlt,
     faFileContract,
     faTachometerAlt,
-    faHourglassHalf,
+    faHourglassHalf
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -63,6 +64,7 @@ library.add(
     faPaperPlane,
     faPlusSquare,
     faAddressCard,
+    faMapMarkerAlt,
     faFileContract,
     faTachometerAlt,
     faHourglassHalf,

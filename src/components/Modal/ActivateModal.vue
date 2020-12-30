@@ -24,7 +24,7 @@
                 type: String,
                 default: "Activate-Modal"
             },
-            currentUser: undefined
+            currentUser: Object
         },
         data(){
             return {

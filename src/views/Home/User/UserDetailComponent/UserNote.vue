@@ -7,19 +7,11 @@
                 <b-col>
                     <TitledCard title="用戶註記:">
                         <div class="User-Note-Search d-flex mb-3">
-                            <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                            <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
                             <b-button class="ml-auto" variant="success" v-b-modal="'Note-Create-Modal'">新增註記</b-button>
                         </div>
                         <div class="User-Note-Table">
                             <CustomTable :queryRows="totalRows" :totalRows="totalRows" :fields="fields" :datas="notes"
-                                :isBusy="tableBusy" @dataRequire="onDataRequire" @rowClick="onRowClick">
-                                <template #top-row="notes">
-                                    <b-td v-for="(field, index) in notes.fields" :key="index">
-                                        <b-form-input v-model="search[field.key]" :name="field.key"
-                                            :placeholder="`${field.label}`" />
-                                    </b-td>
-                                </template>
+                                :isBusy="tableBusy" @rowClick="onRowClick">
                                 <template #cell(content)="notes">
                                     {{notes.value}}
                                 </template>
@@ -87,33 +79,12 @@
                 this.notes = await note.listByUserId(this.currentUser.id);
                 this.totalRows = this.notes.length;
             } catch (e) {
-                console.log(e)
+                console.log(e);            
             } finally {
                 this.tableBusy = false;
             }
         },
         methods: {
-            async fetchUserNotes() {
-                try {
-                    this.isLoading = true;
-                    const note = tigermaster.note;
-                    this.notes = await note.listByUserId(this.currentUser.id);
-                    this.totalRows = this.notes.length;
-                    this.queryRows = this.notes.length;
-                } catch (error) {
-                    console.log(error)
-                    this.notes = [];
-                } finally {
-                    this.isLoading = false;
-                }
-            },
-            onDataRequire() {
-                this.tableBusy = true;
-            },
-            onSearchClick() {},
-            onSearchClearClick() {
-                this.search = {}
-            },
             onRowClick(item) {
                 this.selectedNote.content = item.content;
                 this.selectedNote.id = item.id;
@@ -126,7 +97,8 @@
                     this.notes = await note.listByUserId(this.currentUser.id);
                     this.totalRows = this.notes.length;
                 } catch (e) {
-                    console.log(e)
+                    this.notes = [];
+                    this.totalRows = 0;
                 } finally {
                     this.tableBusy = false;
                     this.selectedNote = {
