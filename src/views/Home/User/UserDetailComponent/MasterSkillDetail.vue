@@ -7,7 +7,8 @@
                 <b-form>
                     <b-card>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-form-input list="Available-Skills" v-model="skillToBeAdded" autocomplete="off">
+                            <b-form-input list="Available-Skills" v-model="skillToBeAdded" autocomplete="off"
+                                :state="inputState[0]" @update="skillValidate">
                             </b-form-input>
                             <datalist id="Available-Skills">
                                 <option v-for="(option, index) in skillOptions" :key="index" :value="option">
@@ -30,7 +31,7 @@
                             </b-button>
                         </div>
                         <CustomTable :fields="skillsField" :datas="skills" :isBusy="skillsTableBusy"
-                            @dataRequire="onSkillsDataRequire" :isSelectable="true" @rowSelected="updateSelectedSkill"
+                            @dataRequire="onSkillsDataRequire" :isSelectable="true" @rowClick="updateSelectedSkill"
                             selectMode='single'>
                             <template #top-row>
                                 <b-td v-for="(field, index) in skillsField" :key="index">
@@ -55,7 +56,7 @@
                         <b-card>
                             <b-form-group label="可用工項選項">
                                 <b-form-input v-model="categoryToBeIgnored" list="Available-Ignore-Options"
-                                    autocomplete="off">
+                                    autocomplete="off" :state="inputState[1]" @update="categoryValidate">
                                 </b-form-input>
                                 <datalist id="Available-Ignore-Options">
                                     <option v-for="(option, index) in ignoreOptions" :key="index" :value="option">
@@ -86,11 +87,11 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SkillsTable from '@/config/SkillsTable.json'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import tigermaster from 'fdtigermaster-sdk'
+    // import tigermaster from 'fdtigermaster-sdk'
     import Loading from '@/components/Loading.vue'
     import * as sdkQuery from '@/model/sdkRepackage/query.js'
     import * as parse from '@/model/Parsers/parsers.js'
-    // import regex from '@/model/InputValidators/regex.js'
+    import regex from '@/model/InputValidators/regex.js'
 
     export default {
         name: "MasterSkillDetail",
@@ -124,6 +125,7 @@
                 isLoadingIgnored: false,
                 ignoreOptionTexts: [],
                 skillOptionTexts: [],
+                inputState: [null, null]
             }
         },
         async created() {
@@ -131,12 +133,18 @@
             this.isLoadingIgnored = true
             await this.fetchMasterSkillsData();
             await this.fetchSkillOptions();
-            await this.generateIgnoreOptions();
             await this.fetchMasterIgnoreCategoryData();
+            await this.generateIgnoreOptions();
             this.isLoadingIgnored = false;
             this.skillsTableBusy = false;
         },
         methods: {
+            skillValidate() {
+                this.inputState[0] = this.skillOptions.includes(this.skillToBeAdded);
+            },
+            categoryValidate() {
+                this.inputState[1] = this.ignoreOptions.includes(this.categoryToBeIgnored);
+            },
             async fetchMasterSkillsData() {
                 if (this.user.master.skillItems === '') {
                     return
@@ -155,6 +163,8 @@
                 }
             },
             async fetchSkillOptions() {
+                this.skillOptions = [];
+                this.skillOptionTexts = [];
                 try {
                     let response = await sdkQuery.queryAllSkills();
                     let allSkillItems = response.data.filter((ele) => ele.active != 0);
@@ -170,11 +180,11 @@
                 }
             },
             async fetchMasterIgnoreCategoryData() {
-                if (this.user.master.ignoredWorkingCategories == '') {
+                if (this.user.master.ignoredWorkingCategories === '') {
                     return
                 }
                 try {
-                    let queryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
+                    let queryArray = parse.stringToArray(this.user.master.ignoreWorkingCategories, ",");
                     let response = await sdkQuery.querySomeCategories(queryArray);
                     let ignoredCategories = response.data;
                     ignoredCategories.forEach((ele) => {
@@ -182,49 +192,56 @@
                     })
                 } catch (error) {
                     console.log(error)
-                    this.ignoredCategories = [];
                 }
             },
             async generateIgnoreOptions() {
                 let queryArray = [];
+                this.ignoreOptions = [];
+                this.ignoreOptionTexts = [];
                 let response;
                 this.skills.forEach((ele) => {
                     queryArray.push(ele.id)
                 });
-                if (queryArray == []) {
+                if (queryArray.length === 0) {
                     return;
                 }
                 try {
                     response = await sdkQuery.querySomeCategoriesBySkillId(queryArray);
                     let possibleIgnoreOptions = response.data;
+                    let ignoredIds = this.ignoredCategories.map(e => {
+                        return parse.stringToArray(e, " ")
+                    }).flat().filter(e => regex("categoryId").test(e));
                     possibleIgnoreOptions.forEach((ele) => {
-                        if (this.ignoredCategories.findIndex(element => element.id === ele.id) == -1) {
+                        if (ignoredIds.indexOf(ele.id) === -1) {
                             this.ignoreOptions.push(ele.id)
                             this.ignoreOptionTexts.push(ele.description)
                         }
                     })
                 } catch (error) {
                     console.log(error)
-                    this.ignoreOptions = []
                 }
             },
             async onIgnoreCategory() {
+                if (this.inputState[1] !== true) {
+                    throw "category input is not valid!"
+                }
                 this.isLoadingIgnored = true;
                 this.categoriesTableBusy = true;
-                let store = this.selectedSkill;
-                this.user.master.ignoreWorkingCategories = this.user.master.ignoreWorkingCategories + ',' + this
-                    .categoryToBeIgnored;
+                if (this.user.master.ignoredWorkingCategories === '') {
+                    this.user.master.ignoredWorkingCategories = this.categoryToBeIgnored;
+                } else {
+                    this.user.master.ignoreWorkingCategories = this.user.master.ignoreWorkingCategories + ',' + this
+                        .categoryToBeIgnored;
+                }
                 delete this.user.pass
                 await this.currentUser.update(this.user)
                 this.categoryToBeIgnored = '';
-                let categoryArray = parse.stringToArray(this.currentUser.data.master.ignoreWorkingCategories, ",");
-                let res = await tigermaster.database.query("working_category").limit(0, 100)
-                    .where("working_category.id", "IN", categoryArray)
-                    .get();
-                res.data.forEach((ele) => {
-                    this.ignoredCategories.push(ele.id + " | " + ele.description)
-                });
-                this.updateSelectedSkill(store);
+                await this.fetchMasterIgnoreCategoryData();
+                if (this.selectedSkill !== undefined && this.selectedSkill !== '') {
+                    this.updateSelectedSkill();
+                }
+                await this.generateIgnoreOptions();
+                this.inputState[1] = null;
                 this.categoriesTableBusy = false
                 this.isLoadingIgnored = false;
             },
@@ -248,6 +265,9 @@
                 this.search = {}
             },
             async createSkill() {
+                if (this.inputState[0] !== true) {
+                    throw "skill input is not valid!"
+                }
                 this.skillsTableBusy = true;
                 this.isLoadingModal = true;
                 let userData = this.user;
@@ -264,16 +284,17 @@
                 await this.fetchSkillOptions();
                 await this.generateIgnoreOptions();
                 this.$bvModal.hide('Master-Skill-Create-Modal');
+                this.skillToBeAdded = '';
+                this.inputState[0] = null;
                 this.isLoadingModal = false;
                 this.skillsTableBusy = false;
             },
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
-                if (typeof (obj) == "string") {
-                    this.selectedSkill = obj
-                } else {
-                    this.selectedSkill = obj[0].id
+                this.selectedSkill = this.selectedSkill || obj.id
+                if (this.selectedSkill === undefined || this.selectedSkill === "") {
+                    return;
                 }
                 let skillIndex = this.skills.findIndex((element) => element.id == this.selectedSkill)
                 let respectiveCategories = this.skills[skillIndex].workingCategories;
@@ -307,6 +328,7 @@
                 delete userData.pass;
                 await this.currentUser.update(userData)
                 this.updateSelectedSkill(store)
+                this.generateIgnoreOptions()
                 this.categoriesTableBusy = false;
                 this.isLoadingIgnored = false;
             },
