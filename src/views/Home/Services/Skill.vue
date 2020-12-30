@@ -1,50 +1,11 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="SkillAndCategory">
-        <SimpleModal @onSaveClick="updateSkill" :isLoading="isLoadingModal" @modalHidden="clearModalData"
-            id="Skill-Modify-Modal" title="單一技能修改">
-            <template #modal-body>
-                <b-form>
-                    <b-card>
-                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-input v-model="skillToBeEdited.id" @update="skillIdValidate(skillToBeEdited.id)"
-                                :state="skillInputState[0]" maxlength="10" />
-                        </b-form-group>
-                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
-                            <b-input v-model="skillToBeEdited.description" :state="skillInputState[1]"
-                                @update="skillDescriptionValidate(skillToBeEdited.description)" />
-                        </b-form-group>
-                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
-                            <b-select v-model="skillToBeEdited.active">
-                                <option value="0">停用</option>
-                                <option value="1">啟用</option>
-                            </b-select>
-                        </b-form-group>
-                        <span class="Skill-Input-Error" v-if="formError">有些資料不符合規定</span>
-
-                    </b-card>
-                </b-form>
-            </template>
-        </SimpleModal>
-        <SimpleModal @onSaveClick="createSkill" :isLoading="isLoadingModal" title="新增技能" @modalHidden="clearModalData"
-            id="Skill-Create-Modal">
-            <template #modal-body>
-                <b-form>
-                    <b-card>
-                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                            <b-input v-model="skillToBeAdded.id" @update="skillIdValidate(skillToBeAdded.id)"
-                                :state="skillInputState[0]" maxlength="10" />
-                        </b-form-group>
-                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
-                            <b-input v-model="skillToBeAdded.description"
-                                @update="skillDescriptionValidate(skillToBeAdded.description)"
-                                :state="skillInputState[1]" />
-                        </b-form-group>
-                        <span class="Skill-Input-Error" v-if="formError">有些資料不符合規定</span>
-                    </b-card>
-                </b-form>
-            </template>
-        </SimpleModal>
+        <SkillModifyModal title="修改技能" id="Skill-Modify-Modal" :skillToBeEdited="skillToBeEdited"
+            @isModifySuccess="fetchSkillData">
+        </SkillModifyModal>
+        <SkillCreateModal title="新增技能" id="Skill-Create-Modal" @isCreateSuccess="fetchSkillData">
+        </SkillCreateModal>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -75,11 +36,11 @@
                             <div>
                                 <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount"
                                     :datas="skills.data" :isBusy="skillsTableBusy" @dataRequire="onSkillsDataRequire"
-                                    :isSelectable="true" @rowSelected="updateSelectedSkill" selectMode='single'
+                                    :isSelectable="true" @rowClick="updateSelectedSkill" selectMode='single'
                                     :fields="skillsField">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in skillsField" :key="index">
-                                            <b-form-select v-if="field.key == 'active'" v-model="search['active']">
+                                            <b-form-select v-if="field.key === 'active'" v-model="search['active']">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
@@ -94,7 +55,7 @@
                                         </b-button>
                                     </template>
                                     <template #cell(active)="data">
-                                        {{ data.value == "1" ? "啟用" : data.value == 0 ? "停用" : data.value}}
+                                        {{ data.value === 1 ? "啟用" : data.value === 0 ? "停用" : data.value}}
                                     </template>
                                 </CustomTable>
                                 <div>
@@ -117,39 +78,37 @@
 </template>
 
 <script>
+    import tigermaster from 'fdtigermaster-sdk'
     import Loading from '@/components/Loading.vue'
     import SkillsTable from '@/config/SkillsTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CategoriesTable from '@/config/CategoriesTable.json'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue';
+    import SkillCreateModal from '@/components/Modal/SkillCreateModal.vue'
+    import SkillModifyModal from '@/components/Modal/SkillModifyModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
     export default {
         name: 'Skill',
         components: {
             Loading,
             TitledCard,
             CustomTable,
-            SimpleModal,
+            SkillCreateModal,
+            SkillModifyModal
         },
         data() {
             return {
                 isLoading: false,
                 skillsTableBusy: false,
-                selectedSkill: '',
+                categoriesTableBusy: false,
                 skillsField: SkillsTable,
-                skills: {},
                 categoriesField: CategoriesTable,
+                skills: {},
                 categories: [],
                 search: {},
                 upload: {},
                 skillToBeEdited: {},
-                isLoadingModal: false,
-                skillToBeAdded: {},
-                categoriesTableBusy: false,
-                skillInputState: [null, null],
-                formError: false
+                selectedSkill: ''
             };
         },
         async created() {
@@ -161,17 +120,10 @@
                     this.skillsTableBusy = true;
                     this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
                 } finally {
                     this.skillsTableBusy = false;
                 }
-            },
-            skillIdValidate(id) {
-                var skillIdRegex = /^TM-[A-Z]{1}[0-9]{4}00$/;
-                this.skillInputState[0] = skillIdRegex.test(id);
-            },
-            skillDescriptionValidate(input) {
-                this.skillInputState[1] = input !== '';
             },
             onSkillsDataRequire() {
                 this.skillTableBusy = true;
@@ -187,28 +139,29 @@
                 this.skillsTableBusy = true;
                 let query = tigermaster.database.query("skill_item");
                 let searchArray = Object.entries(this.search);
+                console.log(searchArray)
                 searchArray.forEach(element => {
                     element[2] = 'LIKE';
                     element[1] = '%' + element[1] + '%';
-                    query.where(`skill_item.${element[0]}`, `${element[2]}`, `${element[1]}`);
+                    query.where(`skill_item.${element[0]}`, element[2], element[1]);
                 })
                 query.limit(0, 100);
-                this.skills = await query.get()
+                this.skills = await query.get();
                 this.search = {};
                 this.skillsTableBusy = false;
             },
-            updateSelectedSkill(obj) {
+            updateSelectedSkill(selectedSkill) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
                 try {
-                    let selectedSkillId = obj[0].id;
-                    let skillIndex = this.skills.data.findIndex((element) => element.id == selectedSkillId)
+                    let skillId = selectedSkill.id;
+                    let skillIndex = this.skills.data.findIndex((element) => element.id === skillId);
                     let respectiveCategories = this.skills.data[skillIndex].workingCategories;
                     respectiveCategories.forEach((element) => {
                         this.categories.push(element.id + " | " + element.description)
-                    })
-                } catch (exeception) {
-                    console.log(exeception)
+                    });
+                } catch (error) {
+                    console.log(error);
                 }
                 this.categoriesTableBusy = false;
             },
@@ -238,61 +191,13 @@
             async startEditSkill(data) {
                 this.isLoadingModal = true;
                 this.skills.data.forEach((ele) => {
-                    if (ele.id == data.value) {
+                    if (ele.id === data.value) {
                         this.skillToBeEdited = ele
                     }
-                })
+                });
                 this.isLoadingModal = false;
             },
-            clearModalData(arg) {
-                if (arg == true) {
-                    this.skillToBeEdited = {};
-                    this.skillInputState = [];
-                    this.formError = null;
-                }
-            },
-            async updateSkill() {
-                if (this.skillInputState[0] && this.skillInputState[1]) {
-                    this.isLoadingModal = true
-                    this.skillsTableBusy = true;
-                    const skill = tigermaster.services.Skill;
-                    await skill.update({
-                        id: this.skillToBeEdited.id,
-                        description: this.skillToBeEdited.description,
-                        active: this.skillToBeEdited.active,
-                    });
-                    this.skills = await tigermaster.database.query("skill_item").limit(0,
-                        100).get();
-                    this.$bvModal.hide("Skill-Modify-Modal");
-                    this.isLoadingModal = false
-                    this.skillsTableBusy = false;
-                } else {
-                    this.formError = true;
-                    this.skillInputState = [];
-                }
-            },
-            async createSkill() {
-                if (this.skillInputState[0] && this.skillInputState[1]) {
-                    this.isLoadingModal = true
-                    this.skillsTableBusy = true;
-                    const skill = tigermaster.services.Skill;
-                    await skill.create({
-                        id: this.skillToBeAdded.id,
-                        description: this.skillToBeAdded.description,
-                        active: 1,
-                    });
-                    this.skills = await tigermaster.database.query("skill_item").limit(
-                        0, 100).get();
-                    this.$bvModal.hide("Skill-Create-Modal");
-                    this.isLoadingModal = false
-                    this.skillsTableBusy = false;
-                } else {
-                    this.formError = true;
-                    this.skillInputState = [];
-                }
-
-            }
-        },
+        }
     }
 </script>
 
