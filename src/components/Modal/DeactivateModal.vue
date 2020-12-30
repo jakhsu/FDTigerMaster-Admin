@@ -22,7 +22,7 @@
         props: {
             id: {
                 type: String,
-                default: "Deactivate-Modal"
+                default: 'Deactivate-Modal'
             },
             currentUser: Object
         },
@@ -39,8 +39,8 @@
                     await this.currentUser.update({status: 0});
                     const note = tigermaster.note;
                     await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive);
-                    this.$bvModal.hide("Deactivate-Modal");
-                    this.$emit("finish");
+                    this.$bvModal.hide(this.id);
+                    this.$emit('finish');
                 }
             },
             clearModalData(){

@@ -10,8 +10,8 @@ import HomeAdmin from '@/views/Home/User/Admin.vue'
 import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
 import HomeBroadcast from '@/views/Home/Broadcast.vue'
 import HomeSkill from '@/views/Home/Services/Skill.vue'
-import HomeCategory from '@/views/Home/Services/Category.vue'
 import HomeUserModify from '@/views/Home/User/UserModify.vue'
+import HomeWorkingCategory from '@/views/Home/Services/WorkingCategory.vue'
 import HomeClosedOrder from '@/views/Home/Order/ClosedOrder.vue'
 import HomeOngoingOrder from '@/views/Home/Order/OngoingOrder.vue'
 
@@ -68,9 +68,9 @@ const routes = [{
         component: HomeSkill
       },
       {
-        path: 'category',
+        path: 'working_category',
         name: 'HomeCategory',
-        component: HomeCategory
+        component: HomeWorkingCategory
       },
       {
         path: 'closed_order',

@@ -22,7 +22,7 @@
         props: {
             id: {
                 type: String,
-                default: "Activate-Modal"
+                default: 'Activate-Modal'
             },
             currentUser: Object
         },
@@ -40,8 +40,8 @@
                     console.log(this.currentUser.data);
                     const note = tigermaster.note;
                     await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive)
-                    this.$bvModal.hide("Activate-Modal");
-                    this.$emit("finish");
+                    this.$bvModal.hide(this.id);
+                    this.$emit('finish');
                 }
             },
             clearModalData(){

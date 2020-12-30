@@ -20,7 +20,7 @@
         props: {
             id: {
                 type: String,
-                default: "Note-Create-Modal"
+                default: 'Note-Create-Modal'
             },
             userId: String
         },
@@ -35,8 +35,8 @@
                 this.isLoading = true;
                 const note = tigermaster.note;
                 await note.createUserNote(this.userId, this.noteContent, note.UseFor.Normal);
-                this.$bvModal.hide("Note-Create-Modal");
-                this.$emit("finish");
+                this.$bvModal.hide(this.id);
+                this.$emit('finish');
             },
             clearModalData(){
                 this.isLoading = false;

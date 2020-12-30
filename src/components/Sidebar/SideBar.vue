@@ -24,7 +24,7 @@
             <SideBarButton to="/home/skill" icon="link">
                 技能
             </SideBarButton>
-            <SideBarButton to="/home/category" icon="link">
+            <SideBarButton to="/home/working_category" icon="link">
                 工項
             </SideBarButton>
         </SideBarGroup>

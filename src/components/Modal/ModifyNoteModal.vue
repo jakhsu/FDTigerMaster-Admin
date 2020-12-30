@@ -1,5 +1,5 @@
 <template>
-    <SimpleModal :id="id" :isLoading="isLoading" title="新增註記" @onSaveClick="updateNote" @resetModal="clearModalData">
+    <SimpleModal :id="id" :isLoading="isLoading" title='新增註記' @onSaveClick="updateNote" @resetModal="clearModalData">
         <template #modal-body>
             <b-form-textarea v-model="noteContent" placeholder="輸入內文..." rows="5" max-rows="20">
             </b-form-textarea>
@@ -23,7 +23,7 @@
         props: {
             id: {
                 type: String,
-                default: "Note-Modify-Modal"
+                default: 'Note-Modify-Modal'
             },
             noteId: Number,
             initNoteContent: String
@@ -39,15 +39,15 @@
                 this.isLoading = true;
                 const note = tigermaster.note;
                 await note.delete(this.noteId);
-                this.$bvModal.hide("Note-Modify-Modal");
-                this.$emit("finish");
+                this.$bvModal.hide(this.id);
+                this.$emit('finish');
             },
             async updateNote() {
                 this.isLoading = true;
                 const note = tigermaster.note;
                 await note.update(this.noteId, this.noteContent);
-                this.$bvModal.hide("Note-Modify-Modal");
-                this.$emit("finish");
+                this.$bvModal.hide(this.id);
+                this.$emit('finish');
             },
             clearModalData(){
                 this.isLoading = false;

@@ -5,7 +5,8 @@
             <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
                 <slot name="modal-button"></slot>
-                <b-button class="ml-auto" variant="outline-secondary" @click="cancel">
+                <span class="ml-auto simple-modal-error" v-if="formErrorMessage !== ''">{{ formErrorMessage }}</span>
+                <b-button variant="outline-secondary" @click="cancel">
                     取消
                 </b-button>
                 <b-button variant="primary" @click="onSaveClick">
@@ -36,6 +37,10 @@
             size: {
                 type: String,
                 default: 'lg'
+            },
+            formErrorMessage: {
+                type: String,
+                default: ''
             }
         },
         data() {
@@ -53,7 +58,7 @@
 </script>
 
 <style>
-    .User-Create-Error {
+    .simple-modal-error {
         color: #dd2a0e;
         font-size: 10px;
     }
