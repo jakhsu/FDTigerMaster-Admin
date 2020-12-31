@@ -138,7 +138,7 @@
                 this.queryRows = res.queryRows;
                 this.totalCount = res.totalCount;
                 this.tableBusy = false;
-                this.search = {}
+                this.$refs.customTable.toFirstPage();
             },
             async onSearchClearClick() {
                 await this.fetchMasters();

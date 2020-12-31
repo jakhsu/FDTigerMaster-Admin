@@ -1,20 +1,21 @@
 <template>
     <div>
-        <SimpleModal @onSaveClick="onSaveClick" title="新增技能" @resetModal="clearModalData"
+        <SimpleModal @onSaveClick="onSaveClick" title="修改技能" @resetModal="clearModalData"
             :id="id" :isLoading="isLoading" :formErrorMessage="formErrorMessage">
             <template #modal-body>
                 <b-form>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                        <b-input v-model="skill.id" @update="idValidate" :state="inputState[0]" maxlength="10" />
+                        <b-input v-model="skill.id" disabled />
                     </b-form-group>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
-                        <b-input v-model="skill.description" @update="descriptionValidate" :state="inputState[1]" />
+                        <b-input v-model="skill.description" :state="descriptionInputState"
+                            @update="descriptionValidate" />
                     </b-form-group>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
-                        <b-form-select v-model="skill.active" :state="true">
+                        <b-select v-model="skill.active" :state="true">
                             <option value="0">停用</option>
                             <option value="1">啟用</option>
-                        </b-form-select>
+                        </b-select>
                     </b-form-group>
                 </b-form>
             </template>
@@ -28,45 +29,38 @@
     import tigermaster from 'fdtigermaster-sdk'
 
     export default {
-        name: 'SkillCreateModal',
+        name: 'SkillUpdateModal',
         components: {
             SimpleModal
         },
         props: {
             id: {
                 type: String,
-                default: 'Skill-Create-Modal'
-            }
+                default: 'Skill-Modify-Modal'
+            },
+            initSkillContent: Object
         },
         data() {
             return {
                 isLoading: false,
-                skill: {
-                    id: '',
-                    description: '',
-                    active: 1
-                },
-                inputState: [null, null],
+                descriptionInputState: true,
+                skill: this.initSkillContent,
                 formErrorMessage: ''
             }
         },
         methods: {
-            idValidate() {
-                const regex = /^TM-[A-Z]{1}[0-9]{4}00$/;
-                this.inputState[0] = regex.test(this.skill.id);
-            },
             descriptionValidate() {
-                this.inputState[1] = (this.skill.description !== '');
+                this.descriptionInputState = (this.skill.description !== '');
             },
             async onSaveClick() {
-                if (this.inputState[0] && this.inputState[1]) {
+                if (this.descriptionInputState) {
                     this.isLoading = true;
                     try {
-                        await tigermaster.services.Skill.create(this.skill);
+                        await tigermaster.services.Skill.update(this.skill);
                         this.$bvModal.hide(this.id);
                         this.$emit("finish");
                     } catch (e) {
-                        this.formErrorMessage = '創建失敗';
+                        this.formErrorMessage = '更新失敗';
                     } finally {
                         this.isLoading = false;
                     }
@@ -75,21 +69,21 @@
                 }
             },
             clearModalData() {
-                this.skill = {
-                    id: '',
-                    description: '',
-                    active: 1
-                };
                 this.formErrorMessage = '';
-                this.skillInputState = [null, null];
+                this.descriptionInputState = true;
                 this.isLoading = false;
+            }
+        },
+        watch:{
+            initSkillContent(){
+                this.skill = this.initSkillContent;
             }
         }
     }
 </script>
 
 <style>
-    .Skill-Create-Error {
+    .Skill-Modify-Error {
         color: #dd2a0e;
         font-size: 10px;
     }

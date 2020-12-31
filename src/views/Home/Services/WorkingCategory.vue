@@ -1,7 +1,7 @@
 <template>
     <div id="WorkingCategory">
-        <WorkingCategoryCreateModal @finish="onRefersh"/>
-        <WorkingCategoryUpdateModal @finish="onRefersh" :initWorkingCategoryContent="selectedWorkingCategory"/>
+        <WorkingCategoryCreateModal @finish="fetchWorkingCategory"/>
+        <WorkingCategoryUpdateModal @finish="fetchWorkingCategory" :initWorkingCategoryContent="selectedWorkingCategory"/>
         <b-container fluid>
             <div class="WorkingCategory-Area">
                 <b-row>
@@ -118,9 +118,6 @@
                 } finally {
                     this.tableBusy = false;
                 }
-            },
-            onRefersh(){
-                this.fetchWorkingCategory();
             },
             async onSearchClick() {
                 this.tableBusy = true;
