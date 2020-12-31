@@ -35,7 +35,7 @@
                             <div>
                                 <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount"
                                     :datas="skills" :isBusy="tableBusy" :isSelectable="true" @rowClick="onSkillClick"
-                                    selectMode='single' :fields="SkillsTable" perPage=5>
+                                    selectMode='single' :fields="SkillsTable" perPage=6>
                                     <template #top-row>
                                         <b-td v-for="(field, index) in SkillsTable" :key="index">
                                             <b-form-select v-if="field.key === 'active'" v-model="search['active']">

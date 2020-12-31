@@ -32,15 +32,16 @@
                                 </b-button>
                             </div>
                             <div class="Master-Table">
-                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
-                                    :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount"
+                                    :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-input v-if="field.key == 'roleId'" :name="field.key" :value="'師傅'" disabled />
+                                            <b-form-input v-if="field.key == 'roleId'" :name="field.key" :value="'師傅'"
+                                                disabled />
                                             <b-form-input v-if="field.key !== 'status' && field.key !== 'roleId'"
                                                 v-model="search[field.key]" :name="field.key"
                                                 :placeholder="field.label" />
@@ -74,7 +75,7 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: "Master",
@@ -83,9 +84,6 @@
             TitledCard,
             CustomTable,
             UserCreateModal
-        },
-        async created() {
-            this.fetchMasters();
         },
         data() {
             return {
@@ -100,6 +98,9 @@
                 tableBusy: false
             }
         },
+        async created() {
+            this.fetchMasters();
+        },
         methods: {
             async fetchMasters() {
                 try {
@@ -113,7 +114,7 @@
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
                 } catch (e) {
-                    console.log(e);
+                    console.log("Failed to fetch master data");
                 } finally {
                     this.tableBusy = false;
                 }
@@ -125,20 +126,26 @@
                 this.tableBusy = true;
                 let query = tigermaster.database.query("user");
                 let searchArray = Object.entries(this.search);
-                searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
-                searchArray.forEach(element => {
-                    element[2] = 'LIKE'
-                    element[1] = '%' + element[1] + '%'
-                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                searchArray = searchArray.filter(e => e[0] !== 'roleId')
+                searchArray.forEach(e => {
+                    e[2] = 'LIKE'
+                    e[1] = '%' + e[1] + '%'
+                    query.where(`user.${e[0]}`, e[2], e[1])
                 });
-                query.where('user.role_id', '=', `${this.search.roleId}`).limit(0, 100);
-                await query.get();
-                const res = await query.get();
-                this.data = res.data;
-                this.queryRows = res.queryRows;
-                this.totalCount = res.totalCount;
-                this.tableBusy = false;
-                this.$refs.customTable.toFirstPage();
+                try {
+                    const res = await query
+                        .where('user.role_id', '=', this.search.roleId)
+                        .limit(0, 100)
+                        .get();
+                    this.data = res.data;
+                    this.queryRows = res.queryRows;
+                    this.totalCount = res.totalCount;
+                } catch (e) {
+                    console.log("Search failed, please check your search inputs")
+                } finally {
+                    this.tableBusy = false;
+                    this.$refs.customTable.toFirstPage();
+                }
             },
             async onSearchClearClick() {
                 await this.fetchMasters();
