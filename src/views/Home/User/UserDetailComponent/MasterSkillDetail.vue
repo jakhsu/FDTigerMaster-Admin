@@ -12,7 +12,7 @@
                             </b-form-input>
                             <datalist id="Available-Skills">
                                 <option v-for="(option, index) in skillOptions" :key="index" :value="option">
-                                    {{ skillOptionTexts[index] }}
+                                    {{ skillOptionTexts[index]}}
                                 </option>
                             </datalist>
                         </b-form-group>
@@ -39,11 +39,13 @@
                                         :placeholder="`${field.label}`" />
                                 </b-td>
                             </template>
+                            <template #cell(active)="skills">
+                                {{ skills.value === 1 ? "啟用" : "停用" }}
+                            </template>
                         </CustomTable>
                         <div>
                             <label for="">對應工項</label>
-                            <scale-loader v-if="categoriesTableBusy" />
-                            <div v-else>
+                            <div>
                                 <b-tags size="lg" v-model="categories" placeholder="" disabled tag-pills
                                     tag-variant="success">
                                 </b-tags>
@@ -54,7 +56,7 @@
                 <b-col lg="6" md="12">
                     <TitledCard title="師傅工項">
                         <b-card>
-                            <b-form-group label="可用工項選項">
+                            <b-form-group label="可停用工項">
                                 <b-form-input v-model="categoryToBeIgnored" list="Available-Ignore-Options"
                                     autocomplete="off" :state="inputState[1]" @update="categoryValidate">
                                 </b-form-input>

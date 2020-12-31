@@ -41,11 +41,14 @@
             selectMode: {
                 type: String,
                 default: 'multi'
+            },
+            perPage: {
+                type: Number,
+                default: 10
             }
         },
         data() {
             return {
-                perPage: 10,
                 currentPage: 1,
                 selected: [],
             }
@@ -64,7 +67,7 @@
             onRowClick(items, index) {
                 this.$emit("rowClick", items, index);
             },
-            toFirstPage(){
+            toFirstPage() {
                 this.currentPage = 1;
             }
         },
