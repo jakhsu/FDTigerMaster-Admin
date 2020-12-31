@@ -11,7 +11,7 @@
             </div>
             <b-row>
                 <b-col xl="6" lg="12">
-                    <TitledCard title="基本:">
+                    <TitledCard title="基本">
                         <b-card class="m-2" bg-variant="light">
                             <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
@@ -111,7 +111,7 @@
                             </b-form-group>
                         </b-card>
                     </TitledCard>
-                    <TitledCard v-if="user.roleId == 0" title="師傅專用:">
+                    <TitledCard v-if="user.roleId == 0" title="師傅專用">
                         <b-form>
                             <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">

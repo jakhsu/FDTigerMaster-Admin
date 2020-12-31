@@ -130,10 +130,10 @@
                 let query = tigermaster.database.query("user");
                 let searchArray = Object.entries(this.search);
                 searchArray = searchArray.filter(e => e[0] !== 'roleId')
-                searchArray.forEach(e => {
-                    e[2] = 'LIKE'
-                    e[1] = '%' + e[1] + '%'
-                    query.where(`user.${e[0]}`, e[2], e[1])
+                searchArray.forEach(ele => {
+                    ele[2] = 'LIKE'
+                    ele[1] = '%' + ele[1] + '%'
+                    query.where(`user.${ele[0]}`, ele[2], ele[1])
                 });
                 try {
                     const res = await query

@@ -126,10 +126,10 @@
                 this.tableBusy = true;
                 let query = tigermaster.database.query("skill_item");
                 const searchArray = Object.entries(this.search);
-                searchArray.forEach(e => {
-                    e[2] = 'LIKE';
-                    e[1] = '%' + e[1] + '%';
-                    query.where(`skill_item.${e[0]}`, e[2], e[1]);
+                searchArray.forEach(ele => {
+                    ele[2] = 'LIKE';
+                    ele[1] = '%' + ele[1] + '%';
+                    query.where(`skill_item.${ele[0]}`, ele[2], ele[1]);
                 })
                 try {
                     this.skills = await query.get();

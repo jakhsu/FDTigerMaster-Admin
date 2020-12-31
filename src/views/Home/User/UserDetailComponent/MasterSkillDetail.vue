@@ -170,7 +170,7 @@
                 try {
                     let response = await sdkQuery.queryAllSkills();
                     let allSkillItems = response.data.filter((ele) => ele.active != 0);
-                    let existingSkills = this.skills.map(e => e.id);
+                    let existingSkills = this.skills.map(ele => ele.id);
                     allSkillItems.forEach((ele) => {
                         if (!existingSkills.includes(ele.id)) {
                             this.skillOptions.push(ele.id)
@@ -210,9 +210,9 @@
                 try {
                     response = await sdkQuery.querySomeCategoriesBySkillId(queryArray);
                     let possibleIgnoreOptions = response.data;
-                    let ignoredIds = this.ignoredCategories.map(e => {
-                        return parse.stringToArray(e, " ")
-                    }).flat().filter(e => regex("categoryId").test(e));
+                    let ignoredIds = this.ignoredCategories.map(ele => {
+                        return parse.stringToArray(ele, " ")
+                    }).flat().filter(ele => regex("categoryId").test(ele));
                     possibleIgnoreOptions.forEach((ele) => {
                         if (ignoredIds.indexOf(ele.id) === -1) {
                             this.ignoreOptions.push(ele.id)
