@@ -292,7 +292,7 @@
             async updateSelectedSkill(obj) {
                 this.categoriesTableBusy = true;
                 this.categories = [];
-                this.selectedSkill = this.selectedSkill || obj.id
+                this.selectedSkill = obj.id || this.selectedSkill
                 if (this.selectedSkill === undefined || this.selectedSkill === "") {
                     return;
                 }
