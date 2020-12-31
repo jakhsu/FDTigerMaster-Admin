@@ -34,12 +34,11 @@
                                 <b-button @click="skillsDownload" variant="success" class="ml-2">下載</b-button>
                             </div>
                             <div>
-                                <CustomTable :queryRows="skills.queryRows" :totalRows="skills.totalCount"
-                                    :datas="skills.data" :isBusy="skillsTableBusy" @dataRequire="onSkillsDataRequire"
-                                    :isSelectable="true" @rowClick="updateSelectedSkill" selectMode='single'
-                                    :fields="skillsField">
+                                <CustomTable :queryRows="totalCount" :totalRows="totalCount" :datas="skills"
+                                    :isBusy="tableBusy" @dataRequire="onSkillsDataRequire" :isSelectable="true"
+                                    @rowClick="updateSelectedSkill" selectMode='single' :fields="SkillsTable">
                                     <template #top-row>
-                                        <b-td v-for="(field, index) in skillsField" :key="index">
+                                        <b-td v-for="(field, index) in SkillsTable" :key="index">
                                             <b-form-select v-if="field.key === 'active'" v-model="search['active']">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
@@ -55,13 +54,12 @@
                                         </b-button>
                                     </template>
                                     <template #cell(active)="data">
-                                        {{ data.value === 1 ? "啟用" : data.value === 0 ? "停用" : data.value}}
+                                        {{ data.value === 1 ? "啟用" : "停用"}}
                                     </template>
                                 </CustomTable>
                                 <div>
                                     <label for="">對應工項</label>
-                                    <scale-loader v-if="categoriesTableBusy" />
-                                    <div v-else>
+                                    <div>
                                         <b-tags size="lg" placeholder="" v-model="categories" disabled tag-pills
                                             tag-variant="success">
                                         </b-tags>
@@ -78,14 +76,14 @@
 </template>
 
 <script>
-    import tigermaster from 'fdtigermaster-sdk'
     import Loading from '@/components/Loading.vue'
     import SkillsTable from '@/config/SkillsTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import CategoriesTable from '@/config/CategoriesTable.json'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SkillCreateModal from '@/components/Modal/SkillCreateModal.vue'
     import SkillModifyModal from '@/components/Modal/SkillModifyModal.vue'
+
+    import tigermaster from 'fdtigermaster-sdk'
 
     export default {
         name: 'Skill',
@@ -98,15 +96,13 @@
         },
         data() {
             return {
+                SkillsTable,
                 isLoading: false,
-                skillsTableBusy: false,
-                categoriesTableBusy: false,
-                skillsField: SkillsTable,
-                categoriesField: CategoriesTable,
-                skills: {},
+                tableBusy: false,
+                totalCount: 0,
+                skills: [],
                 categories: [],
                 search: {},
-                upload: {},
                 skillToBeEdited: {},
                 selectedSkill: ''
             };
@@ -117,12 +113,17 @@
         methods: {
             async fetchSkillData() {
                 try {
-                    this.skillsTableBusy = true;
-                    this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
-                } catch (error) {
-                    console.log(error);
+                    this.tableBusy = true;
+                    const skills = await tigermaster.database
+                        .query("skill_item")
+                        .limit(0, 100)
+                        .get();
+                    this.skills = skills.data;
+                    this.totalCount = skills.totalCount;
+                } catch (e) {
+                    console.log(e);
                 } finally {
-                    this.skillsTableBusy = false;
+                    this.tableBusy = false;
                 }
             },
             onSkillsDataRequire() {
@@ -136,7 +137,7 @@
                 this.search = {};
             },
             async onSearchClick() {
-                this.skillsTableBusy = true;
+                this.tableBusy = true;
                 let query = tigermaster.database.query("skill_item");
                 let searchArray = Object.entries(this.search);
                 searchArray.forEach(element => {
@@ -147,7 +148,7 @@
                 query.limit(0, 100);
                 this.skills = await query.get();
                 this.search = {};
-                this.skillsTableBusy = false;
+                this.tableBusy = false;
             },
             updateSelectedSkill(selectedSkill) {
                 this.categoriesTableBusy = true;
@@ -175,11 +176,10 @@
                 window.URL.revokeObjectURL(url);
             },
             async handleFileUpload() {
-                let fileInput = this.$refs.file;
-                this.upload = fileInput.files[0];
+                const fileInput = this.$refs.file;
                 this.isLoading = true;
                 const skillsFile = tigermaster.storage.Skills;
-                await skillsFile.upload(this.upload);
+                await skillsFile.upload(fileInput.files[0]);
                 this.skills = await tigermaster.database.query("skill_item").limit(0, 100).get();
                 this.isLoading = false;
             },
@@ -189,11 +189,7 @@
             },
             async startEditSkill(data) {
                 this.isLoadingModal = true;
-                this.skills.data.forEach((ele) => {
-                    if (ele.id === data.value) {
-                        this.skillToBeEdited = ele
-                    }
-                });
+                this.skillToBeEdited = data;
                 this.isLoadingModal = false;
             },
         }
