@@ -160,8 +160,8 @@
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
             },
-            startEditWorkingCategory(data) {
-                this.selectedWorkingCategory = data;
+            startEditWorkingCategory(selectedCategory) {
+                this.selectedWorkingCategory = selectedCategory;
                 this.$bvModal.show("WorkingCategory-Update-Modal");
             }
         },

@@ -60,19 +60,19 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="身分證號: ">
-                                            <b-form-input v-model="userData.idCardNo"/>
+                                            <b-form-input v-model="userData.idCardNo" />
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生年: ">
-                                            <b-form-input v-model="userData.birthYear"/>
+                                            <b-form-input v-model="userData.birthYear" />
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生月: ">
-                                            <b-form-input v-model="userData.birthMon"/>
+                                            <b-form-input v-model="userData.birthMon" />
                                         </b-form-group>
                                         <b-form-group label-for="" label-align-sm="right" label-cols="3"
                                             label-cols-xl="2" label="出生日: ">
-                                            <b-form-input v-model="userData.birthDate"/>
+                                            <b-form-input v-model="userData.birthDate" />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -88,7 +88,8 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="區域: ">
-                                            <b-form-select id="area" v-model="userData.addressArea" @change="fetchRoadName()">
+                                            <b-form-select id="area" v-model="userData.addressArea"
+                                                @change="fetchRoadName()">
                                                 <option v-for="(list, index) in areaList" :key="index" :value="list">
                                                     {{list}}
                                                 </option>
@@ -110,7 +111,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="門牌樓層: ">
-                                            <b-form-input v-model="userData.addressDetail"/>
+                                            <b-form-input v-model="userData.addressDetail" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="緯度: ">
@@ -164,33 +165,33 @@
                                     <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行帳號: ">
-                                            <b-form-input v-model="userData.master.accountNo"/>
+                                            <b-form-input v-model="userData.master.accountNo" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行名稱: ">
-                                            <b-form-input v-model="userData.master.bankName"/>
+                                            <b-form-input v-model="userData.master.bankName" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="銀行代號: ">
-                                            <b-form-input v-model="userData.master.bankCode"/>
+                                            <b-form-input v-model="userData.master.bankCode" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="分行代號: ">
-                                            <b-form-input v-model="userData.master.branchCode"/>
+                                            <b-form-input v-model="userData.master.branchCode" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="分行名稱: ">
-                                            <b-form-input v-model="userData.master.branchName"/>
+                                            <b-form-input v-model="userData.master.branchName" />
                                         </b-form-group>
                                     </b-form-group>
                                     <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="技能: ">
-                                            <b-form-input v-model="userData.master.skillItems"/>
+                                            <b-form-input v-model="userData.master.skillItems" />
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="忽略工項: ">
-                                            <b-form-input v-model="userData.master.ignoreWorkingCategories"/>
+                                            <b-form-input v-model="userData.master.ignoreWorkingCategories" />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
@@ -213,7 +214,7 @@
     import * as xmljs from 'xml-js'
     import * as iconv from 'iconv-lite'
     import tigermaster from 'fdtigermaster-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: 'UserModify',
@@ -262,9 +263,10 @@
         methods: {
             async fetchRoadName() {
                 this.isAddressLoading = true;
-                const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.post.gov.tw/post/streetNameData?city=${this.userData.addressCity}&cityarea=${this.userData.addressArea}`,{
-                    method: "POST"
-                });
+                const result = await fetch(
+                    `https://cors-anywhere.herokuapp.com/https://www.post.gov.tw/post/streetNameData?city=${this.userData.addressCity}&cityarea=${this.userData.addressArea}`, {
+                        method: "POST"
+                    });
                 const buffer = await result.arrayBuffer();
                 const text = iconv.decode(new Buffer(buffer), 'Big5');
                 const converted = await xmljs.xml2js(text, {
