@@ -1,7 +1,7 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="MasterSkillDetail">
-        <SimpleModal @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData"
+        <SimpleModal :isLoading="isLoadingModal" @onSaveClick="createSkill" title="新增技能" @modalHidden="clearModalData"
             id="Master-Skill-Create-Modal">
             <template #modal-body>
                 <b-form>
@@ -146,10 +146,10 @@
                 this.inputState[1] = this.ignoreOptions.includes(this.categoryToBeIgnored);
             },
             async fetchMasterSkillsData() {
-                if (this.user.master.skillItems === '') {
-                    return
-                }
                 try {
+                    if (this.user.master.skillItems === '') {
+                        throw "No valid skills for this master"
+                    }
                     this.skillsTableBusy = true
                     const queryArray = parse.stringToArray(this.user.master.skillItems);
                     let response = await sdkQuery.querySomeSkills(queryArray);
@@ -180,10 +180,10 @@
                 }
             },
             async fetchMasterIgnoreCategoryData() {
-                if (this.user.master.ignoredWorkingCategories === '') {
-                    return
-                }
                 try {
+                    if (this.user.master.ignoreWorkingCategories === '') {
+                        throw "No valid ignore working categories for this master"
+                    }
                     let queryArray = parse.stringToArray(this.user.master.ignoreWorkingCategories, ",");
                     let response = await sdkQuery.querySomeCategories(queryArray);
                     let ignoredCategories = response.data;
