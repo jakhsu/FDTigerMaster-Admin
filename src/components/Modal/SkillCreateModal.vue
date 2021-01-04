@@ -1,11 +1,11 @@
 <template>
     <div>
-        <SimpleModal @onSaveClick="onSaveClick" title="新增技能" @resetModal="clearModalData"
-            :id="id" :isLoading="isLoading" :formErrorMessage="formErrorMessage">
+        <SimpleModal @onSaveClick="onSaveClick" title="新增技能" @resetModal="clearModalData" :id="id"
+            :isLoading="isLoading" :formErrorMessage="formErrorMessage">
             <template #modal-body>
                 <b-form>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                        <b-input v-model="skill.id" @update="idValidate" :state="inputState[0]" maxlength="10" />
+                        <b-input v-model.trim="skill.id" @update="idValidate" :state="inputState[0]" maxlength="10" />
                     </b-form-group>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
                         <b-input v-model="skill.description" @update="descriptionValidate" :state="inputState[1]" />

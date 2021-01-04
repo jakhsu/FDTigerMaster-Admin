@@ -40,7 +40,8 @@
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-select v-if="field.key == 'roleId'" v-model="search['roleId']">
+                                            <b-form-select v-if="field.key == 'roleId'"
+                                                v-model.number="search['roleId']">
                                                 <option value="1">一般客戶</option>
                                                 <option value="2">企業用戶</option>
                                             </b-form-select>
@@ -133,11 +134,20 @@
                 searchArray.forEach(ele => {
                     ele[2] = 'LIKE'
                     ele[1] = '%' + ele[1] + '%'
+                    if (ele[0] === 'addressCity' || ele[0] === 'addressArea' || ele[0] ===
+                        'addressDetail' || ele[0] === 'addressStreet') {
+                        let prefix = ele[0].slice(0, 7);
+                        let suffix = ele[0].slice(7, ele[0].length);
+                        ele[0] = prefix + '_' + suffix;
+                    } else if (ele[0] === 'createDate') {
+                        ele[0] = 'create_date';
+                    }
                     query.where(`user.${ele[0]}`, ele[2], ele[1])
                 });
+                const roleId = this.search.roleId || [1, 2];
                 try {
                     const res = await query
-                        .where('user.role_id', '=', this.search.roleId)
+                        .where('user.role_id', 'IN', roleId)
                         .limit(0, 100)
                         .get();
                     this.data = res.data;
@@ -146,6 +156,7 @@
                 } catch {
                     console.log("Search failed, please check your search inputs")
                 } finally {
+                    this.search = {};
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();
                 }

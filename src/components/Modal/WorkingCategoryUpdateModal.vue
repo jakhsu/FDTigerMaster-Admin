@@ -1,10 +1,10 @@
 <template>
-    <SimpleModal size='xl' @onSaveClick="onUpdateClick" title="新增工項" @resetModal="clearModalData"
-        :id="id" :isLoading="isLoading" :formErrorMessage="formErrorMessage">
+    <SimpleModal size='xl' @onSaveClick="onUpdateClick" title="新增工項" @resetModal="clearModalData" :id="id"
+        :isLoading="isLoading" :formErrorMessage="formErrorMessage">
         <template #modal-body>
             <b-form>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
-                    <b-input v-model="workingCategory.id" disabled />
+                    <b-input v-model.trim="workingCategory.id" disabled />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
                     <b-input v-model="workingCategory.description" :state="inputState[0]"
@@ -23,27 +23,27 @@
                     </b-select>
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="企業保固(日): ">
-                    <b-form-input v-model.number="workingCategory.commercialWarrantyDay" :state="inputState[1]"
+                    <b-form-input v-model.number.trim="workingCategory.commercialWarrantyDay" :state="inputState[1]"
                         @update="numberValidate(workingCategory.commercialWarrantyDay, 1)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="一般消費者保固(日): ">
-                    <b-form-input v-model.number="workingCategory.consumerWarrantyDay" :state="inputState[2]"
+                    <b-form-input v-model.number.trim="workingCategory.consumerWarrantyDay" :state="inputState[2]"
                         @update="numberValidate(workingCategory.consumerWarrantyDay, 2)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最高價格: ">
-                    <b-form-input v-model="workingCategory.maxPrice" :state="inputState[3]"
+                    <b-form-input v-model.number.trim="workingCategory.maxPrice" :state="inputState[3]"
                         @update="numberValidate(workingCategory.maxPrice, 3)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最高價格比例(%): ">
-                    <b-form-input v-model="workingCategory.maxPricePercentage" :state="inputState[4]"
+                    <b-form-input v-model.number.trim="workingCategory.maxPricePercentage" :state="inputState[4]"
                         @update="numberValidate(workingCategory.maxPricePercentage, 4)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最低價格: ">
-                    <b-form-input v-model="workingCategory.minPrice" :state="inputState[5]"
+                    <b-form-input v-model.number.trim="workingCategory.minPrice" :state="inputState[5]"
                         @update="numberValidate(workingCategory.minPrice, 5)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="最低價格比例(%): ">
-                    <b-form-input v-model="workingCategory.minPricePercentage" :state="inputState[6]"
+                    <b-form-input v-model.number.trim="workingCategory.minPricePercentage" :state="inputState[6]"
                         @update="numberValidate(workingCategory.minPricePercentage, 6)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="價格說明: ">
@@ -69,7 +69,7 @@
 
     export default {
         name: 'WorkingCategoryUpdateModal',
-        components:{
+        components: {
             SimpleModal
         },
         props: {
@@ -79,7 +79,7 @@
             },
             initWorkingCategoryContent: Object
         },
-        data(){
+        data() {
             return {
                 isLoading: false,
                 workingCategory: this.initWorkingCategoryContent,
@@ -87,25 +87,25 @@
                 formErrorMessage: ''
             }
         },
-        methods:{
-            async onUpdateClick(){
-                if(this.inputState.every((element) => element === true)){
+        methods: {
+            async onUpdateClick() {
+                if (this.inputState.every((element) => element === true)) {
                     this.isLoading = true;
-                    try{
+                    try {
                         const workingCategory = tigermaster.services.WorkingCategory;
                         await workingCategory.update(this.workingCategory);
                         this.$bvModal.hide(this.id);
                         this.$emit('finish');
-                    }catch(e){
+                    } catch (e) {
                         this.formErrorMessage = '更新失敗';
-                    }finally{
+                    } finally {
                         this.isLoading = false;
                     }
-                }else{
+                } else {
                     this.formErrorMessage = '部分資料不符合規定';
                 }
             },
-            clearModalData(){
+            clearModalData() {
                 this.workingCategory = JSON.parse(JSON.stringify(this.initWorkingCategoryContent));
                 this.inputState = [true, true, true, true, true, true, true, true, true];
                 this.formErrorMessage = '';
@@ -121,8 +121,8 @@
                 this.inputState[index] = (!isNaN(input) && input !== '');
             }
         },
-        watch:{
-            initWorkingCategoryContent(){
+        watch: {
+            initWorkingCategoryContent() {
                 this.workingCategory = JSON.parse(JSON.stringify(this.initWorkingCategoryContent));
             }
         }
