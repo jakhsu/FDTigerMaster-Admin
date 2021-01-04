@@ -1,10 +1,10 @@
 <template>
     <div id="UserComment">
-        <ScoreModal/>
+        <ScoreModal :currentUser="currentUser" :user="user" />
         <b-container fluid>
             <b-row align-h="start">
                 <b-col cols="4" align-self="center">
-                    <DataCard color="#4e73df" title="平均分數" :data="4.45" :trend="1" />
+                    <DataCard v-bind:hasTrend="false" color="#4e73df" title="平均分數" :data="user.avgScore" :trend="1" />
                 </b-col>
             </b-row>
             <TitledCard title="評分和評論歷史">
@@ -40,6 +40,10 @@
             TitledCard,
             ScoreModal,
             CustomTable
+        },
+        props: {
+            user: {},
+            currentUser: {}
         },
         data() {
             return {

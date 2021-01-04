@@ -1,11 +1,13 @@
 <template>
-    <SimpleModal id="Score-Modal" title="修改平均分數">
+    <SimpleModal id="Score-Modal" title="修改平均分數" @onSaveClick="onSaveClick" @resetModal="resetModal">
         <template #modal-body>
             <b-form-group>
-                <h5 for="scoreChange">新平均分數: <b-badge variant="success">{{score}}</b-badge>
+                <h5>目前平均分數: <b-badge variant="secondary">{{ user.avgScore }}</b-badge>
                 </h5>
-                <b-form-input id="scoreChange" v-model="score" type="range" min="0" max="5"
-                    placeholder="1.0" step="0.5">
+                <h5>新平均分數: <b-badge variant="success">{{ newScore }}</b-badge>
+                </h5>
+                <b-form-input id="scoreChange" v-model.number="newScore" type="range" min="0" max="5" placeholder="1.0"
+                    step="0.5">
                 </b-form-input>
             </b-form-group>
         </template>
@@ -17,13 +19,33 @@
 
     export default {
         name: 'ScoreModal',
-        components:{
+        components: {
             SimpleModal
         },
-        data(){
+        props: {
+            user: {},
+            currentUser: {}
+        },
+        data() {
             return {
-                score: 0
+                newScore: 0
             }
+        },
+        methods: {
+            async onSaveClick() {
+                let user = this.user;
+                user.avgScore = this.newScore;
+                delete user["pass"];
+                try {
+                    await this.currentUser.update(this.user);
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.newScore = 0;
+                    this.$bvModal.hide("Score-Modal")
+                }
+            },
+            resetModal() {}
         }
     }
 </script>

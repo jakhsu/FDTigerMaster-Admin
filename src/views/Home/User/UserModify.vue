@@ -177,7 +177,7 @@
                                             <b-form-input v-model="userData.master.branchName" />
                                         </b-form-group>
                                     </b-form-group>
-                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能">
+                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能(測試用，未來會移除)">
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="技能: ">
                                             <b-form-input v-model="userData.master.skillItems" />
@@ -185,6 +185,12 @@
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="忽略工項: ">
                                             <b-form-input v-model="userData.master.ignoreWorkingCategories" />
+                                        </b-form-group>
+                                    </b-form-group>
+                                    <b-form-group label-class="font-weight-bold pt-0" label="用戶評分(測試用，未來會移除)">
+                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                            label="平均分數: ">
+                                            <b-form-input v-model="userData.avgScore" />
                                         </b-form-group>
                                     </b-form-group>
                                 </b-card>
