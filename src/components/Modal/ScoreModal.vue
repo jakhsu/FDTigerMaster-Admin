@@ -38,7 +38,8 @@
                 isLoading: false,
                 newScore: 0,
                 scoreChangeReason: '',
-                errorMsg: ''
+                errorMsg: '',
+                inputState: [null]
             }
         },
         methods: {
@@ -75,6 +76,6 @@
 <style scoped>
     .FormError {
         color: #dd2a0e;
-        font-size: 10px;
+        font-size: 15px;
     }
 </style>

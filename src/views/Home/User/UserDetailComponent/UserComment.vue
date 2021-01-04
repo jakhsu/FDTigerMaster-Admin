@@ -85,6 +85,11 @@
                 ]
             }
         },
+        created() {
+            if (!this.user.avgScore) {
+                this.user.avgScore = 0;
+            }
+        },
         methods: {
             onSearchClick() {},
             onSearchClearClick() {

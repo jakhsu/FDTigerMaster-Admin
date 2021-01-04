@@ -12,10 +12,10 @@
                 </b-row>
                 <b-row>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="totalCount" :trend="1" />
+                        <DataCard color="#4e73df" title="師傅數" :data="totalCount" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="被停權數" :data="25" :trend="-3" />
+                        <DataCard color="#4e73df" title="被停權數" :data="inactiveCount" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -163,6 +163,17 @@
                 this.search = {};
             }
         },
+        computed: {
+            inactiveCount() {
+                let inactiveCount = 0;
+                this.data.forEach(ele => {
+                    if (ele.status === 0) {
+                        inactiveCount++;
+                    }
+                })
+                return inactiveCount;
+            }
+        }
     }
 </script>
 

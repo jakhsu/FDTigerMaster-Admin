@@ -12,10 +12,10 @@
                 </b-row>
                 <b-row>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="管理員數" :data="25" :trend="4" />
+                        <DataCard color="#4e73df" title="管理員數" :data="totalCount" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="被停權數" :data="0" :trend="0" />
+                        <DataCard color="#4e73df" title="被停權數" :data="inactiveCount" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -166,6 +166,17 @@
                 await this.fetchAdmin();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+            }
+        },
+        computed: {
+            inactiveCount() {
+                let inactiveCount = 0;
+                this.data.forEach(ele => {
+                    if (ele.status === 0) {
+                        inactiveCount++;
+                    }
+                })
+                return inactiveCount;
             }
         }
     }

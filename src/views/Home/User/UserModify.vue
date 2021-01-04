@@ -33,8 +33,7 @@
                                         label-cols-xl="2" label="電話: ">
                                         <b-form-input id="phone" v-model="userData.phone" disabled />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="密碼: "
-                                        disabled>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="密碼: ">
                                         <b-form-input v-model="userData.pass" />
                                     </b-form-group>
                                     <b-form-group label-for="name" label-align-sm="right" label-cols="3"
@@ -91,9 +90,8 @@
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
                                         <b-form-input v-model="userData.updateBy" disabled />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="Active: ">
-                                        <b-form-input v-model="userData.status" disabled />
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
+                                        <b-form-input :value="userData.status == 1 ? '啟用中' : '停用'" disabled />
                                     </b-form-group>
                                 </b-form-group>
                             </b-card>

@@ -43,7 +43,7 @@
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="性別: ">
-                                    <b-form-input :value="user.sex" disabled />
+                                    <b-form-input :value="user.sex == 'M' ? '男性' : '女性'" disabled />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="身分證號: ">
@@ -80,7 +80,7 @@
                                     <b-form-input :value="user.updateBy" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
-                                    <b-form-input :value="user.status" disabled />
+                                    <b-form-input :value="user.status == 1 ? '啟用中' : '停用'" disabled />
                                 </b-form-group>
                             </b-form-group>
                         </b-card>
