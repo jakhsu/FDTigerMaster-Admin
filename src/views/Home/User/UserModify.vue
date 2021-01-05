@@ -24,8 +24,8 @@
                 <b-row>
                     <b-col xl="6" lg="12" md="12">
                         <TitledCard title="基本">
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
+                            <div class="m-2">
+                                <b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="id: ">
                                         <b-form-input v-model="userData.id" disabled />
                                     </b-form-group>
@@ -71,11 +71,11 @@
                                         <b-form-input v-model="userData.birthDate" />
                                     </b-form-group>
                                 </b-form-group>
-                            </b-card>
+                            </div>
                         </TitledCard>
                         <TitledCard title="其他">
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
+                            <div class="m-2">
+                                <b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                         label="創建日期: ">
                                         <b-form-input v-model="userData.createDate" disabled />
@@ -94,13 +94,13 @@
                                         <b-form-input :value="userData.status == 1 ? '啟用中' : '停用'" disabled />
                                     </b-form-group>
                                 </b-form-group>
-                            </b-card>
+                            </div>
                         </TitledCard>
                     </b-col>
                     <b-col xl="6" lg="12" md="12">
                         <TitledCard title="地址">
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
+                            <div class="m-2">
+                                <b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
                                         <b-form-select id="city" v-model="userData.addressCity">
                                             <option v-for="(list, index) in cityList" :key="index" :value="list">
@@ -140,59 +140,56 @@
                                         <b-form-input v-model="userData.addressLat" disabled />
                                     </b-form-group>
                                 </b-form-group>
-                            </b-card>
+                            </div>
                         </TitledCard>
                         <TitledCard title="用戶照片">
                             <base64Img @FileUpload="onFileUpload" />
-                            <b-card class="mt-2" title="用戶大頭照">
+                            <div class="mt-2" title="用戶大頭照">
                                 <b-card-body>
                                     <img :src="userData.headShotPath" height="200" alt="">
                                 </b-card-body>
-                            </b-card>
+                            </div>
                         </TitledCard>
-                        <TitledCard v-if="userData.roleId == 0" title="專用資料:">
-                            <b-form>
-                                <b-card class="m-2" bg-variant="light">
-                                    <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="銀行帳號: ">
-                                            <b-form-input v-model="userData.master.accountNo" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="銀行名稱: ">
-                                            <b-form-input v-model="userData.master.bankName" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="銀行代號: ">
-                                            <b-form-input v-model="userData.master.bankCode" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="分行代號: ">
-                                            <b-form-input v-model="userData.master.branchCode" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="分行名稱: ">
-                                            <b-form-input v-model="userData.master.branchName" />
-                                        </b-form-group>
+                        <TitledCard v-if="userData.roleId == 0" title="銀行資料:">
+                            <div class="m-2">
+                                <b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="銀行帳號: ">
+                                        <b-form-input v-model="userData.master.accountNo" />
                                     </b-form-group>
-                                    <b-form-group label-class="font-weight-bold pt-0" label="工項技能(測試用，未來會移除)">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="技能: ">
-                                            <b-form-input v-model="userData.master.skillItems" />
-                                        </b-form-group>
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="忽略工項: ">
-                                            <b-form-input v-model="userData.master.ignoreWorkingCategories" />
-                                        </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="銀行名稱: ">
+                                        <b-form-input v-model="userData.master.bankName" />
                                     </b-form-group>
-                                    <b-form-group label-class="font-weight-bold pt-0" label="用戶評分(測試用，未來會移除)">
-                                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                            label="平均分數: ">
-                                            <b-form-input v-model="userData.avgScore" />
-                                        </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="銀行代號: ">
+                                        <b-form-input v-model="userData.master.bankCode" />
                                     </b-form-group>
-                                </b-card>
-                            </b-form>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="分行代號: ">
+                                        <b-form-input v-model="userData.master.branchCode" />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="分行名稱: ">
+                                        <b-form-input v-model="userData.master.branchName" />
+                                    </b-form-group>
+                                </b-form-group>
+                                <b-form-group label-class="font-weight-bold pt-0" label="工項技能(測試用，未來會移除)">
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能: ">
+                                        <b-form-input v-model="userData.master.skillItems" />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="忽略工項: ">
+                                        <b-form-input v-model="userData.master.ignoreWorkingCategories" />
+                                    </b-form-group>
+                                </b-form-group>
+                                <b-form-group label-class="font-weight-bold pt-0" label="用戶評分(測試用，未來會移除)">
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="平均分數: ">
+                                        <b-form-input v-model="userData.avgScore" />
+                                    </b-form-group>
+                                </b-form-group>
+                            </div>
                         </TitledCard>
                     </b-col>
                 </b-row>
@@ -320,7 +317,7 @@
                 this.open = false;
             },
             onFileUpload(img) {
-                console.log(img);
+                console.log(img)
             }
         }
     }

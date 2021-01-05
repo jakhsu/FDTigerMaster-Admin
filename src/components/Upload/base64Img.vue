@@ -1,11 +1,11 @@
 <template>
     <div id="base64img">
         <div class="container mt-10">
-            <b-card>
-                <img height="200" :src="image" alt="">
-                <input type="file" @change="handleImage" class="custom-input" accept="image/*">
-                <b-button @click="onFileUpload" variant="warning">確定上傳</b-button>
+            <b-card title="圖片預覽">
+                <img height="200" :src="image.path" alt="">
             </b-card>
+            <input type="file" @change="handleImage" class="custom-input" accept="image/*">
+            <b-button @click="onFileUpload" variant="warning">確定上傳</b-button>
         </div>
     </div>
 </template>
@@ -15,7 +15,9 @@
         name: "Base64Img",
         data() {
             return {
-                image: ''
+                image: {
+                    path: '',
+                }
             }
         },
         methods: {
@@ -26,7 +28,7 @@
             createBase64Image(fileObject) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    this.image = e.target.result;
+                    this.image.path = e.target.result;
                 }
                 reader.readAsDataURL(fileObject)
             },

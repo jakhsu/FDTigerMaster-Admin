@@ -1,6 +1,6 @@
 <template>
     <div id="MasterSkillDetail">
-        <MasterSkillCreateModal :existSkill="masterSkills" :currentUser="currentUser" @finish="onRefresh"/>
+        <MasterSkillCreateModal :existSkill="masterSkills" :currentUser="currentUser" @finish="onRefresh" />
         <b-container fluid>
             <b-row>
                 <b-col lg='6' md='12'>
@@ -10,8 +10,8 @@
                                 新增/移除技能
                             </b-button>
                         </div>
-                        <CustomTable :fields="skillsField" :datas="skillItems" :totalRows="totalCount" :isBusy="tableBusy"
-                            :isSelectable="true" @rowClick="updateClickedSkill" selectMode='single'>
+                        <CustomTable :fields="skillsField" :datas="skillItems" :totalRows="totalCount"
+                            :isBusy="tableBusy" :isSelectable="true" @rowClick="updateClickedSkill" selectMode='single'>
                         </CustomTable>
                         <div>
                             <label>對應工項</label>
@@ -25,40 +25,30 @@
                 </b-col>
                 <b-col lg="6" md="12">
                     <TitledCard title="忽略工項">
-                        <b-tags class="justify-content-left" size="lg" v-model="ignoredWorkingCategories" @input="updateIgnoredCategories"
+                        <b-tags size="lg" v-model="ignoredWorkingCategories" @input="updateIgnoredCategories"
                             tag-variant="danger" :tag-validator="tagValidator" @tag-state="onTagState">
                             <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
                                 <b-input-group class="mb-2" label="可停用工項">
-                                    <b-form-input
-                                        v-bind="inputAttrs"
-                                        v-on="inputHandlers"
-                                        placeholder="新增忽略工項編號"
-                                        class="form-control"
-                                        list="Ignore-Skills"
-                                    ></b-form-input>
+                                    <b-form-input v-bind="inputAttrs" v-on="inputHandlers" placeholder="新增忽略工項編號"
+                                        class="form-control" list="Ignore-Skills"></b-form-input>
                                     <datalist id="Ignore-Skills">
                                         <option v-for="(option, index) in ignoreOptions" :key="index" :value="option">
                                             {{ ignoreOptionTexts[index] }}
                                         </option>
                                     </datalist>
                                     <b-input-group-append>
-                                        <b-button @click="addTag()" variant="primary" :disabled="invalidInput !== undefined">Add</b-button>
+                                        <b-button @click="addTag()" variant="primary"
+                                            :disabled="invalidInput !== undefined">Add</b-button>
                                     </b-input-group-append>
                                     <b-form-invalid-feedback :state="invalidInput === undefined">
                                         {{ `錯誤或重複的工項編號: ${invalidInput}` }}
                                     </b-form-invalid-feedback>
                                 </b-input-group>
-                                <scale-loader color="#dc3545" v-if="isIgnoreLoading"/>
+                                <scale-loader color="#dc3545" v-if="isIgnoreLoading" />
                                 <div v-else style="font-size: 1.5rem;">
-                                    <b-form-tag
-                                        v-for="tag in tags"
-                                        @remove="removeTag(tag)"
-                                        :key="tag"
-                                        :title="tag"
-                                        :variant="tagVariant"
-                                        class="mr-1"
-                                    >{{ tag }}</b-form-tag>
-                                    </div>
+                                    <b-form-tag v-for="tag in tags" @remove="removeTag(tag)" :key="tag" :title="tag"
+                                        :variant="tagVariant" class="mr-1">{{ tag }}</b-form-tag>
+                                </div>
                             </template>
                         </b-tags>
                     </TitledCard>
@@ -103,7 +93,9 @@
             }
         },
         async created() {
-            await Promise.all([this.fetchMasterSkillsData(), this.fetchMasterIgnoreCategoryData(), this.generateIgnoreOptions()]);
+            await Promise.all([this.fetchMasterSkillsData(), this.fetchMasterIgnoreCategoryData(), this
+                .generateIgnoreOptions()
+            ]);
             this.tableBusy = false;
             this.isIgnoreLoading = false;
         },
@@ -144,7 +136,7 @@
             },
             async generateIgnoreOptions() {
                 try {
-                    if(this.user.master.skillItems !== undefined){
+                    if (this.user.master.skillItems !== undefined) {
                         this.ignoreOptions = [];
                         const response = await tigermaster.database
                             .query("working_category")
@@ -158,11 +150,13 @@
                     console.log(e);
                 }
             },
-            async onRefresh(){
+            async onRefresh() {
                 this.tableBusy = true;
                 this.isIgnoreLoading = true;
                 this.user = this.currentUser.data;
-                await Promise.all([this.fetchMasterSkillsData(), this.fetchMasterIgnoreCategoryData(), this.generateIgnoreOptions()]);
+                await Promise.all([this.fetchMasterSkillsData(), this.fetchMasterIgnoreCategoryData(), this
+                    .generateIgnoreOptions()
+                ]);
                 this.isIgnoreLoading = false;
                 this.tableBusy = false;
             },
@@ -171,9 +165,10 @@
                 obj.workingCategories.forEach((ele) => {
                     this.matchedWorkingCategory.push(`${ele.id} | ${ele.description}`)
                 });
-                this.matchedWorkingCategory = this.matchedWorkingCategory.filter(item => !this.ignoredWorkingCategories.includes(item));
+                this.matchedWorkingCategory = this.matchedWorkingCategory.filter(item => !this.ignoredWorkingCategories
+                    .includes(item));
             },
-            tagValidator(tag){
+            tagValidator(tag) {
                 return this.ignoreOptions.includes(tag);
             },
             onTagState(valid, invalid, duplicate) {
@@ -186,7 +181,12 @@
                     updateIgnore.push(ele.split(' | ')[0]);
                 });
                 const ignoreStr = updateIgnore.join(',');
-                await this.currentUser.update({master:{id: this.currentUser.data.master.id, ignoreWorkingCategories: ignoreStr}});
+                await this.currentUser.update({
+                    master: {
+                        id: this.currentUser.data.master.id,
+                        ignoreWorkingCategories: ignoreStr
+                    }
+                });
                 this.onRefresh();
             }
         }

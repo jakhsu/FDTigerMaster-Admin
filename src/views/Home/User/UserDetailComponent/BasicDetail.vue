@@ -12,8 +12,8 @@
             <b-row>
                 <b-col xl="6" lg="12">
                     <TitledCard title="基本">
-                        <b-card class="m-2" bg-variant="light">
-                            <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
+                        <div class="m-2">
+                            <b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="id: ">
                                     <b-form-input :value="user.id" disabled />
@@ -62,11 +62,11 @@
                                     <b-form-input :value="user.birthDate" disabled />
                                 </b-form-group>
                             </b-form-group>
-                        </b-card>
+                        </div>
                     </TitledCard>
                     <TitledCard title="其他">
-                        <b-card class="m-2" bg-variant="light">
-                            <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
+                        <div class="m-2">
+                            <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建日期: ">
                                     <b-form-input :value="user.createDate" disabled />
                                 </b-form-group>
@@ -83,13 +83,13 @@
                                     <b-form-input :value="user.status == 1 ? '啟用中' : '停用'" disabled />
                                 </b-form-group>
                             </b-form-group>
-                        </b-card>
+                        </div>
                     </TitledCard>
                 </b-col>
                 <b-col xl="6" lg="12">
                     <TitledCard title="地址">
-                        <b-card class="m-2" bg-variant="light">
-                            <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
+                        <div class="m-2">
+                            <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
                                     <b-form-input :value="user.addressCity" disabled />
                                 </b-form-group>
@@ -109,35 +109,28 @@
                                     <b-form-input :value="user.addressLong" disabled />
                                 </b-form-group>
                             </b-form-group>
-                        </b-card>
+                        </div>
                     </TitledCard>
                     <TitledCard v-if="user.roleId == 0" title="師傅專用">
-                        <b-form>
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="銀行帳號: ">
-                                        <b-form-input v-model="user.master.accountNo" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="銀行名稱: ">
-                                        <b-form-input v-model="user.master.bankName" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="銀行代號: ">
-                                        <b-form-input v-model="user.master.bankCode" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="分行代號: ">
-                                        <b-form-input v-model="user.master.branchCode" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="分行名稱: ">
-                                        <b-form-input v-model="user.master.branchName" disabled />
-                                    </b-form-group>
+                        <div class="m-2">
+                            <b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="銀行帳號: ">
+                                    <b-form-input v-model="user.master.accountNo" disabled />
                                 </b-form-group>
-                            </b-card>
-                        </b-form>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="銀行名稱: ">
+                                    <b-form-input v-model="user.master.bankName" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="銀行代號: ">
+                                    <b-form-input v-model="user.master.bankCode" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="分行代號: ">
+                                    <b-form-input v-model="user.master.branchCode" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="分行名稱: ">
+                                    <b-form-input v-model="user.master.branchName" disabled />
+                                </b-form-group>
+                            </b-form-group>
+                        </div>
                     </TitledCard>
                     <TitledCard v-if="user.status == 1" title="用戶凍結:" titleBackgroundColor="#dd2a0e">
                         <div class="BasicDetail-Deactivate">

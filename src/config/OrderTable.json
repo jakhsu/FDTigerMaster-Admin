@@ -3,6 +3,10 @@
         "label": "編號"
     },
     {
+        "key": "workingCategoryDescription",
+        "label": "訂單工項"
+    },
+    {
         "key": "addressCity",
         "label": "城市"
     },

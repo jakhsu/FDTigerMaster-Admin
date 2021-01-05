@@ -5,11 +5,15 @@
         </div>
         <h5>{{ orderData.workingCategoryId }}</h5>
         <div class="order-card-location mb-1">
-            <span><font-awesome-icon icon="map-marker-alt" fixed-width/>{{ `${orderData.addressCity} ${orderData.addressArea} ${orderData.addressStreet}`  }}</span>
+            <span>
+                <font-awesome-icon icon="map-marker-alt" fixed-width />
+                {{ `${orderData.addressCity} ${orderData.addressArea} ${orderData.addressStreet}`  }}</span>
         </div>
         <div class="order-card-contact mb-1">
-            <span><font-awesome-icon icon="user" fixed-width/>0912345678</span>
-            <span class="ml-1"><font-awesome-icon icon="hard-hat" fixed-width/>0923456789</span>
+            <span>
+                <font-awesome-icon icon="user" fixed-width />0912345678</span>
+            <span class="ml-1">
+                <font-awesome-icon icon="hard-hat" fixed-width />0923456789</span>
         </div>
         <div class="order-card-last-update">
             <span>{{ orderData.updateDate }}</span>
@@ -24,8 +28,8 @@
         props: {
             orderData: {}
         },
-        data(){
-            return{
+        data() {
+            return {
                 statusMap: OrderStatusMap()
             }
         }
@@ -33,29 +37,31 @@
 </script>
 
 <style>
-#order-card{
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0px;
-    color: #172b4d;
-    background-color: #fff;
-    text-align: left;
-    border-radius: 5px;
-}
+    #order-card {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0px;
+        color: #172b4d;
+        background-color: #fff;
+        text-align: left;
+        border-radius: 5px;
+    }
 
-#order-card:hover{
-    background-color: #f0f0f0;
-}
+    #order-card:hover {
+        background-color: #f0f0f0;
+    }
 
-#order-card .order-card-status{
-    padding: 5px 5px;
-    color: #fff;
-    background-color: #28a745;
-    border-radius: 5px;
-}
+    #order-card .order-card-status {
+        padding: 5px 5px;
+        color: #fff;
+        background-color: #28a745;
+        border-radius: 5px;
+    }
 
-#order-card .order-card-location, #order-card .order-card-contact, #order-card .order-card-last-update{
-    font-size: 14px;
-    color: #6b778c;
-}
+    #order-card .order-card-location,
+    #order-card .order-card-contact,
+    #order-card .order-card-last-update {
+        font-size: 14px;
+        color: #6b778c;
+    }
 </style>
