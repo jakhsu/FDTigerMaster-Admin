@@ -22,8 +22,10 @@
                                     </template>
                                 </b-input-group>
                             </div>
-                            <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in matchingOrders"
-                                :key="index" :orderData="order" />
+                            <b-card class="Order-Panel mt-2">
+                                <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in matchingOrders"
+                                    :key="index" :orderData="order" />
+                            </b-card>
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
@@ -36,8 +38,10 @@
                                     </template>
                                 </b-input-group>
                             </div>
-                            <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in workingOrders"
-                                :key="index" :orderData="order" />
+                            <b-card class="Order-Panel mt-2">
+                                <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in workingOrders"
+                                    :key="index" :orderData="order" />
+                            </b-card>
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
@@ -50,8 +54,10 @@
                                     </template>
                                 </b-input-group>
                             </div>
-                            <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in notpayOrders"
-                                :key="index" :orderData="order" />
+                            <b-card class="Order-Panel mt-2">
+                                <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in notpayOrders"
+                                    :key="index" :orderData="order" />
+                            </b-card>
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
@@ -64,8 +70,10 @@
                                     </template>
                                 </b-input-group>
                             </div>
-                            <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in specialOrders"
-                                :key="index" :orderData="order" />
+                            <b-card class="Order-Panel mt-2">
+                                <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in specialOrders"
+                                    :key="index" :orderData="order" />
+                            </b-card>
                         </TitledCard>
                     </b-col>
                 </b-row>
@@ -79,7 +87,6 @@
     import OrderCard from '@/components/Card/OrderCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import OrderDetailModal from '@/components/Modal/OrderDetailModal.vue'
-
     // import tigermaster from 'fdtigermaster-sdk'
 
     export default {
@@ -346,5 +353,11 @@
         #Order .Order-Area {
             padding: 0px;
         }
+    }
+
+    .Order-Panel {
+        max-height: 100vh;
+        overflow: scroll;
+
     }
 </style>

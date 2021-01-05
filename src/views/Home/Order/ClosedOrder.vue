@@ -12,13 +12,13 @@
                 </b-row>
                 <b-row>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="總訂單數" :data="25419" :trend="460" />
+                        <DataCard color="#4e73df" title="總訂單數" :data="totalCount" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="進行中" :data="25" :trend="-3" />
+                        <DataCard color="#4e73df" title="進行中" :data="0" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="已完成" :data="24419" :trend="200" />
+                        <DataCard color="#4e73df" title="已完成" :data="0" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -40,7 +40,7 @@
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-input v-model="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" v-b-popover.hover="searchTips(field)" />
+                                                :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
                                     <template #cell(phone)="data">
@@ -80,48 +80,22 @@
         },
         async created() {
             this.isLoading = true;
-            this.isLoading = false;
+            try {
+                const database = tigermaster.database;
+                const result = await database.query("generic_order").get();
+                this.orders = result.data;
+                this.queryRows = result.queryRows;
+                this.totalCount = result.totalCount;
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.isLoading = false;
+            }
         },
         data() {
             return {
                 fields: OrderTable,
-                orders: [{
-                    "id": "RO1213",
-                    "clientUserId": "benny139",
-                    "addressCity": "台北市",
-                    "addressArea": "中正區",
-                    "addressStreet": "八德路１段",
-                    "addressDetail": "1号",
-                    "workingCategoryId": "TM-K010101",
-                    "status": 5,
-                    "expectWorkingDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, {
-                    "id": "RO1213",
-                    "clientUserId": "jack123",
-                    "addressCity": "新北市",
-                    "addressArea": "三重區",
-                    "addressStreet": "三重路１段",
-                    "addressDetail": "5號",
-                    "workingCategoryId": "TM-X010101",
-                    "status": 15,
-                    "expectWorkingDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, {
-                    "id": "RO1213",
-                    "clientUserId": "rui123",
-                    "addressCity": "台中市",
-                    "addressArea": "中山區",
-                    "addressStreet": "八德路１段",
-                    "addressDetail": "2號",
-                    "workingCategoryId": "TM-Q010101",
-                    "status": 35,
-                    "expectWorkingDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, ],
+                orders: [],
                 search: {
                     roleId: "0"
                 },
@@ -132,25 +106,6 @@
             }
         },
         methods: {
-            test() {},
-            searchTips(field) {
-                return {
-                    variant: 'info',
-                    html: true,
-                    title: () => {
-                        if (field.key == 'roleId') {
-                            return '說明: '
-                        }
-                        return
-                    },
-                    content: () => {
-                        if (field.key == 'roleId') {
-                            return `客人: 0 師傅: 1 <br> 行銷: 70  財務: 80 <br> 客服: 90 超級使用者: 999 `
-                        }
-                        return
-                    }
-                }
-            },
             onDataRequire() {
                 this.tableBusy = true;
             },

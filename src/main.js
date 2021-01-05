@@ -73,6 +73,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.component('scale-loader', ScaleLoader)
 
+
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)

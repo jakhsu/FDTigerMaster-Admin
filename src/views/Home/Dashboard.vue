@@ -35,7 +35,13 @@
         name: 'Dashboard',
         components: {
             DataCard
-        }
+        },
+        data() {
+            return {
+                response: {}
+            }
+        },
+        methods: {}
     }
 </script>
 
