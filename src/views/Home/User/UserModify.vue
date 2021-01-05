@@ -96,8 +96,7 @@
                                         </b-form-group>
                                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
                                             label="街道: ">
-                                            <scale-loader v-if="isAddressLoading">
-                                            </scale-loader>
+                                            <scale-loader v-if="isAddressLoading"/>
                                             <b-form-input v-b-tooltip.v-danger="streetErrorMessage"
                                                 v-model="userData.addressStreet" @input="change" list="suggestion">
                                             </b-form-input>
