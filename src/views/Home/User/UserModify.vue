@@ -283,6 +283,9 @@
             async onFinishEdit() {
                 if (this.streetErrorMessage === '') {
                     this.isLoading = true;
+                    if (!this.userData.avgScore) {
+                        this.userData.avgScore = 0;
+                    }
                     delete this.userData["pass"];
                     await this.currentUser.update(this.userData);
                     this.$router.push({
