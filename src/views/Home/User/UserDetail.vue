@@ -36,7 +36,8 @@
                     </b-nav-item>
                 </b-nav>
             </div>
-            <component :is="currentComponent" :user="userData" :currentUser="currentUser" @refresh="onRefresh"></component>
+            <component :is="currentComponent" :user="userData" :currentUser="currentUser" @refresh="onRefresh">
+            </component>
         </b-container>
     </div>
 </template>
@@ -92,7 +93,7 @@
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
             },
-            async onRefresh(){
+            async onRefresh() {
                 this.isLoading = true;
                 const user = await tigermaster.auth.getUserById(this.$route.query.userId);
                 this.currentUser = user;

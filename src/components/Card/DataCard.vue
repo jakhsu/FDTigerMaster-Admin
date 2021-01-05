@@ -5,7 +5,7 @@
                 <div class="data-card-title mb-1" :style="`color: ${color};`">{{ title }}</div>
                 <div class="data-card-data h5">{{ data.toLocaleString() }}</div>
             </b-col>
-            <b-col cols="auto" class="d-flex align-items-center">
+            <b-col v-if="hasTrend" cols="auto" class="d-flex align-items-center">
                 <div class="data-card-trend" :style="'color: ' + (trend > 0 ? '#007bff' : '#dc3545')">
                     {{ ['','+'][+(trend > 0)] + trend }}</div>
             </b-col>
@@ -17,6 +17,10 @@
     export default {
         name: 'DataCard',
         props: {
+            hasTrend: {
+                type: Boolean,
+                default: false
+            },
             cardClass: String,
             color: {
                 type: String,

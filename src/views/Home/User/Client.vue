@@ -12,10 +12,10 @@
                 </b-row>
                 <b-row>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="客戶數" :data="25419" :trend="460" />
+                        <DataCard color="#4e73df" title="客戶數" :data="totalCount" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="被停權數" :data="25" :trend="-3" />
+                        <DataCard color="#4e73df" title="被停權數" :data="inactiveCount" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -32,15 +32,16 @@
                                 </b-button>
                             </div>
                             <div class="Client-Table">
-                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
-                                    :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount"
+                                    :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-select v-if="field.key == 'roleId'" v-model="search['roleId']">
+                                            <b-form-select v-if="field.key == 'roleId'"
+                                                v-model.number="search['roleId']">
                                                 <option value="1">一般客戶</option>
                                                 <option value="2">企業用戶</option>
                                             </b-form-select>
@@ -78,7 +79,7 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: "Client",
@@ -105,7 +106,7 @@
             await this.fetchClient();
         },
         methods: {
-            async fetchClient(){
+            async fetchClient() {
                 try {
                     this.tableBusy = true;
                     const res = await tigermaster.database
@@ -117,7 +118,7 @@
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
                 } catch (e) {
-                    console.log(e);
+                    console.log("Failed to fetch client data");
                 } finally {
                     this.tableBusy = false;
                 }
@@ -129,25 +130,52 @@
                 this.tableBusy = true;
                 let query = tigermaster.database.query("user");
                 let searchArray = Object.entries(this.search);
-                searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
-                searchArray.forEach(element => {
-                    element[2] = 'LIKE'
-                    element[1] = '%' + element[1] + '%'
-                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                searchArray = searchArray.filter(e => e[0] !== 'roleId')
+                searchArray.forEach(ele => {
+                    ele[2] = 'LIKE'
+                    ele[1] = '%' + ele[1] + '%'
+                    if (ele[0] === 'addressCity' || ele[0] === 'addressArea' || ele[0] ===
+                        'addressDetail' || ele[0] === 'addressStreet') {
+                        let prefix = ele[0].slice(0, 7);
+                        let suffix = ele[0].slice(7, ele[0].length);
+                        ele[0] = prefix + '_' + suffix;
+                    } else if (ele[0] === 'createDate') {
+                        ele[0] = 'create_date';
+                    }
+                    query.where(`user.${ele[0]}`, ele[2], ele[1])
                 });
-                query.where('user.role_id', '=', `${this.search.roleId}`).limit(0, 100);
-                await query.get();
-                const res = await query.get();
-                this.data = res.data;
-                this.queryRows = res.queryRows;
-                this.totalCount = res.totalCount;
-                this.tableBusy = false;
-                this.$refs.customTable.toFirstPage();
+                const roleId = this.search.roleId || [1, 2];
+                try {
+                    const res = await query
+                        .where('user.role_id', 'IN', roleId)
+                        .limit(0, 100)
+                        .get();
+                    this.data = res.data;
+                    this.queryRows = res.queryRows;
+                    this.totalCosunt = res.totalCount;
+                } catch {
+                    console.log("Search failed, please check your search inputs")
+                } finally {
+                    this.search = {};
+                    this.tableBusy = false;
+                    this.$refs.customTable.toFirstPage();
+                }
             },
             async onSearchClearClick() {
                 await this.fetchClient();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+            }
+        },
+        computed: {
+            inactiveCount() {
+                let inactiveCount = 0;
+                this.data.forEach(ele => {
+                    if (ele.status === 0) {
+                        inactiveCount++;
+                    }
+                })
+                return inactiveCount;
             }
         }
     }

@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Auth/Login.vue'
 
-import Home from '@/views/Home/Home.vue'
-import HomeDashboard from '@/views/Home/Dashboard.vue'
-import HomeClient from '@/views/Home/User/Client.vue'
-import HomeMaster from '@/views/Home/User/Master.vue'
-import HomeAdmin from '@/views/Home/User/Admin.vue'
-import HomeUserDetail from '@/views/Home/User/UserDetail.vue'
-import HomeBroadcast from '@/views/Home/Broadcast.vue'
-import HomeSkill from '@/views/Home/Services/Skill.vue'
-import HomeUserModify from '@/views/Home/User/UserModify.vue'
-import HomeWorkingCategory from '@/views/Home/Services/WorkingCategory.vue'
-import HomeClosedOrder from '@/views/Home/Order/ClosedOrder.vue'
-import HomeOngoingOrder from '@/views/Home/Order/OngoingOrder.vue'
+const Login = () => import('@/views/Auth/Login.vue');
 
-import Page404 from '@/views/Error/Page404.vue'
+const Home = () => import('@/views/Home/Home.vue');
+const HomeDashboard = () => import('@/views/Home/Dashboard.vue');
+const HomeClient = () => import('@/views/Home/User/Client.vue');
+const HomeMaster = () => import('@/views/Home/User/Master.vue');
+const HomeAdmin = () => import('@/views/Home/User/Admin.vue');
+const HomeUserDetail = () => import('@/views/Home/User/UserDetail.vue');
+const HomeBroadcast = () => import('@/views/Home/Broadcast.vue');
+const HomeSkill = () => import('@/views/Home/Services/Skill.vue');
+const HomeUserModify = () => import('@/views/Home/User/UserModify.vue');
+const HomeWorkingCategory = () => import('@/views/Home/Services/WorkingCategory.vue');
+const HomeClosedOrder = () => import('@/views/Home/Order/ClosedOrder.vue');
+const HomeOngoingOrder = () => import('@/views/Home/Order/OngoingOrder.vue');
+
+const Page404 = () => import('@/views/Error/Page404.vue');
 
 Vue.use(VueRouter)
 

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <SimpleModal @onSaveClick="onSaveClick" title="修改技能" @resetModal="clearModalData"
-            :id="id" :isLoading="isLoading" :formErrorMessage="formErrorMessage">
+        <SimpleModal @onSaveClick="onSaveClick" title="修改技能" @resetModal="clearModalData" :id="id"
+            :isLoading="isLoading" :formErrorMessage="formErrorMessage">
             <template #modal-body>
                 <b-form>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
-                        <b-input v-model="skill.id" disabled />
+                        <b-input v-model.trim="skill.id" disabled />
                     </b-form-group>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
                         <b-input v-model="skill.description" :state="descriptionInputState"
@@ -74,8 +74,8 @@
                 this.isLoading = false;
             }
         },
-        watch:{
-            initSkillContent(){
+        watch: {
+            initSkillContent() {
                 this.skill = this.initSkillContent;
             }
         }

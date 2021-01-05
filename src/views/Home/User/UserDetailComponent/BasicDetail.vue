@@ -11,108 +11,107 @@
             </div>
             <b-row>
                 <b-col xl="6" lg="12">
-                    <TitledCard title="用戶共通:">
-                        <b-form>
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="id: ">
-                                        <b-form-input :value="user.id" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="phone" label-align-sm="right" label-cols="3"
-                                        label-cols-xl="2" label="電話: ">
-                                        <b-form-input id="phone" :value="user.phone" disabled>
-                                        </b-form-input>
-                                    </b-form-group>
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="密碼: ">
-                                        <b-form-input :value="user.pass" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="name" label-align-sm="right" label-cols="3"
-                                        label-cols-xl="2" label="姓名: ">
-                                        <b-form-input id="name" :value="user.name" disabled>
-                                        </b-form-input>
-                                    </b-form-group>
-                                    <b-form-group label-for="roleId" label-align-sm="right" label-cols="3"
-                                        label-cols-xl="2" label="角色: ">
-                                        <b-form-input :value="roleIdMap[user.roleId]" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="email" label-align-sm="right" label-cols="3"
-                                        label-cols-xl="2" label="Email: ">
-                                        <b-form-input id="email" :value="user.email" disabled>
-                                        </b-form-input>
-                                    </b-form-group>
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="性別: ">
-                                        <b-form-input :value="user.sex" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="身分證號: ">
-                                        <b-form-input :value="user.idCardNo" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="出生年: ">
-                                        <b-form-input :value="user.birthYear" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="出生月: ">
-                                        <b-form-input :value="user.birthMon" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="出生日: ">
-                                        <b-form-input :value="user.birthDate" disabled />
-                                    </b-form-group>
+                    <TitledCard title="基本">
+                        <b-card class="m-2" bg-variant="light">
+                            <b-form-group label-class="font-weight-bold pt-0" label="基本資料">
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="id: ">
+                                    <b-form-input :value="user.id" disabled />
                                 </b-form-group>
-                            </b-card>
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                                        <b-form-input :value="user.addressCity" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區域: ">
-                                        <b-form-input :value="user.addressArea" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                                        <b-form-input :value="user.addressStreet" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="門牌樓層: ">
-                                        <b-form-input :value="user.addressDetail" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
-                                        <b-form-input :value="user.addressLat" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
-                                        <b-form-input :value="user.addressLong" disabled />
-                                    </b-form-group>
+                                <b-form-group label-for="phone" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="電話: ">
+                                    <b-form-input id="phone" :value="user.phone" disabled>
+                                    </b-form-input>
                                 </b-form-group>
-                            </b-card>
-                            <b-card class="m-2" bg-variant="light">
-                                <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="創建日期: ">
-                                        <b-form-input :value="user.createDate" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
-                                        <b-form-input :value="user.createBy" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="更新日期: ">
-                                        <b-form-input :value="user.updateDate" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
-                                        <b-form-input :value="user.updateBy" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
-                                        <b-form-input :value="user.status" disabled />
-                                    </b-form-group>
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="密碼: ">
+                                    <b-form-input :value="user.pass" disabled />
                                 </b-form-group>
-                            </b-card>
-                        </b-form>
+                                <b-form-group label-for="name" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="姓名: ">
+                                    <b-form-input id="name" :value="user.name" disabled>
+                                    </b-form-input>
+                                </b-form-group>
+                                <b-form-group label-for="roleId" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="角色: ">
+                                    <b-form-input :value="roleIdMap[user.roleId]" disabled />
+                                </b-form-group>
+                                <b-form-group label-for="email" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="Email: ">
+                                    <b-form-input id="email" :value="user.email" disabled>
+                                    </b-form-input>
+                                </b-form-group>
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="性別: ">
+                                    <b-form-input :value="user.sex == 'M' ? '男性' : '女性'" disabled />
+                                </b-form-group>
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="身分證號: ">
+                                    <b-form-input :value="user.idCardNo" disabled />
+                                </b-form-group>
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="出生年: ">
+                                    <b-form-input :value="user.birthYear" disabled />
+                                </b-form-group>
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="出生月: ">
+                                    <b-form-input :value="user.birthMon" disabled />
+                                </b-form-group>
+                                <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                    label="出生日: ">
+                                    <b-form-input :value="user.birthDate" disabled />
+                                </b-form-group>
+                            </b-form-group>
+                        </b-card>
+                    </TitledCard>
+                    <TitledCard title="其他">
+                        <b-card class="m-2" bg-variant="light">
+                            <b-form-group label-class="font-weight-bold pt-0" label="其他資料">
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建日期: ">
+                                    <b-form-input :value="user.createDate" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
+                                    <b-form-input :value="user.createBy" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新日期: ">
+                                    <b-form-input :value="user.updateDate" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
+                                    <b-form-input :value="user.updateBy" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
+                                    <b-form-input :value="user.status == 1 ? '啟用中' : '停用'" disabled />
+                                </b-form-group>
+                            </b-form-group>
+                        </b-card>
                     </TitledCard>
                 </b-col>
                 <b-col xl="6" lg="12">
-                    <TitledCard v-if="user.roleId == 0" title="師傅專用:">
+                    <TitledCard title="地址">
+                        <b-card class="m-2" bg-variant="light">
+                            <b-form-group label-class="font-weight-bold pt-0" label="地址資料">
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
+                                    <b-form-input :value="user.addressCity" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區域: ">
+                                    <b-form-input :value="user.addressArea" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
+                                    <b-form-input :value="user.addressStreet" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
+                                    <b-form-input :value="user.addressDetail" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
+                                    <b-form-input :value="user.addressLat" disabled />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
+                                    <b-form-input :value="user.addressLong" disabled />
+                                </b-form-group>
+                            </b-form-group>
+                        </b-card>
+                    </TitledCard>
+                    <TitledCard v-if="user.roleId == 0" title="師傅專用">
                         <b-form>
                             <b-card class="m-2" bg-variant="light">
                                 <b-form-group label-class="font-weight-bold pt-0" label="銀行資料">
@@ -173,7 +172,7 @@
     import ActivateModal from '@/components/Modal/ActivateModal.vue'
     import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
 
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: "BasicDetail",
@@ -186,7 +185,7 @@
             user: {},
             currentUser: Object
         },
-        data(){
+        data() {
             return {
                 UserRole,
                 roleIdMap: RoleIdMapping()

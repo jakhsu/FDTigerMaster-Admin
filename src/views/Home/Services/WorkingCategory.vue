@@ -128,10 +128,10 @@
                 this.tableBusy = true;
                 let query = tigermaster.database.query("working_category");
                 let searchArray = Object.entries(this.search);
-                searchArray.forEach(element => {
-                    element[2] = 'LIKE';
-                    element[1] = '%' + element[1] + '%';
-                    query.where(`working_category.${element[0]}`, element[2], element[1]);
+                searchArray.forEach(ele => {
+                    ele[2] = 'LIKE';
+                    ele[1] = '%' + ele[1] + '%';
+                    query.where(`working_category.${ele[0]}`, ele[2], ele[1]);
                 })
                 const workingCategories = await query.get();
                 this.workingCategories = workingCategories.data;
@@ -160,8 +160,8 @@
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
             },
-            startEditWorkingCategory(data) {
-                this.selectedWorkingCategory = data;
+            startEditWorkingCategory(selectedCategory) {
+                this.selectedWorkingCategory = selectedCategory;
                 this.$bvModal.show("WorkingCategory-Update-Modal");
             }
         },

@@ -35,7 +35,7 @@
                             <div>
                                 <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount"
                                     :datas="skills" :isBusy="tableBusy" :isSelectable="true" @rowClick="onSkillClick"
-                                    selectMode='single' :fields="SkillsTable">
+                                    selectMode='single' :fields="SkillsTable" :perPage="6">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in SkillsTable" :key="index">
                                             <b-form-select v-if="field.key === 'active'" v-model="search['active']">
@@ -112,7 +112,7 @@
                     this.skills = skills.data;
                     this.totalCount = skills.totalCount;
                 } catch (e) {
-                    console.log(e);
+                    console.log("Failed to fetch skill data");
                 } finally {
                     this.tableBusy = false;
                 }
@@ -125,15 +125,20 @@
             async onSearchClick() {
                 this.tableBusy = true;
                 let query = tigermaster.database.query("skill_item");
-                let searchArray = Object.entries(this.search);
-                searchArray.forEach(element => {
-                    element[2] = 'LIKE';
-                    element[1] = '%' + element[1] + '%';
-                    query.where(`skill_item.${element[0]}`, element[2], element[1]);
+                const searchArray = Object.entries(this.search);
+                searchArray.forEach(ele => {
+                    ele[2] = 'LIKE';
+                    ele[1] = '%' + ele[1] + '%';
+                    query.where(`skill_item.${ele[0]}`, ele[2], ele[1]);
                 })
-                this.skills = await query.get();
-                this.skillsTableBusy = false;
-                this.$refs.customTable.toFirstPage();
+                try {
+                    this.skills = await query.get();
+                } catch (e) {
+                    console.log("Search failed, please check your search inputs")
+                } finally {
+                    this.tableBusy = false;
+                    this.$refs.customTable.toFirstPage();
+                }
             },
             onSkillClick(clickedSkill) {
                 this.workingCategories = [];
@@ -159,8 +164,8 @@
                 await skillsFile.upload(upload);
                 this.fetchSkillData();
             },
-            async startEditSkill(data) {
-                this.selectedSkill = data;
+            async startEditSkill(selectedSkill) {
+                this.selectedSkill = selectedSkill;
                 this.$bvModal.show("WorkingCategory-Update-Modal");
             }
         }

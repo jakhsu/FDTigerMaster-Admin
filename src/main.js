@@ -67,7 +67,7 @@ library.add(
     faMapMarkerAlt,
     faFileContract,
     faTachometerAlt,
-    faHourglassHalf,
+    faHourglassHalf
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

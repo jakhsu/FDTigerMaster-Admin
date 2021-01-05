@@ -12,10 +12,10 @@
                 </b-row>
                 <b-row>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="totalCount" :trend="1" />
+                        <DataCard color="#4e73df" title="師傅數" :data="totalCount" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="被停權數" :data="25" :trend="-3" />
+                        <DataCard color="#4e73df" title="被停權數" :data="inactiveCount" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -32,15 +32,16 @@
                                 </b-button>
                             </div>
                             <div class="Master-Table">
-                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
-                                    :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount"
+                                    :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-input v-if="field.key == 'roleId'" :name="field.key" :value="'師傅'" disabled />
+                                            <b-form-input v-if="field.key == 'roleId'" :name="field.key" :value="'師傅'"
+                                                disabled />
                                             <b-form-input v-if="field.key !== 'status' && field.key !== 'roleId'"
                                                 v-model="search[field.key]" :name="field.key"
                                                 :placeholder="field.label" />
@@ -74,7 +75,7 @@
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js' 
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: "Master",
@@ -83,9 +84,6 @@
             TitledCard,
             CustomTable,
             UserCreateModal
-        },
-        async created() {
-            this.fetchMasters();
         },
         data() {
             return {
@@ -100,6 +98,9 @@
                 tableBusy: false
             }
         },
+        async created() {
+            this.fetchMasters();
+        },
         methods: {
             async fetchMasters() {
                 try {
@@ -113,7 +114,7 @@
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
                 } catch (e) {
-                    console.log(e);
+                    console.log("Failed to fetch master data");
                 } finally {
                     this.tableBusy = false;
                 }
@@ -126,19 +127,35 @@
                 let query = tigermaster.database.query("user");
                 let searchArray = Object.entries(this.search);
                 searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
-                searchArray.forEach(element => {
-                    element[2] = 'LIKE'
-                    element[1] = '%' + element[1] + '%'
-                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                searchArray.forEach(ele => {
+                    ele[2] = 'LIKE'
+                    ele[1] = '%' + ele[1] + '%'
+                    if (ele[0] === 'addressCity' || ele[0] === 'addressArea' || ele[0] ===
+                        'addressDetail' || ele[0] === 'addressStreet') {
+                        let prefix = ele[0].slice(0, 7);
+                        let suffix = ele[0].slice(7, ele[0].length);
+                        ele[0] = prefix + '_' + suffix;
+                    } else if (ele[0] === 'createDate') {
+                        ele[0] = 'create_date';
+                    }
+                    query.where(`user.${ele[0]}`, ele[2], ele[1])
                 });
-                query.where('user.role_id', '=', `${this.search.roleId}`).limit(0, 100);
-                await query.get();
-                const res = await query.get();
-                this.data = res.data;
-                this.queryRows = res.queryRows;
-                this.totalCount = res.totalCount;
-                this.tableBusy = false;
-                this.$refs.customTable.toFirstPage();
+                const roleId = this.search.roleId || 0;
+                try {
+                    const res = await query
+                        .where('user.role_id', '=', roleId)
+                        .limit(0, 100)
+                        .get();
+                    this.data = res.data;
+                    this.queryRows = res.queryRows;
+                    this.totalCount = res.totalCount;
+                } catch (e) {
+                    console.log("Search failed, please check your search inputs")
+                } finally {
+                    this.search = {};
+                    this.tableBusy = false;
+                    this.$refs.customTable.toFirstPage();
+                }
             },
             async onSearchClearClick() {
                 await this.fetchMasters();
@@ -146,6 +163,17 @@
                 this.search = {};
             }
         },
+        computed: {
+            inactiveCount() {
+                let inactiveCount = 0;
+                this.data.forEach(ele => {
+                    if (ele.status === 0) {
+                        inactiveCount++;
+                    }
+                })
+                return inactiveCount;
+            }
+        }
     }
 </script>
 

@@ -6,7 +6,7 @@
                 <b-form-row>
                     <b-col lg="6" md="12">
                         <b-form-group label="電話">
-                            <b-form-input v-model="newUser.phone" :state="inputState[inputIndex.phone]" type="text"
+                            <b-form-input v-model.trim="newUser.phone" :state="inputState[inputIndex.phone]" type="text"
                                 placeholder="輸入電話..." @update="phoneValidate" maxlength='10' />
                         </b-form-group>
                     </b-col>
@@ -18,8 +18,8 @@
                     </b-col>
                 </b-form-row>
                 <b-form-group label="Email">
-                    <b-form-input v-model="newUser.email" :state="inputState[inputIndex.email]" placeholder="輸入Email..."
-                        @update="emailValidate" />
+                    <b-form-input v-model.trim="newUser.email" :state="inputState[inputIndex.email]"
+                        placeholder="輸入Email..." @update="emailValidate" />
                 </b-form-group>
                 <b-form-group label="角色">
                     <b-form-select v-model="newUser.roleId" :options="UserRole" :state="inputState[inputIndex.role]"
