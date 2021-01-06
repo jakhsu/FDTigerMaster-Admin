@@ -43,8 +43,17 @@
                                                 :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
-                                    <template #cell(phone)="data">
-                                        <router-link :to="`/home/user_detail?userId=${data.item.id}`">
+                                    <template #cell(id)="data">
+                                        <router-link :to="{name: 'HomeOrderDetail', params: {data}}">
+                                            {{ data.value }}
+                                        </router-link>
+                                    </template>
+                                    <template #cell(masterUserId)="data">
+                                        <router-link :to="`/home/user_detail?userId=${data.value}`">{{ data.value }}
+                                        </router-link>
+                                    </template>
+                                    <template #cell(masterUserPhone)="data">
+                                        <router-link :to="`/home/user_detail?userId=${data.item.masterUserId}`">
                                             {{ data.value }}
                                         </router-link>
                                     </template>

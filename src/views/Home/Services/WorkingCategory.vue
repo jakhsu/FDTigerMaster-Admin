@@ -7,8 +7,8 @@
             <template #modal-body>
                 <ul>
                     <li>下載後請不要刪除整列資料</li>
-                    <li>如果要停用技能請把該技能的啟用改成<b>N</b></li>
-                    <li>反之若是要啟用技能，請改成<b>Y</b></li>
+                    <li>如果要停用工項請把該工項的啟用改成<b>N</b></li>
+                    <li>反之若是要啟用工項，請改成<b>Y</b></li>
                 </ul>
             </template>
         </ConfirmModal>
