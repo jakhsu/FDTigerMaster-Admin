@@ -15,7 +15,7 @@
                         基本資料
                     </b-nav-item>
                     <b-nav-item :active="currentTab == 'order'" @click="onNavClick('order')"
-                        :disabled="userData.roleId > 1">
+                        :disabled="userData.roleId > 2">
                         訂單
                     </b-nav-item>
                     <b-nav-item :active="currentTab == 'userComment'" :disabled="userData.roleId > 2"

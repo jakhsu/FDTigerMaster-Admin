@@ -133,12 +133,6 @@
                                         label="門牌樓層: ">
                                         <b-form-input v-model="userData.addressDetail" />
                                     </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
-                                        <b-form-input v-model="userData.addressLong" disabled />
-                                    </b-form-group>
-                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
-                                        <b-form-input v-model="userData.addressLat" disabled />
-                                    </b-form-group>
                                 </b-form-group>
                             </div>
                         </TitledCard>
@@ -150,7 +144,20 @@
                                 </b-card-body>
                             </div>
                         </TitledCard>
-                        <TitledCard v-if="userData.roleId == 0" title="銀行資料:">
+                        <TitledCard v-if="userData.roleId === 1 && userData.roleId === 2" title="客戶專用">
+                            <div class="m-2">
+                                <b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
+                                        <b-form-input v-model="userData.client.businessId" />
+                                    </b-form-group>
+                                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
+                                        label="收據抬頭: ">
+                                        <b-form-input v-model="userData.client.invoiceTitle" />
+                                    </b-form-group>
+                                </b-form-group>
+                            </div>
+                        </TitledCard>
+                        <TitledCard v-if="userData.roleId == 0" title="師傅專用:">
                             <div class="m-2">
                                 <b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"

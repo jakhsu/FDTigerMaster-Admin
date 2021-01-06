@@ -1,6 +1,6 @@
 <template>
     <div id="UserComment">
-        <ScoreModal :currentUser="currentUser" :user="user" />
+        <ScoreModal :currentUser="currentUser" :user="user" @refresh="refresh" />
         <b-container fluid>
             <b-row align-h="start">
                 <b-col cols="4" align-self="center">
@@ -96,6 +96,9 @@
                 this.search = {}
             },
             onDataRequire() {},
+            refresh() {
+                this.$emit("refresh");
+            }
         }
     }
 </script>

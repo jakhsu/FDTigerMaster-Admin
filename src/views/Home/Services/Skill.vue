@@ -2,6 +2,15 @@
     <div id="SkillAndCategory">
         <SkillUpdateModal :initSkillContent="selectedSkill" @finish="fetchSkillData" />
         <SkillCreateModal @finish="fetchSkillData" />
+        <ConfirmModal @onConfirm="skillsDownload" title="技能修改須知">
+            <template #modal-body>
+                <ul>
+                    <li>下載後請不要刪除整列資料</li>
+                    <li>如果要停用技能請把該技能的啟用改成<b>N</b></li>
+                    <li>反之若是要啟用技能，請改成<b>Y</b></li>
+                </ul>
+            </template>
+        </ConfirmModal>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -30,7 +39,7 @@
                                 <b-button class="input-button ml-auto" @click="$refs.file.click()" variant="primary">
                                     上傳
                                 </b-button>
-                                <b-button @click="skillsDownload" variant="success" class="ml-2">下載</b-button>
+                                <b-button v-b-modal="'Confirm-Modal'" variant="success" class="ml-2">下載</b-button>
                             </div>
                             <div>
                                 <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount"
@@ -47,10 +56,9 @@
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
-                                        <b-button variant="outline-success" pill v-b-modal="'Skill-Modify-Modal'"
-                                            @click="startEditSkill(data.item)">
+                                        <b-link v-b-modal="'Skill-Modify-Modal'" @click="startEditSkill(data.item)">
                                             {{data.value}}
-                                        </b-button>
+                                        </b-link>
                                     </template>
                                     <template #cell(active)="data">
                                         {{ data.value === 1 ? "啟用" : "停用"}}
@@ -81,6 +89,7 @@
     import SkillUpdateModal from '@/components/Modal/SkillUpdateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
+    import ConfirmModal from '@/components/Modal/ConfirmModal.vue'
 
     export default {
         name: 'Skill',
@@ -88,7 +97,8 @@
             TitledCard,
             CustomTable,
             SkillCreateModal,
-            SkillUpdateModal
+            SkillUpdateModal,
+            ConfirmModal,
         },
         data() {
             return {
@@ -156,6 +166,7 @@
                 link.download = "skills.csv";
                 link.click();
                 window.URL.revokeObjectURL(url);
+                this.$bvModal.hide("Confirm-Modal")
             },
             async handleFileUpload() {
                 this.isLoading = true;
@@ -167,8 +178,8 @@
             async startEditSkill(selectedSkill) {
                 this.selectedSkill = selectedSkill;
                 this.$bvModal.show("WorkingCategory-Update-Modal");
-            }
-        }
+            },
+        },
     }
 </script>
 

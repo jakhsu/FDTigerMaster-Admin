@@ -50,12 +50,12 @@
                 }
                 this.isLoading = true;
                 const note = tigermaster.note;
-                let user = this.user;
-                user.avgScore = this.newScore;
-                delete user["pass"];
                 try {
-                    await this.currentUser.update(this.user);
+                    await this.currentUser.update({
+                        avgScore: this.newScore
+                    });
                     await note.createUserNote(this.user.id, this.scoreChangeReason, note.UseFor.ScoreModify);
+                    this.$emit("refresh");
                 } catch (e) {
                     console.log(e)
                 } finally {

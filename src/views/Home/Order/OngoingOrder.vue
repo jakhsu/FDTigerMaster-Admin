@@ -12,68 +12,41 @@
                     </b-col>
                 </b-row>
                 <b-row>
+                    <b-col class="d-flex">
+                        <b-button variant="success" class="ml-auto">新增訂單</b-button>
+                    </b-col>
+                </b-row>
+                <b-row>
                     <b-col xl="3" sm="6">
                         <TitledCard title="媒合中訂單" bodyBackgroundColor="#457CD6" fluid>
-                            <div class="Search-Bar">
-                                <b-input-group>
-                                    <b-input></b-input>
-                                    <template #append>
-                                        <b-button variant="success">搜尋</b-button>
-                                    </template>
-                                </b-input-group>
-                            </div>
-                            <b-card class="Order-Panel mt-2">
+                            <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in matchingOrders"
-                                    :key="index" :orderData="order" />
-                            </b-card>
+                                    :key="index" :orderData="order" class="mt-0" />
+                            </div>
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
                         <TitledCard title="施工中訂單" bodyBackgroundColor="#457CD6" fluid>
-                            <div class="Search-Bar">
-                                <b-input-group>
-                                    <b-input></b-input>
-                                    <template #append>
-                                        <b-button variant="success">搜尋</b-button>
-                                    </template>
-                                </b-input-group>
-                            </div>
-                            <b-card class="Order-Panel mt-2">
+                            <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in workingOrders"
-                                    :key="index" :orderData="order" />
-                            </b-card>
+                                    :key="index" :orderData="order" class="mt-0" />
+                            </div>
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
                         <TitledCard title="待結帳訂單" bodyBackgroundColor="#457CD6" fluid>
-                            <div class="Search-Bar">
-                                <b-input-group>
-                                    <b-input></b-input>
-                                    <template #append>
-                                        <b-button variant="success">搜尋</b-button>
-                                    </template>
-                                </b-input-group>
-                            </div>
-                            <b-card class="Order-Panel mt-2">
+                            <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in notpayOrders"
-                                    :key="index" :orderData="order" />
-                            </b-card>
+                                    :key="index" :orderData="order" class="mt-0" />
+                            </div>
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
                         <TitledCard title="特殊訂單" bodyBackgroundColor="#457CD6" fluid>
-                            <div class="Search-Bar">
-                                <b-input-group>
-                                    <b-input></b-input>
-                                    <template #append>
-                                        <b-button variant="success">搜尋</b-button>
-                                    </template>
-                                </b-input-group>
-                            </div>
-                            <b-card class="Order-Panel mt-2">
+                            <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in specialOrders"
-                                    :key="index" :orderData="order" />
-                            </b-card>
+                                    :key="index" :orderData="order" class="mt-0" />
+                            </div>
                         </TitledCard>
                     </b-col>
                 </b-row>
@@ -356,8 +329,20 @@
     }
 
     .Order-Panel {
-        max-height: 100vh;
+        max-height: 475px;
         overflow: scroll;
+    }
 
+    ::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: grey;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
     }
 </style>

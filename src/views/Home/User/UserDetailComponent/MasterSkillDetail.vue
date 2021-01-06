@@ -25,8 +25,9 @@
                 </b-col>
                 <b-col lg="6" md="12">
                     <TitledCard title="忽略工項">
-                        <b-tags size="lg" v-model="ignoredWorkingCategories" @input="updateIgnoredCategories"
-                            tag-variant="danger" :tag-validator="tagValidator" @tag-state="onTagState">
+                        <b-tags style="text-align:left" size="lg" v-model="ignoredWorkingCategories"
+                            @input="updateIgnoredCategories" tag-variant="danger" :tag-validator="tagValidator"
+                            @tag-state="onTagState">
                             <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
                                 <b-input-group class="mb-2" label="可停用工項">
                                     <b-form-input v-bind="inputAttrs" v-on="inputHandlers" placeholder="新增忽略工項編號"
@@ -104,7 +105,7 @@
                 try {
                     this.skillItems = [];
                     this.masterSkills = [];
-                    if (this.user.master.skillItems !== undefined) {
+                    if (this.user.master.skillItems !== undefined && this.user.master.skillItems !== "") {
                         this.masterSkills = this.user.master.skillItems.split(',');
                         const response = await tigermaster.database
                             .query("skill_item")
@@ -120,7 +121,8 @@
             async fetchMasterIgnoreCategoryData() {
                 try {
                     this.ignoredWorkingCategories = [];
-                    if (this.user.master.ignoreWorkingCategories !== undefined) {
+                    if (this.user.master.ignoreWorkingCategories !== undefined && this.user.master
+                        .ignoreWorkingCategories !== "") {
                         const queryArray = this.user.master.ignoreWorkingCategories.split(',');
                         const response = await tigermaster.database
                             .query("working_category")
@@ -136,7 +138,7 @@
             },
             async generateIgnoreOptions() {
                 try {
-                    if (this.user.master.skillItems !== undefined) {
+                    if (this.user.master.skillItems !== undefined && this.user.master.skillItems !== "") {
                         this.ignoreOptions = [];
                         const response = await tigermaster.database
                             .query("working_category")
@@ -153,6 +155,7 @@
             async onRefresh() {
                 this.tableBusy = true;
                 this.isIgnoreLoading = true;
+                this.matchedWorkingCategory = [];
                 this.user = this.currentUser.data;
                 await Promise.all([this.fetchMasterSkillsData(), this.fetchMasterIgnoreCategoryData(), this
                     .generateIgnoreOptions()

@@ -206,7 +206,7 @@
                     <b-form-group>
                         <b-input-group>
                             <template #prepend>
-                                <b-input-group-text>總金額</b-input-group-text>
+                                <b-button variant="warning">總金額$</b-button>
                             </template>
                             <b-input></b-input>
                         </b-input-group>

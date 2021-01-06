@@ -4,13 +4,13 @@
             :isLoading="isLoading" :formErrorMessage="formErrorMessage">
             <template #modal-body>
                 <b-form>
-                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能編號: ">
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*技能編號: ">
                         <b-input v-model.trim="skill.id" @update="idValidate" :state="inputState[0]" maxlength="10" />
                     </b-form-group>
-                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="技能描述: ">
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*技能描述: ">
                         <b-input v-model="skill.description" @update="descriptionValidate" :state="inputState[1]" />
                     </b-form-group>
-                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="啟用: ">
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*啟用: ">
                         <b-form-select v-model="skill.active" :state="true">
                             <option value="0">停用</option>
                             <option value="1">啟用</option>
