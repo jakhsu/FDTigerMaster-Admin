@@ -31,11 +31,7 @@
         "label": "師傅編號"
     },
     {
-        "key": "masterPhone",
+        "key": "masterUserPhone",
         "label": "師傅電話"
-    },
-    {
-        "key": "expectWorkingDate",
-        "label": "預期開工日"
     }
 ]

@@ -39,7 +39,7 @@
                                     :datas="orders" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
-                                            <b-form-input v-model="search[field.key]" :name="field.key"
+                                            <b-form-input v-model.trim="search[field.key]" :name="field.key"
                                                 :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
@@ -47,9 +47,6 @@
                                         <router-link :to="`/home/user_detail?userId=${data.item.id}`">
                                             {{ data.value }}
                                         </router-link>
-                                    </template>
-                                    <template #cell(roleId)="data">
-                                        {{ data.value == "1" ? "師傅" : data.value == 0 ? "客戶" : data.value == 70 ? "行銷" : data.value == 80 ? "財務" : data.value == 90 ? "客服" : data.value == 999 ? "超級使用者" : data.value}}
                                     </template>
                                 </CustomTable>
                             </div>
@@ -80,25 +77,14 @@
         },
         async created() {
             this.isLoading = true;
-            try {
-                const database = tigermaster.database;
-                const result = await database.query("generic_order").get();
-                this.orders = result.data;
-                this.queryRows = result.queryRows;
-                this.totalCount = result.totalCount;
-            } catch (e) {
-                console.log(e)
-            } finally {
-                this.isLoading = false;
-            }
+            this.fetchAllOrders();
+            this.isLoading = false;
         },
         data() {
             return {
                 fields: OrderTable,
                 orders: [],
-                search: {
-                    roleId: "0"
-                },
+                search: {},
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
@@ -109,24 +95,60 @@
             onDataRequire() {
                 this.tableBusy = true;
             },
+            async fetchAllOrders() {
+                this.tableBusy = true;
+                try {
+                    const database = tigermaster.database;
+                    const query = database.query("generic_order");
+                    const result = await query.get();
+                    this.orders = result.data;
+                    this.queryRows = result.queryRows;
+                    this.totalCount = result.totalCount;
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.tableBusy = false;
+                }
+            },
             async onSearchClick() {
                 this.tableBusy = true;
-                let query = tigermaster.database.query("user");
+                let query = tigermaster.database.query("generic_order");
                 let searchArray = Object.entries(this.search);
-                searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
                 searchArray.forEach(element => {
                     element[2] = 'LIKE'
                     element[1] = '%' + element[1] + '%'
-                    query.where(`user.${element[0]}`, `${element[2]}`, `${element[1]}`)
+                    if (element[0] === 'workingCategoryDescription') {
+                        query.with('working_category');
+                        query.link('working_category.id', 'generic_order.working_category_id');
+                        query.where('working_category.description', 'LIKE', element[1]);
+                    } else if (element[0] === 'masterUserPhone') {
+                        query.with('user');
+                        query.link('user.id', 'generic_order.master_user_id');
+                        query.where('user.phone', 'LIKE', element[1]);
+                    } else {
+                        if (element[0] === 'masterUserId') {
+                            element[0] = 'master_user_id'
+                        } else if (element[0] === 'addressCity') {
+                            element[0] = 'address_city'
+                        } else if (element[0] === 'addressArea') {
+                            element[0] = 'address_area'
+                        } else if (element[0] === 'addressStreet') {
+                            element[0] = 'address_street'
+                        }
+                        query.where(`generic_order.${element[0]}`, element[2], element[1])
+                    }
                 });
-                query.where('user.role_id', '=', `${this.search.roleId}`).limit(0, 100);
-                await query.get();
-                const res = await query.get();
-                this.data = res.data;
-                this.queryRows = res.queryRows;
-                this.totalCount = res.totalCount;
-                this.tableBusy = false;
-                this.search = {}
+                try {
+                    const res = await query.get();
+                    this.orders = res.data;
+                    this.queryRows = res.queryRows;
+                    this.totalCount = res.totalCount;
+                } catch (e) {
+                    console.log(e);
+                } finally {
+                    this.tableBusy = false;
+                    this.search = {}
+                }
             },
             async onNewUserSaveClick(obj) {
                 this.isLoading = true;
