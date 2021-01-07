@@ -12,6 +12,10 @@
                 </ul>
             </template>
         </ConfirmModal>
+        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
+            variant="danger" dismissible>
+            找不到對應的工項，請檢查輸入的條件
+        </b-alert>
         <b-container fluid>
             <div class="WorkingCategory-Area">
                 <b-row>
@@ -111,6 +115,7 @@
             return {
                 CategoriesTable,
                 tableBusy: false,
+                searchFailed: false,
                 totalCount: 0,
                 workingCategories: [],
                 selectedWorkingCategory: {},
@@ -144,9 +149,14 @@
                     ele[1] = '%' + ele[1] + '%';
                     query.where(`working_category.${ele[0]}`, ele[2], ele[1]);
                 })
-                const workingCategories = await query.get();
-                this.workingCategories = workingCategories.data;
-                this.totalCount = workingCategories.totalCount;
+                try {
+                    const workingCategories = await query.get();
+                    this.workingCategories = workingCategories.data;
+                    this.totalCount = workingCategories.totalCount;
+                    this.searchFailed = false;
+                } catch (e) {
+                    this.searchFailed = true;
+                }
                 this.tableBusy = false;
             },
             async categoriesDownload() {
@@ -171,6 +181,7 @@
                 this.fetchWorkingCategory();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+                this.searchFailed = false;
             },
             startEditWorkingCategory(selectedCategory) {
                 this.selectedWorkingCategory = selectedCategory;

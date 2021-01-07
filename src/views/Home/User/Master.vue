@@ -1,6 +1,10 @@
 <template>
     <div id="Master">
         <UserCreateModal :defaultRole="0" />
+        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
+            variant="danger" dismissible>
+            找不到對應的師傅，請檢查輸入的條件
+        </b-alert>
         <b-container fluid>
             <div class="Master-Area">
                 <b-row>
@@ -34,7 +38,7 @@
                             <div class="Master-Table">
                                 <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount"
                                     :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
-                                    <template #top-row="data">
+                                    <template b-toaster-top-full #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']">
                                                 <option value="0">停用</option>
@@ -95,7 +99,8 @@
                 },
                 queryRows: 0,
                 totalCount: 0,
-                tableBusy: false
+                tableBusy: false,
+                searchFailed: false
             }
         },
         async created() {
@@ -149,10 +154,11 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                } catch (e) {
-                    console.log("Search failed, please check your search inputs")
-                } finally {
                     this.search = {};
+                    this.searchFailed = false;
+                } catch (e) {
+                    this.searchFailed = true;
+                } finally {
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();
                 }
@@ -161,6 +167,7 @@
                 await this.fetchMasters();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+                this.searchFailed = false;
             }
         },
         computed: {

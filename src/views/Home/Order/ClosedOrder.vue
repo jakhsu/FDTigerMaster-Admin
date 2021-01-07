@@ -1,6 +1,9 @@
 <template>
-    <Loading v-if="isLoading" />
-    <div v-else id="Order">
+    <div id="Order">
+        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
+            variant="danger" dismissible>
+            找不到訂單，請檢查輸入的條件
+        </b-alert>
         <b-container fluid>
             <div class="Order-Area">
                 <b-row>
@@ -68,7 +71,6 @@
 </template>
 
 <script>
-    import Loading from '@/components/Loading'
     import OrderTable from '@/config/OrderTable.json'
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
@@ -79,15 +81,12 @@
     export default {
         name: "ClosedOrder",
         components: {
-            Loading,
             DataCard,
             TitledCard,
             CustomTable,
         },
         async created() {
-            this.isLoading = true;
             this.fetchAllOrders();
-            this.isLoading = false;
         },
         data() {
             return {
@@ -98,6 +97,7 @@
                 totalCount: 0,
                 tableBusy: false,
                 isLoading: true,
+                searchFailed: false
             }
         },
         methods: {
@@ -152,11 +152,12 @@
                     this.orders = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
+                    this.searchFailed = false;
+                    this.search = {}
                 } catch (e) {
-                    console.log(e);
+                    this.searchFailed = true;
                 } finally {
                     this.tableBusy = false;
-                    this.search = {}
                 }
             },
             async onNewUserSaveClick(obj) {
@@ -174,6 +175,8 @@
             },
             onSearchClearClick() {
                 this.search = {};
+                this.searchFailed = false;
+                this.fetchAllOrders();
             },
         }
     }

@@ -1,6 +1,10 @@
 <template>
     <div id="Client">
         <UserCreateModal :defaultRole="1" />
+        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
+            variant="danger" dismissible>
+            找不到對應的客戶，請檢查輸入的條件
+        </b-alert>
         <b-container fluid>
             <div class="Client-Area">
                 <b-row>
@@ -99,7 +103,8 @@
                 },
                 queryRows: 0,
                 totalCount: 0,
-                tableBusy: false
+                tableBusy: false,
+                searchFailed: false
             }
         },
         async created() {
@@ -153,10 +158,11 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCosunt = res.totalCount;
-                } catch {
-                    console.log("Search failed, please check your search inputs")
-                } finally {
                     this.search = {};
+                    this.searchFailed = false;
+                } catch {
+                    this.searchFailed = true;
+                } finally {
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();
                 }
@@ -165,6 +171,7 @@
                 await this.fetchClient();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+                this.searchFailed = false;
             }
         },
         computed: {

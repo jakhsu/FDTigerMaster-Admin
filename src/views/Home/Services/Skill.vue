@@ -11,6 +11,10 @@
                 </ul>
             </template>
         </ConfirmModal>
+        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
+            variant="danger" dismissible>
+            找不到對應的技能，請檢查輸入的條件
+        </b-alert>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -104,6 +108,7 @@
             return {
                 SkillsTable,
                 tableBusy: false,
+                searchFailed: false,
                 skills: [],
                 totalCount: 0,
                 workingCategories: [],
@@ -131,6 +136,7 @@
                 this.fetchSkillData();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+                this.searchFailed = false;
             },
             async onSearchClick() {
                 this.tableBusy = true;
@@ -142,9 +148,11 @@
                     query.where(`skill_item.${ele[0]}`, ele[2], ele[1]);
                 })
                 try {
-                    this.skills = await query.get();
+                    const res = await query.get();
+                    this.skills = res.data;
+                    this.searchFailed = false;
                 } catch (e) {
-                    console.log("Search failed, please check your search inputs")
+                    this.searchFailed = true;
                 } finally {
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();

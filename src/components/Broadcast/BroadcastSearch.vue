@@ -10,7 +10,7 @@
                 <option value="<">小於</option>
                 <option value="LIKE">包含</option>
             </b-form-select>
-                <b-form-input required v-model="item.condition" maxlength="20">
+            <b-form-input required v-model="item.condition" maxlength="20">
             </b-form-input>
             <b-input-group-append>
                 <b-button @click="deleteCondition(index)" variant="danger">
@@ -28,10 +28,10 @@
                 <option value="<">小於</option>
                 <option value="LIKE">包含</option>
             </b-form-select>
-                <b-form-input required v-model="pendingCondiction.condition" maxlength="20">
+            <b-form-input required v-model="pendingCondiction.condition" maxlength="20">
             </b-form-input>
             <b-input-group-append>
-                <b-button type="submit" variant="success"  @click="addConditions">
+                <b-button type="submit" variant="success" @click="addConditions">
                     <font-awesome-icon icon="plus-square" />
                 </b-button>
             </b-input-group-append>
@@ -61,27 +61,36 @@
         data() {
             return {
                 options: QueryConditions,
-                pendingCondiction: {field: 'name', operator: '=', condition: ''},
+                pendingCondiction: {
+                    field: 'name',
+                    operator: '=',
+                    condition: ''
+                },
                 conditions: []
             }
         },
         methods: {
-            isValidForm(form){
+            isValidForm(form) {
                 return form.field != '' && form.operator != '' && form.condition != '';
             },
             addConditions() {
-                if(this.isValidForm(this.pendingCondiction)) {
+                if (this.isValidForm(this.pendingCondiction)) {
                     this.conditions.push(this.pendingCondiction);
-                    this.pendingCondiction = {field: 'name', operator: '=', condition: ''};
+                    this.pendingCondiction = {
+                        field: 'name',
+                        operator: '=',
+                        condition: ''
+                    };
                 }
             },
             onSearchClick() {
-                if(this.conditions.length !== 0){
+                if (this.conditions.length !== 0) {
                     this.$emit('search', this.conditions);
                 }
             },
             onClearClick() {
                 this.conditions = [];
+                this.$emit('searchClear')
             },
             deleteCondition(index) {
                 this.conditions.splice(index, 1);

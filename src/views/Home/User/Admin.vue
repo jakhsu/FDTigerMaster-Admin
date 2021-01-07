@@ -1,6 +1,10 @@
 <template>
     <div id="Admin">
         <UserCreateModal :defaultRole="70" />
+        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
+            variant="danger" dismissible>
+            找不到對應的管理員，請檢查輸入的條件
+        </b-alert>
         <b-container fluid>
             <div class="Admin-Area">
                 <b-row>
@@ -102,7 +106,8 @@
                 },
                 queryRows: 0,
                 totalCount: 0,
-                tableBusy: false
+                tableBusy: false,
+                searchFailed: false
             }
         },
         async created() {
@@ -155,8 +160,10 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
+                    this.search = {};
+                    this.searchFailed = false;
                 } catch (e) {
-                    console.log("Search failed, please check your search inputs")
+                    this.searchFailed = true;
                 } finally {
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();
@@ -166,6 +173,7 @@
                 await this.fetchAdmin();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
+                this.searchFailed = false;
             }
         },
         computed: {
