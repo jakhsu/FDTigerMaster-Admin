@@ -1,10 +1,13 @@
 <template>
     <div id="Master">
         <UserCreateModal :defaultRole="0" />
-        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
-            variant="danger" dismissible>
-            找不到對應的師傅，請檢查輸入的條件
-        </b-alert>
+        <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到用戶" @onSaveClick="closeFailModal">
+            <template #modal-body>
+                <p>
+                    找不到對應的師傅，請檢查輸入的條件
+                </p>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="Master-Area">
                 <b-row>
@@ -76,6 +79,7 @@
     import UserTableModel from '@/config/UserTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
@@ -86,6 +90,7 @@
         components: {
             DataCard,
             TitledCard,
+            SimpleModal,
             CustomTable,
             UserCreateModal
         },
@@ -100,7 +105,6 @@
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
-                searchFailed: false
             }
         },
         async created() {
@@ -155,9 +159,8 @@
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
                     this.search = {};
-                    this.searchFailed = false;
                 } catch (e) {
-                    this.searchFailed = true;
+                    this.$bvModal.show("Search-Fail-Modal");
                 } finally {
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();
@@ -167,7 +170,9 @@
                 await this.fetchMasters();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
-                this.searchFailed = false;
+            },
+            closeFailModal() {
+                this.$bvModal.hide("Search-Fail-Modal");
             }
         },
         computed: {

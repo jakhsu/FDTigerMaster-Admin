@@ -12,10 +12,13 @@
                 </ul>
             </template>
         </ConfirmModal>
-        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
-            variant="danger" dismissible>
-            找不到對應的工項，請檢查輸入的條件
-        </b-alert>
+        <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到工項" @onSaveClick="closeFailModal">
+            <template #modal-body>
+                <p>
+                    找不到對應的工項，請檢查輸入的條件
+                </p>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="WorkingCategory-Area">
                 <b-row>
@@ -97,6 +100,7 @@
     import CategoriesTable from "@/config/CategoriesTable.json";
     import CustomTable from "@/components/Table/CustomTable.vue";
     import ConfirmModal from '@/components/Modal/ConfirmModal.vue';
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import WorkingCategoryCreateModal from "@/components/Modal/WorkingCategoryCreateModal.vue";
     import WorkingCategoryUpdateModal from "@/components/Modal/WorkingCategoryUpdateModal.vue";
 
@@ -107,6 +111,7 @@
         components: {
             TitledCard,
             CustomTable,
+            SimpleModal,
             ConfirmModal,
             WorkingCategoryCreateModal,
             WorkingCategoryUpdateModal
@@ -115,7 +120,6 @@
             return {
                 CategoriesTable,
                 tableBusy: false,
-                searchFailed: false,
                 totalCount: 0,
                 workingCategories: [],
                 selectedWorkingCategory: {},
@@ -153,9 +157,8 @@
                     const workingCategories = await query.get();
                     this.workingCategories = workingCategories.data;
                     this.totalCount = workingCategories.totalCount;
-                    this.searchFailed = false;
                 } catch (e) {
-                    this.searchFailed = true;
+                    this.$bvModal.show("Search-Fail-Modal");
                 }
                 this.tableBusy = false;
             },
@@ -181,13 +184,15 @@
                 this.fetchWorkingCategory();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
-                this.searchFailed = false;
             },
             startEditWorkingCategory(selectedCategory) {
                 this.selectedWorkingCategory = selectedCategory;
                 this.$bvModal.show("WorkingCategory-Update-Modal");
+            },
+            closeFailModal() {
+                this.$bvModal.hide("Search-Fail-Modal");
             }
-        },
+        }
     };
 </script>
 

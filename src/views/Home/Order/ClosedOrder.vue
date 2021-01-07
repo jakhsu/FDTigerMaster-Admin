@@ -1,9 +1,12 @@
 <template>
     <div id="Order">
-        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
-            variant="danger" dismissible>
-            找不到訂單，請檢查輸入的條件
-        </b-alert>
+        <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到訂單" @onSaveClick="closeFailModal">
+            <template #modal-body>
+                <p>
+                    找不到訂單，請檢查輸入的條件
+                </p>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="Order-Area">
                 <b-row>
@@ -47,7 +50,7 @@
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
-                                        <router-link :to="{name: 'HomeOrderDetail', params: {data}}">
+                                        <router-link :to="`/home/order_detail?orderId=${data.value}`">
                                             {{ data.value }}
                                         </router-link>
                                     </template>
@@ -75,6 +78,7 @@
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -84,6 +88,7 @@
             DataCard,
             TitledCard,
             CustomTable,
+            SimpleModal
         },
         async created() {
             this.fetchAllOrders();
@@ -97,7 +102,6 @@
                 totalCount: 0,
                 tableBusy: false,
                 isLoading: true,
-                searchFailed: false
             }
         },
         methods: {
@@ -152,10 +156,9 @@
                     this.orders = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                    this.searchFailed = false;
                     this.search = {}
                 } catch (e) {
-                    this.searchFailed = true;
+                    this.$bvModal.show("Search-Fail-Modal");
                 } finally {
                     this.tableBusy = false;
                 }
@@ -175,9 +178,11 @@
             },
             onSearchClearClick() {
                 this.search = {};
-                this.searchFailed = false;
                 this.fetchAllOrders();
             },
+            closeFailModal() {
+                this.$bvModal.hide("Search-Fail-Modal");
+            }
         }
     }
 </script>

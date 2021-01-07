@@ -11,10 +11,13 @@
                 </ul>
             </template>
         </ConfirmModal>
-        <b-alert v-model="searchFailed" class="position-fixed fixed-top m-0 rounded-0" style="z-index: 2000;"
-            variant="danger" dismissible>
-            找不到對應的技能，請檢查輸入的條件
-        </b-alert>
+        <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到技能" @onSaveClick="closeFailModal">
+            <template #modal-body>
+                <p>
+                    找不到對應的技能，請檢查輸入的條件
+                </p>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
@@ -89,6 +92,7 @@
     import SkillsTable from '@/config/SkillsTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import SkillCreateModal from '@/components/Modal/SkillCreateModal.vue'
     import SkillUpdateModal from '@/components/Modal/SkillUpdateModal.vue'
 
@@ -99,16 +103,16 @@
         name: 'Skill',
         components: {
             TitledCard,
+            SimpleModal,
             CustomTable,
             SkillCreateModal,
             SkillUpdateModal,
-            ConfirmModal,
+            ConfirmModal
         },
         data() {
             return {
                 SkillsTable,
                 tableBusy: false,
-                searchFailed: false,
                 skills: [],
                 totalCount: 0,
                 workingCategories: [],
@@ -136,7 +140,6 @@
                 this.fetchSkillData();
                 this.$refs.customTable.toFirstPage();
                 this.search = {};
-                this.searchFailed = false;
             },
             async onSearchClick() {
                 this.tableBusy = true;
@@ -150,9 +153,8 @@
                 try {
                     const res = await query.get();
                     this.skills = res.data;
-                    this.searchFailed = false;
                 } catch (e) {
-                    this.searchFailed = true;
+                    this.$bvModal.show("Search-Fail-Modal");
                 } finally {
                     this.tableBusy = false;
                     this.$refs.customTable.toFirstPage();
@@ -187,6 +189,9 @@
                 this.selectedSkill = selectedSkill;
                 this.$bvModal.show("WorkingCategory-Update-Modal");
             },
+            closeFailModal() {
+                this.$bvModal.hide("Search-Fail-Modal");
+            }
         },
     }
 </script>
