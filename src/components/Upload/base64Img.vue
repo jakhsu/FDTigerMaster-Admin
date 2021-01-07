@@ -17,20 +17,13 @@
             return {
                 image: {
                     path: '',
-                },
-                formData: {
-
                 }
             }
         },
         methods: {
             handleImage(e) {
-                // const selectedImage = e.target.files[0];
-                console.log(e.target.files[0])
-                let formData = new FormData();
-                formData.append("image", e.target.files[0]);
-                console.log(formData)
-                // this.createBase64Image(selectedImage);
+                const selectedImage = e.target.files[0];
+                this.createBase64Image(selectedImage);
             },
             createBase64Image(fileObject) {
                 const reader = new FileReader();
@@ -40,7 +33,7 @@
                 reader.readAsDataURL(fileObject)
             },
             onFileUpload() {
-                this.$emit("FileUpload", this.formData)
+                this.$emit("FileUpload", this.image)
             }
         }
 

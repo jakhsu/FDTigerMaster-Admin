@@ -323,8 +323,8 @@
                 this.userData.addressStreet = this.matches[index];
                 this.open = false;
             },
-            onFileUpload(img) {
-                console.log(img)
+            onFileUpload(data) {
+                console.log(data)
             }
         }
     }
