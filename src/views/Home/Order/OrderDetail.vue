@@ -1,7 +1,7 @@
 <template>
     <div id="OrderDetail">
         <b-container>
-            <b-tabs>
+            <b-tabs fill pills>
                 <b-tab title="訂單詳情" active>
                     <b-card border-variant="info" class="Detail-Area">
                         <b-row class="mt-3" align-h="end">
