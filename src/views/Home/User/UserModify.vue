@@ -144,7 +144,7 @@
                                 </b-card-body>
                             </div>
                         </TitledCard>
-                        <TitledCard v-if="userData.roleId === 1 && userData.roleId === 2" title="客戶專用">
+                        <TitledCard v-if="userData.roleId === 1 || userData.roleId === 2" title="客戶專用">
                             <div class="m-2">
                                 <b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">

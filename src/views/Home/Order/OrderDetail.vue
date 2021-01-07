@@ -10,12 +10,9 @@
                     </b-col>
                     <b-col>
                         <div class="d-flex">
-                            <b-button class="ml-auto" variant="primary">
+                            <b-button class="ml-auto" variant="success">
                                 <font-awesome-icon icon="edit" />
-                                完成
-                            </b-button>
-                            <b-button class="ml-2" variant="outline-danger">
-                                取消
+                                開始修改
                             </b-button>
                         </div>
                     </b-col>
