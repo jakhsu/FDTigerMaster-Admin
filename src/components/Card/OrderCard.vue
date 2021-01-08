@@ -54,7 +54,7 @@
     #order-card .order-card-status {
         padding: 5px 5px;
         color: #fff;
-        background-color: #28a745;
+        background-color: #808080;
         border-radius: 5px;
     }
 

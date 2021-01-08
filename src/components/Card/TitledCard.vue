@@ -1,7 +1,10 @@
 <template>
     <div class="title-card" :class="cardClass ? cardClass : ''">
         <div class="title-card-header" :style="`background-color: ${titleBackgroundColor}`">
-            <h6 class="m-0" :style="`color: ${titleColor}`">{{ title }}</h6>
+            <h6 class="m-0" :style="`color: ${titleColor}`">
+                {{ title }}
+                <slot name="title-card-header" />
+            </h6>
         </div>
         <div :class="fluid ? 'title-card-body-fluid' : 'title-card-body'"
             :style="`background-color: ${bodyBackgroundColor}`">

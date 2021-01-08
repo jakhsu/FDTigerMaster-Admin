@@ -19,14 +19,24 @@
                 <b-row>
                     <b-col xl="3" sm="6">
                         <TitledCard title="媒合中訂單" bodyBackgroundColor="#457CD6" fluid>
-                            <div class="Order-Panel">
-                                <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in matchingOrders"
-                                    :key="index" :orderData="order" class="mt-0" />
-                            </div>
+                            <template #title-card-header>
+                                <b-button size="sm" pill variant="warning">
+                                    <b-badge variant="light">5</b-badge>
+                                    張訂單
+                                </b-button>
+                            </template>
+                            <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in matchingOrders"
+                                :key="index" :orderData="order" class="mt-0" />
                         </TitledCard>
                     </b-col>
                     <b-col xl="3" sm="6">
                         <TitledCard title="施工中訂單" bodyBackgroundColor="#457CD6" fluid>
+                            <template #title-card-header>
+                                <b-button size="sm" pill variant="warning">
+                                    <b-badge variant="light">5</b-badge>
+                                    張訂單
+                                </b-button>
+                            </template>
                             <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in workingOrders"
                                     :key="index" :orderData="order" class="mt-0" />
@@ -35,6 +45,12 @@
                     </b-col>
                     <b-col xl="3" sm="6">
                         <TitledCard title="待結帳訂單" bodyBackgroundColor="#457CD6" fluid>
+                            <template #title-card-header>
+                                <b-button size="sm" pill variant="warning">
+                                    <b-badge variant="light">5</b-badge>
+                                    張訂單
+                                </b-button>
+                            </template>
                             <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in notpayOrders"
                                     :key="index" :orderData="order" class="mt-0" />
@@ -43,6 +59,12 @@
                     </b-col>
                     <b-col xl="3" sm="6">
                         <TitledCard title="特殊訂單" bodyBackgroundColor="#457CD6" fluid>
+                            <template #title-card-header>
+                                <b-button size="sm" pill variant="warning">
+                                    <b-badge variant="light">5</b-badge>
+                                    張訂單
+                                </b-button>
+                            </template>
                             <div class="Order-Panel">
                                 <OrderCard v-b-modal="'Order-Detail-Modal'" v-for="(order, index) in specialOrders"
                                     :key="index" :orderData="order" class="mt-0" />

@@ -63,6 +63,9 @@
                                             {{ data.value }}
                                         </router-link>
                                     </template>
+                                    <template #cell(status)="data">
+                                        {{statusMap[data.value]}}
+                                    </template>
                                 </CustomTable>
                             </div>
                         </TitledCard>
@@ -79,6 +82,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
 
     import tigermaster from 'fdtigermaster-sdk'
 
@@ -102,6 +106,7 @@
                 totalCount: 0,
                 tableBusy: false,
                 isLoading: true,
+                statusMap: OrderStatusMap()
             }
         },
         methods: {

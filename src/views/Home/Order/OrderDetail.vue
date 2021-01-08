@@ -1,5 +1,6 @@
 <template>
-    <div id="OrderDetail">
+    <Loading v-if="isLoading" />
+    <div v-else id="OrderDetail">
         <b-container>
             <b-tabs fill pills>
                 <b-tab title="訂單詳情" active>
@@ -125,13 +126,16 @@
 </template>
 
 <script>
-    import TitledCard from '@/components/Card/TitledCard.vue';
+    import TitledCard from '@/components/Card/TitledCard.vue'
+    import CustomTable from '@/components/Table/CustomTable.vue'
 
     import tigermaster from 'fdtigermaster-sdk'
-    import CustomTable from '@/components/Table/CustomTable.vue';
+    import Loading from '@/components/Loading.vue'
+
 
     export default {
         components: {
+            Loading,
             TitledCard,
             CustomTable
         },
@@ -142,6 +146,7 @@
                 matchedMasters: [],
                 totalCount: 0,
                 tableBusy: false,
+                isLoading: true,
                 fields: [{
                     "key": "phone",
                     "label": "師傅電話"
@@ -163,13 +168,18 @@
                 }, {
                     "key": "addressStreet",
                     "label": "街道"
-                }]
-
+                }],
             }
         },
         async created() {
-            await this.fetchOrderData();
-            await this.fetchMatchedMaster();
+            try {
+                await this.fetchOrderData();
+                await this.fetchMatchedMaster();
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.isLoading = false;
+            }
         },
         methods: {
             async fetchOrderData() {
