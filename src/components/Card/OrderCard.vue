@@ -1,5 +1,5 @@
 <template>
-    <b-card id="order-card" :header="orderData.id">
+    <b-card id="order-card" :header="orderData.id" @click="onClick">
         <div class="mb-1">
             <span class="order-card-status">{{ statusMap[orderData.status] }}</span>
         </div>
@@ -32,6 +32,11 @@
             return {
                 statusMap: OrderStatusMap()
             }
+        },
+        methods: {
+            onClick() {
+                this.$emit("onClick")
+            }
         }
     }
 </script>
@@ -45,6 +50,7 @@
         background-color: #fff;
         text-align: left;
         border-radius: 5px;
+
     }
 
     #order-card:hover {

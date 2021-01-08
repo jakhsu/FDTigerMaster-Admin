@@ -31,7 +31,6 @@
                                 </b-input-group>
                             </b-form>
                         </div>
-
                     </b-col>
                 </b-row>
                 <b-row>

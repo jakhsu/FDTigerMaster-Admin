@@ -24,13 +24,13 @@
                     </TitledCard>
                 </b-col>
                 <b-col lg="6" md="12">
-                    <TitledCard title="忽略工項">
+                    <TitledCard title="不會的工項">
                         <b-tags style="text-align:left" size="lg" v-model="ignoredWorkingCategories"
                             @input="updateIgnoredCategories" tag-variant="danger" :tag-validator="tagValidator"
                             @tag-state="onTagState">
                             <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
                                 <b-input-group class="mb-2" label="可停用工項">
-                                    <b-form-input v-bind="inputAttrs" v-on="inputHandlers" placeholder="新增忽略工項編號"
+                                    <b-form-input v-bind="inputAttrs" v-on="inputHandlers" placeholder="輸入不會的工項編號"
                                         class="form-control" list="Ignore-Skills"></b-form-input>
                                     <datalist id="Ignore-Skills">
                                         <option v-for="(option, index) in ignoreOptions" :key="index" :value="option">

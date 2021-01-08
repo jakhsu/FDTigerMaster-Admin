@@ -1,0 +1,114 @@
+<template>
+    <div>
+        <b-row>
+            <b-col>
+                <TitledCard title="基本">
+                    <div class="m-2">
+                        <b-form-group label-cols="auto" label="客戶姓名: ">
+                            <b-form-input v-model="order.clientUserName" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="客戶ID: ">
+                            <b-form-input v-model="order.clientUserId" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="客戶電話: ">
+                            <b-form-input v-model="order.clientUserPhone" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="訂單編號: ">
+                            <b-form-input v-model="order.id" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="師傅姓名: ">
+                            <b-form-input v-model="order.masterUserName" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="師傅ID: ">
+                            <b-form-input v-model="order.masterUserId" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="師傅電話: ">
+                            <b-form-input v-model="order.masterUserPhone" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="訂單狀態: ">
+                            <b-form-input v-model="order.status" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="工項編號: ">
+                            <b-form-input v-model="order.workingCategoryId" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="工項描述: ">
+                            <b-form-input v-model="order.workingCategoryDescription" disabled />
+                        </b-form-group>
+                    </div>
+                </TitledCard>
+                <TitledCard title="地址">
+                    <div class="m-2">
+                        <b-form-group label-cols="4" label="城市: ">
+                            <b-form-input v-model="order.addressCity" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="4" label="區: ">
+                            <b-form-input v-model="order.addressArea" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="4" label="街道: ">
+                            <b-form-input v-model="order.addressStreet" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="4" label="門牌樓層: ">
+                            <b-form-input v-model="order.addressDetail" disabled />
+                        </b-form-group>
+                    </div>
+                </TitledCard>
+            </b-col>
+            <b-col>
+                <TitledCard title="費用">
+                    <div class="m-2">
+                        <b-form-group label-cols="auto" label="師傅報價: ">
+                            <b-form-input disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="距離加成: ">
+                            <b-form-input disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="師傅星等: ">
+                            <b-form-input disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="時間加成: ">
+                            <b-form-input disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="平台服務費: ">
+                            <b-form-input v-model="order.platformServicePrice" disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="優惠卷折扣: ">
+                            <b-form-input disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="派遣費折讓: ">
+                            <b-form-input disabled />
+                        </b-form-group>
+                        <b-form-group label-cols="auto" label="訂單總金額: ">
+                            <b-form-input v-model="order.orderTotalPrice" disabled />
+                        </b-form-group>
+                    </div>
+                </TitledCard>
+                <TitledCard title="其他">
+                    <div class="m-2">
+                        <b-form-group>
+                            <b-form-group label-cols="4" label="建立日期: ">
+                                <b-form-input v-model="order.createDate" disabled />
+                            </b-form-group>
+                            <b-form-group label-cols="4" label="被誰建立: ">
+                                <b-form-input v-model="order.createBy" disabled />
+                            </b-form-group>
+                        </b-form-group>
+                    </div>
+                </TitledCard>
+            </b-col>
+        </b-row>
+    </div>
+</template>
+
+<script>
+    import TitledCard from '@/components/Card/TitledCard.vue'
+    export default {
+        name: 'BasicDetail',
+        props: {
+            order: {}
+        },
+        components: {
+            TitledCard
+
+        }
+    }
+</script>

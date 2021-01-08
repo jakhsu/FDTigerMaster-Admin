@@ -186,7 +186,7 @@
                                         <b-form-input v-model="userData.master.skillItems" />
                                     </b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2"
-                                        label="忽略工項: ">
+                                        label="不會的工項: ">
                                         <b-form-input v-model="userData.master.ignoreWorkingCategories" />
                                     </b-form-group>
                                 </b-form-group>
