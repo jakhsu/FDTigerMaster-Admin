@@ -68,6 +68,11 @@
                                     <template #cell(roleId)="data">
                                         {{ roleIdMap[data.value] }}
                                     </template>
+                                    <template #cell(name)="data">
+                                        <div>
+                                            {{data.value}}
+                                        </div>
+                                    </template>
                                 </CustomTable>
                             </div>
                         </TitledCard>
@@ -151,7 +156,11 @@
                     } else if (ele[0] === 'createDate') {
                         ele[0] = 'create_date';
                     }
-                    query.where(`user.${ele[0]}`, ele[2], ele[1])
+                    query.where(`
+                            user.$ {
+                                ele[0]
+                            }
+                            `, ele[2], ele[1])
                 });
                 const roleId = this.search.roleId || [1, 2];
                 try {
@@ -188,7 +197,23 @@
                     }
                 })
                 return inactiveCount;
-            }
+            },
+            popoverData() {
+                // Both title and content specified as a function in this example
+                // and will be called the each time the popover is opened
+                return {
+                    id: 'imgPopover',
+                    html: true,
+                    title: () => {
+                        // Note this is called only when the popover is opened
+                        return 'Hello <b>Popover:</b> ' + ++this.counter
+                    },
+                    content: () => {
+                        // Note this is called only when the popover is opened
+                        return
+                    }
+                }
+            },
         }
     }
 </script>

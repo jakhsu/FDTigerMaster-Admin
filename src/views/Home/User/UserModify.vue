@@ -137,14 +137,16 @@
                             </div>
                         </TitledCard>
                         <TitledCard title="用戶照片">
-                            <ImgUpload @FileUpload="onFileUpload" />
+                            <ImgUpload v-if="canUploadImg" @FileUpload="onFileUpload" />
+                            <b-button v-if="!canUploadImg" @click="allowUpload">開始上傳</b-button>
                             <div class="mt-2" title="用戶大頭照">
                                 <b-card-body>
                                     <img :src="userData.headShotPath" height="200" alt="">
                                 </b-card-body>
                             </div>
+                            <ImgFetch :imgURL="userData.headShotPath" />
                         </TitledCard>
-                        <TitledCard v-if="userData.roleId === 1 || userData.roleId === 2" title="客戶專用">
+                        <TitledCard v-if=" userData.roleId===1 || userData.roleId===2" title="客戶專用">
                             <div class="m-2">
                                 <b-form-group>
                                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
@@ -210,12 +212,13 @@
     import UserRole from '@/config/UserRole.json'
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import ImgUpload from '@/components/Upload/ImgUpload.vue'
+    import ImgUpload from '@/components/Image/ImgUpload.vue'
 
     import * as xmljs from 'xml-js'
     import * as iconv from 'iconv-lite'
     import tigermaster from 'fdtigermaster-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import ImgFetch from '@/components/Image/ImgFetch.vue'
 
     export default {
         name: 'UserModify',
@@ -223,12 +226,14 @@
             Loading,
             TitledCard,
             ImgUpload,
+            ImgFetch,
         },
         data() {
             return {
                 UserRole,
                 isLoading: false,
                 isAddressLoading: false,
+                canUploadImg: false,
                 userData: {},
                 streetNames: [],
                 areadata: AreaData,
@@ -252,7 +257,7 @@
                 return this.streetNames.filter(item => {
                     return item.indexOf(this.userData.addressStreet) >= 0
                 });
-            },
+            }
         },
         async created() {
             this.isLoading = true
@@ -262,6 +267,9 @@
             this.isLoading = false;
         },
         methods: {
+            allowUpload() {
+                this.canUploadImg = true;
+            },
             async fetchRoadName() {
                 this.isAddressLoading = true;
                 const result = await fetch(
@@ -324,14 +332,18 @@
                 this.open = false;
             },
             async onFileUpload(data) {
-                console.log(data)
                 try {
                     this.currentUser.updateHeadshot(data)
+                    this.$bvToast.toast('成功上傳大頭照', {
+                        title: '恭喜',
+                        variant: "success",
+                        autoHideDelay: 5000
+                    })
                 } catch (e) {
                     console.log(e)
                 }
             }
-        }
+        },
     }
 </script>
 

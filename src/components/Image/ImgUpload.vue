@@ -1,12 +1,20 @@
 <template>
     <div id="base64img">
-        <div class="container mt-10">
-            <b-card title="圖片預覽">
-                <img height="200" :src="imagePath" alt="">
-            </b-card>
-            <input type="file" @change="handleImage" class="custom-input" accept="image/*">
-            <b-button @click="onFileUpload" variant="warning">確定上傳</b-button>
-        </div>
+        <b-row>
+            <b-col class="col-6">
+                <b-card title="圖片預覽">
+                    <img height="200" :src="imagePath" alt="">
+                </b-card>
+            </b-col>
+            <b-col class="col-6">
+                <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
+                    style="display:none">
+                <b-button class="ml-2" @click="$refs.file.click()" variant="primary">
+                    上傳
+                </b-button>
+                <b-button @click="onFileUpload" variant="warning" class="ml-2">確定上傳</b-button>
+            </b-col>
+        </b-row>
     </div>
 </template>
 
@@ -34,7 +42,6 @@
             },
             onFileUpload() {
                 this.$emit("FileUpload", this.imageFile)
-
             }
         }
 
