@@ -23,6 +23,7 @@
 
 <script>
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
+
     export default {
         name: 'OrderCard',
         props: {

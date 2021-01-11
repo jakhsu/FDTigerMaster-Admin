@@ -8,20 +8,20 @@
                             <template #prepend>
                                 <b-input-group-text><strong>編號</strong></b-input-group-text>
                             </template>
-                            <b-input></b-input>
+                            <b-input v-model="search.id"></b-input>
                         </b-input-group>
                         <b-input-group>
                             <template #prepend>
                                 <b-input-group-text><strong>訂單狀態</strong></b-input-group-text>
                             </template>
-                            <b-form-select :options="OrderStatus">
+                            <b-form-select v-model="search.status" :options="OrderStatus">
                             </b-form-select>
                         </b-input-group>
                         <b-input-group>
                             <template #prepend>
                                 <b-input-group-text><strong>工項</strong></b-input-group-text>
                             </template>
-                            <b-input></b-input>
+                            <b-input v-model="search.category"></b-input>
                         </b-input-group>
                     </b-form>
                 </div>
@@ -46,12 +46,14 @@
 
     export default {
         components: {
-            TitledCard
+            TitledCard,
         },
         name: 'OrderSearch',
         data() {
             return {
-                OrderStatus
+                OrderStatus,
+                search: {},
+                tableBusy: false
             }
         },
         methods: {

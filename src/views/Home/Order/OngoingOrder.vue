@@ -2,7 +2,6 @@
     <Loading v-if="isLoading" />
     <div v-else id="Order">
         <b-container fluid>
-            <!-- <OrderDetailModal id="Order-Detail-Modal" @onSaveClick="orderModify" /> -->
             <div class="Order-Area">
                 <b-row>
                     <b-col>

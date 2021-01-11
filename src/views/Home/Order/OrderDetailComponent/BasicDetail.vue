@@ -26,7 +26,7 @@
                             <b-form-input v-model="order.masterUserPhone" disabled />
                         </b-form-group>
                         <b-form-group label-cols="auto" label="訂單狀態: ">
-                            <b-form-input v-model="order.status" disabled />
+                            <b-form-select :options="OrderStatus" v-model="order.status"></b-form-select>
                         </b-form-group>
                         <b-form-group label-cols="auto" label="工項編號: ">
                             <b-form-input v-model="order.workingCategoryId" disabled />
@@ -51,6 +51,14 @@
                             <b-form-input v-model="order.addressDetail" disabled />
                         </b-form-group>
                     </div>
+                </TitledCard>
+                <TitledCard title="客戶專用">
+                    <b-form-group label-cols="auto" label="統編: ">
+                        <b-form-input disabled />
+                    </b-form-group>
+                    <b-form-group label-cols="auto" label="抬頭: ">
+                        <b-form-input disabled />
+                    </b-form-group>
                 </TitledCard>
             </b-col>
             <b-col>
@@ -85,11 +93,23 @@
                 <TitledCard title="其他">
                     <div class="m-2">
                         <b-form-group>
+                            <b-form-group label-cols="auto" label="預期開工日: ">
+                                <b-form-input disabled />
+                            </b-form-group>
+                            <b-form-group label-cols="auto" label="保固完結日: ">
+                                <b-form-input disabled />
+                            </b-form-group>
                             <b-form-group label-cols="4" label="建立日期: ">
                                 <b-form-input v-model="order.createDate" disabled />
                             </b-form-group>
                             <b-form-group label-cols="4" label="被誰建立: ">
                                 <b-form-input v-model="order.createBy" disabled />
+                            </b-form-group>
+                            <b-form-group label-cols="4" label="緯度: ">
+                                <b-form-input v-model="order.addressLat" disabled />
+                            </b-form-group>
+                            <b-form-group label-cols="4" label="經度: ">
+                                <b-form-input v-model="order.addressLong" disabled />
                             </b-form-group>
                         </b-form-group>
                     </div>
@@ -101,6 +121,9 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
+    import OrderStatus from '@/config/OrderStatus.json'
+
     export default {
         name: 'BasicDetail',
         props: {
@@ -108,7 +131,12 @@
         },
         components: {
             TitledCard
-
+        },
+        data() {
+            return {
+                statusMap: OrderStatusMap(),
+                OrderStatus
+            }
         }
     }
 </script>

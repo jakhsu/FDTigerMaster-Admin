@@ -137,7 +137,7 @@
                             </div>
                         </TitledCard>
                         <TitledCard title="用戶照片">
-                            <base64Img @FileUpload="onFileUpload" />
+                            <ImgUpload @FileUpload="onFileUpload" />
                             <div class="mt-2" title="用戶大頭照">
                                 <b-card-body>
                                     <img :src="userData.headShotPath" height="200" alt="">
@@ -210,7 +210,7 @@
     import UserRole from '@/config/UserRole.json'
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import Base64Img from '@/components/Upload/base64Img.vue'
+    import ImgUpload from '@/components/Upload/ImgUpload.vue'
 
     import * as xmljs from 'xml-js'
     import * as iconv from 'iconv-lite'
@@ -222,7 +222,7 @@
         components: {
             Loading,
             TitledCard,
-            Base64Img,
+            ImgUpload,
         },
         data() {
             return {
@@ -323,8 +323,13 @@
                 this.userData.addressStreet = this.matches[index];
                 this.open = false;
             },
-            onFileUpload(data) {
+            async onFileUpload(data) {
                 console.log(data)
+                try {
+                    this.currentUser.updateHeadshot(data)
+                } catch (e) {
+                    console.log(e)
+                }
             }
         }
     }
