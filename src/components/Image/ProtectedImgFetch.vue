@@ -28,18 +28,16 @@
                 .query("user_picture")
                 .get();
             this.url = res.data[0].path
+            console.log("the url i'm requesting for image: ", this.url)
             await fetch(this.url, {
                 method: 'GET',
                 headers: {
                     "Authorization": this.authToken
                 }
             }).then(res => {
-                console.log("response of fetch using the image path from DB with token is: ", res)
-                res.blob();
-            }).then(blob => {
-                this.response = blob;
+                console.log(res)
+                console.log(res.body)
             })
-            console.log(this.response)
         }
     }
 </script>
