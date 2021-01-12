@@ -1,16 +1,15 @@
 <template>
-    <div>
-        <TitledCard :title="title">
+    <div class="card">
+        <b-card no-body bg-variant="light">
             <scale-loader v-if="isLoading" />
             <div v-else>
                 <img :src="URL" alt="">
             </div>
-        </TitledCard>
+        </b-card>
     </div>
 </template>
 
 <script>
-    import TitledCard from '../Card/TitledCard.vue'
     export default {
         name: 'ImgFetch',
         props: {
@@ -20,11 +19,12 @@
             },
             imgURL: {
                 type: String
+            },
+            authorization: {
+                type: String
             }
         },
-        components: {
-            TitledCard
-        },
+        components: {},
         data() {
             return {
                 URL: '',
@@ -38,10 +38,14 @@
             async fetchImgFromURL() {
                 this.isLoading = true;
                 try {
-                    await fetch(this.imgURL)
-                        .then(res => {
-                            console.log(res)
+                    await fetch(this.imgURL, {
+                            headers: {
+                                'Authorization': this.authorization || ""
+                            }
                         })
+                        .then(res => {
+                            this.URL = res.url
+                        });
                 } catch (e) {
                     console.log(e)
                 } finally {
@@ -53,5 +57,9 @@
 </script>
 
 <style scoped>
-
+    .card {
+        width: 200px;
+        height: 200px;
+        border-width: 0;
+    }
 </style>

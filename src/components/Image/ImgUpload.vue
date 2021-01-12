@@ -1,20 +1,20 @@
 <template>
     <div id="base64img">
-        <b-row>
-            <b-col class="col-6">
-                <b-card title="圖片預覽">
-                    <img height="200" :src="imagePath" alt="">
-                </b-card>
-            </b-col>
-            <b-col class="col-6">
-                <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
-                    style="display:none">
-                <b-button class="ml-2" @click="$refs.file.click()" variant="primary">
-                    上傳
-                </b-button>
-                <b-button @click="onFileUpload" variant="warning" class="ml-2">確定上傳</b-button>
-            </b-col>
-        </b-row>
+        <b-card no-body>
+            <b-row no-gutters>
+                <b-col class="preview-area ">
+                    <img height="200" width="200" v-if="imageFile" :src="imagePath" alt="">
+                </b-col>
+                <b-col>
+                    <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
+                        style="display:none">
+                    <b-button class="ml-2" @click="$refs.file.click()" variant="primary">
+                        選擇檔案
+                    </b-button>
+                    <b-button @click="onFileUpload" variant="warning" class="ml-2">確定上傳</b-button>
+                </b-col>
+            </b-row>
+        </b-card>
     </div>
 </template>
 
@@ -49,5 +49,9 @@
 </script>
 
 <style scoped>
-
+    .preview-area {
+        width: 200px;
+        height: 200px;
+        background-color: rgb(199, 199, 199);
+    }
 </style>

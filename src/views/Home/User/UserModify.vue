@@ -139,12 +139,9 @@
                         <TitledCard title="用戶照片">
                             <ImgUpload v-if="canUploadImg" @FileUpload="onFileUpload" />
                             <b-button v-if="!canUploadImg" @click="allowUpload">開始上傳</b-button>
-                            <div class="mt-2" title="用戶大頭照">
-                                <b-card-body>
-                                    <img :src="userData.headShotPath" height="200" alt="">
-                                </b-card-body>
+                            <div class="row justify-content-center">
+                                <ImgFetch class="mt-2" :imgURL="userData.headShotPath" />
                             </div>
-                            <ImgFetch :imgURL="userData.headShotPath" />
                         </TitledCard>
                         <TitledCard v-if=" userData.roleId===1 || userData.roleId===2" title="客戶專用">
                             <div class="m-2">
