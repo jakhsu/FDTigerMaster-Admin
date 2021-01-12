@@ -4,21 +4,9 @@
             <b-row>
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
-                        <!-- <ImgFetch :authorization="authToken" imgURL="" /> -->
                         <div class="certtable">
-                            <!-- <b-card class="m-2" title="證照1:">
-                                <img src="@/assets/idcard.jpg" alt="" width="200" height="200">
-                                <b-card-body>
-                                    <b-list-group flush>
-                                        <b-list-group-item>證照類型: 身分證</b-list-group-item>
-                                        <b-list-group-item>正反面: 正面</b-list-group-item>
-                                        <b-list-group-item>證照敘述: 無</b-list-group-item>
-                                    </b-list-group>
-                                </b-card-body>
-                                <b-button variant="outline-danger">刪除</b-button>
-                            </b-card> -->
+                            <ProtectedImgFetch :user="user" />
                         </div>
-                        <ProtectedImgFetch :user="user" />
                     </TitledCard>
                 </b-col>
                 <b-col>
