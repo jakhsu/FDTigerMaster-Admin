@@ -100,7 +100,7 @@
     import BroadcastSearch from '@/components/Broadcast/BroadcastSearch.vue'
     import BroadcastContent from '@/components/Broadcast/BroadcastContent.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "Broadcast",

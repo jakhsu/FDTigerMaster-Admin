@@ -25,7 +25,7 @@
 
 <script>
     import Loading from '@/components/Loading';
-    import tigermaster from 'fdtigermaster-sdk';
+    import tigermaster from 'fdtigermaster-admin-sdk';
     const inputIndex = Object.freeze({
         phone: 0,
         password: 1

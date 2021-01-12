@@ -1,6 +1,5 @@
 <template>
-    <SimpleModal :isLoading="isLoading" @onSaveClick="onDeactivate" :id="id" title="凍結"
-        @resetModal="clearModalData">
+    <SimpleModal :isLoading="isLoading" @onSaveClick="onDeactivate" :id="id" title="凍結" @resetModal="clearModalData">
         <template #modal-body>
             <b-form-group label="輸入凍結理由">
                 <b-form-textarea required v-model="comment"></b-form-textarea>
@@ -12,11 +11,11 @@
 <script>
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'DeactivateModal',
-        components:{
+        components: {
             SimpleModal
         },
         props: {
@@ -26,24 +25,26 @@
             },
             currentUser: Object
         },
-        data(){
+        data() {
             return {
                 comment: '',
                 isLoading: false
             }
         },
-        methods:{
+        methods: {
             async onDeactivate() {
                 if (this.comment !== '') {
                     this.isLoading = true;
-                    await this.currentUser.update({status: 0});
+                    await this.currentUser.update({
+                        status: 0
+                    });
                     const note = tigermaster.note;
                     await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive);
                     this.$bvModal.hide(this.id);
                     this.$emit('finish');
                 }
             },
-            clearModalData(){
+            clearModalData() {
                 this.isLoading = false;
                 this.comment = '';
             }

@@ -81,7 +81,7 @@
     import allselectedQueryConditions from '@/config/QueryOption.json'
     import TitledCard from '@/components/Card/TitledCard.vue';
     import Loading from '@/components/Loading'
-    import tigermaster from 'fdtigermaster-sdk';
+    import tigermaster from 'fdtigermaster-admin-sdk';
 
     export default {
         components: {

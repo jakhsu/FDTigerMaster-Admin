@@ -68,11 +68,6 @@
                                     <template #cell(roleId)="data">
                                         {{ roleIdMap[data.value] }}
                                     </template>
-                                    <template #cell(name)="data">
-                                        <div>
-                                            {{data.value}}
-                                        </div>
-                                    </template>
                                 </CustomTable>
                             </div>
                         </TitledCard>
@@ -91,7 +86,7 @@
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {

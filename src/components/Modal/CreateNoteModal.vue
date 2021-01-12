@@ -10,11 +10,11 @@
 <script>
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'CreateNoteModal',
-        components:{
+        components: {
             SimpleModal
         },
         props: {
@@ -24,13 +24,13 @@
             },
             userId: String
         },
-        data(){
+        data() {
             return {
                 noteContent: '',
                 isLoading: false
             }
         },
-        methods:{
+        methods: {
             async createNote() {
                 this.isLoading = true;
                 const note = tigermaster.note;
@@ -38,7 +38,7 @@
                 this.$bvModal.hide(this.id);
                 this.$emit('finish');
             },
-            clearModalData(){
+            clearModalData() {
                 this.isLoading = false;
                 this.noteContent = '';
             }

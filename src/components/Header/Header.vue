@@ -1,9 +1,9 @@
 <template>
     <b-navbar id="topbar" toggleable="lg" class="mb-4 shadow">
         <b-button variant="link" class="sidebar-toggle d-md-none mr-3" @click="onSideBarToggleClick">
-          <font-awesome-icon icon="bars"/>
+            <font-awesome-icon icon="bars" />
         </b-button>
-        <b-nav class="ml-auto"/>
+        <b-nav class="ml-auto" />
         <b-dropdown right variant="link" toggle-class="text-decoration-none" no-caret>
             <template class="dropdown-toggle" #button-content>
                 <span class="user-name mr-2 d-lg-inline">Hi, {{ $store.state.user.name }}</span>
@@ -24,21 +24,21 @@
 
 <script>
     import userImg from '@/assets/user.svg';
-    import tigermaster from 'fdtigermaster-sdk';
+    import tigermaster from 'fdtigermaster-admin-sdk';
 
     export default {
 
         name: 'Header',
-        data(){
-            return{
+        data() {
+            return {
                 userImg: userImg
             };
         },
-        methods:{
-            onSideBarToggleClick(){
+        methods: {
+            onSideBarToggleClick() {
                 this.$emit("onSideBarToggle");
             },
-            onLogoutClick(){
+            onLogoutClick() {
                 tigermaster.auth.logout();
                 this.$router.push({
                     path: '/'
@@ -49,25 +49,25 @@
 </script>
 
 <style>
-#topbar{
-  background-color: #ffc646;
-}
+    #topbar {
+        background-color: #ffc646;
+    }
 
-#topbar .sidebar-toggle{
-    color: #ffffff;
-}
+    #topbar .sidebar-toggle {
+        color: #ffffff;
+    }
 
-#topbar .user-name {
-  color: #ffffff;
-  font-size: 14pt;
-}
+    #topbar .user-name {
+        color: #ffffff;
+        font-size: 14pt;
+    }
 
-#topbar .img-profile {
-  height: 2rem;
-  width: 2rem;
-}
+    #topbar .img-profile {
+        height: 2rem;
+        width: 2rem;
+    }
 
-#topbar .dropdown-menu{
-  position: absolute;
-}
+    #topbar .dropdown-menu {
+        position: absolute;
+    }
 </style>

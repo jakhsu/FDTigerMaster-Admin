@@ -1,6 +1,5 @@
 <template>
-    <SimpleModal :isLoading="isLoading" @onSaveClick="onActivate" :id="id" title="恢復"
-        @resetModal="clearModalData">
+    <SimpleModal :isLoading="isLoading" @onSaveClick="onActivate" :id="id" title="恢復" @resetModal="clearModalData">
         <template #modal-body>
             <b-form-group label="輸入恢復理由">
                 <b-form-textarea required v-model="comment"></b-form-textarea>
@@ -12,11 +11,11 @@
 <script>
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'ActivateModal',
-        components:{
+        components: {
             SimpleModal
         },
         props: {
@@ -26,17 +25,19 @@
             },
             currentUser: Object
         },
-        data(){
+        data() {
             return {
                 comment: '',
                 isLoading: false
             }
         },
-        methods:{
+        methods: {
             async onActivate() {
                 if (this.comment !== '') {
                     this.isLoading = true;
-                    await this.currentUser.update({status: 1});
+                    await this.currentUser.update({
+                        status: 1
+                    });
                     console.log(this.currentUser.data);
                     const note = tigermaster.note;
                     await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive)
@@ -44,7 +45,7 @@
                     this.$emit('finish');
                 }
             },
-            clearModalData(){
+            clearModalData() {
                 this.isLoading = false;
                 this.comment = '';
             }

@@ -84,7 +84,7 @@
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "ClosedOrder",

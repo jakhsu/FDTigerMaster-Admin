@@ -13,11 +13,11 @@
 <script>
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'ModifyNoteModal',
-        components:{
+        components: {
             SimpleModal
         },
         props: {
@@ -28,14 +28,14 @@
             noteId: Number,
             initNoteContent: String
         },
-        data(){
+        data() {
             return {
                 isLoading: false,
                 noteContent: this.initNoteContent
             }
         },
-        methods:{
-            async deleteNote(){
+        methods: {
+            async deleteNote() {
                 this.isLoading = true;
                 const note = tigermaster.note;
                 await note.delete(this.noteId);
@@ -49,12 +49,12 @@
                 this.$bvModal.hide(this.id);
                 this.$emit('finish');
             },
-            clearModalData(){
+            clearModalData() {
                 this.isLoading = false;
             }
         },
-        watch:{
-            initNoteContent(){
+        watch: {
+            initNoteContent() {
                 this.noteContent = this.initNoteContent;
             }
         }

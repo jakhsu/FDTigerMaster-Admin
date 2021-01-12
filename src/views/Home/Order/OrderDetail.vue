@@ -30,7 +30,7 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
     import BasicDetail from '@/views/Home/Order/OrderDetailComponent/BasicDetail.vue'
     import AvailableMaster from '@/views/Home/Order/OrderDetailComponent/AvailableMaster.vue'
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
     import Loading from '@/components/Loading.vue'
 
 

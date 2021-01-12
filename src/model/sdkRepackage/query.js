@@ -1,4 +1,4 @@
-import tigermaster from 'fdtigermaster-sdk'
+import tigermaster from 'fdtigermaster-admin-sdk'
 
 export async function queryAllSkills() {
     try {

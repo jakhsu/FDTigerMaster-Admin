@@ -6,23 +6,27 @@
 
 <script>
     import SiteWrapper from '@/components/SiteWrapper.vue'
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'Home',
-        components:{
+        components: {
             SiteWrapper
         },
-        created(){
-            if(tigermaster.auth.currentUser !== undefined){
+        created() {
+            if (tigermaster.auth.currentUser !== undefined) {
                 this.$store.commit('setUser', tigermaster.auth.currentUser.data);
-                tigermaster.auth.onUserAuthLost(()=>{
+                tigermaster.auth.onUserAuthLost(() => {
                     this.$store.commit('setUser', undefined);
-                    this.$router.push({path: '/'});
+                    this.$router.push({
+                        path: '/'
+                    });
                 });
-            }else{
+            } else {
                 this.$store.commit('setUser', undefined);
-                this.$router.push({path: '/'});
+                this.$router.push({
+                    path: '/'
+                });
             }
         }
     }

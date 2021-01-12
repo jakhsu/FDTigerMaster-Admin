@@ -96,7 +96,7 @@
     import SkillCreateModal from '@/components/Modal/SkillCreateModal.vue'
     import SkillUpdateModal from '@/components/Modal/SkillUpdateModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
     import ConfirmModal from '@/components/Modal/ConfirmModal.vue'
 
     export default {

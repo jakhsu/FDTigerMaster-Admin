@@ -41,7 +41,7 @@
 
 <script>
     import UserRole from '@/config/UserRole.json'
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     const inputIndex = Object.freeze({
         phone: 0,

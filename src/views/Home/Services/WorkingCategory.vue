@@ -104,7 +104,7 @@
     import WorkingCategoryCreateModal from "@/components/Modal/WorkingCategoryCreateModal.vue";
     import WorkingCategoryUpdateModal from "@/components/Modal/WorkingCategoryUpdateModal.vue";
 
-    import tigermaster from "fdtigermaster-sdk";
+    import tigermaster from "fdtigermaster-admin-sdk";
 
     export default {
         name: "WorkingCategory",

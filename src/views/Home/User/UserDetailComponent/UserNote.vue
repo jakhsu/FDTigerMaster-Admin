@@ -33,7 +33,7 @@
     import CreateNoteModal from '@/components/Modal/CreateNoteModal.vue'
     import ModifyNoteModal from '@/components/Modal/ModifyNoteModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "UserNote",
@@ -79,7 +79,7 @@
                 this.notes = await note.listByUserId(this.currentUser.id);
                 this.totalRows = this.notes.length;
             } catch (e) {
-                console.log(e);            
+                console.log(e);
             } finally {
                 this.tableBusy = false;
             }

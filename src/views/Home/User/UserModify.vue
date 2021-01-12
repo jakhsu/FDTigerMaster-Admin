@@ -216,7 +216,7 @@
 
     import * as xmljs from 'xml-js'
     import * as iconv from 'iconv-lite'
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
     import ImgFetch from '@/components/Image/ImgFetch.vue'
 
@@ -237,6 +237,7 @@
                 userData: {},
                 streetNames: [],
                 areadata: AreaData,
+                toBeUploadedHeadShot: {},
                 open: true,
                 streetErrorMessage: '',
                 currentUser: Object,
@@ -300,6 +301,17 @@
                     }
                     delete this.userData["pass"];
                     await this.currentUser.update(this.userData);
+                    try {
+                        this.currentUser.updateHeadshot(this.toBeUploadedHeadShot)
+                        this.$bvToast.toast('成功上傳大頭照', {
+                            title: '恭喜',
+                            variant: "success",
+                            autoHideDelay: 5000
+                        });
+                        this.canUploadImg = false;
+                    } catch (e) {
+                        console.log(e)
+                    }
                     this.$router.push({
                         path: '/home/user_detail',
                         query: {
@@ -332,16 +344,7 @@
                 this.open = false;
             },
             async onFileUpload(data) {
-                try {
-                    this.currentUser.updateHeadshot(data)
-                    this.$bvToast.toast('成功上傳大頭照', {
-                        title: '恭喜',
-                        variant: "success",
-                        autoHideDelay: 5000
-                    })
-                } catch (e) {
-                    console.log(e)
-                }
+                this.toBeUploadedHeadShot = data;
             }
         },
     }

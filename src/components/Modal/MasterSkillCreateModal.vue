@@ -36,7 +36,7 @@
 <script>
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'DeactivateModal',

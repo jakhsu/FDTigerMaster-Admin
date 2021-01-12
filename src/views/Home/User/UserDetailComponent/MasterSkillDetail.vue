@@ -65,7 +65,7 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
     import MasterSkillCreateModal from '@/components/Modal/MasterSkillCreateModal.vue'
 
-    import tigermaster from 'fdtigermaster-sdk'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "MasterSkillDetail",
