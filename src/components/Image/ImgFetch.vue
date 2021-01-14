@@ -1,65 +1,50 @@
 <template>
-    <div class="card">
-        <b-card no-body bg-variant="light">
-            <scale-loader v-if="isLoading" />
-            <div v-else>
-                <img :src="URL" alt="">
-            </div>
-        </b-card>
+    <div id="img-area">
+        <img :src="this.url" alt="" width="200px">
     </div>
 </template>
 
 <script>
+    import tigermaster from 'fdtigermaster-admin-sdk'
+
     export default {
-        name: 'ImgFetch',
+        name: 'imgFetch',
         props: {
-            title: {
-                type: String,
-                default: '目前的照片'
-            },
-            imgURL: {
-                type: String
-            },
-            authorization: {
-                type: String
-            }
+            user: Object,
+            fetchURL: String
         },
-        components: {},
         data() {
             return {
-                URL: '',
-                isLoading: null
+                token: String,
+                url: String,
+                response: Object,
             }
         },
-        created() {
-            this.fetchImgFromURL();
+        async created() {
+            const user = tigermaster.auth.currentUser;
+            this.token = user.token;
+            // const res = await tigermaster.database
+            //     .query("user_picture")
+            //     .get();
+            // this.url = res.data[0].path
+            try {
+                let response = await fetch(this.fetchURL, {
+                    method: 'GET',
+                    headers: {
+                        "Authorization": this.token
+                    }
+                });
+                await response.blob().then(imgBlob => {
+                    this.url = URL.createObjectURL(imgBlob)
+                });
+            } catch (e) {
+                console.log(e)
+            }
         },
         methods: {
-            async fetchImgFromURL() {
-                this.isLoading = true;
-                try {
-                    await fetch(this.imgURL, {
-                            headers: {
-                                'Authorization': this.authorization || ""
-                            }
-                        })
-                        .then(res => {
-                            this.URL = res.url
-                        });
-                } catch (e) {
-                    console.log(e)
-                } finally {
-                    this.isLoading = false;
-                }
+            test() {
+                console.log("test, fetch url is: ", this.fetchURL)
             }
         }
     }
 </script>
-
-<style scoped>
-    .card {
-        width: 200px;
-        height: 200px;
-        border-width: 0;
-    }
-</style>

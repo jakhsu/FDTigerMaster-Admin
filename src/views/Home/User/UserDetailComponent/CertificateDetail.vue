@@ -4,8 +4,9 @@
             <b-row>
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
-                        <div class="certtable">
-                            <ProtectedImgFetch :user="user" />
+                        <div class="row justify-content-center">
+                            <scale-loader v-if="!fetchURL" />
+                            <imgFetch v-if="fetchURL" :fetchURL="fetchURL" :user="user" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -33,15 +34,15 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
     import UserImage from 'fdtigermaster-admin-sdk/lib/src/Image/UserImage'
-    import ProtectedImgFetch from '@/components/Image/ProtectedImgFetch.vue'
-
+    import imgFetch from '@/components/Image/imgFetch.vue'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "CertificateDetail",
         components: {
             TitledCard,
             ImgUpload,
-            ProtectedImgFetch,
+            imgFetch,
         },
         props: {
             user: Object
@@ -95,10 +96,18 @@
                     id: this.user.id,
                     imageFile: {},
                     description: ''
-                }
+                },
+                fetchURL: ''
             }
         },
-        async created() {},
+        async created() {
+            console.log("certificate detail created!")
+            const res = await tigermaster.database
+                .query("user_picture")
+                .get();
+            this.fetchURL = res.data[0].path
+            console.log("fetchURL ready: ", this.fetchURL)
+        },
         methods: {
             handleUpload(file) {
                 this.toBeUploaded.imageFile = file;

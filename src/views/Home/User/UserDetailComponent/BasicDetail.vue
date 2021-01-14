@@ -89,7 +89,7 @@
                 <b-col xl="6" lg="12">
                     <TitledCard title="用戶照片">
                         <div v-if="user.headShotPath">
-                            <img :src="user.headShotPath" alt="">
+                            <imgFetch :fetchURL="user.headShotPath" :user="user" />
                         </div>
                         <div v-else>
                             <b-card>
@@ -183,13 +183,15 @@
     import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
 
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import imgFetch from '@/components/Image/imgFetch.vue'
 
     export default {
         name: "BasicDetail",
         components: {
             TitledCard,
             ActivateModal,
-            DeactivateModal
+            DeactivateModal,
+            imgFetch
         },
         props: {
             user: {},
