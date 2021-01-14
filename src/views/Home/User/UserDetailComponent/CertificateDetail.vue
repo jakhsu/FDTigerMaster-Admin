@@ -127,6 +127,7 @@
                         this.toBeUploaded.imageFile,
                         this.toBeUploaded.description
                     );
+                    this.toBeUploaded.description = "";
                     this.imgFetchKey++;
                     this.imgUploadKey++;
                 } catch (e) {

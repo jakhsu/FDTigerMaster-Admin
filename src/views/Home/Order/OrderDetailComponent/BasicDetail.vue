@@ -99,16 +99,16 @@
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="保固完結日: ">
                                 <b-form-input disabled />
                             </b-form-group>
-                            <b-form-group label-cols="4" label="建立日期: ">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="建立日期: ">
                                 <b-form-input v-model="order.createDate" disabled />
                             </b-form-group>
-                            <b-form-group label-cols="4" label="被誰建立: ">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="被誰建立: ">
                                 <b-form-input v-model="order.createBy" disabled />
                             </b-form-group>
-                            <b-form-group label-cols="4" label="緯度: ">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
                                 <b-form-input v-model="order.addressLat" disabled />
                             </b-form-group>
-                            <b-form-group label-cols="4" label="經度: ">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
                                 <b-form-input v-model="order.addressLong" disabled />
                             </b-form-group>
                         </b-form-group>
