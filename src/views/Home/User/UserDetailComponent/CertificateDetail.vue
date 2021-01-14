@@ -5,8 +5,7 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div class="row justify-content-center">
-                            <scale-loader v-if="!fetchURL.length > 0" />
-                            <ImgFetch v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user" />
+                            <ImgFetch :key="imgFetchKey" v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -14,7 +13,8 @@
                     <TitledCard title="上傳區:">
                         <div class="uploadForm">
                             <b-form>
-                                <ImgUpload v-bind:showsPreview="false" @FileUpload="handleUpload" class="mb-2" />
+                                <ImgUpload :key="imgUploadKey" v-bind:showsPreview="false" @FileUpload="handleUpload"
+                                    class="mb-2" />
                                 <b-form-group label="證照描述: ">
                                     <b-form-textarea v-model="toBeUploaded.description"></b-form-textarea>
                                 </b-form-group>
@@ -97,16 +97,23 @@
                     imageFile: {},
                     description: ''
                 },
-                fetchURL: []
+                fetchURL: [],
+                imgFetchKey: 0,
+                imgUploadKey: 0
             }
         },
         async created() {
-            const res = await tigermaster.database
-                .query("user_picture")
-                .get();
-            this.fetchURL = res.data.map(e =>
-                e.path
-            )
+            try {
+                const res = await tigermaster.database
+                    .query("user_picture")
+                    .where("user_picture.user_id", "=", `${this.user.id}`)
+                    .get();
+                this.fetchURL = res.data.map(e =>
+                    e.path
+                )
+            } catch (e) {
+                console.log(e)
+            }
         },
         methods: {
             handleUpload(file) {
@@ -120,6 +127,8 @@
                         this.toBeUploaded.imageFile,
                         this.toBeUploaded.description
                     );
+                    this.imgFetchKey++;
+                    this.imgUploadKey++;
                 } catch (e) {
                     console.log(e)
                 }
