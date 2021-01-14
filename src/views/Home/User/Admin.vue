@@ -164,7 +164,6 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                    this.search = {};
                 } catch (e) {
                     this.$bvModal.show("Search-Fail-Modal");
                 } finally {

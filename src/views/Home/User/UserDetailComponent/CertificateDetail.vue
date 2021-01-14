@@ -5,8 +5,8 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div class="row justify-content-center">
-                            <scale-loader v-if="!fetchURL" />
-                            <imgFetch v-if="fetchURL" :fetchURL="fetchURL" :user="user" />
+                            <scale-loader v-if="!fetchURL.length > 0" />
+                            <imgFetch v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -97,16 +97,16 @@
                     imageFile: {},
                     description: ''
                 },
-                fetchURL: ''
+                fetchURL: []
             }
         },
         async created() {
-            console.log("certificate detail created!")
             const res = await tigermaster.database
                 .query("user_picture")
                 .get();
-            this.fetchURL = res.data[0].path
-            console.log("fetchURL ready: ", this.fetchURL)
+            this.fetchURL = res.data.map(e =>
+                e.path
+            )
         },
         methods: {
             handleUpload(file) {

@@ -112,8 +112,8 @@
             async fetchMatchedMaster() {
                 const database = tigermaster.database;
                 const query = database
-                    .query("user")
-                    .where("user.id", "LIKE", `%${this.order.masterUserId}%`);
+                    .query("order_master_mapping")
+                    .where("order_master_mapping.order_id", "LIKE", `${this.order.id}`);
                 try {
                     const res = await query.get();
                     this.matchedMasters = res.data;

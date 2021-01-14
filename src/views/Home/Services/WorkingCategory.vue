@@ -149,6 +149,9 @@
                 let query = tigermaster.database.query("working_category");
                 let searchArray = Object.entries(this.search);
                 searchArray.forEach(ele => {
+                    if (ele[0] === 'skillItemId') {
+                        ele[0] = 'skill_item_id'
+                    }
                     ele[2] = 'LIKE';
                     ele[1] = '%' + ele[1] + '%';
                     query.where(`working_category.${ele[0]}`, ele[2], ele[1]);

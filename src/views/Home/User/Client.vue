@@ -151,11 +151,7 @@
                     } else if (ele[0] === 'createDate') {
                         ele[0] = 'create_date';
                     }
-                    query.where(`
-                            user.$ {
-                                ele[0]
-                            }
-                            `, ele[2], ele[1])
+                    query.where(`user.${ele[0]}`, ele[2], ele[1])
                 });
                 const roleId = this.search.roleId || [1, 2];
                 try {
@@ -166,7 +162,6 @@
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCosunt = res.totalCount;
-                    this.search = {};
                 } catch {
                     this.$bvModal.show("Search-Fail-Modal");
                 } finally {

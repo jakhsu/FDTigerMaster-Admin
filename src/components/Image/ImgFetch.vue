@@ -1,6 +1,7 @@
 <template>
     <div id="img-area">
-        <img :src="this.url" alt="" width="200px">
+        <scale-loader v-if="isFetching" />
+        <img v-for="(img,index) in url" :key="index" :src="img" alt="" width="200px">
     </div>
 </template>
 
@@ -11,39 +12,40 @@
         name: 'imgFetch',
         props: {
             user: Object,
-            fetchURL: String
+            fetchURL: Array
         },
         data() {
             return {
                 token: String,
-                url: String,
+                url: [],
                 response: Object,
+                isFetching: true
             }
         },
         async created() {
             const user = tigermaster.auth.currentUser;
             this.token = user.token;
-            // const res = await tigermaster.database
-            //     .query("user_picture")
-            //     .get();
-            // this.url = res.data[0].path
             try {
-                let response = await fetch(this.fetchURL, {
-                    method: 'GET',
-                    headers: {
-                        "Authorization": this.token
-                    }
-                });
-                await response.blob().then(imgBlob => {
-                    this.url = URL.createObjectURL(imgBlob)
-                });
+                this.fetchUserPicture();
             } catch (e) {
                 console.log(e)
+            } finally {
+                this.isFetching = false
             }
         },
         methods: {
-            test() {
-                console.log("test, fetch url is: ", this.fetchURL)
+            async fetchUserPicture() {
+                for (let i = 0; i < this.fetchURL.length; i++) {
+                    let response = await fetch(this.fetchURL[i], {
+                        method: 'GET',
+                        headers: {
+                            "Authorization": this.token
+                        }
+                    });
+                    await response.blob().then(imgBlob => {
+                        this.url.push(URL.createObjectURL(imgBlob))
+                    });
+                }
             }
         }
     }

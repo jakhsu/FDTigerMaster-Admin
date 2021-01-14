@@ -26,7 +26,7 @@
                             <b-form-input v-model="order.masterUserPhone" disabled />
                         </b-form-group>
                         <b-form-group label-cols="auto" label="訂單狀態: ">
-                            <b-form-select :options="OrderStatus" v-model="order.status"></b-form-select>
+                            <b-form-select :options="OrderStatus" v-model="order.status" disabled></b-form-select>
                         </b-form-group>
                         <b-form-group label-cols="auto" label="工項編號: ">
                             <b-form-input v-model="order.workingCategoryId" disabled />
