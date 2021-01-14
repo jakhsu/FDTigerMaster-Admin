@@ -4,59 +4,59 @@
             <b-col>
                 <TitledCard title="基本">
                     <div class="m-2">
-                        <b-form-group label-cols="auto" label="客戶姓名: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶姓名: ">
                             <b-form-input v-model="order.clientUserName" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="客戶ID: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶ID: ">
                             <b-form-input v-model="order.clientUserId" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="客戶電話: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶電話: ">
                             <b-form-input v-model="order.clientUserPhone" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="訂單編號: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單編號: ">
                             <b-form-input v-model="order.id" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="師傅姓名: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅姓名: ">
                             <b-form-input v-model="order.masterUserName" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="師傅ID: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅ID: ">
                             <b-form-input v-model="order.masterUserId" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="師傅電話: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅電話: ">
                             <b-form-input v-model="order.masterUserPhone" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="訂單狀態: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單狀態: ">
                             <b-form-select :options="OrderStatus" v-model="order.status" disabled></b-form-select>
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="工項編號: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
                             <b-form-input v-model="order.workingCategoryId" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="工項描述: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
                             <b-form-input v-model="order.workingCategoryDescription" disabled />
                         </b-form-group>
                     </div>
                 </TitledCard>
                 <TitledCard title="地址">
                     <div class="m-2">
-                        <b-form-group label-cols="4" label="城市: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
                             <b-form-input v-model="order.addressCity" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="4" label="區: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
                             <b-form-input v-model="order.addressArea" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="4" label="街道: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
                             <b-form-input v-model="order.addressStreet" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="4" label="門牌樓層: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
                             <b-form-input v-model="order.addressDetail" disabled />
                         </b-form-group>
                     </div>
                 </TitledCard>
                 <TitledCard title="客戶專用">
-                    <b-form-group label-cols="auto" label="統編: ">
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
                         <b-form-input disabled />
                     </b-form-group>
-                    <b-form-group label-cols="auto" label="抬頭: ">
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="抬頭: ">
                         <b-form-input disabled />
                     </b-form-group>
                 </TitledCard>
@@ -64,28 +64,28 @@
             <b-col>
                 <TitledCard title="費用">
                     <div class="m-2">
-                        <b-form-group label-cols="auto" label="師傅報價: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
                             <b-form-input disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="距離加成: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
                             <b-form-input disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="師傅星等: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等: ">
                             <b-form-input disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="時間加成: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
                             <b-form-input disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="平台服務費: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="平台服務費: ">
                             <b-form-input v-model="order.platformServicePrice" disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="優惠卷折扣: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="優惠卷折扣: ">
                             <b-form-input disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="派遣費折讓: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="派遣費折讓: ">
                             <b-form-input disabled />
                         </b-form-group>
-                        <b-form-group label-cols="auto" label="訂單總金額: ">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
                             <b-form-input v-model="order.orderTotalPrice" disabled />
                         </b-form-group>
                     </div>
@@ -93,10 +93,10 @@
                 <TitledCard title="其他">
                     <div class="m-2">
                         <b-form-group>
-                            <b-form-group label-cols="auto" label="預期開工日: ">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
                                 <b-form-input disabled />
                             </b-form-group>
-                            <b-form-group label-cols="auto" label="保固完結日: ">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="保固完結日: ">
                                 <b-form-input disabled />
                             </b-form-group>
                             <b-form-group label-cols="4" label="建立日期: ">

@@ -116,7 +116,7 @@
                     .where("order_master_mapping.order_id", "LIKE", `${this.order.id}`);
                 try {
                     const res = await query.get();
-                    this.matchedMasters = res.data;
+                    this.matchedMasters = res.data.map(e => e.masterUserId);
                     this.totalCount = res.totalCount;
                 } catch (e) {
                     console.log(e)

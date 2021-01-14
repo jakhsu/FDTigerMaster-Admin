@@ -10,12 +10,30 @@
         <b-row>
             <b-col sm="12" xl="6">
                 <TitledCard title="符合工項的師傅">
+                    <div class="SearchBar d-flex mb-3">
+                        <b-button class="ml-2" variant="primary" @click="onSearchClick">
+                            開始搜尋
+                        </b-button>
+                        <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
+                            清空搜尋列
+                        </b-button>
+                    </div>
                     <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount" :fields="fields"
                         :datas="matchedMasters">
+                        <template #top-row="matchedMasters">
+                            <b-td v-for="(field, index) in matchedMasters.fields" :key="index">
+                                <b-form-input v-model="search[field.key]" :name="field.key"
+                                    :placeholder="field.label" />
+                            </b-td>
+                        </template>
                         <template #cell(phone)="matchedMasters">
                             <router-link :to="`/home/user_detail?userId=${matchedMasters.item.id}`">
                                 {{ matchedMasters.value }}
                             </router-link>
+                        </template>
+                        <template #cell(action)>
+                            <b-button size="sm">指定</b-button>
+                            <b-button class="ml-2" size="sm">轉單</b-button>
                         </template>
                     </CustomTable>
                 </TitledCard>
@@ -29,12 +47,10 @@
                         <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                             清空搜尋列
                         </b-button>
-                        <b-button class="ml-auto" variant="success">轉單/指定 這位師傅
-                        </b-button>
                     </div>
                     <CustomTable ref="customTable" :isSelectable="true" :queryRows="totalCount" :totalRows="totalCount"
                         :fields="fields" :datas="searchedMasters" :isBusy="tableBusy" @dataRequire="onDataRequire">
-                        <template b-toaster-top-full #top-row="searchedMasters">
+                        <template #top-row="searchedMasters">
                             <b-td v-for="(field, index) in searchedMasters.fields" :key="index">
                                 <b-form-select v-if="field.key == 'status'" v-model="search['status']">
                                     <option value="0">停用</option>
@@ -55,6 +71,10 @@
                         </template>
                         <template #cell(roleId)="searchedMasters">
                             {{ roleIdMap[searchedMasters.value] }}
+                        </template>
+                        <template #cell(action)>
+                            <b-button size="sm">指定</b-button>
+                            <b-button class="ml-2" size="sm">轉單</b-button>
                         </template>
                     </CustomTable>
                 </TitledCard>
@@ -88,24 +108,29 @@
                 queryRows: 0,
                 tableBusy: false,
                 fields: [{
-                    "key": "phone",
-                    "label": "師傅電話"
-                }, {
-                    "key": "name",
-                    "label": "姓名"
-                }, {
-                    "key": "distance",
-                    "label": "師傅距離"
-                }, {
-                    "key": "addressCity",
-                    "label": "城市"
-                }, {
-                    "key": "addressArea",
-                    "label": "區"
-                }, {
-                    "key": "addressStreet",
-                    "label": "街道"
-                }],
+                        "key": "action",
+                        "label": "操作"
+                    },
+                    {
+                        "key": "phone",
+                        "label": "師傅電話"
+                    }, {
+                        "key": "name",
+                        "label": "姓名"
+                    }, {
+                        "key": "distance",
+                        "label": "師傅距離"
+                    }, {
+                        "key": "addressCity",
+                        "label": "城市"
+                    }, {
+                        "key": "addressArea",
+                        "label": "區"
+                    }, {
+                        "key": "addressStreet",
+                        "label": "街道"
+                    }
+                ],
                 searchedMasters: [],
                 search: {}
             }
