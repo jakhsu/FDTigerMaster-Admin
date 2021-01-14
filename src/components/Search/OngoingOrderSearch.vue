@@ -98,7 +98,6 @@
                 try {
                     const res = await query.get();
                     this.$emit("SuccessfulSearch", res)
-                    this.search = {}
                 } catch (e) {
                     this.$bvModal.show("Search-Fail-Modal");
                 }

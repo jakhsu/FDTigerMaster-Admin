@@ -54,10 +54,6 @@
                                             {{ data.value }}
                                         </router-link>
                                     </template>
-                                    <template #cell(masterUserId)="data">
-                                        <router-link :to="`/home/user_detail?userId=${data.value}`">{{ data.value }}
-                                        </router-link>
-                                    </template>
                                     <template #cell(masterUserPhone)="data">
                                         <router-link :to="`/home/user_detail?userId=${data.item.masterUserId}`">
                                             {{ data.value }}
@@ -161,7 +157,6 @@
                     this.orders = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
-                    this.search = {}
                 } catch (e) {
                     this.$bvModal.show("Search-Fail-Modal");
                 } finally {
