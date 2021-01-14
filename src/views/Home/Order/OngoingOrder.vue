@@ -20,13 +20,13 @@
                         <TitledCard title="媒合中訂單" bodyBackgroundColor="#457CD6" fluid>
                             <template #title-card-header>
                                 <span class="Order-Number-Container">
-                                    <span class="Order-Number-Content"><strong>{{nangangOrders.length}}</strong></span>
+                                    <span class="Order-Number-Content"><strong>{{matchingOrders.length}}</strong></span>
                                     張訂單
                                 </span>
                             </template>
                             <div class="Order-Panel">
                                 <OrderCard @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
-                                    v-for="(order, index) in nangangOrders" :key="index" :orderData="order"
+                                    v-for="(order, index) in matchingOrders" :key="index" :orderData="order"
                                     class="mt-0" />
                             </div>
                         </TitledCard>
@@ -35,13 +35,13 @@
                         <TitledCard title="施工中訂單" bodyBackgroundColor="#457CD6" fluid>
                             <template #title-card-header>
                                 <span class="Order-Number-Container">
-                                    <span class="Order-Number-Content"><strong>5</strong></span>
+                                    <span class="Order-Number-Content"><strong>{{ongoingOrders.length}}</strong></span>
                                     張訂單
                                 </span>
                             </template>
                             <div class="Order-Panel">
                                 <OrderCard @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
-                                    v-for="(order, index) in workingOrders" :key="index" :orderData="order"
+                                    v-for="(order, index) in ongoingOrders" :key="index" :orderData="order"
                                     class="mt-0" />
                             </div>
                         </TitledCard>
@@ -50,15 +50,14 @@
                         <TitledCard title="待結帳訂單" bodyBackgroundColor="#457CD6" fluid>
                             <template #title-card-header>
                                 <span class="Order-Number-Container">
-                                    <span class="Order-Number-Content"><strong>5</strong></span>
+                                    <span class="Order-Number-Content"><strong>{{ToBePaidOrders.length}}</strong></span>
                                     張訂單
                                 </span>
                             </template>
                             <div class="Order-Panel">
                                 <OrderCard @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
-                                    v-for="(order, index) in notpayOrders" :key="index" :orderData="order" class="mt-0">
-                                    <router-link :to="`/home/order_detail?orderId=202020`">
-                                    </router-link>
+                                    v-for="(order, index) in ToBePaidOrders" :key="index" :orderData="order"
+                                    class="mt-0">
                                 </OrderCard>
 
                             </div>
@@ -90,6 +89,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import OngoingOrderSearch from '@/components/Search/OngoingOrderSearch.vue'
 
+    import tigermaster from 'fdtigermaster-admin-sdk'
     export default {
         name: "OngoingOrder",
         components: {
@@ -100,82 +100,15 @@
         },
         data() {
             return {
-                workingOrders: [{
-                    "id": "RO1216",
-                    "clientUserId": "benny139",
-                    "addressCity": "台北市",
-                    "addressArea": "中正區",
-                    "addressStreet": "八德路１段",
-                    "addressDetail": "1号",
-                    "workingCategoryId": "TM-K010101",
-                    "status": 25,
-                    "updateDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, {
-                    "id": "RO1217",
-                    "clientUserId": "jack123",
-                    "addressCity": "新北市",
-                    "addressArea": "三重區",
-                    "addressStreet": "三重路１段",
-                    "addressDetail": "5號",
-                    "workingCategoryId": "TM-X010101",
-                    "status": 30,
-                    "updateDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, {
-                    "id": "RO1218",
-                    "clientUserId": "rui123",
-                    "addressCity": "台中市",
-                    "addressArea": "中山區",
-                    "addressStreet": "八德路１段",
-                    "addressDetail": "2號",
-                    "workingCategoryId": "TM-Q010101",
-                    "status": 35,
-                    "updateDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }],
-                notpayOrders: [{
-                    "id": "RO1216",
-                    "clientUserId": "benny139",
-                    "addressCity": "台北市",
-                    "addressArea": "中正區",
-                    "addressStreet": "八德路１段",
-                    "addressDetail": "1号",
-                    "workingCategoryId": "TM-K010101",
-                    "status": 50,
-                    "updateDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, {
-                    "id": "RO1217",
-                    "clientUserId": "jack123",
-                    "addressCity": "新北市",
-                    "addressArea": "三重區",
-                    "addressStreet": "三重路１段",
-                    "addressDetail": "5號",
-                    "workingCategoryId": "TM-X010101",
-                    "status": 45,
-                    "updateDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }, {
-                    "id": "RO1218",
-                    "clientUserId": "rui123",
-                    "addressCity": "台中市",
-                    "addressArea": "中山區",
-                    "addressStreet": "八德路１段",
-                    "addressDetail": "2號",
-                    "workingCategoryId": "TM-Q010101",
-                    "status": 45,
-                    "updateDate": "2020-12-24 08:06:12",
-                    "additionalDistancePrice": 0,
-                    "createBy": "Call-center"
-                }],
                 orders: [],
                 isLoading: false
+            }
+        },
+        created() {
+            try {
+                this.fetchOngoiningOrders();
+            } catch (e) {
+                console.log(e)
             }
         },
         methods: {
@@ -192,24 +125,29 @@
             },
             handleSearchResult(result) {
                 this.orders = result.data;
+            },
+            async fetchOngoiningOrders() {
+                let query = tigermaster.database.query("generic_order");
+                const res = await query.where("generic_order.status", "<", "50").get();
+                this.orders = res.data;
             }
         },
         computed: {
             // this is the implementation of filtering out different sets of orders
-            nangangOrders() {
+            matchingOrders() {
                 return this.orders.filter((order) => {
-                    return order.addressArea === '南港區';
+                    return [5, 10].includes(order.status);
                     // here I can easily determine what condition to set
                 });
             },
             ongoingOrders() {
                 return this.orders.filter((order) => {
-                    return order.status < 15;
+                    return [15, 20, 25, 30, 35, 40].includes(order.status);
                 })
             },
             ToBePaidOrders() {
                 return this.orders.filter((order) => {
-                    return order.status < 50;
+                    return [45].includes(order.status);
                 })
             },
             specialOrders() {
