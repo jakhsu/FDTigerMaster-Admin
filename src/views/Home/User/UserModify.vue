@@ -137,11 +137,7 @@
                             </div>
                         </TitledCard>
                         <TitledCard title="用戶照片">
-                            <ImgUpload v-if="canUploadImg" @FileUpload="onFileUpload" />
-                            <b-button v-if="!canUploadImg" @click="allowUpload">開始上傳</b-button>
-                            <div class="row justify-content-center">
-                                <ImgFetch class="mt-2" :imgURL="userData.headShotPath" />
-                            </div>
+                            <ImgUpload @FileUpload="onFileUpload" />
                         </TitledCard>
                         <TitledCard v-if=" userData.roleId===1 || userData.roleId===2" title="客戶專用">
                             <div class="m-2">
@@ -215,7 +211,6 @@
     import * as iconv from 'iconv-lite'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
-    import ImgFetch from '@/components/Image/ImgFetch.vue'
 
     export default {
         name: 'UserModify',
@@ -223,7 +218,6 @@
             Loading,
             TitledCard,
             ImgUpload,
-            ImgFetch,
         },
         data() {
             return {

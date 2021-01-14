@@ -6,7 +6,7 @@
                     <TitledCard title="證照列表:">
                         <div class="row justify-content-center">
                             <scale-loader v-if="!fetchURL.length > 0" />
-                            <imgFetch v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user" />
+                            <ImgFetch v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -14,8 +14,8 @@
                     <TitledCard title="上傳區:">
                         <div class="uploadForm">
                             <b-form>
-                                <ImgUpload @FileUpload="handleUpload" class="mb-2" />
-                                <b-form-group label-cols="3" label-cols-xl="2" label="證照描述: ">
+                                <ImgUpload v-bind:showsPreview="false" @FileUpload="handleUpload" class="mb-2" />
+                                <b-form-group label="證照描述: ">
                                     <b-form-textarea v-model="toBeUploaded.description"></b-form-textarea>
                                 </b-form-group>
                             </b-form>
@@ -34,7 +34,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
     import UserImage from 'fdtigermaster-admin-sdk/lib/src/Image/UserImage'
-    import imgFetch from '@/components/Image/imgFetch.vue'
+    import ImgFetch from '@/components/Image/ImgFetch.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
@@ -42,7 +42,7 @@
         components: {
             TitledCard,
             ImgUpload,
-            imgFetch,
+            ImgFetch,
         },
         props: {
             user: Object

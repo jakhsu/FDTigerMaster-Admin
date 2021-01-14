@@ -22,7 +22,7 @@
                         :datas="matchedMasters">
                         <template #top-row="matchedMasters">
                             <b-td v-for="(field, index) in matchedMasters.fields" :key="index">
-                                <b-form-input v-model="search[field.key]" :name="field.key"
+                                <b-form-input v-if="field.key != 'action'" v-model="search[field.key]" :name="field.key"
                                     :placeholder="field.label" />
                             </b-td>
                         </template>

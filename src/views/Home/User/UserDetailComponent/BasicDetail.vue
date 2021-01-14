@@ -88,10 +88,8 @@
                 </b-col>
                 <b-col xl="6" lg="12">
                     <TitledCard title="用戶照片">
-                        <div v-if="user.headShotPath">
-                            <imgFetch :fetchURL="user.headShotPath" :user="user" />
-                        </div>
-                        <div v-else>
+                        <ImgFetch :fetchURL="headShotPath" :user="user" />
+                        <div v-if="!headShotPath">
                             <b-card>
                                 <font-awesome-icon icon="user-slash" />
                                 <h3>抱歉，此用戶尚未上傳大頭照</h3>
@@ -183,7 +181,7 @@
     import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
 
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
-    import imgFetch from '@/components/Image/imgFetch.vue'
+    import ImgFetch from '@/components/Image/ImgFetch.vue'
 
     export default {
         name: "BasicDetail",
@@ -191,7 +189,7 @@
             TitledCard,
             ActivateModal,
             DeactivateModal,
-            imgFetch
+            ImgFetch
         },
         props: {
             user: {},
@@ -214,6 +212,11 @@
             },
             onStatusChangeFinish() {
                 this.$emit("refresh");
+            }
+        },
+        computed: {
+            headShotPath() {
+                return [this.user.headShotPath];
             }
         }
     }

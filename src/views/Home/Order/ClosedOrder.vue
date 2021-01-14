@@ -113,7 +113,7 @@
                 this.tableBusy = true;
                 try {
                     const database = tigermaster.database;
-                    const query = database.query("generic_order");
+                    const query = database.query("generic_order").limit(10);
                     const result = await query.get();
                     this.orders = result.data;
                     this.queryRows = result.queryRows;

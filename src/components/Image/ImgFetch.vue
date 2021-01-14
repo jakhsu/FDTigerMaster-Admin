@@ -1,7 +1,9 @@
 <template>
     <div id="img-area">
         <scale-loader v-if="isFetching" />
-        <img v-for="(img,index) in url" :key="index" :src="img" alt="" width="200px">
+        <div v-else>
+            <img class="m-2" v-for="(img,index) in url" :key="index" :src="img" alt="" width="200px">
+        </div>
     </div>
 </template>
 
@@ -9,7 +11,7 @@
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
-        name: 'imgFetch',
+        name: 'ImgFetch',
         props: {
             user: Object,
             fetchURL: Array
@@ -26,7 +28,7 @@
             const user = tigermaster.auth.currentUser;
             this.token = user.token;
             try {
-                this.fetchUserPicture();
+                await this.fetchUserPicture();
             } catch (e) {
                 console.log(e)
             } finally {

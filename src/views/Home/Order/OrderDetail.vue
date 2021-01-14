@@ -101,7 +101,7 @@
             async fetchOrderData() {
                 const database = tigermaster.database;
                 const query = database.query("generic_order");
-                query.where(`generic_order.id`, 'LIKE', `${this.$route.query.orderId}`);
+                query.where(`generic_order.id`, '=', `${this.$route.query.orderId}`);
                 try {
                     const response = await query.get();
                     this.order = response.data[0];
@@ -113,10 +113,10 @@
                 const database = tigermaster.database;
                 const query = database
                     .query("order_master_mapping")
-                    .where("order_master_mapping.order_id", "LIKE", `${this.order.id}`);
+                    .where("order_master_mapping.order_id", "=", `${this.order.id}`);
                 try {
                     const res = await query.get();
-                    this.matchedMasters = res.data.map(e => e.masterUserId);
+                    this.matchedMasters = res.data;
                     this.totalCount = res.totalCount;
                 } catch (e) {
                     console.log(e)

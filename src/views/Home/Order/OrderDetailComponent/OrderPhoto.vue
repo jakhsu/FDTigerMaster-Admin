@@ -1,29 +1,41 @@
 <template>
     <div>
-        <TitledCard title="施工照片">
-            <SimpleModal id="upload-modal" title="上傳施工照">
-                <template #modal-body>
-                    <b-row>
-                        <b-col>
-                            <img height="200" width="200" v-if="imageFile" :src="imagePath" alt="">
-                        </b-col>
-                        <b-col>
-                            <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
-                                style="display:none">
-                            <b-button class="ml-2" @click="$refs.file.click()" variant="primary">
-                                選擇檔案
-                            </b-button>
-                        </b-col>
-                    </b-row>
-                </template>
-            </SimpleModal>
-            <div>
+        <SimpleModal id="upload-modal" title="上傳施工照">
+            <template #modal-body>
+                <b-row>
+                    <b-col>
+                        <img height="200" width="200" v-if="imageFile" :src="imagePath" alt="">
+                    </b-col>
+                    <b-col>
+                        <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
+                            style="display:none">
+                        <b-button class="ml-2" @click="$refs.file.click()" variant="primary">
+                            選擇檔案
+                        </b-button>
+                    </b-col>
+                </b-row>
+            </template>
+        </SimpleModal>
+        <b-container fluid>
+            <div class="d-flex mt-3">
                 <b-button v-b-modal="'upload-modal'" variant="success">上傳施工照片</b-button>
             </div>
-            <div>
+            <b-row>
+                <b-col>
+                    <TitledCard title="施工前照片">
 
-            </div>
-        </TitledCard>
+                    </TitledCard>
+                </b-col>
+                <b-col>
+                    <TitledCard title="施工中照片">
+                    </TitledCard>
+                </b-col>
+                <b-col>
+                    <TitledCard title="完工照片">
+                    </TitledCard>
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
