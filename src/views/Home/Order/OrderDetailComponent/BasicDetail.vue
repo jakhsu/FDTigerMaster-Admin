@@ -68,13 +68,13 @@
                             <b-form-input disabled />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                            <b-form-input disabled />
+                            <b-form-input v-model="order.distanceBonus" disabled />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等: ">
-                            <b-form-input disabled />
+                            <b-form-input v-model="order.masterScoreBonus" disabled />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
-                            <b-form-input disabled />
+                            <b-form-input v-model="order.timeBonus" disabled />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="平台服務費: ">
                             <b-form-input v-model="order.platformServicePrice" disabled />

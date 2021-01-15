@@ -292,6 +292,18 @@
                     }
                     delete this.userData["pass"];
                     await this.currentUser.update(this.userData);
+                    this.updateHeadshot();
+                    this.$router.push({
+                        path: '/home/user_detail',
+                        query: {
+                            userId: this.userData.id
+                        }
+                    });
+                    this.isLoading = false;
+                }
+            },
+            updateHeadshot() {
+                if (this.toBeUploadedHeadShot.name) {
                     try {
                         this.currentUser.updateHeadshot(this.toBeUploadedHeadShot)
                         this.$bvToast.toast('成功上傳大頭照', {
@@ -303,13 +315,6 @@
                     } catch (e) {
                         console.log(e)
                     }
-                    this.$router.push({
-                        path: '/home/user_detail',
-                        query: {
-                            userId: this.userData.id
-                        }
-                    });
-                    this.isLoading = false;
                 }
             },
             onCancelEdit() {
