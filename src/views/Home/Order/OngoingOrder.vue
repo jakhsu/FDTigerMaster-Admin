@@ -1,6 +1,8 @@
 <template>
     <Loading v-if="isLoading" />
     <div v-else id="Order">
+        <OrderCreateModal>
+        </OrderCreateModal>
         <b-container fluid>
             <div class="Order-Area">
                 <b-row>
@@ -90,15 +92,18 @@
     import OngoingOrderSearch from '@/components/Search/OngoingOrderSearch.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
     export default {
         name: "OngoingOrder",
         components: {
             Loading,
             OrderCard,
             TitledCard,
-            OngoingOrderSearch
+            OngoingOrderSearch,
+            OrderCreateModal
         },
         data() {
+            OrderCreateModal
             return {
                 orders: [],
                 isLoading: false

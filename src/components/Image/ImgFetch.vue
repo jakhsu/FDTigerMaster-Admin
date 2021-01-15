@@ -25,7 +25,7 @@
             }
         },
         async created() {
-            const user = tigermaster.auth.currentUser;
+            const user = tigermaster.auth.currentUser || {};
             this.token = user.token;
             try {
                 await this.fetchUserPicture();

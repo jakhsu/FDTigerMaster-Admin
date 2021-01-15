@@ -1,19 +1,12 @@
 <template>
     <div>
-        <SimpleModal id="upload-modal" title="上傳施工照">
+        <SimpleModal :isLoading="isLoading" id="upload-modal" title="上傳施工照" @onSaveClick="uploadImg">
             <template #modal-body>
-                <b-row>
-                    <b-col>
-                        <img height="200" width="200" v-if="imageFile" :src="imagePath" alt="">
-                    </b-col>
-                    <b-col>
-                        <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
-                            style="display:none">
-                        <b-button class="ml-2" @click="$refs.file.click()" variant="primary">
-                            選擇檔案
-                        </b-button>
-                    </b-col>
-                </b-row>
+                <ImgUpload @FileUpload="handleUpload" />
+                <b-form-group label="照片描述">
+                    <b-form-input v-model="imageDescrption">
+                    </b-form-input>
+                </b-form-group>
             </template>
         </SimpleModal>
         <b-container fluid>
@@ -23,7 +16,7 @@
             <b-row>
                 <b-col>
                     <TitledCard title="施工前照片">
-
+                        <ImgFetch :fetchURL="fetchURL" v-if="fetchURL.length > 0" />
                     </TitledCard>
                 </b-col>
                 <b-col>
@@ -41,40 +34,68 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import OrderImage from 'fdtigermaster-admin-sdk/lib/src/Image/OrderImage'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import ImgUpload from '@/components/Image/ImgUpload.vue'
+
+    import tigermaster from 'fdtigermaster-admin-sdk'
+    import ImgFetch from '@/components/Image/ImgFetch.vue'
     export default {
         components: {
             TitledCard,
-            SimpleModal
+            SimpleModal,
+            ImgUpload,
+            ImgFetch
         },
         name: 'OrderPhoto',
         props: {
-
+            order: {
+                type: Object
+            }
         },
         data() {
             return {
                 photo: Object,
                 imageFile: {},
-                imagePath: ''
+                imageDescrption: '',
+                isLoading: false,
+                pictures: []
             }
         },
-        created() {
-            console.log(this.photo instanceof OrderImage)
+        async created() {
+            let query = tigermaster.database.query("order_picture");
+            query.where("order_picture.order_id", "=", this.order.id);
+            try {
+                const res = await query.get();
+                this.pictures = res.data;
+            } catch (e) {
+                console.log(e)
+            }
         },
         methods: {
-            handleImage(e) {
-                const imageFile = e.target.files[0];
-                this.imageFile = imageFile;
-                this.createBase64Image(imageFile);
-            },
-            createBase64Image(fileObject) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.imagePath = e.target.result;
+            async uploadImg() {
+                if (this.imageFile.name) {
+                    this.isLoading = true;
+                    const orderImg = tigermaster.image.OrderImage;
+                    try {
+                        await orderImg.upload(this.order.id, this.imageFile, this.imageDescrption)
+                    } catch (e) {
+                        console.log(e)
+                    } finally {
+                        this.$bvModal.hide('upload-modal');
+                        this.isLoading = false;
+                    }
+                } else {
+                    console.log("image file is empty")
                 }
-                reader.readAsDataURL(fileObject)
             },
+            handleUpload(file) {
+                this.imageFile = file;
+            }
+        },
+        computed: {
+            fetchURL() {
+                return this.pictures.map(e => e.path);
+            }
         }
     }
 </script>

@@ -7,6 +7,8 @@
                 </p>
             </template>
         </SimpleModal>
+        <OrderCreateModal @onOrderCreate="handleOrderCreate">
+        </OrderCreateModal>
         <b-container fluid>
             <div class="Order-Area">
                 <b-row>
@@ -37,7 +39,7 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
-                                <b-button class="ml-auto" variant="success" v-b-modal="'User-Create-Modal'">新增訂單
+                                <b-button class="ml-auto" variant="success" v-b-modal="'Order-Create-Modal'">新增訂單
                                 </b-button>
                             </div>
                             <div class="Order-Table">
@@ -81,6 +83,7 @@
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
 
     export default {
         name: "ClosedOrder",
@@ -88,7 +91,8 @@
             DataCard,
             TitledCard,
             CustomTable,
-            SimpleModal
+            SimpleModal,
+            OrderCreateModal
         },
         async created() {
             this.fetchAllOrders();
@@ -182,6 +186,9 @@
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
+            },
+            handleOrderCreate(order) {
+                console.log(order)
             }
         }
     }
