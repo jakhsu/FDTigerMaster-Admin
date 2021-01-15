@@ -38,15 +38,17 @@
         methods: {
             async fetchUserPicture() {
                 for (let i = 0; i < this.fetchURL.length; i++) {
-                    let response = await fetch(this.fetchURL[i], {
-                        method: 'GET',
-                        headers: {
-                            "Authorization": this.token
-                        }
-                    });
-                    await response.blob().then(imgBlob => {
-                        this.url.push(URL.createObjectURL(imgBlob))
-                    });
+                    if (this.fetchURL[i]) {
+                        let response = await fetch(this.fetchURL[i], {
+                            method: 'GET',
+                            headers: {
+                                "Authorization": this.token
+                            }
+                        });
+                        await response.blob().then(imgBlob => {
+                            this.url.push(URL.createObjectURL(imgBlob))
+                        });
+                    }
                 }
             }
         }
