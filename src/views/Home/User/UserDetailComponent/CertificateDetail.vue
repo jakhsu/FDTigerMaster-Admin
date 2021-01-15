@@ -33,7 +33,6 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
-    import UserImage from 'fdtigermaster-admin-sdk/lib/src/Image/UserImage'
     import ImgFetch from '@/components/Image/ImgFetch.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
 
@@ -103,26 +102,29 @@
             }
         },
         async created() {
-            try {
-                const res = await tigermaster.database
-                    .query("user_picture")
-                    .where("user_picture.user_id", "=", `${this.user.id}`)
-                    .get();
-                this.fetchURL = res.data.map(e =>
-                    e.path
-                )
-            } catch (e) {
-                console.log(e)
-            }
+            this.fetchCertificateURLs();
         },
         methods: {
+            async fetchCertificateURLs() {
+                try {
+                    const res = await tigermaster.database
+                        .query("user_picture")
+                        .where("user_picture.user_id", "=", `${this.user.id}`)
+                        .get();
+                    this.fetchURL = res.data.map(e =>
+                        e.path
+                    )
+                } catch (e) {
+                    console.log(e)
+                }
+            },
             handleUpload(file) {
                 this.toBeUploaded.imageFile = file;
             },
             async upload() {
-                const image = new UserImage;
+                const userImage = tigermaster.image.UserImage;
                 try {
-                    await image.upload(
+                    await userImage.upload(
                         this.toBeUploaded.id,
                         this.toBeUploaded.imageFile,
                         this.toBeUploaded.description
