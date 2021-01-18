@@ -11,6 +11,19 @@
                 </b-form-group>
             </template>
         </SimpleModal>
+        <SimpleModal id="Picture-Detail-Modal" title="施工照資料" @onSaveClick="onModalSave">
+            <template #modal-body>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="照片描述">
+                    <b-input v-model="detailedPicture.pictureDesc" disabled />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳時間">
+                    <b-input v-model="detailedPicture.createDate" disabled />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳者">
+                    <b-input v-model="detailedPicture.createBy" disabled />
+                </b-form-group>
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="d-flex mt-3">
                 <b-button v-b-modal="'upload-modal'" variant="success">上傳施工照片</b-button>
@@ -19,27 +32,19 @@
                 <b-col>
                     <TitledCard title="施工前照片">
                         <ImgFetch class="hello" :fetchURL="stage1Paths" v-if="stage1Paths.length > 0"
-                            :key="updateKey.ImgFetch" />
+                            :key="updateKey.ImgFetch" @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="施工中照片">
-                        <ImgFetch :fetchURL="stage2Paths" v-if="stage2Paths.length > 0" :key="updateKey" />
+                        <ImgFetch :fetchURL="stage2Paths" v-if="stage2Paths.length > 0" :key="updateKey"
+                            @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="完工照片">
-                        <ImgFetch :fetchURL="stage3Paths" v-if="stage3Paths.length > 0" :key="updateKey.ImgFetch" />
-                        <div v-for="(img, index) in stage3Paths" :key="index">
-                            <ul>
-                                <li>
-                                    描述:{{stage3Pics[index].pictureDesc}}
-                                </li>
-                                <li>
-                                    加入日期:{{stage3Pics[index].createDate}}
-                                </li>
-                            </ul>
-                        </div>
+                        <ImgFetch :fetchURL="stage3Paths" v-if="stage3Paths.length > 0" :key="updateKey.ImgFetch"
+                            @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
             </b-row>
@@ -76,6 +81,7 @@
                 imageStage: Number,
                 isLoading: false,
                 OrderPicStage,
+                detailedPicture: {},
                 pictures: [],
                 updateKey: 20
             }
@@ -115,6 +121,13 @@
             },
             handleUpload(file) {
                 this.imageFile = file;
+            },
+            openImgModal(url) {
+                this.detailedPicture = this.pictures.find(e => e.path === url)
+                this.$bvModal.show("Picture-Detail-Modal")
+            },
+            onModalSave() {
+                this.$bvModal.hide("Picture-Detail-Modal")
             }
         },
         computed: {

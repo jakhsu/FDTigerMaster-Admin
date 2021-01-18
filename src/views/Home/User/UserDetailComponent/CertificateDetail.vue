@@ -1,11 +1,25 @@
 <template>
     <div id="CertificateDetail">
         <b-container fluid>
+            <SimpleModal id="Certificate-Detail-Modal" title="證照細節" @onSaveClick="onModalSave">
+                <template #modal-body>
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="證照敘述">
+                        <b-input v-model="detailedCert.pictureDesc" disabled />
+                    </b-form-group>
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳時間">
+                        <b-input v-model="detailedCert.createDate" disabled />
+                    </b-form-group>
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳者">
+                        <b-input v-model="detailedCert.createBy" disabled />
+                    </b-form-group>
+                </template>
+            </SimpleModal>
             <b-row>
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div class="row justify-content-center">
-                            <ImgFetch :key="imgFetchKey" v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user" />
+                            <ImgFetch :key="imgFetchKey" v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user"
+                                @imgClicked="openImgModal" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -35,6 +49,7 @@
     import ImgUpload from '@/components/Image/ImgUpload.vue'
     import ImgFetch from '@/components/Image/ImgFetch.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     export default {
         name: "CertificateDetail",
@@ -42,6 +57,7 @@
             TitledCard,
             ImgUpload,
             ImgFetch,
+            SimpleModal
         },
         props: {
             user: Object
@@ -50,53 +66,14 @@
             return {
                 currentUser: Object,
                 userData: {},
-                items: [{
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                    {
-                        技能編號: "TH-W0101",
-                        技能敘述: "排水溝清理"
-                    },
-                ],
                 toBeUploaded: {
                     id: this.user.id,
                     imageFile: {},
                     description: ''
                 },
                 fetchURL: [],
+                certificates: [],
+                detailedCert: {},
                 imgFetchKey: 0,
                 imgUploadKey: 0
             }
@@ -111,6 +88,7 @@
                         .query("user_picture")
                         .where("user_picture.user_id", "=", `${this.user.id}`)
                         .get();
+                    this.certificates = res.data;
                     this.fetchURL = res.data.map(e =>
                         e.path
                     )
@@ -135,6 +113,13 @@
                 } catch (e) {
                     console.log(e)
                 }
+            },
+            openImgModal(url) {
+                this.detailedCert = this.certificates.find(e => e.path === url)
+                this.$bvModal.show("Certificate-Detail-Modal")
+            },
+            onModalSave() {
+                this.$bvModal.hide("Certificate-Detail-Modal")
             }
         }
     }

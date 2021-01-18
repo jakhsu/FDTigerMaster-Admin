@@ -1,7 +1,8 @@
 <template>
     <div id="img-area">
         <scale-loader v-if="isFetching" />
-        <img :class="imgClass" v-for="(img,index) in url" :key="index" :src="img" alt="" width="200px">
+        <img @click="onImgClicked(index)" :class="imgClass" v-for="(img,index) in url" :key="index" :src="img" alt=""
+            width="200px">
     </div>
 </template>
 
@@ -52,6 +53,9 @@
                         });
                     }
                 }
+            },
+            onImgClicked(index) {
+                this.$emit("imgClicked", this.fetchURL[index])
             }
         }
     }
