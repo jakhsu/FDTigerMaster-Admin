@@ -47,8 +47,10 @@
                                     :datas="orders" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
-                                            <b-form-input v-model.trim="search[field.key]" :name="field.key"
-                                                :placeholder="`${field.label}`" />
+                                            <b-select v-if="field.key === 'status'" :options="OrderStatus"
+                                                v-model="search[field.key]" />
+                                            <b-form-input v-if="field.key !== 'status'" v-model.trim="search[field.key]"
+                                                :name="field.key" :placeholder="`${field.label}`" />
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
@@ -81,6 +83,7 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
+    import OrderStatus from '@/config/OrderStatus.json'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
@@ -100,6 +103,7 @@
         data() {
             return {
                 fields: OrderTable,
+                OrderStatus,
                 orders: [],
                 search: {},
                 queryRows: 0,
