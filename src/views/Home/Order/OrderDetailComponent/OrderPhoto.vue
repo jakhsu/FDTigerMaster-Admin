@@ -4,8 +4,10 @@
             <template #modal-body>
                 <ImgUpload @FileUpload="handleUpload" />
                 <b-form-group label="照片描述">
-                    <b-form-input v-model="imageDescrption">
-                    </b-form-input>
+                    <b-form-textarea v-model="imageDescrption" />
+                </b-form-group>
+                <b-form-group label="施工進度">
+                    <b-select :options="OrderPicStage" v-model="imageStage" />
                 </b-form-group>
             </template>
         </SimpleModal>
@@ -16,15 +18,17 @@
             <b-row>
                 <b-col>
                     <TitledCard title="施工前照片">
-                        <ImgFetch :fetchURL="fetchURL" v-if="fetchURL.length > 0" />
+                        <ImgFetch :fetchURL="stage1Paths" v-if="stage1Paths.length > 0" :key="updateKey.ImgFetch" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="施工中照片">
+                        <ImgFetch :fetchURL="stage2Paths" v-if="stage2Paths.length > 0" :key="updateKey" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="完工照片">
+                        <ImgFetch :fetchURL="stage3Paths" v-if="stage3Paths.length > 0" :key="updateKey.ImgFetch" />
                     </TitledCard>
                 </b-col>
             </b-row>
@@ -36,6 +40,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
+    import OrderPicStage from '@/config/OrderPicStage.json'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import ImgFetch from '@/components/Image/ImgFetch.vue'
@@ -57,27 +62,36 @@
                 photo: Object,
                 imageFile: {},
                 imageDescrption: '',
+                imageStage: Number,
                 isLoading: false,
-                pictures: []
+                OrderPicStage,
+                pictures: [],
+                updateKey: 20
             }
         },
         async created() {
-            let query = tigermaster.database.query("order_picture");
-            query.where("order_picture.order_id", "=", this.order.id);
-            try {
-                const res = await query.get();
-                this.pictures = res.data;
-            } catch (e) {
-                console.log(e)
-            }
+            this.fetchOrderPicture();
         },
         methods: {
+            async fetchOrderPicture() {
+                let query = tigermaster.database.query("order_picture");
+                query.where("order_picture.order_id", "=", this.order.id);
+                try {
+                    const res = await query.get();
+                    this.pictures = res.data;
+                } catch (e) {
+                    console.log(e)
+                }
+            },
             async uploadImg() {
                 if (this.imageFile.name) {
                     this.isLoading = true;
-                    const orderImg = tigermaster.image.OrderImage;
+                    const image = tigermaster.image;
                     try {
-                        await orderImg.upload(this.order.id, this.imageFile, this.imageDescrption)
+                        await image.OrderImage.upload(this.order.id, this.imageFile, this.imageStage, this
+                            .imageDescrption)
+                        this.fetchOrderPicture();
+                        this.updateKey.ImgFetch++;
                     } catch (e) {
                         console.log(e)
                     } finally {
@@ -93,8 +107,23 @@
             }
         },
         computed: {
-            fetchURL() {
-                return this.pictures.map(e => e.path);
+            stage1Paths() {
+                return this.pictures.filter(e => e.stage === 1).map(e => e.path);
+            },
+            stage2Paths() {
+                return this.pictures.filter(e => e.stage === 2).map(e => e.path);
+            },
+            stage3Paths() {
+                return this.pictures.filter(e => e.stage === 3).map(e => e.path);
+            },
+            stage1Pics() {
+                return this.pictures.filter(e => e.stage === 1);
+            },
+            stage2Pics() {
+                return this.pictures.filter(e => e.stage === 2);
+            },
+            stage3Pics() {
+                return this.pictures.filter(e => e.stage === 3);
             }
         }
     }
