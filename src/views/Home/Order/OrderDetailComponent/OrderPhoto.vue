@@ -18,7 +18,8 @@
             <b-row>
                 <b-col>
                     <TitledCard title="施工前照片">
-                        <ImgFetch :fetchURL="stage1Paths" v-if="stage1Paths.length > 0" :key="updateKey.ImgFetch" />
+                        <ImgFetch class="hello" :fetchURL="stage1Paths" v-if="stage1Paths.length > 0"
+                            :key="updateKey.ImgFetch" />
                     </TitledCard>
                 </b-col>
                 <b-col>
@@ -29,6 +30,16 @@
                 <b-col>
                     <TitledCard title="完工照片">
                         <ImgFetch :fetchURL="stage3Paths" v-if="stage3Paths.length > 0" :key="updateKey.ImgFetch" />
+                        <div v-for="(img, index) in stage3Paths" :key="index">
+                            <ul>
+                                <li>
+                                    描述:{{stage3Pics[index].pictureDesc}}
+                                </li>
+                                <li>
+                                    加入日期:{{stage3Pics[index].createDate}}
+                                </li>
+                            </ul>
+                        </div>
                     </TitledCard>
                 </b-col>
             </b-row>

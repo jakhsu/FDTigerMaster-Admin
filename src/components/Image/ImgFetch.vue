@@ -1,9 +1,7 @@
 <template>
     <div id="img-area">
         <scale-loader v-if="isFetching" />
-        <div v-else>
-            <img class="m-2" v-for="(img,index) in url" :key="index" :src="img" alt="" width="200px">
-        </div>
+        <img :class="imgClass" v-for="(img,index) in url" :key="index" :src="img" alt="" width="200px">
     </div>
 </template>
 
@@ -14,7 +12,11 @@
         name: 'ImgFetch',
         props: {
             user: Object,
-            fetchURL: Array
+            fetchURL: Array,
+            imgClass: {
+                type: String,
+                default: 'm-2'
+            }
         },
         data() {
             return {
