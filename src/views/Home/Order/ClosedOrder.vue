@@ -7,7 +7,7 @@
                 </p>
             </template>
         </SimpleModal>
-        <OrderCreateModal @onOrderCreate="handleOrderCreate">
+        <OrderCreateModal @successfulCreate="onSuccess">
         </OrderCreateModal>
         <b-container fluid>
             <div class="Order-Area">
@@ -187,8 +187,9 @@
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
             },
-            handleOrderCreate(order) {
-                console.log(order)
+            onSuccess() {
+                console.log("successfully created an order :)");
+                this.fetchAllOrders();
             }
         }
     }
