@@ -31,6 +31,19 @@
                                             :placeholder="`${field.label}`" />
                                     </b-td>
                                 </template>
+                                <template #cell(id)="data">
+                                    <router-link :to="`/home/order_detail?orderId=${data.value}`">
+                                        {{ data.value }}
+                                    </router-link>
+                                </template>
+                                <template #cell(masterUserPhone)="data">
+                                    <router-link :to="`/home/user_detail?userId=${data.item.masterUserId}`">
+                                        {{ data.value }}
+                                    </router-link>
+                                </template>
+                                <template #cell(status)="data">
+                                    {{statusMap[data.value]}}
+                                </template>
                             </CustomTable>
                         </div>
                     </TitledCard>
@@ -44,6 +57,10 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import DataCard from '@/components/Card/DataCard.vue'
+    import OrderTable from '@/config/OrderTable.json'
+    import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
+
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "OrderDetail",
@@ -52,132 +69,93 @@
             CustomTable,
             DataCard,
         },
+        props: {
+            user: {
+                type: Object
+            }
+        },
         data() {
             return {
-                orders: [{
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, {
-                    orderId: "TH-TH001",
-                    orderAmount: "2,500 NT",
-                    orderStatus: "已完成",
-                    orderCreatedTime: "2020/05/23 14:53",
-                    orderClosedTime: "2020/06/23 8:24"
-                }, ],
+                fields: OrderTable,
+                orders: [],
                 tableBusy: false,
-                fields: [{
-                        "key": "orderId",
-                        "label": "訂單編號"
-                    },
-                    {
-                        "key": "orderAmount",
-                        "label": "訂單金額"
-                    },
-                    {
-                        "key": "orderStatus",
-                        "label": "訂單狀態"
-                    },
-                    {
-                        "key": "orderCreatedTime",
-                        "label": "下單時間"
-                    },
-                    {
-                        "key": "orderClosedTime",
-                        "label": "完成時間"
-                    }
-                ],
                 search: {},
+                statusMap: OrderStatusMap()
             }
         },
         methods: {
             onDataRequire() {
                 this.tableBusy = true;
             },
-            onSearchClick() {},
+            async onSearchClick() {
+                this.tableBusy = true;
+                let query = tigermaster.database.query("generic_order");
+                let searchArray = Object.entries(this.search);
+                searchArray.forEach(element => {
+                    element[2] = 'LIKE'
+                    element[1] = '%' + element[1] + '%'
+                    if (element[0] === 'workingCategoryDescription') {
+                        query.with('working_category');
+                        query.link('working_category.id', 'generic_order.working_category_id');
+                        query.where('working_category.description', 'LIKE', element[1]);
+                    } else if (element[0] === 'masterUserPhone') {
+                        query.with('user');
+                        query.link('user.id', 'generic_order.master_user_id');
+                        query.where('user.phone', 'LIKE', element[1]);
+                    } else {
+                        if (element[0] === 'masterUserId') {
+                            element[0] = 'master_user_id'
+                        } else if (element[0] === 'addressCity') {
+                            element[0] = 'address_city'
+                        } else if (element[0] === 'addressArea') {
+                            element[0] = 'address_area'
+                        } else if (element[0] === 'addressStreet') {
+                            element[0] = 'address_street'
+                        }
+                        query.where(`generic_order.${element[0]}`, element[2], element[1])
+                    }
+                });
+                if (this.user.roleId == 1 || this.user.roleId == 2) {
+                    query.where("generic_order.client_user_id", "=", `${this.user.id}`);
+                } else if (this.user.roleId === 0) {
+                    query.where("generic_order.master_user_id", "=", `${this.user.id}`);
+                }
+                try {
+
+                    const res = await query.get();
+                    this.orders = res.data;
+                    this.queryRows = res.queryRows;
+                    this.totalCount = res.totalCount;
+                } catch (e) {
+                    console.log("can't find order")
+                } finally {
+                    this.tableBusy = false;
+                }
+            },
             onSearchClearClick() {
                 this.search = {}
             },
+            async fetchUserOrders(roleId) {
+                console.log(roleId)
+                let query = tigermaster.database.query("generic_order");
+                if (roleId == 1 || roleId == 2) {
+                    query.where("generic_order.client_user_id", "=", `${this.user.id}`);
+                } else if (roleId === 0) {
+                    query.where("generic_order.master_user_id", "=", `${this.user.id}`);
+                }
+                try {
+                    this.tableBusy = true;
+                    const res = await query.get();
+                    this.orders = res.data;
+                } catch (e) {
+                    console.log("failed to fetch user order")
+                } finally {
+                    this.tableBusy = false;
+                }
+            }
+        },
+        created() {
+            this.fetchUserOrders(this.user.roleId);
         }
     }
 </script>

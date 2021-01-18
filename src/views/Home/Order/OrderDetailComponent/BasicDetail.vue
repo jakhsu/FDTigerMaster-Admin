@@ -1,12 +1,12 @@
 <template>
     <div>
         <b-container fluid>
-            <div class="d-flex mt-3">
+            <!-- <div class="d-flex mt-3">
                 <b-button class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
                 </b-button>
-            </div>
+            </div> -->
             <b-row>
                 <b-col>
                     <TitledCard title="基本">
