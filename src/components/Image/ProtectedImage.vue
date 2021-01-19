@@ -1,7 +1,7 @@
 <template>
     <div id="img-area">
         <scale-loader v-if="isFetching" />
-        <img @click="onImgClicked" :class="imgClass" :src="img" :alt="alt">
+        <img @click="onImgClicked" :class="imgClass" :src="img" :alt="alt" height="200">
     </div>
 </template>
 
@@ -23,19 +23,20 @@
         },
         data() {
             return {
-                isFetching: true
+                isFetching: true,
+                img: ''
             }
         },
         async created() {
             const token = tigermaster.auth.currentUser.token;
             try {
-                const response = await fetch(this.fetchURL, {
+                const response = await fetch(this.src, {
                     headers: {
                         "Authorization": token
                     }
                 });
                 const imgBlob = await response.blob();
-                this.url.push(URL.createObjectURL(imgBlob))
+                this.img = (URL.createObjectURL(imgBlob))
             } catch (e) {
                 console.log(e);
             } finally {
@@ -44,7 +45,7 @@
         },
         methods: {
             onImgClicked() {
-                this.$emit("imgClicked", this.fetchURL);
+                this.$emit("imgClicked", this.src);
             }
         }
     }
