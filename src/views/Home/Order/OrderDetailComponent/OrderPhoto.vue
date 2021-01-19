@@ -31,20 +31,20 @@
             <b-row>
                 <b-col>
                     <TitledCard title="施工前照片">
-                        <ImgFetch class="hello" :fetchURL="stage1Paths" v-if="stage1Paths.length > 0"
-                            :key="updateKey.ImgFetch" @imgClicked="openImgModal" />
+                        <ProtectedImage v-for="(img, index) in stage1Paths" :src="img"
+                            :key="index" @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="施工中照片">
-                        <ImgFetch :fetchURL="stage2Paths" v-if="stage2Paths.length > 0" :key="updateKey"
-                            @imgClicked="openImgModal" />
+                        <ProtectedImage v-for="(img, index) in stage2Paths" :src="img"
+                            :key="index" @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="完工照片">
-                        <ImgFetch :fetchURL="stage3Paths" v-if="stage3Paths.length > 0" :key="updateKey.ImgFetch"
-                            @imgClicked="openImgModal" />
+                        <ProtectedImage v-for="(img, index) in stage3Paths" :src="img"
+                            :key="index" @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
             </b-row>
@@ -53,19 +53,20 @@
 </template>
 
 <script>
+    import OrderPicStage from '@/config/OrderPicStage.json'
+    import ImgUpload from '@/components/Image/ImgUpload.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import ImgUpload from '@/components/Image/ImgUpload.vue'
-    import OrderPicStage from '@/config/OrderPicStage.json'
+    import ProtectedImage from '@/components/Image/ProtectedImage.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import ImgFetch from '@/components/Image/ImgFetch.vue'
+    
     export default {
         components: {
+            ImgUpload,
             TitledCard,
             SimpleModal,
-            ImgUpload,
-            ImgFetch
+            ProtectedImage
         },
         name: 'OrderPhoto',
         props: {
@@ -83,7 +84,6 @@
                 OrderPicStage,
                 detailedPicture: {},
                 pictures: [],
-                updateKey: 20
             }
         },
         async created() {
@@ -91,10 +91,11 @@
         },
         methods: {
             async fetchOrderPicture() {
-                let query = tigermaster.database.query("order_picture");
-                query.where("order_picture.order_id", "=", this.order.id);
                 try {
-                    const res = await query.get();
+                    const res = await tigermaster.database
+                        .query("order_picture")
+                        .where("order_picture.order_id", "=", this.order.id)
+                        .get();
                     this.pictures = res.data;
                 } catch (e) {
                     console.log(e)
@@ -108,7 +109,6 @@
                         await image.OrderImage.upload(this.order.id, this.imageFile, this.imageStage, this
                             .imageDescrption)
                         this.fetchOrderPicture();
-                        this.updateKey.ImgFetch++;
                     } catch (e) {
                         console.log(e)
                     } finally {
@@ -139,15 +139,6 @@
             },
             stage3Paths() {
                 return this.pictures.filter(e => e.stage === 3).map(e => e.path);
-            },
-            stage1Pics() {
-                return this.pictures.filter(e => e.stage === 1);
-            },
-            stage2Pics() {
-                return this.pictures.filter(e => e.stage === 2);
-            },
-            stage3Pics() {
-                return this.pictures.filter(e => e.stage === 3);
             }
         }
     }

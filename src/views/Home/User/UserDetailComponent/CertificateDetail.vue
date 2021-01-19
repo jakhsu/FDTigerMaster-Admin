@@ -21,7 +21,7 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div class="row justify-content-center">
-                            <ImgFetch :key="imgFetchKey" v-if="fetchURL.length > 0" :fetchURL="fetchURL" :user="user"
+                            <ProtectedImage v-for="(img, index) in fetchURL" :key="index" :src="img"
                                 @imgClicked="openImgModal" />
                         </div>
                     </TitledCard>
@@ -51,17 +51,18 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
-    import ImgFetch from '@/components/Image/ImgFetch.vue'
-    import tigermaster from 'fdtigermaster-admin-sdk'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import ProtectedImage from '@/components/Image/ProtectedImage.vue'
+
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: "CertificateDetail",
         components: {
-            TitledCard,
             ImgUpload,
-            ImgFetch,
-            SimpleModal
+            TitledCard,
+            SimpleModal,
+            ProtectedImage
         },
         props: {
             user: Object
@@ -80,7 +81,6 @@
                 fetchURL: [],
                 certificates: [],
                 detailedCert: {},
-                imgFetchKey: 0,
                 imgUploadKey: 0
             }
         },
@@ -92,7 +92,7 @@
                 try {
                     const res = await tigermaster.database
                         .query("user_picture")
-                        .where("user_picture.user_id", "=", `${this.user.id}`)
+                        .where("user_picture.user_id", "=", this.user.id)
                         .get();
                     this.certificates = res.data;
                     this.fetchURL = res.data.map(e =>
@@ -116,7 +116,6 @@
                     );
                     this.toBeUploaded.description = "";
                     await this.fetchCertificateURLs();
-                    this.imgFetchKey++;
                     this.imgUploadKey++;
                 } catch (e) {
                     console.log(e)
@@ -136,7 +135,6 @@
                 const image = tigermaster.image;
                 await image.UserImage.delete(this.detailedCert.id);
                 await this.fetchCertificateURLs();
-                this.imgFetchKey++;
                 this.$bvModal.hide("Certificate-Detail-Modal")
             }
         }
