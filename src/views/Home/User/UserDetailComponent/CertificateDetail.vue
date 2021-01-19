@@ -20,11 +20,9 @@
             <b-row>
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
-                        <div class="row justify-content-center">
-                            <div v-if="fetchURL.length > 0">
-                                <ProtectedImage v-for="(img, index) in fetchURL" :key="index" :src="img"
-                                    @imgClicked="openImgModal" />
-                            </div>
+                        <div v-if="fetchURL.length > 0" class="row justify-content-center">
+                            <ProtectedImage v-for="(img, index) in fetchURL" :key="index" :src="img"
+                                @imgClicked="openImgModal" />
                         </div>
                     </TitledCard>
                 </b-col>
