@@ -32,6 +32,32 @@
                     <b-form-input :state="inputState[5]" @update="notEmptyValidate(order.addressDetail, 5)"
                         v-model="order.addressDetail" />
                 </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
+                    <b-form-input :state="inputState[6]" @update="notEmptyValidate(order.expectWorkingData, 6)"
+                        v-model="order.expectWorkingData" />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
+                    <b-form-input :state="inputState[7]" @update="notEmptyValidate(order.distanceBonus, 7)"
+                        v-model="order.distanceBonus" />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等加成: ">
+                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(order.masterScoreBonus, 8)"
+                        v-model="order.masterScoreBonus" />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
+                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(order.invoiceTitle, 9)"
+                        v-model="order.invoiceTitle" />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶統編: ">
+                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(order.businessId, 10)"
+                        v-model="order.businessId" />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="是否為代叫訂單: ">
+                    <b-select v-model="order.isProxy">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </b-select>
+                </b-form-group>
             </b-form>
             <template #modal-footer>
                 <b-button variant="success" @click="onCreateClick()">
@@ -69,7 +95,7 @@
                 OrderStatus,
                 orderId: '',
                 workingCategories: [],
-                inputState: [null, null, null, null, null, null]
+                inputState: [null, null, null, null, null, null, null, null, null, null, null]
             }
         },
         created() {

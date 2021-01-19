@@ -26,9 +26,27 @@
                         </b-input-group>
                         <b-input-group>
                             <template #prepend>
-                                <b-input-group-text><strong>工項</strong></b-input-group-text>
+                                <b-input-group-text><strong>訂單工項</strong></b-input-group-text>
                             </template>
                             <b-input v-model="search.category"></b-input>
+                        </b-input-group>
+                        <b-input-group>
+                            <template #prepend>
+                                <b-input-group-text><strong>城市</strong></b-input-group-text>
+                            </template>
+                            <b-input v-model="search.addressCity"></b-input>
+                        </b-input-group>
+                        <b-input-group>
+                            <template #prepend>
+                                <b-input-group-text><strong>區</strong></b-input-group-text>
+                            </template>
+                            <b-input v-model="search.addressArea"></b-input>
+                        </b-input-group>
+                        <b-input-group>
+                            <template #prepend>
+                                <b-input-group-text><strong>街道</strong></b-input-group-text>
+                            </template>
+                            <b-input v-model="search.addressStreet"></b-input>
                         </b-input-group>
                     </b-form>
                 </div>
@@ -102,7 +120,9 @@
                     this.$bvModal.show("Search-Fail-Modal");
                 }
             },
-            onSearchClearClick() {},
+            onSearchClearClick() {
+                this.search = {}
+            },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
             },
