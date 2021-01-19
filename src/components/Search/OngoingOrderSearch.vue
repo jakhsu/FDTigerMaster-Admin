@@ -33,13 +33,13 @@
                     </b-form>
                 </div>
                 <div class="d-flex mt-2">
-                    <b-button class="ml-2" variant="primary" @click="onSearchClick">
+                    <b-button variant="primary" @click="onSearchClick">
                         開始搜尋
                     </b-button>
                     <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                         清空搜尋列
                     </b-button>
-                    <b-button class="ml-auto" variant="success">新增訂單
+                    <b-button class="ml-2" variant="success" @click="onCreateOrder">新增訂單
                     </b-button>
                 </div>
             </b-container>
@@ -105,6 +105,9 @@
             onSearchClearClick() {},
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
+            },
+            onCreateOrder() {
+                this.$emit("createOrder")
             }
         }
     }

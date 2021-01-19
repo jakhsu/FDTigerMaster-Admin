@@ -10,8 +10,11 @@
                         v-model="order.clientUserId" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
-                    <b-form-input :state="inputState[1]" @update="notEmptyValidate(order.workingCategoryId, 1)"
+                    <scale-loader v-if="isLoading" />
+                    <b-form-input list="workingCategoryList" :state="inputState[1]"
+                        @update="workingCategoryValidate(order.workingCategoryId, 1)"
                         v-model="order.workingCategoryId" />
+                    <b-form-datalist id="workingCategoryList" :options="workingCategories" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
                     <b-form-input :state="inputState[2]" @update="notEmptyValidate(order.addressCity, 2)"
@@ -61,13 +64,36 @@
         components: {},
         data() {
             return {
+                isLoading: false,
                 order: {},
                 OrderStatus,
                 orderId: '',
+                workingCategories: [],
                 inputState: [null, null, null, null, null, null]
             }
         },
+        created() {
+            this.fetchAllCategories();
+        },
         methods: {
+            async fetchAllCategories() {
+                this.isLoading = true;
+                const database = tigermaster.database;
+                let query = database.query("working_category");
+                try {
+                    const res = await query.get();
+                    this.workingCategories = res.data.map(e => {
+                        return {
+                            "value": e.id,
+                            "text": e.description
+                        };
+                    })
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false;
+                }
+            },
             async onCreateClick() {
                 if (this.inputState.every(e => e === true)) {
                     try {
@@ -91,6 +117,10 @@
             },
             numberValidate(input, index) {
                 this.inputState[index] = (!isNaN(input) && !input == '')
+            },
+            workingCategoryValidate(input, index) {
+                const workingCategories = this.workingCategories.map(e => e.value);
+                this.inputState[index] = (workingCategories.indexOf(input) !== -1)
             }
         },
         computed: {

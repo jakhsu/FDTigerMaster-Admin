@@ -14,7 +14,8 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <OngoingOrderSearch @SuccessfulSearch="handleSearchResult" />
+                        <OngoingOrderSearch @SuccessfulSearch="handleSearchResult"
+                            @createOrder="openOrderCreateModal" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -135,6 +136,9 @@
                 let query = tigermaster.database.query("generic_order");
                 const res = await query.where("generic_order.status", "<", "50").get();
                 this.orders = res.data;
+            },
+            openOrderCreateModal() {
+                this.$bvModal.show('Order-Create-Modal');
             }
         },
         computed: {

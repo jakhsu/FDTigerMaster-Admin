@@ -1,7 +1,7 @@
 <template>
     <div id="CertificateDetail">
         <b-container fluid>
-            <SimpleModal id="Certificate-Detail-Modal" title="證照細節" @onSaveClick="onModalSave">
+            <SimpleModal :isLoading="isLoading" id="Certificate-Detail-Modal" title="證照細節" @onSaveClick="onModalSave">
                 <template #modal-body>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="證照敘述">
                         <b-input v-model="detailedCert.pictureDesc" disabled />
@@ -12,6 +12,9 @@
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳者">
                         <b-input v-model="detailedCert.createBy" disabled />
                     </b-form-group>
+                </template>
+                <template #modal-button>
+                    <b-button variant="outline-danger" @click="onCertificateDelete">刪除</b-button>
                 </template>
             </SimpleModal>
             <b-row>
@@ -25,7 +28,8 @@
                 </b-col>
                 <b-col>
                     <TitledCard title="上傳區:">
-                        <div class="uploadForm">
+                        <scale-loader v-if="isUpload" />
+                        <div v-else class="uploadForm">
                             <b-form>
                                 <ImgUpload :key="imgUploadKey" v-bind:showsPreview="false" @FileUpload="handleUpload"
                                     class="mb-2" />
@@ -65,6 +69,8 @@
         data() {
             return {
                 currentUser: Object,
+                isLoading: false,
+                isUpload: false,
                 userData: {},
                 toBeUploaded: {
                     id: this.user.id,
@@ -100,6 +106,7 @@
                 this.toBeUploaded.imageFile = file;
             },
             async upload() {
+                this.isUpload = true;
                 const userImage = tigermaster.image.UserImage;
                 try {
                     await userImage.upload(
@@ -108,10 +115,13 @@
                         this.toBeUploaded.description
                     );
                     this.toBeUploaded.description = "";
+                    await this.fetchCertificateURLs();
                     this.imgFetchKey++;
                     this.imgUploadKey++;
                 } catch (e) {
                     console.log(e)
+                } finally {
+                    this.isUpload = false;
                 }
             },
             openImgModal(url) {
@@ -119,6 +129,14 @@
                 this.$bvModal.show("Certificate-Detail-Modal")
             },
             onModalSave() {
+                this.$bvModal.hide("Certificate-Detail-Modal")
+            },
+            async onCertificateDelete() {
+                this.isLoading = true;
+                const image = tigermaster.image;
+                await image.UserImage.delete(this.detailedCert.id);
+                await this.fetchCertificateURLs();
+                this.imgFetchKey++;
                 this.$bvModal.hide("Certificate-Detail-Modal")
             }
         }
