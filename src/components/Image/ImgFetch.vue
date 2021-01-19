@@ -33,7 +33,7 @@
             try {
                 await this.fetchUserPicture();
             } catch (e) {
-                console.log(e)
+                console.log("failed to fetch image")
             } finally {
                 this.isFetching = false
             }
