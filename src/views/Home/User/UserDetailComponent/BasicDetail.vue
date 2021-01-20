@@ -88,13 +88,7 @@
                 </b-col>
                 <b-col xl="6" lg="12">
                     <TitledCard title="用戶照片">
-                        <img :src="user.headShotPath"/>
-                        <div v-if="!user.headShotPath">
-                            <b-card>
-                                <font-awesome-icon icon="user-slash" />
-                                <h3>抱歉，此用戶尚未上傳大頭照</h3>
-                            </b-card>
-                        </div>
+                        <img :src="user.headShotPath" />
                     </TitledCard>
                     <TitledCard title="地址">
                         <div class="m-2">
