@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1611130378772" clover="3.2.0">
-  <project timestamp="1611130378772" name="All files">
-    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1" elements="3" coveredelements="3" complexity="0" loc="2" ncloc="2" packages="1" files="1" classes="1"/>
-    <file name="add.js" path="C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web\test\add.js">
+<coverage generated="1611134013815" clover="3.2.0">
+  <project timestamp="1611134013815" name="All files">
+    <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2" elements="5" coveredelements="5" complexity="0" loc="3" ncloc="3" packages="2" files="2" classes="2"/>
+    <package name="src.components">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="HelloWorld.vue" path="C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web\src\components\HelloWorld.vue">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="test">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="5" count="1" type="stmt"/>
-    </file>
+      <file name="add.js" path="C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web\test\add.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

@@ -16,7 +16,11 @@
       "vue"
     ],
     "transform": {
+      "^.+\\.js$": "babel-jest",
       ".*\\.(vue)$": "vue-jest"
+    },
+    "moduleNameMapper": {
+      "@/(.*)$": "<rootDir>/src/$1"
     }
   },
   "dependencies": {
@@ -47,9 +51,12 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/test-utils": "^1.1.2",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
     "chai": "^4.1.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "jest": "^26.6.3",
+    "jest-vue": "^0.8.2",
     "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.6.11"
   }

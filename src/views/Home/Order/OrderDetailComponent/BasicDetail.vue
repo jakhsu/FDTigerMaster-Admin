@@ -72,7 +72,7 @@
                     <TitledCard title="費用">
                         <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
-                                <b-form-input disabled />
+                                <b-form-input v-model="order.masterOfferPrice" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
                                 <b-form-input v-model="order.distanceBonus" disabled />
