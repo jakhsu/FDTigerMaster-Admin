@@ -192,14 +192,14 @@
     }
 
     .Order-Number-Container {
-        padding: 0.5rem 16px;
+        padding: 0.45rem 10px;
         color: rgb(0, 0, 0);
         background-color: #FFA900;
         border-radius: 10px;
     }
 
     .Order-Number-Content {
-        padding: 0.1em 0.5em;
+        padding: 0.05em 0.3em;
         color: rgb(0, 0, 0);
         background-color: #ffffff;
     }

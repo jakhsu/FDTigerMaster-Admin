@@ -31,20 +31,20 @@
             <b-row>
                 <b-col>
                     <TitledCard title="施工前照片">
-                        <ProtectedImage v-for="(img, index) in stage1Paths" :src="img"
-                            :key="index" @imgClicked="openImgModal" />
+                        <ProtectedImage v-for="(img, index) in stage1Paths" :src="img" :key="index"
+                            @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="施工中照片">
-                        <ProtectedImage v-for="(img, index) in stage2Paths" :src="img"
-                            :key="index" @imgClicked="openImgModal" />
+                        <ProtectedImage v-for="(img, index) in stage2Paths" :src="img" :key="index"
+                            @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="完工照片">
-                        <ProtectedImage v-for="(img, index) in stage3Paths" :src="img"
-                            :key="index" @imgClicked="openImgModal" />
+                        <ProtectedImage v-for="(img, index) in stage3Paths" :src="img" :key="index"
+                            @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
             </b-row>
@@ -60,7 +60,7 @@
     import ProtectedImage from '@/components/Image/ProtectedImage.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    
+
     export default {
         components: {
             ImgUpload,
