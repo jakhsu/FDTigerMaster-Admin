@@ -53,7 +53,7 @@
                         v-model="order.businessId" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="是否為代叫訂單: ">
-                    <b-select v-model="order.isProxy">
+                    <b-select v-model="order.isProxy" :state="true">
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </b-select>
@@ -91,7 +91,20 @@
         data() {
             return {
                 isLoading: false,
-                order: {},
+                order: {
+                    clientUserId: "",
+                    workingCategoryId: "",
+                    addressCity: "",
+                    addressArea: "",
+                    addressStreet: "",
+                    addressDetail: "",
+                    expectWorkingData: "",
+                    distanceBonus: "",
+                    masterScoreBonus: "",
+                    invoiceTitle: "",
+                    businessId: "",
+                    isProxy: 0
+                },
                 OrderStatus,
                 orderId: '',
                 workingCategories: [],
@@ -136,10 +149,12 @@
             onCancelModal() {
                 this.$bvModal.hide(this.id)
                 this.order = {};
-                this.inputState = [null, null, null, null, null, null];
+                this.inputState = [null, null, null, null, null, null, null, null, null, null, null];
             },
             notEmptyValidate(input, index) {
+                console.log(input)
                 this.inputState[index] = (input !== '')
+                console.log(this.inputState[index])
             },
             numberValidate(input, index) {
                 this.inputState[index] = (!isNaN(input) && !input == '')
