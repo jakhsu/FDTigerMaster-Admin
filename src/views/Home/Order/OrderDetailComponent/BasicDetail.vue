@@ -12,50 +12,51 @@
                     <TitledCard title="基本">
                         <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶姓名: ">
-                                <b-form-input v-model="order.clientUserName" disabled />
+                                <b-form-input v-model="order._data.clientUserName" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶ID: ">
-                                <b-form-input v-model="order.clientUserId" disabled />
+                                <b-form-input v-model="order._data.clientUserId" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶電話: ">
-                                <b-form-input v-model="order.clientUserPhone" disabled />
+                                <b-form-input v-model="order._data.clientUserPhone" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單編號: ">
-                                <b-form-input v-model="order.id" disabled />
+                                <b-form-input v-model="order._data.id" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅姓名: ">
-                                <b-form-input v-model="order.masterUserName" disabled />
+                                <b-form-input v-model="order._data.masterUserName" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅ID: ">
-                                <b-form-input v-model="order.masterUserId" disabled />
+                                <b-form-input v-model="order._data.masterUserId" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅電話: ">
-                                <b-form-input v-model="order.masterUserPhone" disabled />
+                                <b-form-input v-model="order._data.masterUserPhone" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單狀態: ">
-                                <b-form-select :options="OrderStatus" v-model="order.status" disabled></b-form-select>
+                                <b-form-select :options="OrderStatus" v-model="order._data.status" disabled>
+                                </b-form-select>
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
-                                <b-form-input v-model="order.workingCategoryId" disabled />
+                                <b-form-input v-model="order._data.workingCategoryId" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
-                                <b-form-input v-model="order.workingCategoryDescription" disabled />
+                                <b-form-input v-model="order._data.workingCategoryDescription" disabled />
                             </b-form-group>
                         </div>
                     </TitledCard>
                     <TitledCard title="地址">
                         <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                                <b-form-input v-model="order.addressCity" disabled />
+                                <b-form-input v-model="order._data.addressCity" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
-                                <b-form-input v-model="order.addressArea" disabled />
+                                <b-form-input v-model="order._data.addressArea" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                                <b-form-input v-model="order.addressStreet" disabled />
+                                <b-form-input v-model="order._data.addressStreet" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
-                                <b-form-input v-model="order.addressDetail" disabled />
+                                <b-form-input v-model="order._data.addressDetail" disabled />
                             </b-form-group>
                         </div>
                     </TitledCard>
@@ -72,19 +73,19 @@
                     <TitledCard title="費用">
                         <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
-                                <b-form-input v-model="order.masterOfferPrice" disabled />
+                                <b-form-input v-model="order._data.masterOfferPrice" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                                <b-form-input v-model="order.distanceBonus" disabled />
+                                <b-form-input v-model="order._data.distanceBonus" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等: ">
-                                <b-form-input v-model="order.masterScoreBonus" disabled />
+                                <b-form-input v-model="order._data.masterScoreBonus" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
-                                <b-form-input v-model="order.timeBonus" disabled />
+                                <b-form-input v-model="order._data.timeBonus" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="平台服務費: ">
-                                <b-form-input v-model="order.platformServicePrice" disabled />
+                                <b-form-input v-model="order._data.platformServicePrice" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="優惠卷折扣: ">
                                 <b-form-input disabled />
@@ -93,7 +94,7 @@
                                 <b-form-input disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
-                                <b-form-input v-model="order.orderTotalPrice" disabled />
+                                <b-form-input v-model="order._data.orderTotalPrice" disabled />
                             </b-form-group>
                         </div>
                     </TitledCard>
@@ -107,16 +108,16 @@
                                     <b-form-input disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="建立日期: ">
-                                    <b-form-input v-model="order.createDate" disabled />
+                                    <b-form-input v-model="order._data.createDate" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="被誰建立: ">
-                                    <b-form-input v-model="order.createBy" disabled />
+                                    <b-form-input v-model="order._data.createBy" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="緯度: ">
-                                    <b-form-input v-model="order.addressLat" disabled />
+                                    <b-form-input v-model="order._data.addressLat" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="經度: ">
-                                    <b-form-input v-model="order.addressLong" disabled />
+                                    <b-form-input v-model="order._data.addressLong" disabled />
                                 </b-form-group>
                             </b-form-group>
                         </div>

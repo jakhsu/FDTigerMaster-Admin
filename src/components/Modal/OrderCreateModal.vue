@@ -33,16 +33,16 @@
                         v-model="order.addressDetail" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
-                    <b-form-input :state="inputState[6]" @update="notEmptyValidate(order.expectWorkingData, 6)"
-                        v-model="order.expectWorkingData" />
+                    <b-form-input :state="inputState[6]" @update="notEmptyValidate(order.expectWorkingDate, 6)"
+                        v-model="order.expectWorkingDate" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
                     <b-form-input :state="inputState[7]" @update="notEmptyValidate(order.distanceBonus, 7)"
-                        v-model="order.distanceBonus" />
+                        v-model.number="order.distanceBonus" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等加成: ">
                     <b-form-input :state="inputState[8]" @update="notEmptyValidate(order.masterScoreBonus, 8)"
-                        v-model="order.masterScoreBonus" />
+                        v-model.number="order.masterScoreBonus" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
                     <b-form-input :state="inputState[9]" @update="notEmptyValidate(order.invoiceTitle, 9)"
@@ -98,9 +98,9 @@
                     addressArea: "",
                     addressStreet: "",
                     addressDetail: "",
-                    expectWorkingData: "",
-                    distanceBonus: "",
-                    masterScoreBonus: "",
+                    expectWorkingDate: "",
+                    distanceBonus: 0,
+                    masterScoreBonus: 0,
                     invoiceTitle: "",
                     businessId: "",
                     isProxy: 0
@@ -152,9 +152,7 @@
                 this.inputState = [null, null, null, null, null, null, null, null, null, null, null];
             },
             notEmptyValidate(input, index) {
-                console.log(input)
                 this.inputState[index] = (input !== '')
-                console.log(this.inputState[index])
             },
             numberValidate(input, index) {
                 this.inputState[index] = (!isNaN(input) && !input == '')

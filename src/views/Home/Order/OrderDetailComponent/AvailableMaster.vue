@@ -10,30 +10,18 @@
         <b-row>
             <b-col sm="12" xl="6">
                 <TitledCard title="符合工項的師傅">
-                    <div class="SearchBar d-flex mb-3">
-                        <b-button class="ml-2" variant="primary" @click="onSearchClick">
-                            開始搜尋
-                        </b-button>
-                        <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
-                            清空搜尋列
-                        </b-button>
-                    </div>
-                    <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount" :fields="fields"
-                        :datas="matchedMasters">
-                        <template #top-row="matchedMasters">
-                            <b-td v-for="(field, index) in matchedMasters.fields" :key="index">
-                                <b-form-input v-if="field.key != 'action'" v-model="search[field.key]" :name="field.key"
-                                    :placeholder="field.label" />
-                            </b-td>
-                        </template>
+                    <CustomTable :isBusy="matchedTableBusy" ref="customTable" :queryRows="totalCount"
+                        :totalRows="totalCount" :fields="fields" :datas="matchedMasters">
                         <template #cell(phone)="matchedMasters">
                             <router-link :to="`/home/user_detail?userId=${matchedMasters.item.id}`">
                                 {{ matchedMasters.value }}
                             </router-link>
                         </template>
-                        <template #cell(action)>
-                            <b-button size="sm">指定</b-button>
-                            <b-button class="ml-2" size="sm">轉單</b-button>
+                        <template #cell(action)="matchedMasters">
+                            <b-button v-if="order._data.masterUserId" size="sm"
+                                @click="switchOrder(matchedMasters.item.masterUserId)">轉單</b-button>
+                            <b-button v-else class="ml-2" size="sm"
+                                @click="assignOrder(matchedMasters.item.masterUserId)">指定</b-button>
                         </template>
                     </CustomTable>
                 </TitledCard>
@@ -49,16 +37,12 @@
                         </b-button>
                     </div>
                     <CustomTable ref="customTable" :isSelectable="true" :queryRows="totalCount" :totalRows="totalCount"
-                        :fields="fields" :datas="searchedMasters" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                        :fields="fields" :datas="searchedMasters" :isBusy="searchedTableBusy"
+                        @dataRequire="onDataRequire">
                         <template #top-row="searchedMasters">
                             <b-td v-for="(field, index) in searchedMasters.fields" :key="index">
-                                <b-form-select v-if="field.key == 'status'" v-model="search['status']">
-                                    <option value="0">停用</option>
-                                    <option value="1">啟用</option>
-                                </b-form-select>
-                                <b-form-input v-if="field.key == 'roleId'" :name="field.key" :value="'師傅'" disabled />
-                                <b-form-input v-if="field.key !== 'status' && field.key !== 'roleId'"
-                                    v-model="search[field.key]" :name="field.key" :placeholder="field.label" />
+                                <b-form-input v-if="field.key !== 'action' " v-model="search[field.key]"
+                                    :name="field.key" :placeholder="field.label" />
                             </b-td>
                         </template>
                         <template #cell(phone)="searchedMasters">
@@ -72,9 +56,12 @@
                         <template #cell(roleId)="searchedMasters">
                             {{ roleIdMap[searchedMasters.value] }}
                         </template>
-                        <template #cell(action)>
-                            <b-button size="sm">指定</b-button>
-                            <b-button class="ml-2" size="sm">轉單</b-button>
+                        <template #cell(action)="searchedMasters">
+                            <b-button v-if="order._data.masterUserId" size="sm"
+                                @click="switchOrder(searchedMasters.item.id)">
+                                轉單</b-button>
+                            <b-button v-else class="ml-2" size="sm" @click="assignOrder(searchedMasters.item.id)">指定
+                            </b-button>
                         </template>
                     </CustomTable>
                 </TitledCard>
@@ -100,13 +87,17 @@
         props: {
             matchedMasters: {
                 type: Array
+            },
+            order: {
+                type: Object
             }
         },
         data() {
             return {
                 totalCount: 0,
                 queryRows: 0,
-                tableBusy: false,
+                searchedTableBusy: false,
+                matchedTableBusy: false,
                 fields: [{
                         "key": "action",
                         "label": "操作"
@@ -132,7 +123,7 @@
                     }
                 ],
                 searchedMasters: [],
-                search: {}
+                search: {},
             }
         },
         methods: {
@@ -145,7 +136,7 @@
                 this.search = {};
             },
             async onSearchClick() {
-                this.tableBusy = true;
+                this.searchedTableBusy = true;
                 let query = tigermaster.database.query("user");
                 let searchArray = Object.entries(this.search);
                 searchArray = searchArray.filter(ele => ele[0] !== 'roleId')
@@ -174,9 +165,27 @@
                 } catch (e) {
                     this.$bvModal.show("Search-Fail-Modal");
                 } finally {
-                    this.tableBusy = false;
+                    this.searchedTableBusy = false;
                     this.$refs.customTable.toFirstPage();
                 }
+            },
+            async assignOrder(masterId) {
+                this.matchedTableBusy = true;
+                this.searchedTableBusy = true;
+
+                await this.order.assignMaster(masterId);
+
+                this.matchedTableBusy = false;
+                this.searchedTableBusy = false;
+            },
+            async switchOrder(masterId) {
+                this.matchedTableBusy = true;
+                this.searchedTableBusy = true;
+
+                await this.order.switchMaster(masterId);
+
+                this.matchedTableBusy = false;
+                this.searchedTableBusy = false;
             }
         }
     }

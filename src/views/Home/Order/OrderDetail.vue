@@ -99,12 +99,18 @@
                 this.currentComponent = this.tabComponentMap[name];
             },
             async fetchOrderData() {
-                const database = tigermaster.database;
-                const query = database.query("generic_order");
-                query.where(`generic_order.id`, '=', `${this.$route.query.orderId}`);
+                // const database = tigermaster.database;
+                // const query = database.query("generic_order");
+                // query.where(`generic_order.id`, '=', `${this.$route.query.orderId}`);
+                // try {
+                //     const response = await query.get();
+                //     this.order = response.data[0];
+                // } catch (e) {
+                //     console.log(e)
+                // }
                 try {
-                    const response = await query.get();
-                    this.order = response.data[0];
+                    const order = await tigermaster.order.get(this.$route.query.orderId);
+                    this.order = order;
                 } catch (e) {
                     console.log(e)
                 }
