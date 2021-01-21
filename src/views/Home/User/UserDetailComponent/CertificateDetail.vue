@@ -1,17 +1,9 @@
 <template>
     <div id="CertificateDetail">
         <b-container fluid>
-            <SimpleModal :isLoading="isLoading" id="Certificate-Detail-Modal" title="證照細節" @onSaveClick="onModalSave">
+            <SimpleModal :isLoading="isLoading" id="Certificate-Detail-Modal" title="證照原圖" @onSaveClick="onModalSave">
                 <template #modal-body>
-                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="證照敘述">
-                        <b-input v-model="detailedCert.pictureDesc" disabled />
-                    </b-form-group>
-                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳時間">
-                        <b-input v-model="detailedCert.createDate" disabled />
-                    </b-form-group>
-                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳者">
-                        <b-input v-model="detailedCert.createBy" disabled />
-                    </b-form-group>
+                    <img :src="originalCert" alt="">
                 </template>
                 <template #modal-button>
                     <b-button variant="outline-danger" @click="onCertificateDelete">刪除</b-button>
@@ -20,9 +12,9 @@
             <b-row>
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
-                        <div v-if="fetchURL.length > 0" class="row justify-content-center">
-                            <ProtectedImage v-for="(img, index) in fetchURL" :key="index" :src="img"
-                                @imgClicked="openImgModal" />
+                        <div v-if="certificates.length > 0" class="row justify-content-center">
+                            <ProtectedImage v-for="(img, index) in certificates" :key="index" :src="img.path"
+                                @imgClicked="openImgModal" :imageDetails="img" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -81,6 +73,7 @@
                 fetchURL: [],
                 certificates: [],
                 detailedCert: {},
+                originalCert: '',
                 imgUploadKey: 0
             }
         },
@@ -123,8 +116,9 @@
                     this.isUpload = false;
                 }
             },
-            openImgModal(url) {
+            openImgModal(url, originalCert) {
                 this.detailedCert = this.certificates.find(e => e.path === url)
+                this.originalCert = originalCert;
                 this.$bvModal.show("Certificate-Detail-Modal")
             },
             onModalSave() {
