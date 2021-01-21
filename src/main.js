@@ -20,6 +20,7 @@ import {
 } from '@fortawesome/vue-fontawesome'
 import {
     faBars,
+    faBan,
     faUser,
     faEdit,
     faLink,
@@ -49,6 +50,7 @@ import {
 
 library.add(
     faBars,
+    faBan,
     faUser,
     faEdit,
     faLink,

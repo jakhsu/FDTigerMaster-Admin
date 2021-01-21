@@ -1,9 +1,15 @@
 <template>
     <div>
         <scale-loader v-if="isFetching" />
-        <b-card v-else id="image-card">
+        <b-card v-else id="image-card" @click="onImgClicked">
             <div>
-                <img @click="onImgClicked" :class="imgClass" :src="img" :alt="alt" height="200">
+                <div v-if="!img">
+                    <span>
+                        <font-awesome-icon icon="ban" />
+                        抱歉，此圖片載入失敗，請檢查網路連線
+                    </span>
+                </div>
+                <img v-else :class="imgClass" :src="img" :alt="alt" height="200">
             </div>
             <div>
                 <span>
