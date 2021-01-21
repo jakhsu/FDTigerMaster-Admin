@@ -98,7 +98,7 @@
             OrderCreateModal
         },
         async created() {
-            this.fetchAllOrders();
+            this.fetchClosedOrders();
         },
         data() {
             return {
@@ -117,11 +117,13 @@
             onDataRequire() {
                 this.tableBusy = true;
             },
-            async fetchAllOrders() {
+            async fetchClosedOrders() {
                 this.tableBusy = true;
                 try {
                     const database = tigermaster.database;
-                    const query = database.query("generic_order").limit(0, 10);
+                    const query = database.query("generic_order")
+                        .limit(0, 10)
+                        .where("generic_order.status", "IN", [60, 95, 100]);
                     const result = await query.get();
                     this.orders = result.data;
                     this.queryRows = result.queryRows;
@@ -186,14 +188,14 @@
             },
             onSearchClearClick() {
                 this.search = {};
-                this.fetchAllOrders();
+                this.fetchClosedOrders();
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
             },
             onSuccess() {
                 console.log("successfully created an order :)");
-                this.fetchAllOrders();
+                this.fetchClosedOrders();
             }
         }
     }
