@@ -14,7 +14,7 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <OngoingOrderSearch @SuccessfulSearch="handleSearchResult"
+                        <OngoingOrderSearch @startSearch="handleSearchStart" @SuccessfulSearch="handleSearchResult"
                             @createOrder="openOrderCreateModal" />
                     </b-col>
                 </b-row>
@@ -28,7 +28,7 @@
                                 </span>
                             </template>
                             <div class="Order-Panel">
-                                <scale-loader v-if="isLoading" />
+                                <scale-loader v-if="isLoadingOrders" />
                                 <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
                                     v-for="(order, index) in matchingOrders" :key="index" :orderData="order"
                                     class="mt-0" />
@@ -44,7 +44,8 @@
                                 </span>
                             </template>
                             <div class="Order-Panel">
-                                <OrderCard @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
+                                <scale-loader v-if="isLoadingOrders" />
+                                <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
                                     v-for="(order, index) in ongoingOrders" :key="index" :orderData="order"
                                     class="mt-0" />
                             </div>
@@ -59,7 +60,8 @@
                                 </span>
                             </template>
                             <div class="Order-Panel">
-                                <OrderCard @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
+                                <scale-loader v-if="isLoadingOrders" />
+                                <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
                                     v-for="(order, index) in ToBePaidOrders" :key="index" :orderData="order"
                                     class="mt-0">
                                 </OrderCard>
@@ -76,8 +78,9 @@
                                 </span>
                             </template>
                             <div class="Order-Panel">
-                                <OrderCard @onClick="onCardClick" v-for="(order, index) in specialOrders" :key="index"
-                                    :orderData="order" class="mt-0" />
+                                <scale-loader v-if="isLoadingOrders" />
+                                <OrderCard v-else @onClick="onCardClick" v-for="(order, index) in specialOrders"
+                                    :key="index" :orderData="order" class="mt-0" />
                             </div>
                         </TitledCard>
                     </b-col>
@@ -108,7 +111,7 @@
             OrderCreateModal
             return {
                 orders: [],
-                isLoading: false
+                isLoadingOrders: false
             }
         },
         created() {
@@ -133,20 +136,31 @@
                     }
                 });
             },
+            handleSearchStart() {
+                this.isLoadingOrders = true;
+            },
             handleSearchResult(result) {
                 this.orders = result.data;
+                this.isLoadingOrders = false;
             },
             async fetchOngoiningOrders() {
+                this.isLoadingOrders = true;
                 let query = tigermaster.database.query("generic_order");
-                const res = await query.where("generic_order.status", "<", "50").get();
-                this.orders = res.data;
+                try {
+                    const res = await query.where("generic_order.status", "<", "50").get();
+                    this.orders = res.data;
+
+                } catch (e) {
+                    console.log("no orders in DB")
+                } finally {
+                    this.isLoadingOrders = false
+                }
             },
             openOrderCreateModal() {
                 this.$bvModal.show('Order-Create-Modal');
             }
         },
         computed: {
-            // this is the implementation of filtering out different sets of orders
             matchingOrders() {
                 return this.orders.filter((order) => {
                     return [5, 10].includes(order.status);

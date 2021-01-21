@@ -87,6 +87,7 @@
         },
         methods: {
             async onSearchClick() {
+                this.$emit("startSearch")
                 let query = tigermaster.database.query("generic_order");
                 let searchArray = Object.entries(this.search);
                 searchArray.forEach(element => {
