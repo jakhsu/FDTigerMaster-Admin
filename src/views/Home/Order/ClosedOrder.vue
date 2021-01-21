@@ -19,17 +19,6 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="總訂單數" :data="totalCount" />
-                    </b-col>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="進行中" :data="0" />
-                    </b-col>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="已完成" :data="0" />
-                    </b-col>
-                </b-row>
-                <b-row>
                     <b-col>
                         <TitledCard title="訂單">
                             <div class="SearchBar d-flex mb-3">
@@ -78,7 +67,6 @@
 
 <script>
     import OrderTable from '@/config/OrderTable.json'
-    import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
@@ -91,7 +79,6 @@
     export default {
         name: "ClosedOrder",
         components: {
-            DataCard,
             TitledCard,
             CustomTable,
             SimpleModal,
