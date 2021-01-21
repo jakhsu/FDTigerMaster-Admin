@@ -28,7 +28,8 @@
                                 </span>
                             </template>
                             <div class="Order-Panel">
-                                <OrderCard @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
+                                <scale-loader v-if="isLoading" />
+                                <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
                                     v-for="(order, index) in matchingOrders" :key="index" :orderData="order"
                                     class="mt-0" />
                             </div>
@@ -111,10 +112,13 @@
             }
         },
         created() {
+            this.isLoading = true;
             try {
                 this.fetchOngoiningOrders();
             } catch (e) {
                 console.log(e)
+            } finally {
+                this.isLoading = false;
             }
         },
         methods: {

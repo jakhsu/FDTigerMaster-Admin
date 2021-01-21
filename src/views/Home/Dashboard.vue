@@ -23,7 +23,6 @@
                         <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46" />
                     </b-col>
                 </b-row>
-                <HelloWorld />
             </div>
         </b-container>
     </div>
@@ -31,13 +30,11 @@
 
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
-    import HelloWorld from '@/components/HelloWorld.vue'
 
     export default {
         name: 'Dashboard',
         components: {
-            DataCard,
-            HelloWorld
+            DataCard
         },
         data() {
             return {
