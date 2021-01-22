@@ -133,17 +133,21 @@
             },
             async onDataRequire(currentRows, perPage) {
                 this.tableBusy = true;
+                console.log(currentRows, perPage)
                 try {
+                    // const skills = await tigermaster.database.query("skill_item")
+                    //     .limit(currentRows, perPage)
+                    //     .get();
+                    // this.skills = this.skills.concat(skills.data);
+                    // this.queryRows = this.queryRows + skills.queryRows;
                     const skills = await tigermaster.database.query("skill_item")
                         .limit(currentRows, perPage)
                         .get();
-                    this.skills = this.skills.concat(skills.data);
-                    this.queryRows = this.queryRows + skills.queryRows;
+                    this.skills = skills.data;
                 } catch (e) {
                     console.log(e)
                 } finally {
                     this.tableBusy = false;
-                    console.log("now query rows: ", this.queryRows)
                 }
             },
             async fetchSkillData() {

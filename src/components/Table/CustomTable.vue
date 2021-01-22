@@ -16,8 +16,8 @@
                 <slot :name="slotName" v-bind="slotScope"></slot>
             </template>
         </b-table>
-        <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" :disabled="isBusy" align="right"
-            limit="7" aria-controls="CustomTable" />
+        <b-pagination @click.native="changePage" v-model="currentPage" :total-rows="totalRows" :per-page="perPage"
+            :disabled="isBusy" align="right" limit="7" aria-controls="CustomTable" />
     </div>
 </template>
 
@@ -50,19 +50,25 @@
         data() {
             return {
                 currentPage: 1,
-                selected: [],
+                selected: []
             }
         },
         beforeUpdate() {
-            const currentRows = ((this.currentPage - 1) * this.perPage);
-            if (currentRows >= this.queryRows && !this.isBusy) {
-                this.$emit("dataRequire", currentRows, this.perPage, );
-            }
+            // const currentRows = ((this.currentPage - 1) * this.perPage);
+            // if (currentRows >= this.queryRows && !this.isBusy) {
+            //     this.$emit("dataRequire", currentRows, this.perPage);
+            // }
+            // if (!this.isBusy) {
+            //     this.$emit("dataRequire", currentRows, this.perPage);
+            // }
         },
         methods: {
-            fetchData() {
+            changePage() {
                 const currentRows = ((this.currentPage - 1) * this.perPage);
-                this.$emit("dataRequire", currentRows, this.perPage)
+                if (!this.isBusy) {
+                    this.$emit("dataRequire", currentRows, this.perPage);
+                }
+                this.currentPage = 1;
             },
             onRowSelected(items) {
                 this.selected = items;
@@ -83,7 +89,14 @@
                 if (this.isSelectAll == false) {
                     this.$refs.selectableTable.clearSelected();
                 }
-            }
+            },
+            // currentPage() {
+            //     const currentRows = ((this.currentPage - 1) * this.perPage);
+            //     if (!this.isBusy) {
+            //         this.$emit("dataRequire", currentRows, this.perPage);
+            //     }
+            //     this.currentPage = 1;
+            // }
         },
 
     }
