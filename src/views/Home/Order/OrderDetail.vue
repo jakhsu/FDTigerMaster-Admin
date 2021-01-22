@@ -23,7 +23,7 @@
                 </b-nav>
             </div>
             <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters"
-                @updateOrder="onUpdateOrder">
+                @updateOrder="onUpdateOrder" @updateMapping="onUpdateMapping">
             </component>
         </b-container>
     </div>
@@ -95,10 +95,14 @@
             }
         },
         methods: {
-            onUpdateOrder() {
+            async onUpdateMapping() {
+                console.log("update mapping...")
+                await this.order.manualMapping();
+            },
+            async onUpdateOrder() {
                 console.log("reload order...")
-                this.order.reload();
-                this.order.paymenyEstimate(0);
+                await this.order.reload();
+                await this.order.paymenyEstimate(0);
             },
             onNavClick(name) {
                 this.currentTab = name;

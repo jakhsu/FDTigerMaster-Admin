@@ -6,6 +6,9 @@
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
                 </b-button>
+                <b-button @click="terminateOrder" class="ml-2" variant="outline-danger">
+                    關閉訂單
+                </b-button>
             </div>
             <div v-else class="d-flex mt-3">
                 <b-button @click="onFinishEdit" class="ml-auto" variant="success">
@@ -184,6 +187,13 @@
                     console.log(e)
                 } finally {
                     this.isEdit = !this.isEdit;
+                }
+            },
+            async terminateOrder() {
+                try {
+                    await this.order.cancel();
+                } catch (e) {
+                    console.log(e)
                 }
             }
         }

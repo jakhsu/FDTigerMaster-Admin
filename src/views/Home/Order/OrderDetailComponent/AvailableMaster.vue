@@ -10,6 +10,12 @@
         <b-row>
             <b-col sm="12" xl="6">
                 <TitledCard title="符合工項的師傅">
+                    <div class="SearchBar d-flex mb-3">
+                        <b-button variant="warning" @click="updateMapping">
+                            <font-awesome-icon icon="hourglass-half" />
+                            開始搜尋
+                        </b-button>
+                    </div>
                     <CustomTable :isBusy="matchedTableBusy" ref="customTable" :queryRows="totalCount"
                         :totalRows="totalCount" :fields="fields" :datas="matchedMasters">
                         <template #cell(phone)="matchedMasters">
@@ -127,6 +133,9 @@
             }
         },
         methods: {
+            updateMapping() {
+                this.$emit("updateMapping")
+            },
             onDataRequire() {},
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
