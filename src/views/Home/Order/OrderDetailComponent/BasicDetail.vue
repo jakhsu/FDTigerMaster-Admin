@@ -1,12 +1,12 @@
 <template>
     <div>
         <b-container fluid>
-            <!-- <div class="d-flex mt-3">
-                <b-button class="ml-auto" variant="primary">
+            <div class="d-flex mt-3">
+                <b-button @click="startEdit" class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
                 </b-button>
-            </div> -->
+            </div>
             <b-row>
                 <b-col>
                     <TitledCard title="基本">
@@ -47,25 +47,25 @@
                     <TitledCard title="地址">
                         <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                                <b-form-input v-model="order._data.addressCity" disabled />
+                                <b-form-input v-model="order._data.addressCity" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
-                                <b-form-input v-model="order._data.addressArea" disabled />
+                                <b-form-input v-model="order._data.addressArea" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                                <b-form-input v-model="order._data.addressStreet" disabled />
+                                <b-form-input v-model="order._data.addressStreet" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
-                                <b-form-input v-model="order._data.addressDetail" disabled />
+                                <b-form-input v-model="order._data.addressDetail" :disabled="!isEdit" />
                             </b-form-group>
                         </div>
                     </TitledCard>
                     <TitledCard title="客戶專用">
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
-                            <b-form-input disabled />
+                            <b-form-input v-model="order._data.businessId" :disabled="!isEdit" />
                         </b-form-group>
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="抬頭: ">
-                            <b-form-input disabled />
+                            <b-form-input v-model="order._data.invoiceTitle" :disabled="!isEdit" />
                         </b-form-group>
                     </TitledCard>
                 </b-col>
@@ -76,22 +76,22 @@
                                 <b-form-input v-model="order._data.masterOfferPrice" disabled />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                                <b-form-input v-model="order._data.distanceBonus" disabled />
+                                <b-form-input v-model="order._data.distanceBonus" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等: ">
-                                <b-form-input v-model="order._data.masterScoreBonus" disabled />
+                                <b-form-input v-model="order._data.masterScoreBonus" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
-                                <b-form-input v-model="order._data.timeBonus" disabled />
+                                <b-form-input v-model="order._data.timeBonus" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="平台服務費: ">
-                                <b-form-input v-model="order._data.platformServicePrice" disabled />
+                                <b-form-input v-model="order._data.platformServicePrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="優惠卷折扣: ">
-                                <b-form-input disabled />
+                                <b-form-input v-model="order._data.couponDiscountPrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="派遣費折讓: ">
-                                <b-form-input disabled />
+                                <b-form-input v-model="order._data.dispatchDiscountPrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
                                 <b-form-input v-model="order._data.orderTotalPrice" disabled />
@@ -102,10 +102,10 @@
                         <div class="m-2">
                             <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
-                                    <b-form-input disabled />
+                                    <b-form-input v-model="order._data.expectWorkingDate" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="保固完結日: ">
-                                    <b-form-input disabled />
+                                    <b-form-input v-model="order._data.warrantyEndDate" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="建立日期: ">
                                     <b-form-input v-model="order._data.createDate" disabled />
@@ -145,7 +145,13 @@
         data() {
             return {
                 statusMap: OrderStatusMap(),
-                OrderStatus
+                OrderStatus,
+                isEdit: false,
+            }
+        },
+        methods: {
+            startEdit() {
+                this.isEdit = !this.isEdit;
             }
         }
     }
