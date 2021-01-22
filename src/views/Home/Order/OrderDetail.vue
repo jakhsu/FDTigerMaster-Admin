@@ -22,7 +22,8 @@
                     </b-nav-item>
                 </b-nav>
             </div>
-            <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters">
+            <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters"
+                @updateOrder="onUpdateOrder">
             </component>
         </b-container>
     </div>
@@ -94,20 +95,16 @@
             }
         },
         methods: {
+            onUpdateOrder() {
+                console.log("reload order...")
+                this.order.reload();
+                this.order.paymenyEstimate(0);
+            },
             onNavClick(name) {
                 this.currentTab = name;
                 this.currentComponent = this.tabComponentMap[name];
             },
             async fetchOrderData() {
-                // const database = tigermaster.database;
-                // const query = database.query("generic_order");
-                // query.where(`generic_order.id`, '=', `${this.$route.query.orderId}`);
-                // try {
-                //     const response = await query.get();
-                //     this.order = response.data[0];
-                // } catch (e) {
-                //     console.log(e)
-                // }
                 try {
                     const order = await tigermaster.order.get(this.$route.query.orderId);
                     this.order = order;

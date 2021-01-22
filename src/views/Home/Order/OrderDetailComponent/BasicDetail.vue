@@ -1,10 +1,16 @@
 <template>
     <div>
         <b-container fluid>
-            <div class="d-flex mt-3">
+            <div v-if="!isEdit" class="d-flex mt-3">
                 <b-button @click="startEdit" class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
+                </b-button>
+            </div>
+            <div v-else class="d-flex mt-3">
+                <b-button @click="onFinishEdit" class="ml-auto" variant="success">
+                    <font-awesome-icon icon="edit" fixed-width />
+                    完成編輯
                 </b-button>
             </div>
             <b-row>
@@ -94,7 +100,7 @@
                                 <b-form-input v-model="order._data.dispatchDiscountPrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
-                                <b-form-input v-model="order._data.orderTotalPrice" disabled />
+                                <b-form-input v-model="order._data.totalPay" disabled />
                             </b-form-group>
                         </div>
                     </TitledCard>
@@ -152,6 +158,33 @@
         methods: {
             startEdit() {
                 this.isEdit = !this.isEdit;
+            },
+            async onFinishEdit() {
+                try {
+                    await this.order.update({
+                        "addressCity": this.order._data.addressCity,
+                        "addressArea": this.order._data.addressArea,
+                        "addressStreet": this.order._data.addressStreet,
+                        "addressDetail": this.order._data.addressDetail,
+                        "expectWorkingDate": this.order._data.expectWorkingDate,
+                        "warrtyEndDate": this.order._data.warrtyEndDate,
+                        "distanceBonus": this.order._data.distanceBonus,
+                        "timeBonus": this.order._data.timeBonus,
+                        "platformServicePrice": this.order._data.platformServicePrice,
+                        "masterScoreBonus": this.order._data.masterScoreBonus,
+                        "couponDiscountPrice": this.order._data.couponDiscountPrice,
+                        "tax": this.order._data.tax,
+                        "dispatchDiscountPrice": this.order._data.dispatchDiscountPrice,
+                        "invoiceTitle": this.order._data.invoiceTitle,
+                        "businessId": this.order._data.businessId,
+                        "property": this.order._data.property
+                    });
+                    this.$emit("updateOrder")
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isEdit = !this.isEdit;
+                }
             }
         }
     }
