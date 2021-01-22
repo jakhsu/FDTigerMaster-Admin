@@ -1,12 +1,17 @@
 <template>
     <div>
+        <SimpleModal @onSaveClick="terminateOrder" id="close-order-modal" title="關閉此訂單">
+            <template #modal-body>
+                確定要關閉此訂單嗎?
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div v-if="!isEdit" class="d-flex mt-3">
                 <b-button @click="startEdit" class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
                 </b-button>
-                <b-button @click="terminateOrder" class="ml-2" variant="outline-danger">
+                <b-button v-b-modal="'close-order-modal'" class="ml-2" variant="outline-danger">
                     關閉訂單
                 </b-button>
             </div>
@@ -14,6 +19,9 @@
                 <b-button @click="onFinishEdit" class="ml-auto" variant="success">
                     <font-awesome-icon icon="edit" fixed-width />
                     完成編輯
+                </b-button>
+                <b-button @click="cancelEdit" class="ml-2" variant="outline-secondary">
+                    取消編輯
                 </b-button>
             </div>
             <b-row>
@@ -140,6 +148,7 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
     import OrderStatus from '@/config/OrderStatus.json'
 
@@ -149,7 +158,8 @@
             order: {}
         },
         components: {
-            TitledCard
+            TitledCard,
+            SimpleModal
         },
         data() {
             return {
@@ -159,6 +169,9 @@
             }
         },
         methods: {
+            cancelEdit() {
+                this.isEdit = false;
+            },
             startEdit() {
                 this.isEdit = !this.isEdit;
             },
