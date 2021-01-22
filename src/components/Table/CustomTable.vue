@@ -54,12 +54,16 @@
             }
         },
         beforeUpdate() {
-            const currentRows = ((this.currentPage - 1) * this.perPage) + 1;
-            if (currentRows > this.queryRows && !this.isBusy) {
-                this.$emit("dataRequire", currentRows);
+            const currentRows = ((this.currentPage - 1) * this.perPage);
+            if (currentRows >= this.queryRows && !this.isBusy) {
+                this.$emit("dataRequire", currentRows, this.perPage, );
             }
         },
         methods: {
+            fetchData() {
+                const currentRows = ((this.currentPage - 1) * this.perPage);
+                this.$emit("dataRequire", currentRows, this.perPage)
+            },
             onRowSelected(items) {
                 this.selected = items;
                 this.$emit("rowSelected", this.selected);

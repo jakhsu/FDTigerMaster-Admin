@@ -41,6 +41,9 @@
                                 <b-button size="sm" class="ml-2" variant="success" v-b-modal="'Skill-Create-Modal'">
                                     新增技能
                                 </b-button>
+                                <b-button @click="test">
+                                    看全部資料
+                                </b-button>
                                 <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
                                     style="display:none">
                                 <b-button class="input-button ml-auto" @click="$refs.file.click()" variant="primary">
@@ -49,9 +52,9 @@
                                 <b-button v-b-modal="'Confirm-Modal'" variant="success" class="ml-2">下載</b-button>
                             </div>
                             <div>
-                                <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount"
-                                    :datas="skills" :isBusy="tableBusy" :isSelectable="true" @rowClick="onSkillClick"
-                                    selectMode='single' :fields="SkillsTable" :perPage="6">
+                                <CustomTable @dataRequire="onDataRequire" ref="customTable" :queryRows="queryRows"
+                                    :totalRows="totalCount" :datas="skills" :isBusy="tableBusy" :isSelectable="true"
+                                    @rowClick="onSkillClick" selectMode='single' :fields="SkillsTable" :perPage="6">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in SkillsTable" :key="index">
                                             <b-form-select v-if="field.key === 'active'" v-model="search['active']">
@@ -117,19 +120,39 @@
                 totalCount: 0,
                 workingCategories: [],
                 search: {},
-                selectedSkill: {}
+                selectedSkill: {},
+                queryRows: 0,
             };
         },
         async created() {
             this.fetchSkillData();
         },
         methods: {
-            async fetchSkillData() {
+            test() {
+                console.log(this.skills.map(e => e.id))
+            },
+            async onDataRequire(currentRows, perPage) {
+                this.tableBusy = true;
                 try {
-                    this.tableBusy = true;
-                    const skills = await tigermaster.database.query("skill_item").get();
+                    const skills = await tigermaster.database.query("skill_item")
+                        .limit(currentRows, perPage)
+                        .get();
+                    this.skills = this.skills.concat(skills.data);
+                    this.queryRows = this.queryRows + skills.queryRows;
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.tableBusy = false;
+                    console.log("now query rows: ", this.queryRows)
+                }
+            },
+            async fetchSkillData() {
+                this.tableBusy = true;
+                try {
+                    const skills = await tigermaster.database.query("skill_item").limit(0, 6).get();
                     this.skills = skills.data;
                     this.totalCount = skills.totalCount;
+                    this.queryRows = skills.queryRows;
                 } catch (e) {
                     console.log("Failed to fetch skill data");
                 } finally {
