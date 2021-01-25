@@ -9,7 +9,7 @@
         </SimpleModal>
         <TitledCard title="訂單搜索">
             <b-container fluid>
-                <div>
+                <!-- <div>
                     <b-form inline>
                         <b-input-group class="col-3 p-0">
                             <template #prepend>
@@ -49,7 +49,25 @@
                             <b-input v-model="search.addressStreet"></b-input>
                         </b-input-group>
                     </b-form>
-                </div>
+                </div> -->
+                <b-input-group class="mb-2" v-for="(item, index) in conditions" :key="index" inline>
+                    <b-form-select required v-model="item.field" :options="options">
+                    </b-form-select>
+                    <b-form-select required v-model="item.operator">
+                        <option value="=">等於</option>
+                        <option value="!=">不等於</option>
+                        <option value=">">大於</option>
+                        <option value="<">小於</option>
+                        <option value="LIKE">包含</option>
+                    </b-form-select>
+                    <b-form-input required v-model="item.condition" maxlength="20">
+                    </b-form-input>
+                    <b-input-group-append>
+                        <b-button @click="deleteCondition(index)" variant="danger">
+                            <font-awesome-icon icon="trash-alt" />
+                        </b-button>
+                    </b-input-group-append>
+                </b-input-group>
                 <b-input-group class="mb-3" inline>
                     <b-form-select required v-model="pendingCondiction.field" :options="options">
                     </b-form-select>
@@ -102,6 +120,21 @@
                 options: [{
                     "value": 'id',
                     "text": "訂單編號"
+                }, {
+                    "value": 'status',
+                    "text": "訂單狀態"
+                }, {
+                    "value": 'working_category',
+                    "text": "訂單工項"
+                }, {
+                    "value": 'address_city',
+                    "text": "城市"
+                }, {
+                    "value": 'address_area',
+                    "text": "區"
+                }, {
+                    "value": 'address_street',
+                    "text": "街道"
                 }],
                 search: {},
                 tableBusy: false,
@@ -114,6 +147,9 @@
             }
         },
         methods: {
+            deleteCondition(index) {
+                this.conditions.splice(index, 1);
+            },
             isValidForm(form) {
                 return form.field != '' && form.operator != '' && form.condition != '';
             },
@@ -128,31 +164,10 @@
             async onSearchClick() {
                 this.$emit("startSearch")
                 let query = tigermaster.database.query("generic_order");
-                let searchArray = Object.entries(this.search);
+                let searchArray = (this.conditions);
                 searchArray.forEach(element => {
-                    element[2] = 'LIKE'
-                    element[1] = '%' + element[1] + '%'
-                    if (element[0] === 'workingCategoryDescription') {
-                        query.with('working_category');
-                        query.link('working_category.id', 'generic_order.working_category_id');
-                        query.where('working_category.description', 'LIKE', element[1]);
-                    } else if (element[0] === 'masterUserPhone') {
-                        query.with('user');
-                        query.link('user.id', 'generic_order.master_user_id');
-                        query.where('user.phone', 'LIKE', element[1]);
-                    } else {
-                        if (element[0] === 'masterUserId') {
-                            element[0] = 'master_user_id'
-                        } else if (element[0] === 'addressCity') {
-                            element[0] = 'address_city'
-                        } else if (element[0] === 'addressArea') {
-                            element[0] = 'address_area'
-                        } else if (element[0] === 'addressStreet') {
-                            element[0] = 'address_street'
-                        }
-                        query.where(`generic_order.${element[0]}`, element[2], element[1])
-                    }
-                });
+                    query.where(`generic_order.${element.field}`, element.operator, element.condition)
+                })
                 try {
                     const res = await query.get();
                     this.$emit("SuccessfulSearch", res)
