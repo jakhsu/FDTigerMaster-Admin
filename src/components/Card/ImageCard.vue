@@ -1,18 +1,18 @@
 <template>
     <b-card id="image-card" @click="onCardClicked">
         <ProtectedImage :src="src" :alt="alt" imgClass="imgClass" @imageSuccess="handleImgSuccess" />
-        <span>
+        <span v-if="imageDetails.createBy">
             <font-awesome-icon icon="user" fixed-width />
             {{imageDetails.createBy}}
         </span>
         <div>
-            <span>
+            <span v-if="imageDetails.pictureDesc">
                 <font-awesome-icon icon="info-circle" fixed-width />
                 {{imageDetails.pictureDesc}}
             </span>
         </div>
         <div>
-            <span>
+            <span v-if="imageDetails.createDate">
                 <font-awesome-icon icon="calendar-alt" fixed-width />
                 {{imageDetails.createDate}}
             </span>
@@ -38,7 +38,10 @@
                 default: 'm-2'
             },
             imageDetails: {
-                type: Object
+                type: Object,
+                default () {
+                    return {}
+                }
             }
         },
         data() {

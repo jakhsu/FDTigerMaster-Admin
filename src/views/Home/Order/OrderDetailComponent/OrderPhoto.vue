@@ -11,19 +11,6 @@
                 </b-form-group>
             </template>
         </SimpleModal>
-        <SimpleModal id="Picture-Detail-Modal" title="施工照資料" @onSaveClick="onModalSave">
-            <template #modal-body>
-                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="照片描述">
-                    <b-input v-model="detailedPicture.pictureDesc" disabled />
-                </b-form-group>
-                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳時間">
-                    <b-input v-model="detailedPicture.createDate" disabled />
-                </b-form-group>
-                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="上傳者">
-                    <b-input v-model="detailedPicture.createBy" disabled />
-                </b-form-group>
-            </template>
-        </SimpleModal>
         <b-container fluid>
             <div class="d-flex mt-3">
                 <b-button v-b-modal="'upload-modal'" variant="success">上傳施工照片</b-button>
@@ -31,20 +18,20 @@
             <b-row>
                 <b-col>
                     <TitledCard title="客戶上傳照片">
-                        <!-- <ProtectedImage v-for="(img, index) in stage1Paths" :src="img" :key="index"
-                            @imgClicked="openImgModal" /> -->
+                        <ImageCard v-for="(img, index) in stage1Pics" :src="img.path" :key="index"
+                            @imgCardClicked="openImgModal" :imageDetails="img" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="施工前照片">
-                        <!-- <ProtectedImage v-for="(img, index) in stage2Paths" :src="img" :key="index"
-                            @imgClicked="openImgModal" /> -->
+                        <ImageCard v-for="(img, index) in stage2Pics" :src="img.path" :key="index"
+                            @imgCardClicked="openImgModal" :imageDetails="img" />
                     </TitledCard>
                 </b-col>
                 <b-col>
                     <TitledCard title="施工後照片">
-                        <!-- <ProtectedImage v-for="(img, index) in stage3Paths" :src="img" :key="index"
-                            @imgClicked="openImgModal" /> -->
+                        <ImageCard v-for="(img, index) in stage3Pics" :src="img.path" :key="index"
+                            @imgCardClicked="openImgModal" :imageDetails="img" />
                     </TitledCard>
                 </b-col>
             </b-row>
@@ -57,16 +44,16 @@
     import ImgUpload from '@/components/Image/ImgUpload.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    // import ProtectedImage from '@/components/Image/ProtectedImage.vue'
+    import ImageCard from '@/components/Card/ImageCard.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         components: {
             ImgUpload,
+            ImageCard,
             TitledCard,
-            SimpleModal,
-            // ProtectedImage
+            SimpleModal
         },
         name: 'OrderPhoto',
         props: {
@@ -84,6 +71,7 @@
                 OrderPicStage,
                 detailedPicture: {},
                 pictures: [],
+                originalPic: ""
             }
         },
         async created() {
@@ -122,23 +110,25 @@
             handleUpload(file) {
                 this.imageFile = file;
             },
-            openImgModal(url) {
+            openImgModal(url, originalPic) {
                 this.detailedPicture = this.pictures.find(e => e.path === url)
-                this.$bvModal.show("Picture-Detail-Modal")
+                this.originalPic = originalPic;
+                // this.$bvModal.show("Picture-Detail-Modal")
+                window.open(originalPic)
             },
             onModalSave() {
                 this.$bvModal.hide("Picture-Detail-Modal")
             }
         },
         computed: {
-            stage1Paths() {
-                return this.pictures.filter(e => e.stage === 1).map(e => e.path);
+            stage1Pics() {
+                return this.pictures.filter(e => e.stage === 1);
             },
-            stage2Paths() {
-                return this.pictures.filter(e => e.stage === 2).map(e => e.path);
+            stage2Pics() {
+                return this.pictures.filter(e => e.stage === 2);
             },
-            stage3Paths() {
-                return this.pictures.filter(e => e.stage === 3).map(e => e.path);
+            stage3Pics() {
+                return this.pictures.filter(e => e.stage === 3);
             }
         }
     }
