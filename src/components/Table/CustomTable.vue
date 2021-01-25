@@ -54,22 +54,12 @@
             }
         },
         beforeUpdate() {
-            // const currentRows = ((this.currentPage - 1) * this.perPage);
-            // if (currentRows >= this.queryRows && !this.isBusy) {
-            //     this.$emit("dataRequire", currentRows, this.perPage);
-            // }
-            // if (!this.isBusy) {
-            //     this.$emit("dataRequire", currentRows, this.perPage);
-            // }
+            const currentRows = ((this.currentPage - 1) * this.perPage);
+            if (currentRows >= this.queryRows && !this.isBusy) {
+                this.$emit("dataRequire", currentRows, this.perPage);
+            }
         },
         methods: {
-            changePage() {
-                const currentRows = ((this.currentPage - 1) * this.perPage);
-                if (!this.isBusy) {
-                    this.$emit("dataRequire", currentRows, this.perPage);
-                }
-                this.currentPage = 1;
-            },
             onRowSelected(items) {
                 this.selected = items;
                 this.$emit("rowSelected", this.selected);
@@ -89,14 +79,7 @@
                 if (this.isSelectAll == false) {
                     this.$refs.selectableTable.clearSelected();
                 }
-            },
-            // currentPage() {
-            //     const currentRows = ((this.currentPage - 1) * this.perPage);
-            //     if (!this.isBusy) {
-            //         this.$emit("dataRequire", currentRows, this.perPage);
-            //     }
-            //     this.currentPage = 1;
-            // }
+            }
         },
 
     }

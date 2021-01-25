@@ -41,9 +41,9 @@
                                 <b-button size="sm" class="ml-2" variant="success" v-b-modal="'Skill-Create-Modal'">
                                     新增技能
                                 </b-button>
-                                <b-button @click="test">
+                                <!-- <b-button @click="test">
                                     看全部資料
-                                </b-button>
+                                </b-button> -->
                                 <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
                                     style="display:none">
                                 <b-button class="input-button ml-auto" @click="$refs.file.click()" variant="primary">

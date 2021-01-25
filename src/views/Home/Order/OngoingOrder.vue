@@ -73,7 +73,7 @@
                         <TitledCard title="特殊訂單" bodyBackgroundColor="#457CD6" fluid>
                             <template #title-card-header>
                                 <span class="Order-Number-Container">
-                                    <span class="Order-Number-Content"><strong>5</strong></span>
+                                    <span class="Order-Number-Content"><strong>{{specialOrders.length}}</strong></span>
                                     張訂單
                                 </span>
                             </template>
@@ -178,7 +178,9 @@
                 })
             },
             specialOrders() {
-                return 0;
+                return this.orders.filter((order) => {
+                    return order.property === 1;
+                })
             }
         }
     }

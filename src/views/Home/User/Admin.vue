@@ -227,4 +227,8 @@
             padding: 0px;
         }
     }
+
+    .datepicker table tr td span {
+        width: 100% !important;
+    }
 </style>

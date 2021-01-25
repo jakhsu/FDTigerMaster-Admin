@@ -6,54 +6,55 @@
             </template>
             <b-form id="order-form">
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶ID: ">
-                    <b-form-input :state="inputState[0]" @update="notEmptyValidate(order.clientUserId, 0)"
-                        v-model="order.clientUserId" />
+                    <b-form-input :state="inputState[0]" @update="notEmptyValidate(clientUserId, 0)"
+                        v-model="clientUserId" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
                     <scale-loader v-if="isLoading" />
                     <b-form-input list="workingCategoryList" :state="inputState[1]"
-                        @update="workingCategoryValidate(order.workingCategoryId, 1)"
-                        v-model="order.workingCategoryId" />
+                        @update="workingCategoryValidate(workingCategoryId, 1)" v-model="workingCategoryId" />
                     <b-form-datalist id="workingCategoryList" :options="workingCategories" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                    <b-form-input :state="inputState[2]" @update="notEmptyValidate(order.addressCity, 2)"
-                        v-model="order.addressCity" />
+                    <b-form-input :state="inputState[2]" @update="notEmptyValidate(addressCity, 2)"
+                        v-model="addressCity" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
-                    <b-form-input :state="inputState[3]" @update="notEmptyValidate(order.addressArea, 3)"
-                        v-model="order.addressArea" />
+                    <b-form-input :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
+                        v-model="addressArea" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                    <b-form-input :state="inputState[4]" @update="notEmptyValidate(order.addressStreet, 4)"
-                        v-model="order.addressStreet" />
+                    <b-form-input :state="inputState[4]" @update="notEmptyValidate(addressStreet, 4)"
+                        v-model="addressStreet" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
-                    <b-form-input :state="inputState[5]" @update="notEmptyValidate(order.addressDetail, 5)"
-                        v-model="order.addressDetail" />
+                    <b-form-input :state="inputState[5]" @update="notEmptyValidate(addressDetail, 5)"
+                        v-model="addressDetail" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
-                    <b-form-input :state="inputState[6]" @update="notEmptyValidate(order.expectWorkingDate, 6)"
-                        v-model="order.expectWorkingDate" />
+                    <b-form-datepicker v-model="picker.date" />
+                    <b-form-timepicker v-model="picker.time"></b-form-timepicker>
+                    <b-form-input v-model="expectWorkingDate" :state="inputState[6]"
+                        @update="notEmptyValidate(expectWorkingDate, 6)" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                    <b-form-input :state="inputState[7]" @update="notEmptyValidate(order.distanceBonus, 7)"
-                        v-model.number="order.distanceBonus" />
+                    <b-form-input :state="inputState[7]" @update="notEmptyValidate(distanceBonus, 7)"
+                        v-model.number="distanceBonus" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等加成: ">
-                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(order.masterScoreBonus, 8)"
-                        v-model.number="order.masterScoreBonus" />
+                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(masterScoreBonus, 8)"
+                        v-model.number="masterScoreBonus" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
-                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(order.invoiceTitle, 9)"
-                        v-model="order.invoiceTitle" />
+                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(invoiceTitle, 9)"
+                        v-model="invoiceTitle" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶統編: ">
-                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(order.businessId, 10)"
-                        v-model="order.businessId" />
+                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(businessId, 10)"
+                        v-model="businessId" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="是否為代叫訂單: ">
-                    <b-select v-model="order.isProxy" :state="true">
+                    <b-select v-model="isProxy" :state="true">
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </b-select>
@@ -91,21 +92,22 @@
         data() {
             return {
                 isLoading: false,
-                order: {
-                    clientUserId: "",
-                    workingCategoryId: "",
-                    addressCity: "",
-                    addressArea: "",
-                    addressStreet: "",
-                    addressDetail: "",
-                    expectWorkingDate: "",
-                    distanceBonus: 0,
-                    masterScoreBonus: 0,
-                    invoiceTitle: "",
-                    businessId: "",
-                    isProxy: 0
-                },
+                clientUserId: "",
+                workingCategoryId: "",
+                addressCity: "",
+                addressArea: "",
+                addressStreet: "",
+                addressDetail: "",
+                distanceBonus: 0,
+                masterScoreBonus: 0,
+                invoiceTitle: "",
+                businessId: "",
+                isProxy: 0,
                 OrderStatus,
+                picker: {
+                    date: "",
+                    time: ""
+                },
                 orderId: '',
                 workingCategories: [],
                 inputState: [null, null, null, null, null, null, null, null, null, null, null]
@@ -134,17 +136,30 @@
                 }
             },
             async onCreateClick() {
-                if (this.inputState.every(e => e === true)) {
-                    try {
-                        this.orderId = await tigermaster.order.create(this.order);
-                        this.onCancelModal();
-                        this.$emit("successfulCreate")
-                    } catch (e) {
-                        console.log(e)
-                    }
-                } else {
-                    console.log("some input is invalid")
+                const order = {
+                    "workingCategoryId": this.workingCategoryId,
+                    "addressCity": this.addressCity,
+                    "addressArea": this.addressArea,
+                    "addressStreet": this.addressStreet,
+                    "addressDetail": this.addressDetail,
+                    "distanceBonus": this.distanceBonus,
+                    "masterScoreBonus": this.masterScoreBonus,
+                    "invoiceTitle": this.invoiceTitle,
+                    "businessId": this.businessId,
+                    "expectWorkingDate": this.expectWorkingDate,
+                    "isProxy": this.isProxy
                 }
+                // if (this.inputState.every(e => e === true)) {
+                try {
+                    this.orderId = await tigermaster.order.create(order);
+                    this.onCancelModal();
+                    this.$emit("successfulCreate")
+                } catch (e) {
+                    console.log(e)
+                }
+                // } else {
+                //     console.log("some input is invalid")
+                // }
             },
             onCancelModal() {
                 this.$bvModal.hide(this.id)
@@ -163,7 +178,9 @@
             }
         },
         computed: {
-
+            expectWorkingDate() {
+                return this.picker.date + " " + this.picker.time
+            }
         }
     }
 </script>

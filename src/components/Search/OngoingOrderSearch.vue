@@ -50,6 +50,24 @@
                         </b-input-group>
                     </b-form>
                 </div>
+                <b-input-group class="mb-3" inline>
+                    <b-form-select required v-model="pendingCondiction.field" :options="options">
+                    </b-form-select>
+                    <b-form-select required v-model="pendingCondiction.operator">
+                        <option value="=">等於</option>
+                        <option value="!=">不等於</option>
+                        <option value=">">大於</option>
+                        <option value="<">小於</option>
+                        <option value="LIKE">包含</option>
+                    </b-form-select>
+                    <b-form-input required v-model="pendingCondiction.condition" maxlength="20">
+                    </b-form-input>
+                    <b-input-group-append>
+                        <b-button type="submit" variant="success" @click="addConditions">
+                            <font-awesome-icon icon="plus-square" />
+                        </b-button>
+                    </b-input-group-append>
+                </b-input-group>
                 <div class="d-flex mt-2">
                     <b-button variant="primary" @click="onSearchClick">
                         開始搜尋
@@ -81,11 +99,32 @@
         data() {
             return {
                 OrderStatus,
+                options: [{
+                    "value": 'id',
+                    "text": "訂單編號"
+                }],
                 search: {},
-                tableBusy: false
+                tableBusy: false,
+                pendingCondiction: {
+                    field: 'name',
+                    operator: '=',
+                    condition: ""
+                },
+                conditions: []
             }
         },
         methods: {
+            isValidForm(form) {
+                return form.field != '' && form.operator != '' && form.condition != '';
+            },
+            addConditions() {
+                if (this.isValidForm(this.pendingCondiction)) {
+                    this.conditions.push(this.pendingCondiction);
+                    this.pendingCondiction = {
+                        field: 'name'
+                    }
+                }
+            },
             async onSearchClick() {
                 this.$emit("startSearch")
                 let query = tigermaster.database.query("generic_order");

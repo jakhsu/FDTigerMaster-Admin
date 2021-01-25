@@ -7,6 +7,9 @@
         </SimpleModal>
         <b-container fluid>
             <div v-if="!isEdit" class="d-flex mt-3">
+                <b-button variant="warning" @click="calculatePrice">
+                    重新計算價錢
+                </b-button>
                 <b-button @click="startEdit" class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
@@ -16,6 +19,9 @@
                 </b-button>
             </div>
             <div v-else class="d-flex mt-3">
+                <b-button variant="warning" @click="calculatePrice">
+                    重新計算價錢
+                </b-button>
                 <b-button @click="onFinishEdit" class="ml-auto" variant="success">
                     <font-awesome-icon icon="edit" fixed-width />
                     完成編輯
@@ -92,10 +98,16 @@
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
                                 <b-form-input v-model="order._data.masterOfferPrice" disabled />
                             </b-form-group>
-                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                                <b-form-input v-model="order._data.distanceBonus" :disabled="!isEdit" />
+                            <b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
+                                    <b-form-input v-model="order._data.distanceBonus" :disabled="!isEdit" />
+                                </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成金額: ">
+                                    <b-form-input v-model="price.tax" :disabled="!isEdit" />
+                                </b-form-group>
                             </b-form-group>
-                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等: ">
+
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成: ">
                                 <b-form-input v-model="order._data.masterScoreBonus" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
@@ -109,6 +121,9 @@
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="派遣費折讓: ">
                                 <b-form-input v-model="order._data.dispatchDiscountPrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="稅金: ">
+                                <b-form-input v-model="order._data.tax" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
                                 <b-form-input v-model="order._data.totalPay" disabled />
@@ -166,7 +181,11 @@
                 statusMap: OrderStatusMap(),
                 OrderStatus,
                 isEdit: false,
+                price: {}
             }
+        },
+        created() {
+            this.calculatePrice();
         },
         methods: {
             cancelEdit() {
@@ -205,6 +224,14 @@
             async terminateOrder() {
                 try {
                     await this.order.cancel();
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            async calculatePrice() {
+                try {
+                    const res = await this.order.paymenyEstimate();
+                    this.price = res;
                 } catch (e) {
                     console.log(e)
                 }

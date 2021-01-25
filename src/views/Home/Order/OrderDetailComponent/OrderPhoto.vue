@@ -30,19 +30,19 @@
             </div>
             <b-row>
                 <b-col>
-                    <TitledCard title="施工前照片">
+                    <TitledCard title="客戶上傳照片">
                         <ProtectedImage v-for="(img, index) in stage1Paths" :src="img" :key="index"
                             @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
-                    <TitledCard title="施工中照片">
+                    <TitledCard title="施工前照片">
                         <ProtectedImage v-for="(img, index) in stage2Paths" :src="img" :key="index"
                             @imgClicked="openImgModal" />
                     </TitledCard>
                 </b-col>
                 <b-col>
-                    <TitledCard title="完工照片">
+                    <TitledCard title="施工後照片">
                         <ProtectedImage v-for="(img, index) in stage3Paths" :src="img" :key="index"
                             @imgClicked="openImgModal" />
                     </TitledCard>

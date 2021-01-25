@@ -13,7 +13,7 @@
                     <div class="SearchBar d-flex mb-3">
                         <b-button variant="warning" @click="updateMapping">
                             <font-awesome-icon icon="hourglass-half" />
-                            開始搜尋
+                            重新配對
                         </b-button>
                     </div>
                     <CustomTable :isBusy="matchedTableBusy" ref="customTable" :queryRows="totalCount"
