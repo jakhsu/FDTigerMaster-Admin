@@ -287,12 +287,22 @@
             async onFinishEdit() {
                 if (this.streetErrorMessage === '') {
                     this.isLoading = true;
-                    if (!this.userData.avgScore) {
-                        this.userData.avgScore = 0;
+                    const dataToBeUpdated = {
+                        phone: this.userData.phone,
+                        email: this.userData.email,
+                        name: this.userData.name,
+                        sex: this.userData.sex,
+                        addressCity: this.userData.addressCity,
+                        addressArea: this.userData.addressArea,
+                        addressStreet: this.userData.addressStreet,
+                        addressDetail: this.userData.addressDetail,
+                        idCardNo: this.userData.idCardNo,
+                        birthYear: this.userData.birthYear,
+                        birthMon: this.userData.birthMon,
+                        birthDate: this.userData.birthDate,
+                        status: this.userData.status
                     }
-                    await this.currentUser.update(this.userData.pass);
-                    delete this.userData["pass"];
-                    await this.currentUser.update(this.userData);
+                    await this.currentUser.update(dataToBeUpdated);
                     this.updateHeadshot();
                     this.$router.push({
                         path: '/home/user_detail',
@@ -307,11 +317,6 @@
                 if (this.toBeUploadedHeadShot.name) {
                     try {
                         this.currentUser.updateHeadshot(this.toBeUploadedHeadShot)
-                        this.$bvToast.toast('成功上傳大頭照', {
-                            title: '恭喜',
-                            variant: "success",
-                            autoHideDelay: 5000
-                        });
                         this.canUploadImg = false;
                     } catch (e) {
                         console.log(e)
