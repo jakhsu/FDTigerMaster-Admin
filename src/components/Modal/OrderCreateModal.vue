@@ -16,11 +16,11 @@
                     <b-form-datalist id="workingCategoryList" :options="workingCategories" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                    <b-form-input :state="inputState[2]" @update="notEmptyValidate(addressCity, 2)"
+                    <b-form-select :options="cityList" :state="inputState[2]" @update="notEmptyValidate(addressCity, 2)"
                         v-model="addressCity" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
-                    <b-form-input :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
+                    <b-form-select :options="areaList" :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
                         v-model="addressArea" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
@@ -32,10 +32,10 @@
                         v-model="addressDetail" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
-                    <b-form-datepicker v-model="picker.date" />
-                    <b-form-timepicker v-model="picker.time"></b-form-timepicker>
+                    <b-form-datepicker placeholder="選擇日期" v-model="picker.date" />
+                    <b-form-timepicker placeholder="選擇時間" v-model="picker.time"></b-form-timepicker>
                     <b-form-input v-model="expectWorkingDate" :state="inputState[6]"
-                        @update="notEmptyValidate(expectWorkingDate, 6)" />
+                        @update="notEmptyValidate(expectWorkingDate, 6)" disabled />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
                     <b-form-input :state="inputState[7]" @update="notEmptyValidate(distanceBonus, 7)"
@@ -75,6 +75,7 @@
 <script>
     import OrderStatus from '@/config/OrderStatus.json'
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import CityAreaData from '@/config/AreaData.json'
 
     export default {
         name: 'OrderCreateModal',
@@ -91,6 +92,7 @@
         components: {},
         data() {
             return {
+                CityAreaData,
                 isLoading: false,
                 clientUserId: "",
                 workingCategoryId: "",
@@ -137,6 +139,7 @@
             },
             async onCreateClick() {
                 const order = {
+                    "clientUserId": this.clientUserId,
                     "workingCategoryId": this.workingCategoryId,
                     "addressCity": this.addressCity,
                     "addressArea": this.addressArea,
@@ -180,6 +183,12 @@
         computed: {
             expectWorkingDate() {
                 return this.picker.date + " " + this.picker.time
+            },
+            cityList() {
+                return Object.keys(this.CityAreaData);
+            },
+            areaList() {
+                return this.CityAreaData[this.addressCity];
             }
         }
     }
