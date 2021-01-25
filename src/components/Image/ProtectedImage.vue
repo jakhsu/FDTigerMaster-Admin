@@ -1,35 +1,7 @@
 <template>
     <div>
         <scale-loader v-if="isFetching" />
-        <b-card v-else id="image-card" @click="onImgClicked">
-            <div>
-                <div v-if="!img">
-                    <span>
-                        <font-awesome-icon icon="ban" />
-                        抱歉，此圖片載入失敗，請檢查網路連線
-                    </span>
-                </div>
-                <img v-else :class="imgClass" :src="img" :alt="alt" height="200">
-            </div>
-            <div>
-                <span>
-                    <font-awesome-icon icon="user" fixed-width />
-                    {{imageDetails.createBy}}
-                </span>
-            </div>
-            <div>
-                <span>
-                    <font-awesome-icon icon="info-circle" fixed-width />
-                    {{imageDetails.pictureDesc}}
-                </span>
-            </div>
-            <div>
-                <span>
-                    <font-awesome-icon icon="calendar-alt" fixed-width />
-                    {{imageDetails.createDate}}
-                </span>
-            </div>
-        </b-card>
+        <img v-else :class="imgClass" :src="img" :alt="alt" height="200">
     </div>
 </template>
 
@@ -47,9 +19,6 @@
             imgClass: {
                 type: String,
                 default: 'm-2'
-            },
-            imageDetails: {
-                type: Object
             }
         },
         data() {
@@ -68,15 +37,11 @@
                 });
                 const imgBlob = await response.blob();
                 this.img = (URL.createObjectURL(imgBlob))
+                this.$emit("imageSuccess", this.img)
             } catch (e) {
                 console.log(e);
             } finally {
                 this.isFetching = false
-            }
-        },
-        methods: {
-            onImgClicked() {
-                this.$emit("imgClicked", this.src, this.img);
             }
         }
     }

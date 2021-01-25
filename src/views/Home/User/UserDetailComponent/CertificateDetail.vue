@@ -13,8 +13,10 @@
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
                         <div v-if="certificates.length > 0" class="row justify-content-center">
-                            <ProtectedImage v-for="(img, index) in certificates" :key="index" :src="img.path"
-                                @imgClicked="openImgModal" :imageDetails="img" />
+                            <!-- <ProtectedImage v-for="(img, index) in certificates" :key="index" :src="img.path"
+                                @imgClicked="openImgModal" :imageDetails="img" /> -->
+                            <ImageCard v-for="(img, index) in certificates" :key="index" :src="img.path"
+                                @imgCardClicked="openImgModal" :imageDetails="img" />
                         </div>
                     </TitledCard>
                 </b-col>
@@ -44,17 +46,17 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import ProtectedImage from '@/components/Image/ProtectedImage.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import ImageCard from '@/components/Card/ImageCard.vue'
 
     export default {
         name: "CertificateDetail",
         components: {
             ImgUpload,
+            ImageCard,
             TitledCard,
             SimpleModal,
-            ProtectedImage
         },
         props: {
             user: Object
