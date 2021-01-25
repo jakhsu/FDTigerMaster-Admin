@@ -15,7 +15,7 @@
                 <b-row>
                     <b-col>
                         <OngoingOrderSearch @startSearch="handleSearchStart" @SuccessfulSearch="handleSearchResult"
-                            @createOrder="openOrderCreateModal" />
+                            @createOrder="openOrderCreateModal" @FailedSearch="handleFailedSearch" />
                     </b-col>
                 </b-row>
                 <b-row>
@@ -138,6 +138,9 @@
             },
             handleSearchResult(result) {
                 this.orders = result.data;
+                this.isLoadingOrders = false;
+            },
+            handleFailedSearch() {
                 this.isLoadingOrders = false;
             },
             async fetchOngoiningOrders() {

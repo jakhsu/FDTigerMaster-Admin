@@ -60,7 +60,8 @@
                         <option value="<">小於</option>
                         <option value="LIKE">包含</option>
                     </b-form-select>
-                    <b-form-input required v-model="item.condition" maxlength="20">
+                    <b-form-select v-if="item.field === 'status'" v-model="item.condition" :options="OrderStatus" />
+                    <b-form-input v-else required v-model="item.condition" maxlength="20">
                     </b-form-input>
                     <b-input-group-append>
                         <b-button @click="deleteCondition(index)" variant="danger">
@@ -78,7 +79,9 @@
                         <option value="<">小於</option>
                         <option value="LIKE">包含</option>
                     </b-form-select>
-                    <b-form-input required v-model="pendingCondiction.condition" maxlength="20">
+                    <b-form-select v-if="pendingCondiction.field === 'status'" v-model="pendingCondiction.condition"
+                        :options="OrderStatus" />
+                    <b-form-input v-else required v-model="pendingCondiction.condition" maxlength="20">
                     </b-form-input>
                     <b-input-group-append>
                         <b-button type="submit" variant="success" @click="addConditions">
@@ -143,6 +146,7 @@
                     operator: '=',
                     condition: ""
                 },
+
                 conditions: []
             }
         },
@@ -173,10 +177,12 @@
                     this.$emit("SuccessfulSearch", res)
                 } catch (e) {
                     this.$bvModal.show("Search-Fail-Modal");
+                } finally {
+                    this.$emit("FailedSearch")
                 }
             },
             onSearchClearClick() {
-                this.search = {}
+                this.conditions = []
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
