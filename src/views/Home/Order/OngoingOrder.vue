@@ -29,9 +29,8 @@
                             </template>
                             <div class="Order-Panel">
                                 <scale-loader v-if="isLoadingOrders" />
-                                <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
-                                    v-for="(order, index) in matchingOrders" :key="index" :orderData="order"
-                                    class="mt-0" />
+                                <OrderCard v-else @onClick="onCardClick" v-for="(order, index) in matchingOrders"
+                                    :key="index" :orderData="order" class="mt-0" />
                             </div>
                         </TitledCard>
                     </b-col>
@@ -45,9 +44,8 @@
                             </template>
                             <div class="Order-Panel">
                                 <scale-loader v-if="isLoadingOrders" />
-                                <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
-                                    v-for="(order, index) in ongoingOrders" :key="index" :orderData="order"
-                                    class="mt-0" />
+                                <OrderCard v-else @onClick="onCardClick" v-for="(order, index) in ongoingOrders"
+                                    :key="index" :orderData="order" class="mt-0" />
                             </div>
                         </TitledCard>
                     </b-col>
@@ -61,9 +59,8 @@
                             </template>
                             <div class="Order-Panel">
                                 <scale-loader v-if="isLoadingOrders" />
-                                <OrderCard v-else @onClick="onCardClick" v-b-modal="'Order-Detail-Modal'"
-                                    v-for="(order, index) in ToBePaidOrders" :key="index" :orderData="order"
-                                    class="mt-0">
+                                <OrderCard v-else @onClick="onCardClick" v-for="(order, index) in ToBePaidOrders"
+                                    :key="index" :orderData="order" class="mt-0">
                                 </OrderCard>
 
                             </div>
