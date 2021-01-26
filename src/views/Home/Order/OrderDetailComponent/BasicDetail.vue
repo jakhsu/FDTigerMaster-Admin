@@ -91,9 +91,20 @@
                             <b-form-input v-model="order._data.invoiceTitle" :disabled="!isEdit" />
                         </b-form-group>
                     </TitledCard>
+                    <TitledCard title="訂單聊天室">
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶/客服: ">
+                            <b-form-input v-model="order._data.client2admin" disabled />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅/客服: ">
+                            <b-form-input v-model="order._data.master2admin" disabled />
+                        </b-form-group>
+                        <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶/師傅: ">
+                            <b-form-input v-model="order._data.client2master" disabled />
+                        </b-form-group>
+                    </TitledCard>
                 </b-col>
                 <b-col>
-                    <TitledCard title="費用">
+                    <TitledCard title="客戶費用">
                         <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
                                 <b-form-input v-model="order._data.masterOfferPrice" disabled />
@@ -106,7 +117,6 @@
                                     <b-form-input v-model="price.tax" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
-
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成: ">
                                 <b-form-input v-model="order._data.masterScoreBonus" :disabled="!isEdit" />
                             </b-form-group>
