@@ -54,8 +54,9 @@
                                 </b-button>
                             </div>
                             <div>
-                                <CustomTable ref="customTable" :queryRows="totalCount" :totalRows="totalCount"
-                                    :datas="workingCategories" :isBusy="tableBusy" :fields="CategoriesTable">
+                                <CustomTable @dataRequire="onDataRequire" ref="customTable" :queryRows="queryRows"
+                                    :totalRows="totalCount" :datas="workingCategories" :isBusy="tableBusy"
+                                    :fields="CategoriesTable" :perPage="10">
                                     <template #cell(skillItemId)="data">
                                         {{data.item.skillItemId}}
                                     </template>
@@ -121,6 +122,7 @@
                 CategoriesTable,
                 tableBusy: false,
                 totalCount: 0,
+                queryRows: 0,
                 workingCategories: [],
                 selectedWorkingCategory: {},
                 search: {}
@@ -130,14 +132,30 @@
             this.fetchWorkingCategory();
         },
         methods: {
+            async onDataRequire(currentRows, perPage) {
+                this.tableBusy = true;
+                try {
+                    const res = await tigermaster.database.query("working_category")
+                        .limit(this.queryRows, currentRows + perPage - this.queryRows)
+                        .get();
+                    this.workingCategories = this.workingCategories.concat(res.data);
+                    this.queryRows = this.queryRows + res.queryRows;
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.tableBusy = false;
+                }
+            },
             async fetchWorkingCategory() {
                 try {
                     this.tableBusy = true;
-                    const workingCategories = await tigermaster.database
+                    const res = await tigermaster.database
                         .query("working_category")
+                        .limit(0, 10)
                         .get();
-                    this.workingCategories = workingCategories.data;
-                    this.totalCount = workingCategories.totalCount;
+                    this.workingCategories = res.data;
+                    this.totalCount = res.totalCount;
+                    this.queryRows = res.queryRows;
                 } catch (e) {
                     console.log(e);
                 } finally {

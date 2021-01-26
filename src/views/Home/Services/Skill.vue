@@ -41,9 +41,6 @@
                                 <b-button size="sm" class="ml-2" variant="success" v-b-modal="'Skill-Create-Modal'">
                                     新增技能
                                 </b-button>
-                                <!-- <b-button @click="test">
-                                    看全部資料
-                                </b-button> -->
                                 <input name="skillUpload" type="file" ref="file" @change="handleFileUpload"
                                     style="display:none">
                                 <b-button class="input-button ml-auto" @click="$refs.file.click()" variant="primary">
@@ -128,9 +125,6 @@
             await this.fetchSkillData();
         },
         methods: {
-            test() {
-                console.log(this.skills.map(e => e.id))
-            },
             async onDataRequire(currentRows, perPage) {
                 this.tableBusy = true;
                 try {
@@ -143,7 +137,6 @@
                     console.log(e)
                 } finally {
                     this.tableBusy = false;
-                    console.log("query Rows: ", this.queryRows)
                 }
             },
             async fetchSkillData() {
