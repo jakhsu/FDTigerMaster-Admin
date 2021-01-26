@@ -9,47 +9,6 @@
         </SimpleModal>
         <TitledCard title="訂單搜索">
             <b-container fluid>
-                <!-- <div>
-                    <b-form inline>
-                        <b-input-group class="col-3 p-0">
-                            <template #prepend>
-                                <b-input-group-text><strong>編號</strong></b-input-group-text>
-                            </template>
-                            <b-input v-model="search.id"></b-input>
-                        </b-input-group>
-                        <b-input-group class="p-0">
-                            <template #prepend>
-                                <b-input-group-text><strong>訂單狀態</strong></b-input-group-text>
-                            </template>
-                            <b-form-select v-model="search.status" :options="OrderStatus">
-                            </b-form-select>
-                        </b-input-group>
-                        <b-input-group class="col-3 p-0">
-                            <template #prepend>
-                                <b-input-group-text><strong>訂單工項</strong></b-input-group-text>
-                            </template>
-                            <b-input v-model="search.category"></b-input>
-                        </b-input-group>
-                        <b-input-group class="col-3 p-0">
-                            <template #prepend>
-                                <b-input-group-text><strong>城市</strong></b-input-group-text>
-                            </template>
-                            <b-input v-model="search.addressCity"></b-input>
-                        </b-input-group>
-                        <b-input-group class="col-3 p-0">
-                            <template #prepend>
-                                <b-input-group-text><strong>區</strong></b-input-group-text>
-                            </template>
-                            <b-input v-model="search.addressArea"></b-input>
-                        </b-input-group>
-                        <b-input-group class="col-3 p-0">
-                            <template #prepend>
-                                <b-input-group-text><strong>街道</strong></b-input-group-text>
-                            </template>
-                            <b-input v-model="search.addressStreet"></b-input>
-                        </b-input-group>
-                    </b-form>
-                </div> -->
                 <b-input-group class="mb-2" v-for="(item, index) in conditions" :key="index" inline>
                     <b-form-select required v-model="item.field" :options="options">
                     </b-form-select>
@@ -142,7 +101,7 @@
                 search: {},
                 tableBusy: false,
                 pendingCondiction: {
-                    field: 'name',
+                    field: 'status',
                     operator: '=',
                     condition: ""
                 },
@@ -182,7 +141,12 @@
                 }
             },
             onSearchClearClick() {
-                this.conditions = []
+                this.conditions = [];
+                this.pendingCondiction = {
+                    field: 'status',
+                    operator: '=',
+                    condition: ""
+                };
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
