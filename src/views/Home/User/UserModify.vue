@@ -201,7 +201,7 @@
 </template>
 
 <script>
-    import AreaData from '@/config/AreaData.json'
+    import CityAreaData from '@/config/CityAreaData.json'
     import UserRole from '@/config/UserRole.json'
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
@@ -227,7 +227,7 @@
                 canUploadImg: false,
                 userData: {},
                 streetNames: [],
-                areadata: AreaData,
+                areadata: CityAreaData,
                 toBeUploadedHeadShot: {},
                 open: true,
                 streetErrorMessage: '',

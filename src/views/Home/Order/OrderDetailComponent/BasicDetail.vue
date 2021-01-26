@@ -114,11 +114,14 @@
                                     <b-form-input v-model="order._data.distanceBonus" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成金額: ">
-                                    <b-form-input v-model="price.tax" :disabled="!isEdit" />
+                                    <b-form-input v-model="price.distancePrice" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成: ">
                                 <b-form-input v-model="order._data.masterScoreBonus" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成金額: ">
+                                <b-form-input v-model="price.masterScorePrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
                                 <b-form-input v-model="order._data.timeBonus" :disabled="!isEdit" />
@@ -133,7 +136,7 @@
                                 <b-form-input v-model="order._data.dispatchDiscountPrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="稅金: ">
-                                <b-form-input v-model="order._data.tax" :disabled="!isEdit" />
+                                <b-form-input v-model="price.tax" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
                                 <b-form-input v-model="order._data.totalPay" disabled />

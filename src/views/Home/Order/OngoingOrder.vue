@@ -91,7 +91,7 @@
     import Loading from '@/components/Loading'
     import OrderCard from '@/components/Card/OrderCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import OngoingOrderSearch from '@/components/Search/OngoingOrderSearch.vue'
+    import OngoingOrderSearch from '@/components/OngoingOrder/OngoingOrderSearch.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'

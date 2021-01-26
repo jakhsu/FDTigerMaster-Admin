@@ -80,7 +80,7 @@
 <script>
     import OrderStatus from '@/config/OrderStatus.json'
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import CityAreaData from '@/config/AreaData.json'
+    import CityCityAreaData from '@/config/CityAreaData.json'
 
     export default {
         name: 'OrderCreateModal',
@@ -94,10 +94,9 @@
                 default: 'lg'
             }
         },
-        components: {},
         data() {
             return {
-                CityAreaData,
+                CityCityAreaData,
                 isLoading: false,
                 clientUserId: "",
                 workingCategoryId: "",
@@ -190,10 +189,10 @@
                 return this.picker.date + " " + this.picker.time
             },
             cityList() {
-                return Object.keys(this.CityAreaData);
+                return Object.keys(this.CityCityAreaData);
             },
             areaList() {
-                return this.CityAreaData[this.addressCity];
+                return this.CityCityAreaData[this.addressCity];
             },
             today() {
                 const now = new Date();
