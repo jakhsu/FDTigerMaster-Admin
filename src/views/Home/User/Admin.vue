@@ -61,7 +61,7 @@
                                                 </b-form-input>
                                                 <b-input-group-append>
                                                     <b-form-datepicker v-model="search['createDate']" size="sm"
-                                                        placeholder="選擇日期" button-only offset="10px" />
+                                                        placeholder="選擇日期" button-only />
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <b-form-input v-else v-model="search[field.key]" :name="field.key"
@@ -226,9 +226,5 @@
         #Admin .Admin-Area {
             padding: 0px;
         }
-    }
-
-    .datepicker table tr td span {
-        width: 100% !important;
     }
 </style>

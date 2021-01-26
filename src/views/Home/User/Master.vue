@@ -56,7 +56,7 @@
                                                 <b-input-group-append>
                                                     <b-form-datepicker dropup class="datepicker"
                                                         v-model="search['createDate']" size="sm" placeholder="選擇日期"
-                                                        button-only offset="10px" />
+                                                        button-only />
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <b-form-input v-else v-model="search[field.key]" :name="field.key"
