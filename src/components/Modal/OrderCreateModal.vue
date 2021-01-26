@@ -16,12 +16,14 @@
                     <b-form-datalist id="workingCategoryList" :options="workingCategories" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                    <b-form-select :options="cityList" :state="inputState[2]" @update="notEmptyValidate(addressCity, 2)"
+                    <b-form-input list="cityList" :state="inputState[2]" @update="notEmptyValidate(addressCity, 2)"
                         v-model="addressCity" />
+                    <b-form-datalist id="cityList" :options="cityList" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
-                    <b-form-select :options="areaList" :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
+                    <b-form-input list="areaList" :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
                         v-model="addressArea" />
+                    <b-form-datalist id="areaList" :options="areaList" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
                     <b-form-input :state="inputState[4]" @update="notEmptyValidate(addressStreet, 4)"
@@ -32,25 +34,28 @@
                         v-model="addressDetail" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="預期開工日: ">
-                    <b-form-datepicker placeholder="選擇日期" v-model="picker.date" />
-                    <b-form-timepicker placeholder="選擇時間" v-model="picker.time"></b-form-timepicker>
-                    <b-form-input v-model="expectWorkingDate" :state="inputState[6]"
-                        @update="notEmptyValidate(expectWorkingDate, 6)" disabled />
+                    <div class="d-flex">
+                        <b-form-datepicker @input="notEmptyValidate(picker.date, 6)" :state="inputState[6]" :min="today"
+                            placeholder="選擇日期" v-model="picker.date" />
+                        <b-form-timepicker @input="notEmptyValidate(picker.time, 7)" :state="inputState[7]"
+                            placeholder="選擇時間" v-model="picker.time"></b-form-timepicker>
+                    </div>
+                    <b-form-input v-model="expectWorkingDate" disabled />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                    <b-form-input :state="inputState[7]" @update="notEmptyValidate(distanceBonus, 7)"
+                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(distanceBonus, 8)"
                         v-model.number="distanceBonus" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等加成: ">
-                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(masterScoreBonus, 8)"
+                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(masterScoreBonus, 9)"
                         v-model.number="masterScoreBonus" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
-                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(invoiceTitle, 9)"
+                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(invoiceTitle, 10)"
                         v-model="invoiceTitle" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶統編: ">
-                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(businessId, 10)"
+                    <b-form-input :state="inputState[11]" @update="notEmptyValidate(businessId, 11)"
                         v-model="businessId" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="是否為代叫訂單: ">
@@ -112,7 +117,7 @@
                 },
                 orderId: '',
                 workingCategories: [],
-                inputState: [null, null, null, null, null, null, null, null, null, null, null]
+                inputState: [null, null, null, null, null, null, null, null, null, null, null, null]
             }
         },
         created() {
@@ -152,17 +157,17 @@
                     "expectWorkingDate": this.expectWorkingDate,
                     "isProxy": this.isProxy
                 }
-                // if (this.inputState.every(e => e === true)) {
-                try {
-                    this.orderId = await tigermaster.order.create(order);
-                    this.onCancelModal();
-                    this.$emit("successfulCreate")
-                } catch (e) {
-                    console.log(e)
+                if (this.inputState.every(e => e === true)) {
+                    try {
+                        this.orderId = await tigermaster.order.create(order);
+                        this.onCancelModal();
+                        this.$emit("successfulCreate")
+                    } catch (e) {
+                        console.log(e)
+                    }
+                } else {
+                    console.log("some input is invalid")
                 }
-                // } else {
-                //     console.log("some input is invalid")
-                // }
             },
             onCancelModal() {
                 this.$bvModal.hide(this.id)
@@ -189,6 +194,11 @@
             },
             areaList() {
                 return this.CityAreaData[this.addressCity];
+            },
+            today() {
+                const now = new Date();
+                const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+                return today;
             }
         }
     }
