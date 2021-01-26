@@ -16,8 +16,8 @@
                 <slot :name="slotName" v-bind="slotScope"></slot>
             </template>
         </b-table>
-        <b-pagination @click.native="changePage" v-model="currentPage" :total-rows="totalRows" :per-page="perPage"
-            :disabled="isBusy" align="right" limit="7" aria-controls="CustomTable" />
+        <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" :disabled="isBusy" align="right"
+            limit="7" aria-controls="CustomTable" />
     </div>
 </template>
 

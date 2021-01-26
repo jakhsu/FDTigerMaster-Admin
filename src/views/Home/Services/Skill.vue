@@ -54,7 +54,7 @@
                             <div>
                                 <CustomTable @dataRequire="onDataRequire" ref="customTable" :queryRows="queryRows"
                                     :totalRows="totalCount" :datas="skills" :isBusy="tableBusy" :isSelectable="true"
-                                    @rowClick="onSkillClick" selectMode='single' :fields="SkillsTable" :perPage="6">
+                                    @rowClick="onSkillClick" selectMode='single' :fields="SkillsTable" :perPage="10">
                                     <template #top-row>
                                         <b-td v-for="(field, index) in SkillsTable" :key="index">
                                             <b-form-select v-if="field.key === 'active'" v-model="search['active']">
@@ -125,7 +125,7 @@
             };
         },
         async created() {
-            this.fetchSkillData();
+            await this.fetchSkillData();
         },
         methods: {
             test() {
@@ -133,27 +133,23 @@
             },
             async onDataRequire(currentRows, perPage) {
                 this.tableBusy = true;
-                console.log(currentRows, perPage)
                 try {
-                    // const skills = await tigermaster.database.query("skill_item")
-                    //     .limit(currentRows, perPage)
-                    //     .get();
-                    // this.skills = this.skills.concat(skills.data);
-                    // this.queryRows = this.queryRows + skills.queryRows;
-                    const skills = await tigermaster.database.query("skill_item")
-                        .limit(currentRows, perPage)
+                    const res = await tigermaster.database.query("skill_item")
+                        .limit(this.queryRows, currentRows + perPage - this.queryRows)
                         .get();
-                    this.skills = skills.data;
+                    this.skills = this.skills.concat(res.data);
+                    this.queryRows = this.queryRows + res.queryRows;
                 } catch (e) {
                     console.log(e)
                 } finally {
                     this.tableBusy = false;
+                    console.log("query Rows: ", this.queryRows)
                 }
             },
             async fetchSkillData() {
                 this.tableBusy = true;
                 try {
-                    const skills = await tigermaster.database.query("skill_item").limit(0, 6).get();
+                    const skills = await tigermaster.database.query("skill_item").limit(0, 10).get();
                     this.skills = skills.data;
                     this.totalCount = skills.totalCount;
                     this.queryRows = skills.queryRows;

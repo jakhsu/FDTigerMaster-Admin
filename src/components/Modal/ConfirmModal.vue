@@ -23,8 +23,10 @@
             title: {
                 type: String,
                 default: '須知'
+            },
+            data: {
+                type: Object
             }
-
         },
         data() {
             return {
