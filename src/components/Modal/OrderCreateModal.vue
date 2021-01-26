@@ -29,7 +29,7 @@
                     <scale-loader v-if="isLoadingStreet" />
                     <div v-else>
                         <b-form-input list="streetList" :state="inputState[4]"
-                            @update="notEmptyValidate(addressStreet, 4)" v-model="addressStreet" />
+                            @update="streetValidate(addressStreet, 4)" v-model="addressStreet" />
                         <b-form-datalist id="streetList" :options="streetList" />
                     </div>
                 </b-form-group>
@@ -196,6 +196,10 @@
             workingCategoryValidate(input, index) {
                 const workingCategories = this.workingCategories.map(e => e.value);
                 this.inputState[index] = (workingCategories.indexOf(input) !== -1)
+            },
+            streetValidate(input, index) {
+                const street = this.streetList;
+                this.inputState[index] = (street.indexOf(input) !== -1);
             }
         },
         computed: {
