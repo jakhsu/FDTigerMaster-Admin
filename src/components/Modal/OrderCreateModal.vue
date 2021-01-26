@@ -22,12 +22,16 @@
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
                     <b-form-input list="areaList" :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
-                        v-model="addressArea" />
+                        v-model="addressArea" @change="fetchRoadName()" />
                     <b-form-datalist id="areaList" :options="areaList" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                    <b-form-input :state="inputState[4]" @update="notEmptyValidate(addressStreet, 4)"
-                        v-model="addressStreet" />
+                    <scale-loader v-if="isLoadingStreet" />
+                    <div v-else>
+                        <b-form-input list="streetList" :state="inputState[4]"
+                            @update="notEmptyValidate(addressStreet, 4)" v-model="addressStreet" />
+                        <b-form-datalist id="streetList" :options="streetList" />
+                    </div>
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
                     <b-form-input :state="inputState[5]" @update="notEmptyValidate(addressDetail, 5)"
@@ -81,6 +85,9 @@
     import OrderStatus from '@/config/OrderStatus.json'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import CityCityAreaData from '@/config/CityAreaData.json'
+    import {
+        fetchRoadName
+    } from '@/model/FetchAddress/FetchRoadName.js'
 
     export default {
         name: 'OrderCreateModal',
@@ -98,8 +105,10 @@
             return {
                 CityCityAreaData,
                 isLoading: false,
+                isLoadingStreet: false,
                 clientUserId: "",
                 workingCategoryId: "",
+                streetList: [],
                 addressCity: "",
                 addressArea: "",
                 addressStreet: "",
@@ -123,6 +132,11 @@
             this.fetchAllCategories();
         },
         methods: {
+            async fetchRoadName() {
+                this.isLoadingStreet = true;
+                this.streetList = await fetchRoadName(this.addressCity, this.addressArea);
+                this.isLoadingStreet = false;
+            },
             async fetchAllCategories() {
                 this.isLoading = true;
                 const database = tigermaster.database;
