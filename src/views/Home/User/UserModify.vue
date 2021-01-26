@@ -191,9 +191,10 @@
     import Loading from '@/components/Loading.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
+    import {
+        fetchRoadName
+    } from '@/model/FetchAddress/FetchRoadName'
 
-    import * as xmljs from 'xml-js'
-    import * as iconv from 'iconv-lite'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
@@ -249,20 +250,7 @@
             },
             async fetchRoadName() {
                 this.isAddressLoading = true;
-                const result = await fetch(
-                    `https://cors-anywhere.herokuapp.com/https://www.post.gov.tw/post/streetNameData?city=${this.userData.addressCity}&cityarea=${this.userData.addressArea}`, {
-                        method: "POST"
-                    });
-                const buffer = await result.arrayBuffer();
-                const text = iconv.decode(new Buffer(buffer), 'Big5');
-                const converted = await xmljs.xml2js(text, {
-                    compact: true,
-                    spaces: 4
-                });
-                const streets = Object.values(converted.street.road_name).map(
-                    item => item["_text"]
-                );
-                this.streetNames = streets.filter(item => item != null)
+                this.streetNames = await fetchRoadName(this.userData.addressCity, this.userData.addressArea);
                 this.isAddressLoading = false;
             },
             onNavClick(name) {
