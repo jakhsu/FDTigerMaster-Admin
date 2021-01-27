@@ -243,7 +243,7 @@
             },
             async calculatePrice() {
                 try {
-                    const res = await this.order.paymenyEstimate();
+                    const res = await this.order.paymentEstimate();
                     this.price = res;
                 } catch (e) {
                     console.log(e)
