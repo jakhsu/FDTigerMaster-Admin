@@ -33,7 +33,7 @@
                             </div>
                             <div class="Order-Table">
                                 <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
-                                    :datas="orders" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    :datas="orders" :isBusy="tableBusy">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-select v-if="field.key === 'status'" :options="OrderStatus"
@@ -101,9 +101,6 @@
             }
         },
         methods: {
-            onDataRequire() {
-                this.tableBusy = true;
-            },
             async fetchClosedOrders() {
                 this.tableBusy = true;
                 try {
