@@ -1,5 +1,6 @@
 <template>
-    <div id="Master">
+    <Loading v-if="isLoading" />
+    <div v-else id="Master">
         <UserCreateModal :defaultRole="0" />
         <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到用戶" @onSaveClick="closeFailModal">
             <template #modal-body>
@@ -40,8 +41,9 @@
                             </div>
                             <div class="Master-Table">
                                 <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount"
-                                    :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
-                                    <template b-toaster-top-full #top-row="data">
+                                    :fields="UserTableModel" :datas="data" :isBusy="tableBusy"
+                                    @dataRequire="onDataRequire">
+                                    <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index"
                                             style="overflow:visible">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']">
@@ -93,10 +95,12 @@
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import Loading from '@/components/Loading.vue'
 
     export default {
         name: "Master",
         components: {
+            Loading,
             DataCard,
             TitledCard,
             SimpleModal,
@@ -105,7 +109,7 @@
         },
         data() {
             return {
-                fields: UserTableModel,
+                UserTableModel,
                 data: [],
                 roleIdMap: RoleIdMapping(),
                 search: {
@@ -113,11 +117,15 @@
                 },
                 queryRows: 0,
                 totalCount: 0,
+                inactiveCount: 0,
                 tableBusy: false,
+                isLoading: true
             }
         },
         async created() {
             this.fetchMasters();
+            this.countInactive()
+            this.isLoading = false
         },
         methods: {
             async fetchMasters() {
@@ -138,7 +146,7 @@
                 }
             },
             onDataRequire() {
-                this.tableBusy = true;
+                this.tableBusy = true
             },
             async onSearchClick() {
                 this.tableBusy = true;
@@ -181,17 +189,15 @@
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
-            }
-        },
-        computed: {
-            inactiveCount() {
+            },
+            countInactive() {
                 let inactiveCount = 0;
                 this.data.forEach(ele => {
                     if (ele.status === 0) {
                         inactiveCount++;
                     }
                 })
-                return inactiveCount;
+                this.inactiveCount = inactiveCount;
             }
         }
     }

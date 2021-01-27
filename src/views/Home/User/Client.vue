@@ -1,5 +1,6 @@
 <template>
-    <div id="Client">
+    <Loading v-if="isLoading" />
+    <div v-else id="Client">
         <UserCreateModal :defaultRole="1" />
         <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到用戶" @onSaveClick="closeFailModal">
             <template #modal-body>
@@ -40,7 +41,8 @@
                             </div>
                             <div class="Client-Table">
                                 <CustomTable ref="customTable" :queryRows="queryRows" :totalRows="totalCount"
-                                    :fields="fields" :datas="data" :isBusy="tableBusy" @dataRequire="onDataRequire">
+                                    :fields="UserTableModel" :datas="data" :isBusy="tableBusy"
+                                    @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index"
                                             style="overflow:visible">
@@ -87,19 +89,21 @@
 </template>
 
 <script>
+    import Loading from '@/components/Loading.vue'
     import UserTableModel from '@/config/UserTable.json'
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: "Client",
         components: {
+            Loading,
             DataCard,
             TitledCard,
             SimpleModal,
@@ -108,7 +112,7 @@
         },
         data() {
             return {
-                fields: UserTableModel,
+                UserTableModel,
                 data: [],
                 roleIdMap: RoleIdMapping(),
                 search: {
@@ -116,11 +120,15 @@
                 },
                 queryRows: 0,
                 totalCount: 0,
+                inactiveCount: 0,
                 tableBusy: false,
+                isLoading: true
             }
         },
         async created() {
-            await this.fetchClient();
+            await this.fetchClient()
+            this.countInactive()
+            this.isLoading = false
         },
         methods: {
             async fetchClient() {
@@ -130,7 +138,7 @@
                         .query("user")
                         .where("user.role_id", "IN", [1, 2])
                         .limit(0, 100)
-                        .get();
+                        .get()
                     this.data = res.data;
                     this.queryRows = res.queryRows;
                     this.totalCount = res.totalCount;
@@ -184,34 +192,16 @@
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
-            }
-        },
-        computed: {
-            inactiveCount() {
+            },
+            countInactive() {
                 let inactiveCount = 0;
                 this.data.forEach(ele => {
                     if (ele.status === 0) {
                         inactiveCount++;
                     }
                 })
-                return inactiveCount;
-            },
-            popoverData() {
-                // Both title and content specified as a function in this example
-                // and will be called the each time the popover is opened
-                return {
-                    id: 'imgPopover',
-                    html: true,
-                    title: () => {
-                        // Note this is called only when the popover is opened
-                        return 'Hello <b>Popover:</b> ' + ++this.counter
-                    },
-                    content: () => {
-                        // Note this is called only when the popover is opened
-                        return
-                    }
-                }
-            },
+                this.inactiveCount = inactiveCount;
+            }
         }
     }
 </script>

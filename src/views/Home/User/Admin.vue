@@ -1,5 +1,6 @@
 <template>
-    <div id="Admin">
+    <Loading v-if="isLoading" />
+    <div v-else id="Admin">
         <UserCreateModal :defaultRole="70" />
         <SimpleModal id="Search-Fail-Modal" title="抱歉，找不到用戶" @onSaveClick="closeFailModal">
             <template #modal-body>
@@ -90,19 +91,21 @@
 
 <script>
     import UserRole from '@/config/UserRole.json'
+    import Loading from '@/components/Loading.vue'
     import UserTableModel from '@/config/UserTable.json'
     import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
 
     export default {
         name: "Admin",
         components: {
+            Loading,
             DataCard,
             TitledCard,
             SimpleModal,
@@ -120,11 +123,15 @@
                 },
                 queryRows: 0,
                 totalCount: 0,
+                inactiveCount: 0,
                 tableBusy: false,
+                isLoading: true
             }
         },
         async created() {
             await this.fetchAdmin();
+            this.countInactive();
+            this.isLoading = false;
         },
         methods: {
             async fetchAdmin() {
@@ -187,17 +194,15 @@
             },
             closeFailModal() {
                 this.$bvModal.hide("Search-Fail-Modal");
-            }
-        },
-        computed: {
-            inactiveCount() {
+            },
+            countInactive() {
                 let inactiveCount = 0;
                 this.data.forEach(ele => {
                     if (ele.status === 0) {
                         inactiveCount++;
                     }
                 })
-                return inactiveCount;
+                this.inactiveCount = inactiveCount;
             }
         }
     }
