@@ -1,22 +1,23 @@
 <template>
     <b-card id="order-card" :header="orderData.id" @click="onClick">
         <div class="mb-1">
-            <span class="order-card-status">{{ statusMap[orderData.status] }}</span>
+            <span class="order-card-status">{{statusMap[orderData.status]}}</span>
         </div>
-        <h6>{{ orderData.workingCategoryId }}</h6>
+        <h6>{{orderData.workingCategoryId}}</h6>
         <div class="order-card-location mb-1">
             <span>
                 <font-awesome-icon icon="map-marker-alt" fixed-width />
-                {{ `${orderData.addressCity} ${orderData.addressArea} ${orderData.addressStreet}`  }}</span>
+                {{ `${orderData.addressCity} ${orderData.addressArea} ${orderData.addressStreet}`}}</span>
         </div>
         <div class="order-card-contact mb-1">
             <span>
-                <font-awesome-icon icon="user" fixed-width />0912345678</span>
-            <span class="ml-1">
-                <font-awesome-icon icon="hard-hat" fixed-width />0923456789</span>
+                <font-awesome-icon icon="user" fixed-width />{{orderData.clientUserName}}</span>
+            <span class="ml-2">
+                <font-awesome-icon icon="hard-hat" fixed-width />{{masterName}}</span>
         </div>
         <div class="order-card-last-update">
-            <span>{{ orderData.updateDate }}</span>
+            <font-awesome-icon icon="clock" fixed-width />
+            <span>{{updateDate}}</span>
         </div>
     </b-card>
 </template>
@@ -31,7 +32,9 @@
         },
         data() {
             return {
-                statusMap: OrderStatusMap()
+                statusMap: OrderStatusMap(),
+                masterName: this.orderData.masterUserName || "N/A",
+                updateDate: this.orderData.updateDate || "N/A"
             }
         },
         methods: {
