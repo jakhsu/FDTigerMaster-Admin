@@ -7,6 +7,20 @@
                 </p>
             </template>
         </SimpleModal>
+        <SimpleModal id="Assign-Master-Modal" title="把訂單指定給這位師父" @onSaveClick="assignOrder(selectedMaster)">
+            <template #modal-body>
+                <p>
+                    確定要把訂單指定給這位師父嗎?
+                </p>
+            </template>
+        </SimpleModal>
+        <SimpleModal id="Switch-Master-Modal" title="把訂單轉給這位師父" @onSaveClick="switchOrder(selectedMaster)">
+            <template #modal-body>
+                <p>
+                    確定要把訂單轉給這位師父嗎?
+                </p>
+            </template>
+        </SimpleModal>
         <b-row>
             <b-col sm="12" xl="6">
                 <TitledCard title="符合工項的師傅">
@@ -25,9 +39,9 @@
                         </template>
                         <template #cell(action)="matchedMasters">
                             <b-button v-if="order._data.masterUserId" size="sm"
-                                @click="switchOrder(matchedMasters.item.masterUserId)">轉單</b-button>
+                                @click="openSwitchModal(matchedMasters.item.masterUserId)">轉單</b-button>
                             <b-button v-else class="ml-2" size="sm"
-                                @click="assignOrder(matchedMasters.item.masterUserId)">指定</b-button>
+                                @click="openAssignModal(matchedMasters.item.masterUserId)">指定</b-button>
                         </template>
                     </CustomTable>
                 </TitledCard>
@@ -64,9 +78,9 @@
                         </template>
                         <template #cell(action)="searchedMasters">
                             <b-button v-if="order._data.masterUserId" size="sm"
-                                @click="switchOrder(searchedMasters.item.id)">
+                                @click="openSwitchModal(searchedMasters.item.id)">
                                 轉單</b-button>
-                            <b-button v-else class="ml-2" size="sm" @click="assignOrder(searchedMasters.item.id)">指定
+                            <b-button v-else class="ml-2" size="sm" @click="openAssignModal(searchedMasters.item.id)">指定
                             </b-button>
                         </template>
                     </CustomTable>
@@ -130,9 +144,18 @@
                 ],
                 searchedMasters: [],
                 search: {},
+                selectedMaster: String
             }
         },
         methods: {
+            openAssignModal(master) {
+                this.selectedMaster = master;
+                this.$bvModal.show("Assign-Master-Modal");
+            },
+            openSwitchModal(master) {
+                this.selectedMaster = master;
+                this.$bvModal.show("Switch-Master-Modal");
+            },
             updateMapping() {
                 this.$emit("updateMapping")
             },
@@ -179,20 +202,18 @@
                 }
             },
             async assignOrder(masterId) {
+                this.$bvModal.hide("Assign-Master-Modal");
                 this.matchedTableBusy = true;
                 this.searchedTableBusy = true;
-
                 await this.order.assignMaster(masterId);
-
                 this.matchedTableBusy = false;
                 this.searchedTableBusy = false;
             },
             async switchOrder(masterId) {
+                this.$bvModal.hide("Switch-Master-Modal");
                 this.matchedTableBusy = true;
                 this.searchedTableBusy = true;
-
                 await this.order.switchMaster(masterId);
-
                 this.matchedTableBusy = false;
                 this.searchedTableBusy = false;
             }
