@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "fdtigermaster-dev"
+  },
+  "targets": {
+    "fdtigermaster-dev": {
+      "hosting": {
+        "admin-site": [
+          "fdtigermaster-dev-admin"
+        ]
+      }
+    }
+  }
+}
