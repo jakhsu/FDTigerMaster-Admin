@@ -1,6 +1,6 @@
 <template>
     <b-card id="image-card" @click="onCardClicked">
-        <scale-loader v-if="isLoading" />
+        <b-skeleton-img v-if="isLoading" card-img="top"></b-skeleton-img>
         <div v-else>
             <ProtectedImage :src="src" :alt="alt" imgClass="imgClass" @imageSuccess="handleImgSuccess" />
             <span v-if="imageDetails.createBy">
