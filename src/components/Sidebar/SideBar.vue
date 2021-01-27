@@ -2,7 +2,10 @@
     <b-nav class="sidebar flex-column" :class="{'toggled': toggled}">
         <b-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
             <img class="sidebar-brand-logo" alt="ttes logo" :src="logoImg" />
-            <div class="sidebar-brand-text ml-1">TigerMaster</div>
+            <div class="sidebar-brand-text ml-1">
+                TigerMaster
+                <div>測試版</div>
+            </div>
         </b-link>
 
         <SideBarButton to="/home" icon="tachometer-alt">
