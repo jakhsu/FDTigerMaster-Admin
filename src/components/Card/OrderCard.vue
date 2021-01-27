@@ -4,29 +4,6 @@
             <span class="order-card-status">{{ statusMap[orderData.status] }}</span>
         </div>
         <h6>{{ orderData.workingCategoryId }}</h6>
-        <div class="order-chat-room mb-1">
-            <div class="mb-1">
-                <span>
-                    <font-awesome-icon icon="comments" fixed-width />
-                    師傅/客戶
-                    <a href="">{{orderData.client2master}}</a>
-                </span>
-            </div>
-            <div class="mb-1">
-                <span>
-                    <font-awesome-icon icon="comments" fixed-width />
-                    師傅/客服
-                    <a href="">{{orderData.master2admin}}</a>
-                </span>
-            </div>
-            <div class="mb-1">
-                <span>
-                    <font-awesome-icon icon="comments" fixed-width />
-                    客戶/客服
-                    <a href="">{{orderData.client2admin}}</a>
-                </span>
-            </div>
-        </div>
         <div class="order-card-location mb-1">
             <span>
                 <font-awesome-icon icon="map-marker-alt" fixed-width />
