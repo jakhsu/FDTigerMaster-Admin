@@ -123,7 +123,7 @@
             }
         },
         async created() {
-            this.fetchMasters();
+            await this.fetchMasters();
             this.countInactive()
             this.isLoading = false
         },
