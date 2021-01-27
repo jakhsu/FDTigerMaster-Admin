@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build report": "vue-cli-service build --report",
+    "deploy": "npm run build && firebase deploy --only hosting:admin-site",
     "test:unit": "vue-cli-service test:unit",
     "test": "jest --coverage",
     "lint": "vue-cli-service lint"
@@ -33,7 +34,7 @@
     "bootstrap-vue": "^2.19.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
-    "fdtigermaster-admin-sdk": "^0.7.1",
+    "fdtigermaster-admin-sdk": "^0.7.2",
     "iconv-lite": "^0.6.2",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
