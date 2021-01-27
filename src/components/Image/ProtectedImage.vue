@@ -1,7 +1,6 @@
 <template>
     <div>
-        <scale-loader v-if="isFetching" />
-        <img v-else :class="imgClass" :src="img" :alt="alt" height="200">
+        <img :class="imgClass" :src="img" :alt="alt" height="200">
     </div>
 </template>
 
@@ -23,7 +22,6 @@
         },
         data() {
             return {
-                isFetching: true,
                 img: ''
             }
         },
@@ -40,8 +38,6 @@
                 this.$emit("imageSuccess", this.img)
             } catch (e) {
                 console.log(e);
-            } finally {
-                this.isFetching = false
             }
         }
     }
