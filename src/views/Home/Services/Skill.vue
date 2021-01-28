@@ -147,7 +147,7 @@
                     this.totalCount = skills.totalCount;
                     this.queryRows = skills.queryRows;
                 } catch (e) {
-                    console.log("Failed to fetch skill data");
+                    this.skills = [];
                 } finally {
                     this.tableBusy = false;
                 }

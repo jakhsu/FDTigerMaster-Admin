@@ -151,7 +151,7 @@
                     const res = await query.get();
                     this.orders = res.data;
                 } catch (e) {
-                    console.log("failed to fetch user order")
+                    this.orders = [];
                 } finally {
                     this.tableBusy = false;
                 }

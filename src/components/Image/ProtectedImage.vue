@@ -34,10 +34,10 @@
                     }
                 });
                 const imgBlob = await response.blob();
-                this.img = (URL.createObjectURL(imgBlob))
-                this.$emit("imageSuccess", this.img)
+                this.img = (URL.createObjectURL(imgBlob));
+                this.$emit("imageSuccess", this.img);
             } catch (e) {
-                console.log(e);
+                this.img = '';
             }
         }
     }

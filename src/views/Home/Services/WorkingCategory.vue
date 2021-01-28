@@ -157,7 +157,7 @@
                     this.totalCount = res.totalCount;
                     this.queryRows = res.queryRows;
                 } catch (e) {
-                    console.log(e);
+                    this.workingCategories = [];
                 } finally {
                     this.tableBusy = false;
                 }

@@ -150,7 +150,7 @@
                         };
                     })
                 } catch (e) {
-                    console.log(e)
+                    this.workingCategories = [];
                 } finally {
                     this.isLoading = false;
                 }

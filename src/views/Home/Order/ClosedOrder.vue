@@ -113,7 +113,7 @@
                     this.queryRows = result.queryRows;
                     this.totalCount = result.totalCount;
                 } catch (e) {
-                    console.log(e)
+                    this.orders = [];
                 } finally {
                     this.tableBusy = false;
                 }

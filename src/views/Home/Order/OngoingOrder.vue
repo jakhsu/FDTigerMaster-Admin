@@ -151,9 +151,9 @@
                     this.orders = res.data;
 
                 } catch (e) {
-                    console.log("no orders in DB")
+                    this.orders = [];
                 } finally {
-                    this.isLoadingOrders = false
+                    this.isLoadingOrders = false;
                 }
             },
             openOrderCreateModal() {
