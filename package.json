@@ -7,7 +7,7 @@
     "serve:local": "vue-cli-service serve --mode local",
     "serve:develop": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build",
-    "build report": "vue-cli-service build --report",
+    "build:report": "vue-cli-service build --report",
     "deploy": "npm run build && firebase deploy --only hosting:admin-site",
     "test:unit": "vue-cli-service test:unit",
     "test": "jest --coverage",
