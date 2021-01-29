@@ -20,7 +20,7 @@
     },
     async created() {
       await tigermaster.initializeApp({
-        stage: "local"
+        stage: process.env.VUE_APP_STAGE
       });
       this.isLoading = false;
     }
