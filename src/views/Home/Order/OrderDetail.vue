@@ -23,7 +23,7 @@
                 </b-nav>
             </div>
             <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters"
-                @updateOrder="onUpdateOrder" @updateMapping="onUpdateMapping">
+                @updateOrder="onUpdateOrder">
             </component>
         </b-container>
     </div>
@@ -87,7 +87,6 @@
         async created() {
             try {
                 await this.fetchOrderData();
-                await this.fetchMatchedMaster();
             } catch (e) {
                 console.log(e)
             } finally {
@@ -95,10 +94,6 @@
             }
         },
         methods: {
-            async onUpdateMapping() {
-                console.log("update mapping...")
-                await this.order.manualMapping();
-            },
             async onUpdateOrder() {
                 console.log("reload order...")
                 await this.order.reload();
@@ -112,19 +107,6 @@
                 try {
                     const order = await tigermaster.order.get(this.$route.query.orderId);
                     this.order = order;
-                } catch (e) {
-                    console.log(e)
-                }
-            },
-            async fetchMatchedMaster() {
-                const database = tigermaster.database;
-                const query = database
-                    .query("order_master_mapping")
-                    .where("order_master_mapping.order_id", "=", `${this.order.id}`);
-                try {
-                    const res = await query.get();
-                    this.matchedMasters = res.data;
-                    this.totalCount = res.totalCount;
                 } catch (e) {
                     console.log(e)
                 }

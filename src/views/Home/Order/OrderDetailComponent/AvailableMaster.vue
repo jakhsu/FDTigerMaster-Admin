@@ -105,9 +105,7 @@
             SimpleModal
         },
         props: {
-            matchedMasters: {
-                type: Array
-            },
+
             order: {
                 type: Object
             }
@@ -142,12 +140,36 @@
                         "label": "街道"
                     }
                 ],
+                matchedMasters: [],
                 searchedMasters: [],
                 search: {},
-                selectedMaster: String
+                selectedMaster: String,
+                refreshKey: 0,
+            }
+        },
+        async created() {
+            try {
+                await this.fetchMatchedMaster();
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.isLoading = false;
             }
         },
         methods: {
+            async fetchMatchedMaster() {
+                const database = tigermaster.database;
+                const query = database
+                    .query("order_master_mapping")
+                    .where("order_master_mapping.order_id", "=", `${this.order.id}`);
+                try {
+                    const res = await query.get();
+                    this.matchedMasters = res.data;
+                    this.totalCount = res.totalCount;
+                } catch (e) {
+                    console.log(e)
+                }
+            },
             openAssignModal(master) {
                 this.selectedMaster = master;
                 this.$bvModal.show("Assign-Master-Modal");
@@ -156,8 +178,11 @@
                 this.selectedMaster = master;
                 this.$bvModal.show("Switch-Master-Modal");
             },
-            updateMapping() {
-                this.$emit("updateMapping")
+            async updateMapping() {
+                this.matchedTableBusy = true;
+                await this.order.manualMapping();
+                this.refreshKey++;
+                this.matchedTableBusy = false;
             },
             onDataRequire() {},
             closeFailModal() {
