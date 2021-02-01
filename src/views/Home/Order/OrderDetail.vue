@@ -32,7 +32,7 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import BasicDetail from '@/views/Home/Order/OrderDetailComponent/BasicDetail.vue'
+    import BasicOrderDetail from '@/views/Home/Order/OrderDetailComponent/BasicOrderDetail.vue'
     import AvailableMaster from '@/views/Home/Order/OrderDetailComponent/AvailableMaster.vue'
     import OrderPhoto from '@/views/Home/Order/OrderDetailComponent/OrderPhoto.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
@@ -49,9 +49,9 @@
         data() {
             return {
                 currentTab: "basic",
-                currentComponent: BasicDetail,
+                currentComponent: BasicOrderDetail,
                 tabComponentMap: {
-                    basic: BasicDetail,
+                    basic: BasicOrderDetail,
                     master: AvailableMaster,
                     orderPhoto: OrderPhoto
                 },

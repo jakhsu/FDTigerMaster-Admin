@@ -46,7 +46,7 @@
     import Loading from '@/components/Loading.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserNote from '@/views/Home/User/UserDetailComponent/UserNote.vue'
-    import BasicDetail from '@/views/Home/User/UserDetailComponent/BasicDetail.vue'
+    import BasicUserDetail from '@/views/Home/User/UserDetailComponent/BasicUserDetail.vue'
     import OrderDetail from '@/views/Home/User/UserDetailComponent/OrderDetail.vue'
     import UserComment from '@/views/Home/User/UserDetailComponent/UserComment.vue'
     import CertificateDetail from '@/views/Home/User/UserDetailComponent/CertificateDetail.vue'
@@ -58,7 +58,7 @@
         name: 'UserDetail',
         components: {
             Loading,
-            BasicDetail,
+            BasicUserDetail,
             UserComment,
             SimpleModal,
         },
