@@ -25,7 +25,14 @@
     },
     "moduleNameMapper": {
       "@/(.*)$": "<rootDir>/src/$1"
-    }
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/@babel",
+      "<rootDir>/node_modules/@jest",
+      "<rootDir>/node_modules/lodash",
+      "signal-exit",
+      "is-typedarray"
+    ]
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
@@ -61,7 +68,6 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^26.6.3",
-    "jest-vue": "^0.8.2",
     "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.6.11"
   }
