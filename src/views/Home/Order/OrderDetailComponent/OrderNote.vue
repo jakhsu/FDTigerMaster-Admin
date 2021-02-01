@@ -1,22 +1,19 @@
 <template>
-    <div id="UserNote">
-        <CreateUserNoteModal @finish="onRefresh" :userId="currentUser.id" />
+    <div id="OrderNote">
+        <CreateOrderNoteModal @finish="onRefresh" :orderId="order.id" />
         <ModifyNoteModal @finish="onRefresh" :noteId="selectedNote.id" :initNoteContent="selectedNote.content" />
         <b-container fluid>
             <b-row>
                 <b-col>
-                    <TitledCard title="用戶註記:">
+                    <TitledCard title="定單註記:">
                         <div class="User-Note-Search d-flex mb-3">
                             <b-button class="ml-auto" variant="success" v-b-modal="'Note-Create-Modal'">新增註記</b-button>
                         </div>
                         <div class="User-Note-Table">
                             <CustomTable :queryRows="totalRows" :totalRows="totalRows" :fields="fields" :datas="notes"
-                                :isBusy="tableBusy" @rowClick="onRowClick">
+                                :isBusy="tableBusy" @rowClick="onRowClick()">
                                 <template #cell(content)="notes">
                                     {{notes.value}}
-                                </template>
-                                <template #cell(useFor)="notes">
-                                    {{notes.value == "0" ? "一般" : notes.value == "1" ? "停權" : notes.value == "2" ? "修改評分" : notes.value}}
                                 </template>
                             </CustomTable>
                         </div>
@@ -30,21 +27,20 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import CreateUserNoteModal from '@/components/Modal/CreateUserNoteModal.vue'
+    import CreateOrderNoteModal from '@/components/Modal/CreateOrderNoteModal.vue'
     import ModifyNoteModal from '@/components/Modal/ModifyNoteModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-
     export default {
-        name: "UserNote",
+        name: "OrderNote",
         components: {
             TitledCard,
             CustomTable,
-            CreateUserNoteModal,
+            CreateOrderNoteModal,
             ModifyNoteModal
         },
         props: {
-            currentUser: {
+            order: {
                 type: Object
             }
         },
@@ -52,6 +48,8 @@
             return {
                 search: {},
                 tableBusy: true,
+                notes: [],
+                totalRows: 0,
                 selectedNote: {
                     content: '',
                     id: 0
@@ -61,22 +59,16 @@
                         "label": "內容"
                     },
                     {
-                        "key": "useFor",
-                        "label": "類型"
-                    },
-                    {
                         "key": "createDate",
                         "label": "時間"
                     }
-                ],
-                notes: [],
-                totalRows: 0
+                ]
             }
         },
         async created() {
             const note = tigermaster.note;
             try {
-                this.notes = await note.listByUserId(this.currentUser.id);
+                this.notes = await note.listByOrderId(this.order.id);
                 this.totalRows = this.notes.length;
             } catch (e) {
                 console.log(e);
@@ -85,16 +77,11 @@
             }
         },
         methods: {
-            onRowClick(item) {
-                this.selectedNote.content = item.content;
-                this.selectedNote.id = item.id;
-                this.$bvModal.show("Note-Modify-Modal");
-            },
             async onRefresh() {
                 this.tableBusy = true;
                 const note = tigermaster.note;
                 try {
-                    this.notes = await note.listByUserId(this.currentUser.id);
+                    this.notes = await note.listByOrderId(this.order.id);
                     this.totalRows = this.notes.length;
                 } catch (e) {
                     this.notes = [];
@@ -106,7 +93,12 @@
                         id: 0
                     }
                 }
-            }
-        },
+            },
+            onRowClick(item) {
+                this.selectedNote.content = item.content;
+                this.selectedNote.id = item.id;
+                this.$bvModal.show("Note-Modify-Modal");
+            },
+        }
     }
 </script>

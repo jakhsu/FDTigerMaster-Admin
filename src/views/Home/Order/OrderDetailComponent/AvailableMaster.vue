@@ -105,7 +105,6 @@
             SimpleModal
         },
         props: {
-
             order: {
                 type: Object
             }

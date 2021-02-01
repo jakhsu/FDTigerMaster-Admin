@@ -20,6 +20,9 @@
                     <b-nav-item :active="currentTab == 'orderPhoto'" @click="onNavClick('orderPhoto')">
                         施工照片
                     </b-nav-item>
+                    <b-nav-item :active="currentTab == 'orderNote'" @click="onNavClick('orderNote')">
+                        訂單註記
+                    </b-nav-item>
                 </b-nav>
             </div>
             <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters"
@@ -35,6 +38,7 @@
     import BasicOrderDetail from '@/views/Home/Order/OrderDetailComponent/BasicOrderDetail.vue'
     import AvailableMaster from '@/views/Home/Order/OrderDetailComponent/AvailableMaster.vue'
     import OrderPhoto from '@/views/Home/Order/OrderDetailComponent/OrderPhoto.vue'
+    import orderNote from '@/views/Home/Order/OrderDetailComponent/OrderNote.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import Loading from '@/components/Loading.vue'
 
@@ -53,7 +57,8 @@
                 tabComponentMap: {
                     basic: BasicOrderDetail,
                     master: AvailableMaster,
-                    orderPhoto: OrderPhoto
+                    orderPhoto: OrderPhoto,
+                    orderNote: orderNote
                 },
                 order: {},
                 matchedMasters: [],
