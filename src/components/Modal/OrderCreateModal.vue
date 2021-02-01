@@ -70,11 +70,11 @@
                 </b-form-group>
             </b-form>
             <template #modal-footer>
+                <b-button variant="danger" @click="onCancelModal()">
+                    取消
+                </b-button>
                 <b-button variant="success" @click="onCreateClick()">
                     建立訂單
-                </b-button>
-                <b-button variant="outline-secondary" @click="onCancelModal()">
-                    取消
                 </b-button>
             </template>
         </b-modal>
@@ -125,7 +125,7 @@
                 },
                 orderId: '',
                 workingCategories: [],
-                inputState: [null, null, null, null, null, null, null, null, null, null, null, null]
+                inputState: [null, null, null, null, null, null, null, null, true, true, true, true]
             }
         },
         created() {
