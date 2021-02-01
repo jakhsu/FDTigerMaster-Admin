@@ -1,6 +1,7 @@
 <template>
     <div id="Dashboard">
-        <b-container fluid>
+        <Loading v-if="isLoading" />
+        <b-container v-else fluid>
             <div class="Dashboard-Area">
                 <b-row>
                     <b-col>
@@ -30,18 +31,28 @@
 
 <script>
     import DataCard from '@/components/Card/DataCard.vue'
+    import Loading from '@/components/Loading.vue';
 
     export default {
         name: 'Dashboard',
         components: {
-            DataCard
+            DataCard,
+            Loading
         },
         data() {
             return {
-                response: {}
+                response: {},
+                isLoading: true
             }
         },
-        methods: {}
+        created() {
+            this.isLoading = false;
+        },
+        methods: {
+            fetchOverviewData() {
+
+            }
+        }
     }
 </script>
 
