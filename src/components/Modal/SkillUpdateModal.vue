@@ -55,8 +55,13 @@
             async onSaveClick() {
                 if (this.descriptionInputState) {
                     this.isLoading = true;
+                    const skillToBeUpdated = {
+                        active: this.skill.active,
+                        description: this.skill.description,
+                        id: this.skill.id
+                    }
                     try {
-                        await tigermaster.services.Skill.update(this.skill);
+                        await tigermaster.services.Skill.update(skillToBeUpdated);
                         this.$bvModal.hide(this.id);
                         this.$emit("finish");
                     } catch (e) {

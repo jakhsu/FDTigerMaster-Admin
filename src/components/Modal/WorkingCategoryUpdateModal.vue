@@ -17,10 +17,7 @@
                     </b-select>
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*特殊訂單: ">
-                    <b-select v-model="workingCategory.isForSpecialOrder" :state="true">
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </b-select>
+                    <b-input v-model="workingCategory.isForSpecialOrder" :state="true" disabled></b-input>
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*企業保固(日): ">
                     <b-form-input v-model.number.trim="workingCategory.commercialWarrantyDay" :state="inputState[1]"
@@ -91,9 +88,22 @@
             async onUpdateClick() {
                 if (this.inputState.every((element) => element === true)) {
                     this.isLoading = true;
+                    const workingCategoryToBeUpdated = {
+                        id: this.workingCategory.id,
+                        description: this.workingCategory.description,
+                        maxPrice: this.workingCategory.maxPrice,
+                        minPrice: this.workingCategory.minPrice,
+                        maxPricePercentage: this.workingCategory.maxPricePercentage,
+                        minPricePercentage: this.workingCategory.minPricePercentage,
+                        priceRangeDescription: this.workingCategory.priceRangeDescription,
+                        consumerWarrantyDay: this.workingCategory.consumerWarrantyDay,
+                        commercialWarrantyDay: this.workingCategory.commercialWarrantyDay,
+                        warrantyDescription: this.workingCategory.warrantyDescription,
+                        active: this.workingCategory.active
+                    };
                     try {
                         const workingCategory = tigermaster.services.WorkingCategory;
-                        await workingCategory.update(this.workingCategory);
+                        await workingCategory.update(workingCategoryToBeUpdated);
                         this.$bvModal.hide(this.id);
                         this.$emit('finish');
                     } catch (e) {
