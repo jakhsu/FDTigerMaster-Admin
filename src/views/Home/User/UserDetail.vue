@@ -68,10 +68,10 @@
                     scoreInput: ''
                 },
                 isLoading: true,
-                currentComponent: BasicDetail,
+                currentComponent: BasicUserDetail,
                 currentTab: "basic",
                 tabComponentMap: {
-                    basic: BasicDetail,
+                    basic: BasicUserDetail,
                     order: OrderDetail,
                     userComment: UserComment,
                     userNote: UserNote,
