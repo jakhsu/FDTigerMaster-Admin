@@ -60,7 +60,7 @@
             async fetchUserData() {
                 const res = await tigermaster.database
                     .query("user")
-                    .where("user.role_id", "<", [70])
+                    .where("user.role_id", "<", 70)
                     .get()
                 this.user = res.data;
                 this.totalUsers = res.queryRows;
@@ -70,6 +70,7 @@
             async fetchOrderData() {
                 const res = await tigermaster.database
                     .query("generic_order")
+                    .where("generic_order.status", ">", 10)
                     .get();
                 this.totalOrders = res.queryRows;
             }
