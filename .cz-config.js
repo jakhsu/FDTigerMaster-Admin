@@ -2,15 +2,15 @@ module.exports = {
   types: [
     {
       value: "feat",
-      name: "新功能: 新功能"
+      name: "feat:     new feature"
     },
     {
       value: "fix",
-      name: "fix:      除bug"
+      name: "fix:      fix bugs"
     },
     {
       value: "docs",
-      name: "docs:     文件改變"
+      name: "docs:     doc change"
     },
     {
       value: "style",
