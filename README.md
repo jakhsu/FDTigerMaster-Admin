@@ -126,8 +126,9 @@ Body
 ```
 
 ```txt
-Header: <type>: <subject>
+Header: <type>(scope): <subject>
 - type: commit的類別: feat, fix, docs, style, refractor, etc
+- scope: commit影響的範圍，如component、model、page等等，optional
 - subject: commit的簡短描述，沒有硬性規定字元數，但是要盡量簡短，不要加句號
 ```
 
