@@ -93,8 +93,8 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import SkillCreateModal from '@/components/Modal/SkillCreateModal.vue'
-    import SkillUpdateModal from '@/components/Modal/SkillUpdateModal.vue'
+    import SkillCreateModal from '@/components/Services/Skill/SkillCreateModal.vue'
+    import SkillUpdateModal from '@/components/Services/Skill/SkillUpdateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import ConfirmModal from '@/components/Modal/ConfirmModal.vue'

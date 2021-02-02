@@ -74,7 +74,7 @@
     import OrderStatus from '@/config/OrderStatus.json'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
+    import OrderCreateModal from '@/components/Order/OrderCreateModal.vue'
 
     export default {
         name: "ClosedOrder",

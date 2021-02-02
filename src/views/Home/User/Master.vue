@@ -91,7 +91,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
+    import UserCreateModal from '@/components/User/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'

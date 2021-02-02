@@ -102,8 +102,8 @@
     import CustomTable from "@/components/Table/CustomTable.vue";
     import ConfirmModal from '@/components/Modal/ConfirmModal.vue';
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import WorkingCategoryCreateModal from "@/components/Modal/WorkingCategoryCreateModal.vue";
-    import WorkingCategoryUpdateModal from "@/components/Modal/WorkingCategoryUpdateModal.vue";
+    import WorkingCategoryCreateModal from "@/components/Services/WorkingCategory/WorkingCategoryCreateModal.vue";
+    import WorkingCategoryUpdateModal from "@/components/Services/WorkingCategory/WorkingCategoryUpdateModal.vue";
 
     import tigermaster from "fdtigermaster-admin-sdk";
 
