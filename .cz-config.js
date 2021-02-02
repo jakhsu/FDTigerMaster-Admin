@@ -1,62 +1,54 @@
 module.exports = {
-  types: [
-    {
-      value: "feat",
-      name: "feat:     new feature"
+  types: [{
+      value: "feat✨",
+      name: "feat:     new features"
     },
     {
-      value: "fix",
+      value: "fix🐛",
       name: "fix:      fix bugs"
     },
     {
-      value: "docs",
+      value: "docs📝",
       name: "docs:     doc change"
     },
     {
-      value: "style",
-      name:
-        "style:    Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
+      value: "style🎨",
+      name: "style:    Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
     },
     {
-      value: "refactor",
-      name:
-        "refactor: A code change that neither fixes a bug nor adds a feature"
+      value: "refactor♻️",
+      name: "refactor: A code change that neither fixes a bug nor adds a feature"
     },
     {
-      value: "perf",
+      value: "perf⚡️",
       name: "perf:     A code change that improves performance"
     },
     {
-      value: "test",
+      value: "test✅",
       name: "test:     Adding missing tests"
     },
     {
-      value: "chore",
-      name:
-        "chore:    Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"
+      value: "chore👷",
+      name: "chore:    Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"
     },
     {
-      value: "revert",
+      value: "revert⏪",
       name: "revert:   Revert to a commit"
     },
     {
-      value: "WIP",
+      value: "WIP🚧",
       name: "WIP:      Work in progress"
     }
   ],
 
-  scopes: [
-    {
-      name: "accounts"
+  scopes: [{
+      name: "components"
     },
     {
-      name: "admin"
+      name: "view page"
     },
     {
-      name: "exampleScope"
-    },
-    {
-      name: "changeMe"
+      name: "model"
     }
   ],
 
@@ -83,11 +75,9 @@ module.exports = {
     // used if allowCustomScopes is true
     customScope: "Denote the SCOPE of this change:",
     subject: "Write a SHORT, IMPERATIVE tense description of the change:\n",
-    body:
-      'Provide a LONGER description of the change (optional). Use "|" to break new line:\n',
+    body: 'Provide a LONGER description of the change (optional). Use "|" to break new line:\n',
     breaking: "List any BREAKING CHANGES (optional):\n",
-    footer:
-      "List any ISSUES CLOSED by this change (optional). E.g.: #31, #34:\n",
+    footer: "List any ISSUES CLOSED by this change (optional). E.g.: #31, #34:\n",
     confirmCommit: "Are you sure you want to proceed with the commit above?"
   },
 
