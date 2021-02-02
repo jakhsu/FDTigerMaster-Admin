@@ -5,7 +5,7 @@
         <b-container fluid>
             <b-row>
                 <b-col>
-                    <TitledCard title="定單註記:">
+                    <TitledCard title="訂單註記:">
                         <div class="User-Note-Search d-flex mb-3">
                             <b-button class="ml-auto" variant="success" v-b-modal="'Note-Create-Modal'">新增註記</b-button>
                         </div>
@@ -95,8 +95,9 @@
                 }
             },
             onRowClick(item) {
-                this.selectedNote.content = item.content;
-                this.selectedNote.id = item.id;
+                // this.selectedNote.content = item.content;
+                // this.selectedNote.id = item.id;
+                console.log(item)
                 this.$bvModal.show("Note-Modify-Modal");
             },
         }
