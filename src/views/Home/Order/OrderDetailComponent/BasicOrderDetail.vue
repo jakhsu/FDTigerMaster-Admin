@@ -7,8 +7,11 @@
         </SimpleModal>
         <b-container fluid>
             <div v-if="!isEdit" class="d-flex mt-3">
-                <b-button variant="warning" @click="calculatePrice">
-                    重新計算價錢
+                <b-button variant="warning" @click="calculateClientPay">
+                    客戶費用試算
+                </b-button>
+                <b-button class="ml-2" variant="info" @click="calculateMasterIncome">
+                    師傅收入試算
                 </b-button>
                 <b-button @click="startEdit" class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
@@ -19,8 +22,11 @@
                 </b-button>
             </div>
             <div v-else class="d-flex mt-3">
-                <b-button variant="warning" @click="calculatePrice">
-                    重新計算價錢
+                <b-button variant="warning" @click="calculateClientPay">
+                    客戶費用試算
+                </b-button>
+                <b-button class="ml-2" variant="info" @click="calculateMasterIncome">
+                    師傅收入試算
                 </b-button>
                 <b-button @click="onFinishEdit" class="ml-auto" variant="success">
                     <font-awesome-icon icon="edit" fixed-width />
@@ -83,6 +89,62 @@
                             </b-form-group>
                         </div>
                     </TitledCard>
+                    <TitledCard title="客戶費用試算">
+                        <div class="m-2">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
+                                <b-form-input v-model="clientPay.masterOfferPrice" disabled />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成金額: ">
+                                <b-form-input v-model="clientPay.distancePrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成金額: ">
+                                <b-form-input v-model="clientPay.masterScorePrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
+                                <b-form-input v-model="clientPay.timePrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="平台服務費: ">
+                                <b-form-input v-model="clientPay.platformFee" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="優惠卷折扣: ">
+                                <b-form-input v-model="clientPay.couponDiscountPrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="派遣費折讓: ">
+                                <b-form-input v-model="clientPay.dispatchDiscountPrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="稅金: ">
+                                <b-form-input v-model="clientPay.tax" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶需付金額: ">
+                                <b-form-input v-model="clientPay.clientPayment" disabled />
+                            </b-form-group>
+                        </div>
+                    </TitledCard>
+                    <TitledCard title="師傅收入試算">
+                        <div class="m-2">
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價: ">
+                                <b-form-input v-model="masterIncome.masterOfferPrice" disabled />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成金額: ">
+                                <b-form-input v-model="masterIncome.distancePrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成金額: ">
+                                <b-form-input v-model="masterIncome.scorePrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
+                                <b-form-input v-model="masterIncome.timePrice" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="平台服務費: ">
+                                <b-form-input v-model="masterIncome.platformFee" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工程投保: ">
+                                <b-form-input v-model="masterIncome.insurance" :disabled="!isEdit" />
+                            </b-form-group>
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅實領金額: ">
+                                <b-form-input v-model="masterIncome.masterIncome" disabled />
+                            </b-form-group>
+                        </div>
+                    </TitledCard>
                     <TitledCard title="客戶專用">
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
                             <b-form-input v-model="order._data.businessId" :disabled="!isEdit" />
@@ -114,14 +176,14 @@
                                     <b-form-input v-model="order._data.distanceBonus" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成金額: ">
-                                    <b-form-input v-model="price.distancePrice" :disabled="!isEdit" />
+                                    <b-form-input v-model="clientPay.distancePrice" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成: ">
                                 <b-form-input v-model="order._data.masterScoreBonus" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="星等加成金額: ">
-                                <b-form-input v-model="price.masterScorePrice" :disabled="!isEdit" />
+                                <b-form-input v-model="clientPay.masterScorePrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="時間加成: ">
                                 <b-form-input v-model="order._data.timeBonus" :disabled="!isEdit" />
@@ -136,7 +198,7 @@
                                 <b-form-input v-model="order._data.dispatchDiscountPrice" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="稅金: ">
-                                <b-form-input v-model="price.tax" :disabled="!isEdit" />
+                                <b-form-input v-model="clientPay.tax" :disabled="!isEdit" />
                             </b-form-group>
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單總金額: ">
                                 <b-form-input v-model="order._data.totalPay" disabled />
@@ -194,12 +256,11 @@
                 statusMap: OrderStatusMap(),
                 OrderStatus,
                 isEdit: false,
-                price: {}
+                clientPay: {},
+                masterIncome: {}
             }
         },
-        created() {
-            this.calculatePrice();
-        },
+        created() {},
         methods: {
             cancelEdit() {
                 this.isEdit = false;
@@ -241,10 +302,18 @@
                     console.log(e)
                 }
             },
-            async calculatePrice() {
+            async calculateClientPay() {
                 try {
                     const res = await this.order.paymentEstimate();
-                    this.price = res;
+                    this.clientPay = res;
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            async calculateMasterIncome() {
+                try {
+                    const res = await this.order.incomeEstimate();
+                    this.masterIncome = res;
                 } catch (e) {
                     console.log(e)
                 }
