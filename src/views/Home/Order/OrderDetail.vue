@@ -23,6 +23,9 @@
                     <b-nav-item :active="currentTab == 'orderNote'" @click="onNavClick('orderNote')">
                         訂單註記
                     </b-nav-item>
+                    <b-nav-item :active="currentTab == 'orderQuotes'" @click="onNavClick('orderQuotes')">
+                        報價單
+                    </b-nav-item>
                 </b-nav>
             </div>
             <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters"
@@ -38,7 +41,8 @@
     import BasicOrderDetail from '@/views/Home/Order/OrderDetailComponent/BasicOrderDetail.vue'
     import AvailableMaster from '@/views/Home/Order/OrderDetailComponent/AvailableMaster.vue'
     import OrderPhoto from '@/views/Home/Order/OrderDetailComponent/OrderPhoto.vue'
-    import orderNote from '@/views/Home/Order/OrderDetailComponent/OrderNote.vue'
+    import OrderNote from '@/views/Home/Order/OrderDetailComponent/OrderNote.vue'
+    import OrderQuotes from '@/views/Home/Order/OrderDetailComponent/OrderQuotes.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import Loading from '@/components/Loading.vue'
 
@@ -58,7 +62,8 @@
                     basic: BasicOrderDetail,
                     master: AvailableMaster,
                     orderPhoto: OrderPhoto,
-                    orderNote: orderNote
+                    orderNote: OrderNote,
+                    orderQuotes: OrderQuotes
                 },
                 order: {},
                 matchedMasters: [],
