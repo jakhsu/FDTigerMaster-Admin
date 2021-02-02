@@ -13,22 +13,25 @@
             <div class="Admin-Area">
                 <b-row>
                     <b-col>
-                        <div class="Admin-Header">
-                            <h2>管理員</h2>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="管理員數" :data="totalCount" />
-                    </b-col>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="被停權數" :data="inactiveCount" />
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <TitledCard title="管理員列表">
+                        <TitledCard title="管理員列表" headerClass="inline">
+                            <template #title-card-header>
+                                <Badge>
+                                    <template #prepend>
+                                        管理員數
+                                    </template>
+                                    <template #number>
+                                        {{totalCount}}
+                                    </template>
+                                </Badge>
+                                <Badge bgColor="#df4759">
+                                    <template #prepend>
+                                        停權數
+                                    </template>
+                                    <template #number>
+                                        {{inactiveCount}}
+                                    </template>
+                                </Badge>
+                            </template>
                             <div class="SearchBar d-flex mb-3">
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">
                                     開始搜尋
@@ -93,7 +96,6 @@
     import UserRole from '@/config/UserRole.json'
     import Loading from '@/components/Loading.vue'
     import UserTableModel from '@/config/UserTable.json'
-    import DataCard from '@/components/Card/DataCard.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
     import CustomTable from '@/components/Table/CustomTable.vue'
@@ -101,16 +103,17 @@
     import UserCreateModal from '@/components/User/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import Badge from '@/components/Badge/Badge.vue'
 
     export default {
         name: "Admin",
         components: {
             Loading,
-            DataCard,
             TitledCard,
             SimpleModal,
             CustomTable,
-            UserCreateModal
+            UserCreateModal,
+            Badge
         },
         data() {
             return {
