@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "commit": "cz",
     "serve": "vue-cli-service serve --mode local",
     "serve:dev": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build",
