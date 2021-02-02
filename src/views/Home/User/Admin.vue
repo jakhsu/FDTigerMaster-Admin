@@ -13,7 +13,7 @@
             <div class="Admin-Area">
                 <b-row>
                     <b-col>
-                        <TitledCard title="管理員列表" headerClass="inline">
+                        <TitledCard title="管理員列表">
                             <template #title-card-header>
                                 <Badge>
                                     <template #prepend>

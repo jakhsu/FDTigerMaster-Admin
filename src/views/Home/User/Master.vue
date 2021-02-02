@@ -13,22 +13,25 @@
             <div class="Master-Area">
                 <b-row>
                     <b-col>
-                        <div class="Master-Header">
-                            <h2>師傅</h2>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="totalCount" />
-                    </b-col>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="被停權數" :data="inactiveCount" />
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
                         <TitledCard title="師傅列表">
+                            <template #title-card-header>
+                                <Badge>
+                                    <template #prepend>
+                                        管理員數
+                                    </template>
+                                    <template #number>
+                                        {{totalCount}}
+                                    </template>
+                                </Badge>
+                                <Badge bgColor="#df4759">
+                                    <template #prepend>
+                                        停權數
+                                    </template>
+                                    <template #number>
+                                        {{inactiveCount}}
+                                    </template>
+                                </Badge>
+                            </template>
                             <div class="SearchBar d-flex mb-3">
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">
                                     開始搜尋
@@ -86,7 +89,7 @@
 </template>
 
 <script>
-    import DataCard from '@/components/Card/DataCard.vue'
+    import Badge from '@/components/Badge/Badge.vue'
     import UserTableModel from '@/config/UserTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
@@ -100,8 +103,8 @@
     export default {
         name: "Master",
         components: {
+            Badge,
             Loading,
-            DataCard,
             TitledCard,
             SimpleModal,
             CustomTable,
