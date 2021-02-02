@@ -11,7 +11,7 @@
                         </div>
                         <div class="User-Note-Table">
                             <CustomTable :queryRows="totalRows" :totalRows="totalRows" :fields="fields" :datas="notes"
-                                :isBusy="tableBusy" @rowClick="onRowClick()">
+                                :isBusy="tableBusy" @rowClick="onRowClick">
                                 <template #cell(content)="notes">
                                     {{notes.value}}
                                 </template>
@@ -95,9 +95,8 @@
                 }
             },
             onRowClick(item) {
-                // this.selectedNote.content = item.content;
-                // this.selectedNote.id = item.id;
-                console.log(item)
+                this.selectedNote.content = item.content;
+                this.selectedNote.id = item.id;
                 this.$bvModal.show("Note-Modify-Modal");
             },
         }
