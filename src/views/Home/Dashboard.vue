@@ -12,16 +12,13 @@
                 </b-row>
                 <b-row class="Dashboard-Overview">
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46" />
+                        <DataCard color="#4e73df" title="會員數" :data="clientNum" :trend="46" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="330" :trend="-2" />
+                        <DataCard color="#4e73df" title="師傅數" :data="masterNum" :trend="-2" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="媒合數" :data="136" :trend="1" />
-                    </b-col>
-                    <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="會員數" :data="25419" :trend="46" />
+                        <DataCard color="#4e73df" title="媒合數" :data="totalOrders" :trend="1" />
                     </b-col>
                 </b-row>
             </div>
@@ -33,6 +30,8 @@
     import DataCard from '@/components/Card/DataCard.vue'
     import Loading from '@/components/Loading.vue';
 
+    import tigermaster from 'fdtigermaster-admin-sdk'
+
     export default {
         name: 'Dashboard',
         components: {
@@ -42,15 +41,37 @@
         data() {
             return {
                 response: {},
-                isLoading: true
+                isLoading: true,
+                totalUsers: 0,
+                totalOrders: 0,
+                masterNum: 0,
+                clientNum: 0,
+                user: []
+
             }
         },
-        created() {
+        async created() {
+            await this.fetchUserData();
+            await this.fetchOrderData();
             this.isLoading = false;
+
         },
         methods: {
-            fetchOverviewData() {
-
+            async fetchUserData() {
+                const res = await tigermaster.database
+                    .query("user")
+                    .where("user.role_id", "<", [70])
+                    .get()
+                this.user = res.data;
+                this.totalUsers = res.queryRows;
+                this.masterNum = this.user.filter(e => e.roleId == 0).length;
+                this.clientNum = this.totalUsers - this.masterNum;
+            },
+            async fetchOrderData() {
+                const res = await tigermaster.database
+                    .query("generic_order")
+                    .get();
+                this.totalOrders = res.queryRows;
             }
         }
     }
