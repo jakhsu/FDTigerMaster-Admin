@@ -1,5 +1,7 @@
 # FD Tiger Master Admin Documentation
 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![Vue](https://img.shields.io/badge/language-vue-41B883.svg)
+
 - [FD Tiger Master Admin Documentation](#fd-tiger-master-admin-documentation)
   - [開發人員專用](#開發人員專用)
     - [Naming Convention](#naming-convention)
