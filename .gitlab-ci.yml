@@ -2,5 +2,4 @@ unit test:
   image: node:latest
   stage: test
   script:
-    - npm install --progress=false
     - npm run test
