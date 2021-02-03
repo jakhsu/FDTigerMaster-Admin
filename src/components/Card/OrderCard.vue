@@ -11,9 +11,9 @@
         </div>
         <div class="order-card-contact mb-1">
             <span>
-                <font-awesome-icon icon="user" fixed-width />{{orderData.clientUserName}}</span>
+                <font-awesome-icon icon="user" fixed-width />{{orderData.clientUserPhone}}</span>
             <span class="ml-2">
-                <font-awesome-icon icon="hard-hat" fixed-width />{{masterName}}</span>
+                <font-awesome-icon icon="hard-hat" fixed-width />{{masterPhone}}</span>
         </div>
         <div class="order-card-last-update">
             <font-awesome-icon icon="clock" fixed-width />
@@ -33,7 +33,7 @@
         data() {
             return {
                 statusMap: OrderStatusMap(),
-                masterName: this.orderData.masterUserName || "N/A",
+                masterPhone: this.orderData.masterUserPhone || "N/A",
                 updateDate: this.orderData.updateDate || "N/A"
             }
         },
