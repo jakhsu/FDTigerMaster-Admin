@@ -5,5 +5,5 @@ unit test:
   image: node:latest
   stage: test
   script:
-    - npm install --only=dev --no-progress
+    - npm install --only=dev
     - npm run test
