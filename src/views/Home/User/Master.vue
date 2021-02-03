@@ -49,7 +49,8 @@
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index"
                                             style="overflow:visible">
-                                            <b-form-select v-if="field.key == 'status'" v-model="search['status']">
+                                            <b-form-select v-if="field.key == 'status'" v-model="search['status']"
+                                                v-b-tooltip.hover :title="activeMap[search['status']]">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
@@ -65,7 +66,7 @@
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <b-form-input v-else v-model="search[field.key]" :name="field.key"
-                                                :placeholder="field.label" />
+                                                :placeholder="field.label" v-b-tooltip.hover :title="field.label" />
                                         </b-td>
                                     </template>
                                     <template #cell(phone)="data">
@@ -94,6 +95,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import ActiveStatusMapping from '@/model/Mapping/ActiveStatusMap.js'
     import UserCreateModal from '@/components/User/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
@@ -115,6 +117,7 @@
                 UserTableModel,
                 data: [],
                 roleIdMap: RoleIdMapping(),
+                activeMap: ActiveStatusMapping(),
                 search: {
                     roleId: 0
                 },
