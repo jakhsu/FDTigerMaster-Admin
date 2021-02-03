@@ -2,17 +2,23 @@
     <div id="UserComment">
         <ScoreModal :currentUser="currentUser" :user="user" @refresh="refresh" />
         <b-container fluid>
-            <b-row align-h="start">
-                <b-col cols="4" align-self="center">
-                    <DataCard v-bind:hasTrend="false" color="#4e73df" title="平均分數" :data="user.avgScore" :trend="1" />
-                </b-col>
-            </b-row>
             <TitledCard title="評分和評論歷史">
+                <template #title-card-header>
+                    <Badge>
+                        <template #prepend>
+                            用戶平均分數
+                        </template>
+                        <template #number>
+                            {{user.avgScore}}
+                        </template>
+                    </Badge>
+                </template>
                 <div class="Tool-bar d-flex mb-3">
-                    <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
+                    <!-- TODO: figure out whether this section does need search function -->
+                    <!-- <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
                     <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
                     <b-button class="ml-auto" size="md" variant="outline-danger" v-b-modal="'Score-Modal'">修改平均分數
-                    </b-button>
+                    </b-button> -->
                 </div>
                 <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                     @dataRequire="onDataRequire">
@@ -28,15 +34,17 @@
     </div>
 </template>
 <script>
-    import DataCard from '@/components/Card/DataCard.vue'
+    import Badge from '@/components/Badge/Badge.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ScoreModal from '@/components/Modal/ScoreModal.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
 
+    import tigermaster from 'fdtigermaster-admin-sdk'
+
     export default {
         name: "UserComment",
         components: {
-            DataCard,
+            Badge,
             TitledCard,
             ScoreModal,
             CustomTable
@@ -50,45 +58,35 @@
                 tableBusy: false,
                 search: {},
                 fields: [{
+                        "key": "content",
+                        "label": "訂單評論"
+                    },
+                    {
                         "key": "orderId",
                         "label": "訂單編號"
                     },
                     {
                         "key": "score",
-                        "label": "評分"
+                        "label": "得到分數"
                     },
                     {
-                        "key": "remark",
-                        "label": "評論"
+                        "key": "fromUserId",
+                        "label": "打分數的用戶"
+                    },
+                    {
+                        "key": "updateDate",
+                        "label": "評論日期"
                     }
                 ],
-                comments: [{
-                        orderId: "TH-T001",
-                        score: "4",
-                        remark: "這位用戶收到的評論...",
-                    },
-                    {
-                        orderId: "TH-T001",
-                        score: "4",
-                        remark: "這位用戶收到的評論...",
-                    },
-                    {
-                        orderId: "TH-T001",
-                        score: "4",
-                        remark: "這位用戶收到的評論...",
-                    },
-                    {
-                        orderId: "TH-T001",
-                        score: "4",
-                        remark: "這位用戶收到的評論...",
-                    },
-                ]
+                comments: [],
+                queryRows: 0
             }
         },
         created() {
             if (!this.user.avgScore) {
                 this.user.avgScore = 0;
             }
+            this.fetchOrderCommnet();
         },
         methods: {
             onSearchClick() {},
@@ -98,6 +96,16 @@
             onDataRequire() {},
             refresh() {
                 this.$emit("refresh");
+            },
+            async fetchOrderCommnet() {
+                this.isTableBusy = true;
+                const database = tigermaster.database;
+                const res = await database.query("order_comment")
+                    .where("order_comment.to_user_id", "=", this.user.id)
+                    .get();
+                this.comments = res.data;
+                this.queryRows = res.queryRows;
+                this.isTableBusy = false;
             }
         }
     }
