@@ -2,7 +2,7 @@
     <span class="Container m-2" :style="`background-color: ${bgColor}`">
         <slot name="prepend" />
         <span class="Content m-1">
-            <strong>
+            <strong class="number">
                 <slot name="number" />
             </strong>
         </span>
@@ -36,8 +36,9 @@
     }
 
     .Content {
-        padding: 0.05em 0.3em;
+        padding: 0.05em 0.5em;
         color: rgb(0, 0, 0);
         background-color: #ffffff;
+        align-content: center;
     }
 </style>
