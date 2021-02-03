@@ -15,10 +15,10 @@
                 </template>
                 <div class="Tool-bar d-flex mb-3">
                     <!-- TODO: figure out whether this section does need search function -->
-                    <!-- <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
-                    <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button>
+                    <!-- <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button> -->
+                    <!-- <b-button class="ml-2" variant="outline-danger" @click="onSearchClearClick">清除搜尋</b-button> -->
                     <b-button class="ml-auto" size="md" variant="outline-danger" v-b-modal="'Score-Modal'">修改平均分數
-                    </b-button> -->
+                    </b-button>
                 </div>
                 <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                     @dataRequire="onDataRequire">
