@@ -1,12 +1,9 @@
+stages:
+  - test
+
 unit test:
   image: node:latest
   stage: test
   script:
     - npm install --only=dev --no-progress
     - npm run test
-build:
-  stage: build
-  script:
-    - npm install --no-progress
-    - npm install fdtigermaster-admin-sdk --registry http://104.154.20.200:4873
-    - npm run build
