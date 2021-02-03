@@ -8,4 +8,4 @@ unit test:
     - npm install --only=dev
     - npm run test:cover
   coverage:
-        '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+        '/All\sfiles.*?\s+(\d+.\d+)/''
