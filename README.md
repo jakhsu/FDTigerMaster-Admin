@@ -1,6 +1,8 @@
 # FD Tiger Master Admin Documentation
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![Vue](https://img.shields.io/badge/language-vue-41B883.svg) [![pipeline status](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-web/badges/master/pipeline.svg)](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-web/-/commits/master)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Vue](https://img.shields.io/badge/language-vue-41B883.svg)](https://img.shields.io/badge/language-vue-41B883.svg)
+[![pipeline status](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-web/badges/master/pipeline.svg)](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-web/-/commits/master)
 
 - [FD Tiger Master Admin Documentation](#fd-tiger-master-admin-documentation)
   - [開發人員專用](#開發人員專用)
