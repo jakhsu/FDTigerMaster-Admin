@@ -6,4 +6,6 @@ unit test:
   stage: test
   script:
     - npm install --only=dev
-    - npm run test
+    - npm run test:cover
+  coverage:
+        '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
