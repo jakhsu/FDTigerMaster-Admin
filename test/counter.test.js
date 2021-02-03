@@ -1,9 +1,7 @@
 import {
     mount
 } from '@vue/test-utils'
-import {
-    assert
-} from 'chai'
+
 import counter from './counter'
 
 describe('Counter', () => {
@@ -22,6 +20,6 @@ describe('Counter', () => {
     it('increment works', async () => {
         await wrapper.find('button').trigger('click')
         const count = vm.count
-        assert(count === 1)
+        expect(count).toBe(1)
     })
 })
