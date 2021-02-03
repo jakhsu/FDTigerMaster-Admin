@@ -2,4 +2,5 @@ unit test:
   image: node:latest
   stage: test
   script:
+    - npm install --progress=false --production
     - npm run test
