@@ -82,6 +82,8 @@
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border">
                                     <b-collapse v-model="display[3]" id="VerifyCollapse" class="py-3 pl-3">
+                                        <BroadcastConfirm v-if="display[3] === true" :selectedUser="selected"
+                                            :msgContent="content" />
                                     </b-collapse>
                                 </div>
                             </div>
@@ -101,6 +103,7 @@
     import BroadcastContent from '@/components/Broadcast/BroadcastContent.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import BroadcastConfirm from '@/components/Broadcast/BroadcastConfirm.vue'
 
     export default {
         name: "Broadcast",
@@ -108,7 +111,8 @@
             SimpleCard,
             CustomTable,
             BroadcastSearch,
-            BroadcastContent
+            BroadcastContent,
+            BroadcastConfirm
         },
         data() {
             return {
