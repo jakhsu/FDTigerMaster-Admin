@@ -24,4 +24,14 @@ describe('test all validators', () => {
         expect(validator.validateWorkingCategoryId("TM-X010101")).toBe(true)
         expect(validator.validateWorkingCategoryId("TM-X010103")).toBe(true)
     })
+    it('test TW phone number validator', () => {
+        expect(validator.validateTWPhoneNum('0912345678')).toBe(true)
+        expect(validator.validateTWPhoneNum('091234567899')).toBe(false)
+        expect(validator.validateTWPhoneNum('09123499')).toBe(false)
+    })
+    it('test email validator', () => {
+        expect(validator.validateEmail("correctEmail@gmail.com")).toBe(true)
+        expect(validator.validateEmail("correctEmail.gmail.com")).toBe(false)
+        expect(validator.validateEmail("correctEmail@gmail")).toBe(false)
+    })
 })
