@@ -164,7 +164,6 @@
             matchingOrders() {
                 return this.orders.filter((order) => {
                     return [5, 10].includes(order.status);
-                    // here I can easily determine what condition to set
                 });
             },
             ongoingOrders() {
