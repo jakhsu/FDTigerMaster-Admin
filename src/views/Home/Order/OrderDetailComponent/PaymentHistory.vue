@@ -21,11 +21,11 @@
     import PaymentStatusMap from '@/model/Mapping/PaymentStatusMap.js'
 
     export default {
+        name: 'PaymentHistory',
         components: {
             TitledCard,
             CustomTable
         },
-        name: 'PaymentHistory',
         props: {
             order: {}
         },
