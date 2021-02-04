@@ -3,11 +3,11 @@ import UserRole from '@/config/UserRole.json'
 var roleIdMap = undefined;
 
 export default () => {
-    if(roleIdMap !== undefined){
+    if (roleIdMap !== undefined) {
         return roleIdMap;
-    }else{
+    } else {
         roleIdMap = {};
-        for(const role of UserRole){
+        for (const role of UserRole) {
             roleIdMap[role.value] = role.text;
         }
         return roleIdMap;
