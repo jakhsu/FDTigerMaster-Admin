@@ -42,6 +42,7 @@
 <script>
     import UserRole from '@/config/UserRole.json'
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import * as validator from '@/model/Validator/Validator.js'
 
     const inputIndex = Object.freeze({
         phone: 0,
@@ -78,15 +79,13 @@
         },
         methods: {
             phoneValidate() {
-                var phoneRegex = /^09[0-9]{8}$/;
-                this.inputState[this.inputIndex.phone] = phoneRegex.test(this.newUser.phone);
+                this.inputState[this.inputIndex.phone] = validator.validateTWPhoneNum(this.newUser.phone)
             },
             nameValidate() {
-                this.inputState[this.inputIndex.name] = this.newUser.name !== '';
+                this.inputState[this.inputIndex.name] = !validator.isEmpty(this.newUser.name)
             },
             emailValidate() {
-                var emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-                this.inputState[this.inputIndex.email] = emailRegex.test(this.newUser.email);
+                this.inputState[this.inputIndex.email] = validator.validateEmail(this.newUser.email)
             },
             roleValidate() {
                 this.inputState[this.inputIndex.role] = this.newUser.roleId !== null;
