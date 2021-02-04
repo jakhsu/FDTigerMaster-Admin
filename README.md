@@ -180,7 +180,7 @@ Body:
 
 [回到目錄](#table-of-contents)
 
-![資料面板](/public/README_resource/dashboard.PNG)
+![資料面板](/README_resource/dashboard.PNG)
 
 資訊面板，包含
 
@@ -194,7 +194,7 @@ Body:
 
 [回到目錄](#table-of-contents)
 
-![使用者列表](/public/README_resource/user-table-full.PNG)
+![使用者列表](/README_resource/user-table-full.PNG)
 
 包含三種使用者
 
