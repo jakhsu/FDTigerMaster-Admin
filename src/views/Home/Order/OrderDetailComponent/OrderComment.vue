@@ -1,6 +1,7 @@
 <template>
     <div>
-        <UpdateCommentModal :commentId="selectedCommentId" :initCommentContent="selectedCommentContent" />
+        <UpdateCommentModal :commentId="selectedCommentId" :initCommentContent="selectedCommentContent"
+            @finish="fetchOrderComment" />
         <TitledCard title="訂單評論">
             <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                 @rowClick="onRowClick">
@@ -61,7 +62,7 @@
             }
         },
         created() {
-            this.fetchOrderCommnet();
+            this.fetchOrderComment();
         },
         methods: {
             onRowClick(item) {
@@ -69,7 +70,7 @@
                 this.selectedCommentContent = item.content;
                 this.$bvModal.show("Comment-Modify-Modal");
             },
-            async fetchOrderCommnet() {
+            async fetchOrderComment() {
                 this.tableBusy = true;
                 try {
                     const res = await tigermaster.database.query("order_comment")
