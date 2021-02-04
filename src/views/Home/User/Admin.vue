@@ -99,7 +99,7 @@
     import Loading from '@/components/Loading.vue'
     import UserTableModel from '@/config/UserTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import ActiveStatusMapping from '@/model/Mapping/ActiveStatusMap.js'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
@@ -123,7 +123,7 @@
                 UserRole,
                 UserTableModel,
                 data: [],
-                roleIdMap: RoleIdMapping(),
+                roleIdMap: RoleIdMap(),
                 activeMap: ActiveStatusMapping(),
                 search: {
                     roleId: 70

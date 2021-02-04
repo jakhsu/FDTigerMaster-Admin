@@ -99,7 +99,7 @@
     import UserCreateModal from '@/components/User/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
     import Loading from '@/components/Loading.vue'
 
     export default {
@@ -116,7 +116,7 @@
             return {
                 UserTableModel,
                 data: [],
-                roleIdMap: RoleIdMapping(),
+                roleIdMap: RoleIdMap(),
                 activeMap: ActiveStatusMapping(),
                 search: {
                     roleId: 0

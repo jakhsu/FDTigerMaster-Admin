@@ -196,7 +196,7 @@
     } from '@/model/FetchAddress/FetchRoadName'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
 
     export default {
         name: 'UserModify',
@@ -218,7 +218,7 @@
                 open: true,
                 streetErrorMessage: '',
                 currentUser: Object,
-                roleIdMap: RoleIdMapping()
+                roleIdMap: RoleIdMap()
             };
         },
         computed: {

@@ -174,7 +174,7 @@
     import ActivateModal from '@/components/Modal/ActivateModal.vue'
     import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
 
-    import RoleIdMapping from '@/model/Mapping/RoleIdMapping.js'
+    import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
 
     export default {
         name: "BasicDetail",
@@ -190,7 +190,7 @@
         data() {
             return {
                 UserRole,
-                roleIdMap: RoleIdMapping()
+                roleIdMap: RoleIdMap()
             }
         },
         methods: {
