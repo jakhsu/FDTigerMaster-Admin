@@ -23,9 +23,7 @@
             UpdateCommentModal
         },
         props: {
-            order: {
-
-            }
+            order: {}
         },
         data() {
             return {
