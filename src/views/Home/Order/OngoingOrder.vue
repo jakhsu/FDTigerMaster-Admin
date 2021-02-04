@@ -169,12 +169,12 @@
             },
             ongoingOrders() {
                 return this.orders.filter((order) => {
-                    return [15, 20, 25, 30, 35, 40].includes(order.status);
+                    return [15, 20, 25, 30, 35, 40, 45, 50].includes(order.status);
                 })
             },
             ToBePaidOrders() {
                 return this.orders.filter((order) => {
-                    return [45].includes(order.status);
+                    return [55].includes(order.status);
                 })
             },
             specialOrders() {

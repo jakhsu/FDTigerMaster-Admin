@@ -107,7 +107,7 @@
                     const database = tigermaster.database;
                     const query = database.query("generic_order")
                         .limit(0, 10)
-                        .where("generic_order.status", "IN", [60, 95, 100]);
+                        .where("generic_order.status", ">", 55);
                     const result = await query.get();
                     this.orders = result.data;
                     this.queryRows = result.queryRows;
