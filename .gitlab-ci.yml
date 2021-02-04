@@ -6,6 +6,4 @@ unit test:
   stage: test
   script:
     - npm install --only=dev
-    - npm run test:cover
-  coverage:
-        '/All\sfiles.*?\s+(\d+.\d+)/''
+    - npm run test
