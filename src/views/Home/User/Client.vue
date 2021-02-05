@@ -102,6 +102,9 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserCreateModal from '@/components/User/UserCreateModal.vue'
+    import {
+        camel2Snake
+    } from '@/model/CaseConverter/CaseConverter.js'
     import Badge from '@/components/Badge/Badge.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
@@ -166,14 +169,7 @@
                 searchArray.forEach(ele => {
                     ele[2] = 'LIKE'
                     ele[1] = '%' + ele[1] + '%'
-                    if (ele[0] === 'addressCity' || ele[0] === 'addressArea' || ele[0] ===
-                        'addressDetail' || ele[0] === 'addressStreet') {
-                        let prefix = ele[0].slice(0, 7);
-                        let suffix = ele[0].slice(7, ele[0].length);
-                        ele[0] = prefix + '_' + suffix;
-                    } else if (ele[0] === 'createDate') {
-                        ele[0] = 'create_date';
-                    }
+                    ele[0] = camel2Snake(ele[0])
                     query.where(`user.${ele[0]}`, ele[2], ele[1])
                 });
                 const roleId = this.search.roleId || [1, 2];
