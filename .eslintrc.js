@@ -1,10 +1,9 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
-    mocha: true,
+    node: true
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     'eslint:recommended'
   ],
@@ -20,8 +19,6 @@ module.exports = {
       '**/__tests__/*.{j,t}s?(x)',
       '**/tests/unit/**/*.spec.{j,t}s?(x)'
     ],
-    env: {
-      mocha: true
-    }
+    env: {}
   }]
 }
