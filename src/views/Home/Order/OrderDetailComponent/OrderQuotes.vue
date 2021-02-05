@@ -6,11 +6,42 @@
                     <template #header>
                         {{fee.group}}
                     </template>
-                    <ul>
-                        <li v-for="(entry, index) in fee.detail" :key="index">
-                            {{entry}}
-                        </li>
-                    </ul>
+                    <b-form-group>
+                        <b-input-group class="m-2" inline v-for="(entry, index) in fee.detail" :key="index">
+                            <b-input-group-prepend>
+                                <b-input-group-text class="fee-description">
+                                    <font-awesome-icon icon="hammer" />
+                                    <strong>
+                                        {{entry.description}}
+                                    </strong>
+                                </b-input-group-text>
+                                <b-input-group-text>
+                                    單價:
+                                </b-input-group-text>
+                            </b-input-group-prepend>
+                            <b-form-input class="fee-number" :value="entry.unit" disabled />
+                            <b-input-group-prepend>
+                                <strong>
+                                    <b-input-group-text class="fee-description">
+                                        <strong>
+                                            數量
+                                        </strong>
+                                    </b-input-group-text>
+                                </strong>
+                            </b-input-group-prepend>
+                            <b-form-input :value="entry.quantity"></b-form-input>
+                            <b-input-group-prepend>
+                                <strong>
+                                    <b-input-group-text class="fee-description">
+                                        <strong>
+                                            總價
+                                        </strong>
+                                    </b-input-group-text>
+                                </strong>
+                            </b-input-group-prepend>
+                            <b-form-input :value="entry.total"></b-form-input>
+                        </b-input-group>
+                    </b-form-group>
                 </b-card>
             </template>
         </SimpleModal>
@@ -86,3 +117,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .fee-number {
+        background-color: white;
+    }
+</style>
