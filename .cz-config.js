@@ -16,6 +16,18 @@ module.exports = {
       name: "style:    Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
     },
     {
+      value: "remove🔥",
+      name: "remove:   Remove code or files"
+    },
+    {
+      value: "deploy🚀",
+      name: "deploy:   Deploy stuff"
+    },
+    {
+      value: "config🔧",
+      name: "config:   Add or update configs"
+    },
+    {
       value: "refactor♻️",
       name: "refactor: A code change that neither fixes a bug nor adds a feature"
     },
