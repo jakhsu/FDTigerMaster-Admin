@@ -38,6 +38,10 @@ module.exports = {
     {
       value: "WIP🚧",
       name: "WIP:      Work in progress"
+    },
+    {
+      value: "merge🔀",
+      name: "merge:    merge branches"
     }
   ],
 
