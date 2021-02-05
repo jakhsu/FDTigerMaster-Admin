@@ -6,6 +6,8 @@
 
 <script>
     import SiteWrapper from '@/components/SiteWrapper.vue'
+
+    import { messaging } from '@/utility/Firebase'
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
@@ -13,19 +15,39 @@
         components: {
             SiteWrapper
         },
-        created() {
+        async created() {
             if (tigermaster.auth.currentUser !== undefined) {
                 this.$store.commit('setUser', tigermaster.auth.currentUser.data);
-                tigermaster.auth.onUserAuthLost(() => {
-                    this.$store.commit('setUser', undefined);
+                tigermaster.auth.onUserAuthLost(async () => {
+                    this.isLoading = true;
+                    await tigermaster.device.delete();
+                    this.$store.commit('clearUser');
                     this.$router.push({
                         path: '/'
                     });
                 });
             } else {
-                this.$store.commit('setUser', undefined);
+                this.$store.commit('clearUser');
                 this.$router.push({
                     path: '/'
+                });
+            }
+
+            await this.setupMessageing();
+            this.isLoading = false;
+        },
+        methods:{
+            async setupMessageing() {
+                await messaging.requestPermission();
+                const token = await messaging.getToken();
+                await tigermaster.device.create(token);
+                messaging.onMessage((payload) => {
+                    const {title, ...options} = payload.notification;
+                    console.log(title);
+                    console.log(options);
+                    navigator.serviceWorker.getRegistrations().then(registration => {
+                        registration[0].showNotification(title, options);
+                    });
                 });
             }
         }

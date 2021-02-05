@@ -85,13 +85,15 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.component('scale-loader', ScaleLoader)
 
-
-
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(LayoutPlugin)
 Vue.use(Fragment.Plugin)
+
+navigator.serviceWorker.register('firebase-messaging-sw.js', {
+    scope: 'firebase-cloud-messaging-push-scope'
+});
 
 new Vue({
     router,

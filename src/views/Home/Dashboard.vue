@@ -58,21 +58,20 @@
         },
         methods: {
             async fetchUserData() {
-                const res = await tigermaster.database
-                    .query("user")
-                    .where("user.role_id", "<", 70)
+                const masterCount = await tigermaster.database
+                    .rawQuery("SELECT count(*) count FROM user WHERE user.role_id=0")
                     .get()
-                this.user = res.data;
-                this.totalUsers = res.queryRows;
-                this.masterNum = this.user.filter(e => e.roleId == 0).length;
-                this.clientNum = this.totalUsers - this.masterNum;
+                const clientCount = await tigermaster.database
+                    .rawQuery("SELECT count(*) count FROM user WHERE user.role_id=1 OR user.role_id=2")
+                    .get()
+                this.masterNum = masterCount.data[0].count;
+                this.clientNum = clientCount.data[0].count;
             },
             async fetchOrderData() {
-                const res = await tigermaster.database
-                    .query("generic_order")
-                    .where("generic_order.status", ">", 10)
+                const orderCount = await tigermaster.database
+                    .rawQuery("SELECT count(*) count FROM generic_order WHERE generic_order.status>10")
                     .get();
-                this.totalOrders = res.queryRows;
+                this.totalOrders = orderCount.data[0].count;
             }
         }
     }
