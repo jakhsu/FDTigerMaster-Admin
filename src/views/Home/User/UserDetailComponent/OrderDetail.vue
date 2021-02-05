@@ -62,6 +62,9 @@
     import OrderTable from '@/config/OrderTable.json'
     import OrderStatus from '@/config/OrderStatus.json'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
+    import {
+        camel2Snake
+    } from '@/model/CaseConverter/CaseConverter.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 
@@ -92,11 +95,11 @@
                 this.tableBusy = true;
             },
             async onSearchClick() {
+                // TODO: this function is too complex, refractor it?
                 this.tableBusy = true;
                 let query = tigermaster.database.query("generic_order");
                 let searchArray = Object.entries(this.search);
                 searchArray.forEach(element => {
-                    // TODO: this function is too complex, refractor it
                     element[2] = 'LIKE'
                     element[1] = '%' + element[1] + '%'
                     if (element[0] === 'workingCategoryDescription') {
@@ -107,17 +110,8 @@
                         query.with('user');
                         query.link('user.id', 'generic_order.master_user_id');
                         query.where('user.phone', 'LIKE', element[1]);
-                    } else {
-                        if (element[0] === 'masterUserId') {
-                            element[0] = 'master_user_id'
-                        } else if (element[0] === 'addressCity') {
-                            element[0] = 'address_city'
-                        } else if (element[0] === 'addressArea') {
-                            element[0] = 'address_area'
-                        } else if (element[0] === 'addressStreet') {
-                            element[0] = 'address_street'
-                        }
                     }
+                    element[0] = camel2Snake(element[0])
                     query.where(`generic_order.${element[0]}`, element[2], element[1])
                 });
                 if (this.user.roleId == 1 || this.user.roleId == 2) {
@@ -126,7 +120,6 @@
                     query.where("generic_order.master_user_id", "=", `${this.user.id}`);
                 }
                 try {
-
                     const res = await query.get();
                     this.orders = res.data;
                     this.queryRows = res.queryRows;
