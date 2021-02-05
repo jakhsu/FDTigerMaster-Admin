@@ -23,6 +23,8 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '../Table/CustomTable.vue'
+    import PushMessage from 'fdtigermaster-admin-sdk/lib/src/PushMessage/PushMessage'
+
     export default {
         name: 'BroadcastConfirm',
         components: {
@@ -64,9 +66,16 @@
             }
         },
         methods: {
-            submitBroadcast() {
+            async submitBroadcast() {
                 // TODO: finish this once SDK is ready
                 console.log('this function will submit broadcast')
+                console.log(PushMessage)
+                await PushMessage.send()
+                // await PushMessage.send({
+                //     userId: this.selectedUser.id,
+                //     title: this.msgContent.title,
+                //     content: this.msgContent.content
+                // })
             }
         }
     }
