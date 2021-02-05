@@ -6,25 +6,26 @@
 </template>
 
 <script>
-  import Loading from '@/components/Loading';
-  import tigermaster from 'fdtigermaster-admin-sdk';
-  export default {
-    name: "App",
-    components: {
-      Loading
-    },
-    data() {
-      return {
-        isLoading: true
-      }
-    },
-    async created() {
-      await tigermaster.initializeApp({
-        stage: process.env.VUE_APP_STAGE
-      });
-      this.isLoading = false;
+    import Loading from '@/components/Loading'
+    import tigermaster from 'fdtigermaster-admin-sdk'
+
+    export default {
+        name: "App",
+        components: {
+            Loading
+        },
+        data() {
+            return {
+                isLoading: true
+            }
+        },
+        async created() {
+            await tigermaster.initializeApp({
+                stage: process.env.VUE_APP_STAGE
+            });
+            this.isLoading = false;
+        }
     }
-  }
 </script>
 
 <style>

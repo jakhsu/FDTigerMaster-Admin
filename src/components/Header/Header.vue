@@ -40,9 +40,6 @@
             },
             onLogoutClick() {
                 tigermaster.auth.logout();
-                this.$router.push({
-                    path: '/'
-                });
             }
         }
     }
