@@ -72,6 +72,9 @@
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
     import OrderStatus from '@/config/OrderStatus.json'
+    import {
+        camel2Snake
+    } from '@/model/CaseConverter/CaseConverter.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import OrderCreateModal from '@/components/Order/OrderCreateModal.vue'
@@ -125,26 +128,9 @@
                 searchArray.forEach(element => {
                     element[2] = 'LIKE'
                     element[1] = '%' + element[1] + '%'
-                    if (element[0] === 'workingCategoryDescription') {
-                        query.with('working_category');
-                        query.link('working_category.id', 'generic_order.working_category_id');
-                        query.where('working_category.description', 'LIKE', element[1]);
-                    } else if (element[0] === 'masterUserPhone') {
-                        query.with('user');
-                        query.link('user.id', 'generic_order.master_user_id');
-                        query.where('user.phone', 'LIKE', element[1]);
-                    } else {
-                        if (element[0] === 'masterUserId') {
-                            element[0] = 'master_user_id'
-                        } else if (element[0] === 'addressCity') {
-                            element[0] = 'address_city'
-                        } else if (element[0] === 'addressArea') {
-                            element[0] = 'address_area'
-                        } else if (element[0] === 'addressStreet') {
-                            element[0] = 'address_street'
-                        }
-                        query.where(`generic_order.${element[0]}`, element[2], element[1])
-                    }
+                    // TODO: should closed order search function search within all orders? or just the "closed" orders
+                    element[0] = camel2Snake(element[0])
+                    query.where(`generic_order.${element[0]}`, element[2], element[1])
                 });
                 try {
                     const res = await query.get();

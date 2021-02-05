@@ -96,6 +96,7 @@
                 let query = tigermaster.database.query("generic_order");
                 let searchArray = Object.entries(this.search);
                 searchArray.forEach(element => {
+                    // TODO: this function is too complex, refractor it
                     element[2] = 'LIKE'
                     element[1] = '%' + element[1] + '%'
                     if (element[0] === 'workingCategoryDescription') {
@@ -116,8 +117,8 @@
                         } else if (element[0] === 'addressStreet') {
                             element[0] = 'address_street'
                         }
-                        query.where(`generic_order.${element[0]}`, element[2], element[1])
                     }
+                    query.where(`generic_order.${element[0]}`, element[2], element[1])
                 });
                 if (this.user.roleId == 1 || this.user.roleId == 2) {
                     query.where("generic_order.client_user_id", "=", `${this.user.id}`);

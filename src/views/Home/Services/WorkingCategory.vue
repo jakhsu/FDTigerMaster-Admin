@@ -97,13 +97,16 @@
 </template>
 
 <script>
-    import TitledCard from "@/components/Card/TitledCard.vue";
-    import CategoriesTable from "@/config/CategoriesTable.json";
-    import CustomTable from "@/components/Table/CustomTable.vue";
-    import ConfirmModal from '@/components/Modal/ConfirmModal.vue';
+    import TitledCard from "@/components/Card/TitledCard.vue"
+    import CategoriesTable from "@/config/CategoriesTable.json"
+    import CustomTable from "@/components/Table/CustomTable.vue"
+    import ConfirmModal from '@/components/Modal/ConfirmModal.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import WorkingCategoryCreateModal from "@/components/Services/WorkingCategory/WorkingCategoryCreateModal.vue";
-    import WorkingCategoryUpdateModal from "@/components/Services/WorkingCategory/WorkingCategoryUpdateModal.vue";
+    import {
+        camel2Snake
+    } from '@/model/CaseConverter/CaseConverter.js'
+    import WorkingCategoryCreateModal from "@/components/Services/WorkingCategory/WorkingCategoryCreateModal.vue"
+    import WorkingCategoryUpdateModal from "@/components/Services/WorkingCategory/WorkingCategoryUpdateModal.vue"
 
     import tigermaster from "fdtigermaster-admin-sdk";
 
@@ -163,16 +166,14 @@
                 }
             },
             async onSearchClick() {
-                this.tableBusy = true;
-                let query = tigermaster.database.query("working_category");
-                let searchArray = Object.entries(this.search);
+                this.tableBusy = true
+                let query = tigermaster.database.query("working_category")
+                let searchArray = Object.entries(this.search)
                 searchArray.forEach(ele => {
-                    if (ele[0] === 'skillItemId') {
-                        ele[0] = 'skill_item_id'
-                    }
-                    ele[2] = 'LIKE';
-                    ele[1] = '%' + ele[1] + '%';
-                    query.where(`working_category.${ele[0]}`, ele[2], ele[1]);
+                    ele[0] = camel2Snake(ele[0])
+                    ele[2] = 'LIKE'
+                    ele[1] = '%' + ele[1] + '%'
+                    query.where(`working_category.${ele[0]}`, ele[2], ele[1])
                 })
                 try {
                     const workingCategories = await query.get();
