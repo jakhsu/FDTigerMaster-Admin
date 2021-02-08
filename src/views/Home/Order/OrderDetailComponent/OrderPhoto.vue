@@ -92,9 +92,8 @@
             async uploadImg() {
                 if (this.imageFile.name) {
                     this.isLoading = true;
-                    const image = tigermaster.image;
                     try {
-                        await image.OrderImage.upload(this.order.id, this.imageFile, this.imageStage, this
+                        await this.order.imageUpload(this.imageFile, this.imageStage, this
                             .imageDescrption)
                         this.fetchOrderPicture();
                     } catch (e) {
@@ -113,7 +112,6 @@
             openImgModal(url, originalPic) {
                 this.detailedPicture = this.pictures.find(e => e.path === url)
                 this.originalPic = originalPic;
-                // this.$bvModal.show("Picture-Detail-Modal")
                 window.open(originalPic)
             },
             onModalSave() {
