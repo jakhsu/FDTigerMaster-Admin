@@ -15,7 +15,7 @@
                                 </option>
                             </datalist>
                             <b-input-group-append>
-                                <b-button @click="addTag()" variant="primary" :disabled="invalidInput !== undefined">Add
+                                <b-button @click="addTag()" variant="primary" :disabled="invalidInput !== undefined">新增
                                 </b-button>
                             </b-input-group-append>
                             <b-form-invalid-feedback :state="invalidInput === undefined">
