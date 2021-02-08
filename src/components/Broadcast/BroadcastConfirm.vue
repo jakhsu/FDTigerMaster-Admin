@@ -4,33 +4,36 @@
             <CustomTable :datas="selectedUser" :fields="field">
             </CustomTable>
         </TitledCard>
-        <b-card header="推播訊息" :title="msgContent.title">
-            <b-card-body>
-                <ul>
-                    <li>
-                        內容: {{msgContent.content}}
-                    </li>
-                    <li>
-                        上傳圖檔: {{msgContent.imgPath}}
-                    </li>
-                </ul>
-            </b-card-body>
+        <TitledCard title="預覽">
+            <PhonePreview class="m-2">
+                <template #content>
+                    <ul>
+                        <li>
+                            內容: {{msgContent.content}}
+                        </li>
+                        <li>
+                            上傳圖檔: {{msgContent.imgPath}}
+                        </li>
+                    </ul>
+                </template>
+            </PhonePreview>
             <b-button variant="success" @click="submitBroadcast">確認送出</b-button>
-        </b-card>
+        </TitledCard>
     </div>
 </template>
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import CustomTable from '../Table/CustomTable.vue'
+    import CustomTable from '@/components/Table/CustomTable.vue'
     import PushMessage from 'fdtigermaster-admin-sdk/lib/src/PushMessage/PushMessage'
+    import PhonePreview from '@/components/Preview/PhonePreview.vue'
 
     export default {
         name: 'BroadcastConfirm',
         components: {
             TitledCard,
-            CustomTable
-
+            CustomTable,
+            PhonePreview
         },
         props: {
             selectedUser: {
@@ -80,3 +83,9 @@
         }
     }
 </script>
+
+<style scoped>
+    ul {
+        list-style-type: none;
+    }
+</style>
