@@ -1,5 +1,6 @@
 <template>
     <b-navbar id="topbar" toggleable="lg" class="mb-4 shadow">
+        <span class="version">測試版</span>
         <b-button variant="link" class="sidebar-toggle d-md-none mr-3" @click="onSideBarToggleClick">
             <font-awesome-icon icon="bars" />
         </b-button>
@@ -66,5 +67,10 @@
 
     #topbar .dropdown-menu {
         position: absolute;
+    }
+
+    #topbar .version {
+        color: #ffffff;
+        font-size: 20pt;
     }
 </style>
