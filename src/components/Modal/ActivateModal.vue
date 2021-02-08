@@ -23,7 +23,7 @@
                 type: String,
                 default: 'Activate-Modal'
             },
-            currentUser: Object
+            user: Object
         },
         data() {
             return {
@@ -35,12 +35,12 @@
             async onActivate() {
                 if (this.comment !== '') {
                     this.isLoading = true;
-                    await this.currentUser.update({
+                    await this.user.update({
                         status: 1
                     });
-                    console.log(this.currentUser.data);
+                    console.log(this.user.data);
                     const note = tigermaster.note;
-                    await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive)
+                    await note.createUserNote(this.user.id, this.comment, note.UseFor.Deactive)
                     this.$bvModal.hide(this.id);
                     this.$emit('finish');
                 }

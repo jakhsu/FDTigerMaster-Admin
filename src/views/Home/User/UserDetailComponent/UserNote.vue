@@ -1,6 +1,6 @@
 <template>
     <div id="UserNote">
-        <CreateUserNoteModal @finish="onRefresh" :userId="currentUser.id" />
+        <CreateUserNoteModal @finish="onRefresh" :userId="userData.id" />
         <ModifyNoteModal @finish="onRefresh" :noteId="selectedNote.id" :initNoteContent="selectedNote.content" />
         <b-container fluid>
             <b-row>
@@ -44,7 +44,7 @@
             ModifyNoteModal
         },
         props: {
-            currentUser: {
+            userData: {
                 type: Object
             }
         },
@@ -76,7 +76,7 @@
         async created() {
             const note = tigermaster.note;
             try {
-                this.notes = await note.listByUserId(this.currentUser.id);
+                this.notes = await note.listByUserId(this.userData.id);
                 this.totalRows = this.notes.length;
             } catch (e) {
                 console.log(e);
@@ -94,7 +94,7 @@
                 this.tableBusy = true;
                 const note = tigermaster.note;
                 try {
-                    this.notes = await note.listByUserId(this.currentUser.id);
+                    this.notes = await note.listByUserId(this.userData.id);
                     this.totalRows = this.notes.length;
                 } catch (e) {
                     this.notes = [];

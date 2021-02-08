@@ -1,7 +1,7 @@
 <template>
     <div id="BasicDetail">
-        <ActivateModal :currentUser="user" @finish="onStatusChangeFinish" />
-        <DeactivateModal :currentUser="user" @finish="onStatusChangeFinish" />
+        <ActivateModal :user="user" @finish="onStatusChangeFinish" />
+        <DeactivateModal :user="user" @finish="onStatusChangeFinish" />
         <b-container fluid>
             <div class="d-flex mt-3">
                 <b-button class="ml-auto" variant="primary" @click="onModifyClick" :disabled="user.status === 0">

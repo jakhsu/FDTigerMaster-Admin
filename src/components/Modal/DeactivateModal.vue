@@ -23,7 +23,7 @@
                 type: String,
                 default: 'Deactivate-Modal'
             },
-            currentUser: Object
+            user: Object
         },
         data() {
             return {
@@ -35,11 +35,11 @@
             async onDeactivate() {
                 if (this.comment !== '') {
                     this.isLoading = true;
-                    await this.currentUser.update({
+                    await this.user.update({
                         status: 0
                     });
                     const note = tigermaster.note;
-                    await note.createUserNote(this.currentUser.id, this.comment, note.UseFor.Deactive);
+                    await note.createUserNote(this.user.id, this.comment, note.UseFor.Deactive);
                     this.$bvModal.hide(this.id);
                     this.$emit('finish');
                 }

@@ -49,7 +49,7 @@
                 default: 'Master-Skill-Create-Modal'
             },
             existSkill: Array,
-            currentUser: Object
+            user: Object
         },
         data() {
             return {
@@ -77,9 +77,9 @@
                 this.isLoading = true;
                 try {
                     const skillStr = this.skillList.join(',');
-                    await this.currentUser.update({
+                    await this.user.update({
                         master: {
-                            id: this.currentUser.data.master.id,
+                            id: this.user.data.master.id,
                             skillItems: skillStr
                         }
                     });
