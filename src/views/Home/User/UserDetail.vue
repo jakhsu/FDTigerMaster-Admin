@@ -35,7 +35,7 @@
           </b-nav-item>
         </b-nav>
       </div>
-      <component :is="currentComponent" :userData="userData" :user="user" @refresh="onRefresh" />
+      <component :is="currentComponent" :userData="userData" :user="user" :userId="user._id" @refresh="onRefresh" />
     </b-container>
   </div>
 </template>
