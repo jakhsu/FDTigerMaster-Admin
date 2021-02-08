@@ -1,6 +1,6 @@
 <template>
     <div id="MasterSkillDetail">
-        <MasterSkillCreateModal :existSkill="masterSkills" :currentUser="currentUser" @finish="onRefresh" />
+        <MasterSkillCreateModal :existSkill="masterSkills" :user="user" @finish="onRefresh" />
         <b-container fluid>
             <b-row>
                 <b-col lg='6' md='12'>
@@ -75,11 +75,11 @@
             MasterSkillCreateModal
         },
         props: {
-            currentUser: Object,
+            user: Object,
         },
         data() {
             return {
-                user: this.currentUser.data,
+                userData: this.user.data,
                 tableBusy: true,
                 isIgnoreLoading: true,
                 masterSkills: [],
@@ -105,8 +105,8 @@
                 try {
                     this.skillItems = [];
                     this.masterSkills = [];
-                    if (this.user.master.skillItems !== undefined && this.user.master.skillItems !== "") {
-                        this.masterSkills = this.user.master.skillItems.split(',');
+                    if (this.userData.master.skillItems !== undefined && this.userData.master.skillItems !== "") {
+                        this.masterSkills = this.userData.master.skillItems.split(',');
                         const response = await tigermaster.database
                             .query("skill_item")
                             .where("skill_item.id", "IN", this.masterSkills)
@@ -121,9 +121,9 @@
             async fetchMasterIgnoreCategoryData() {
                 try {
                     this.ignoredWorkingCategories = [];
-                    if (this.user.master.ignoreWorkingCategories !== undefined && this.user.master
+                    if (this.userData.master.ignoreWorkingCategories !== undefined && this.userData.master
                         .ignoreWorkingCategories !== "") {
-                        const queryArray = this.user.master.ignoreWorkingCategories.split(',');
+                        const queryArray = this.userData.master.ignoreWorkingCategories.split(',');
                         const response = await tigermaster.database
                             .query("working_category")
                             .where("working_category.id", "IN", queryArray)
@@ -138,7 +138,7 @@
             },
             async generateIgnoreOptions() {
                 try {
-                    if (this.user.master.skillItems !== undefined && this.user.master.skillItems !== "") {
+                    if (this.userData.master.skillItems !== undefined && this.userData.master.skillItems !== "") {
                         this.ignoreOptions = [];
                         const response = await tigermaster.database
                             .query("working_category")
@@ -156,7 +156,7 @@
                 this.tableBusy = true;
                 this.isIgnoreLoading = true;
                 this.matchedWorkingCategory = [];
-                this.user = this.currentUser.data;
+                this.userData = this.user.data;
                 await Promise.all([this.fetchMasterSkillsData(), this.fetchMasterIgnoreCategoryData(), this
                     .generateIgnoreOptions()
                 ]);
@@ -184,9 +184,9 @@
                     updateIgnore.push(ele.split(' | ')[0]);
                 });
                 const ignoreStr = updateIgnore.join(',');
-                await this.currentUser.update({
+                await this.user.update({
                     master: {
-                        id: this.currentUser.data.master.id,
+                        id: this.user.data.master.id,
                         ignoreWorkingCategories: ignoreStr
                     }
                 });

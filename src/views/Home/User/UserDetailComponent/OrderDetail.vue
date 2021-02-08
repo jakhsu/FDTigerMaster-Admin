@@ -78,7 +78,8 @@
         props: {
             user: {
                 type: Object
-            }
+            },
+            userData: Object
         },
         data() {
             return {
@@ -87,7 +88,7 @@
                 OrderStatus,
                 tableBusy: false,
                 search: {},
-                statusMap: OrderStatusMap()
+                statusMap: OrderStatusMap(),
             }
         },
         methods: {
@@ -152,7 +153,7 @@
             }
         },
         created() {
-            this.fetchUserOrders(this.user.roleId);
+            this.fetchUserOrders(this.userData.roleId);
         }
     }
 </script>

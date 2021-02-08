@@ -57,15 +57,15 @@
             SimpleModal,
         },
         props: {
-            user: Object,
-            currentUser: Object
+            userData: Object,
+            user: Object
         },
         data() {
             return {
                 isLoading: false,
                 isUpload: false,
                 toBeUploaded: {
-                    id: this.user.id,
+                    id: this.userData.id,
                     imageFile: {},
                     description: ''
                 },
@@ -83,8 +83,8 @@
             async fetchCertificateURLs() {
                 try {
                     const res = await tigermaster.database
-                        .query("user_picture")
-                        .where("user_picture.user_id", "=", this.user.id)
+                        .query("userData_picture")
+                        .where("userData_picture.userData_id", "=", this.userData.id)
                         .get();
                     this.certificates = res.data;
                     this.fetchURL = res.data.map(e =>
@@ -100,7 +100,7 @@
             async upload() {
                 this.isUpload = true;
                 try {
-                    await this.currentUser.licenseUpload(this.toBeUploaded.imageFile, this.toBeUploaded.description)
+                    await this.user.licenseUpload(this.toBeUploaded.imageFile, this.toBeUploaded.description)
                     this.toBeUploaded.description = "";
                     await this.fetchCertificateURLs();
                     this.imgUploadKey++;

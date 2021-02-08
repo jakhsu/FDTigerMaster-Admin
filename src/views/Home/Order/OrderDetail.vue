@@ -35,6 +35,9 @@
                     <b-nav-item :active="currentTab == 'orderHistory'" @click="onNavClick('orderHistory')">
                         訂單紀錄
                     </b-nav-item>
+                    <b-nav-item :active="currentTab == 'chatRoom'" @click="onNavClick('chatRoom')">
+                        聊天室
+                    </b-nav-item>
                 </b-nav>
             </div>
             <component :is="currentComponent" :order="order" :matchedMasters="matchedMasters"
@@ -55,6 +58,7 @@
     import OrderComment from '@/views/Home/Order/OrderDetailComponent/OrderComment.vue'
     import PaymentHistory from '@/views/Home/Order/OrderDetailComponent/PaymentHistory.vue'
     import OrderHistory from '@/views/Home/Order/OrderDetailComponent/OrderHistory.vue'
+    import ChatRoom from '@/views/Home/Order/OrderDetailComponent/ChatRoom.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import Loading from '@/components/Loading.vue'
 
@@ -78,7 +82,8 @@
                     orderQuotes: OrderQuotes,
                     orderComment: OrderComment,
                     paymentHistory: PaymentHistory,
-                    orderHistory: OrderHistory
+                    orderHistory: OrderHistory,
+                    chatRoom: ChatRoom
                 },
                 order: {},
                 matchedMasters: [],

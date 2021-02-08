@@ -1,6 +1,6 @@
 <template>
     <div id="UserComment">
-        <ScoreModal :currentUser="currentUser" :user="user" @refresh="refresh" />
+        <ScoreModal :user="user" :userData="userData" @refresh="refresh" />
         <b-container fluid>
             <TitledCard title="評分和評論歷史">
                 <template #title-card-header>
@@ -9,7 +9,7 @@
                             用戶平均分數
                         </template>
                         <template #number>
-                            {{user.avgScore}}
+                            {{userData.avgScore}}
                         </template>
                     </Badge>
                 </template>
@@ -50,8 +50,8 @@
             CustomTable
         },
         props: {
-            user: {},
-            currentUser: {}
+            userData: {},
+            user: {}
         },
         data() {
             return {

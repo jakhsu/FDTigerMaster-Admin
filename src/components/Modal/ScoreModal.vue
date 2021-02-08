@@ -4,7 +4,7 @@
         <template #modal-body>
             <b-form-group>
                 <h5>
-                    目前: <b-badge variant="secondary">{{ user.avgScore }}</b-badge>
+                    目前: <b-badge variant="secondary">{{ userData.avgScore }}</b-badge>
                     修改後: <b-badge variant="success">{{ newScore }}</b-badge>
                 </h5>
                 <b-form-input id="scoreChange" v-model.number="newScore" type="range" min="0" max="5" placeholder="1.0"
@@ -30,8 +30,8 @@
             SimpleModal
         },
         props: {
-            user: {},
-            currentUser: {}
+            userData: {},
+            user: {}
         },
         data() {
             return {
@@ -51,10 +51,10 @@
                 this.isLoading = true;
                 const note = tigermaster.note;
                 try {
-                    await this.currentUser.update({
+                    await this.user.update({
                         avgScore: this.newScore
                     });
-                    await note.createUserNote(this.user.id, this.scoreChangeReason, note.UseFor.ScoreModify);
+                    await note.createUserNote(this.userData.id, this.scoreChangeReason, note.UseFor.ScoreModify);
                     this.$emit("refresh");
                 } catch (e) {
                     console.log(e)
