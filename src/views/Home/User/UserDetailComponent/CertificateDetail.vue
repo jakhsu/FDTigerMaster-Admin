@@ -57,14 +57,13 @@
             SimpleModal,
         },
         props: {
-            user: Object
+            user: Object,
+            currentUser: Object
         },
         data() {
             return {
-                currentUser: Object,
                 isLoading: false,
                 isUpload: false,
-                userData: {},
                 toBeUploaded: {
                     id: this.user.id,
                     imageFile: {},
@@ -100,13 +99,8 @@
             },
             async upload() {
                 this.isUpload = true;
-                const userImage = tigermaster.image.UserImage;
                 try {
-                    await userImage.upload(
-                        this.toBeUploaded.id,
-                        this.toBeUploaded.imageFile,
-                        this.toBeUploaded.description
-                    );
+                    await this.currentUser.licenseUpload(this.toBeUploaded.imageFile, this.toBeUploaded.description)
                     this.toBeUploaded.description = "";
                     await this.fetchCertificateURLs();
                     this.imgUploadKey++;
