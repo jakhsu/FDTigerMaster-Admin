@@ -2,7 +2,7 @@
     <b-card id="image-card" @click="onCardClicked">
         <b-skeleton-img v-if="isLoading"></b-skeleton-img>
         <div v-show="!isLoading">
-            <ProtectedImage :src="src" :alt="alt" imgClass="imgClass" @imageSuccess="handleImgSuccess()" />
+            <ProtectedImage :src="src" :alt="alt" imgClass="imgClass" @imageSuccess="handleImgSuccess" />
             <span v-if="imageDetails.createBy">
                 <font-awesome-icon icon="user" fixed-width />
                 {{imageDetails.createBy}}
@@ -55,9 +55,8 @@
         },
         methods: {
             handleImgSuccess(img) {
-                console.log("success!")
-                this.isLoading = false;
                 this.img = img;
+                this.isLoading = false;
             },
             onCardClicked() {
                 this.$emit("imgCardClicked", this.src, this.img);
