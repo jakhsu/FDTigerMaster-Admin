@@ -53,7 +53,11 @@ module.exports = {
     },
     {
       value: "merge🔀",
-      name: "merge:    merge branches"
+      name: "merge:    Merge branches"
+    },
+    {
+      value: "upgrade⬆️",
+      name: "upgrade:  Upgrade dependencies"
     }
   ],
 
