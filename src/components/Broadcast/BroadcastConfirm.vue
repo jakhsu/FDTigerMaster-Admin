@@ -25,8 +25,8 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import PushMessage from 'fdtigermaster-admin-sdk/lib/src/PushMessage/PushMessage'
     import PhonePreview from '@/components/Preview/PhonePreview.vue'
+    import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
         name: 'BroadcastConfirm',
@@ -70,15 +70,17 @@
         },
         methods: {
             async submitBroadcast() {
-                // TODO: finish this once SDK is ready
-                console.log('this function will submit broadcast')
-                console.log(PushMessage)
-                await PushMessage.send()
-                // await PushMessage.send({
-                //     userId: this.selectedUser.id,
-                //     title: this.msgContent.title,
-                //     content: this.msgContent.content
-                // })
+                const pushMsg = tigermaster.pushMessage;
+                await pushMsg.send({
+                    userIds: this.selectedUserIds,
+                    title: this.msgContent.title,
+                    content: this.msgContent.content
+                })
+            }
+        },
+        computed: {
+            selectedUserIds() {
+                return this.selectedUser.map(e => e.id)
             }
         }
     }
