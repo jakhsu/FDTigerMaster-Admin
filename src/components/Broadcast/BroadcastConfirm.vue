@@ -70,8 +70,8 @@
         },
         methods: {
             async submitBroadcast() {
-                const pushMsg = tigermaster.pushMessage;
-                await pushMsg.send({
+                const pushNotify = tigermaster.pushNotify;
+                await pushNotify.send({
                     userIds: this.selectedUserIds,
                     title: this.msgContent.title,
                     content: this.msgContent.content
