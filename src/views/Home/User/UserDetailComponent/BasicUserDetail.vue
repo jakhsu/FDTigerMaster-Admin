@@ -1,12 +1,20 @@
 <template>
     <div id="BasicDetail">
-        <ActivateModal :currentUser="currentUser" @finish="onStatusChangeFinish" />
-        <DeactivateModal :currentUser="currentUser" @finish="onStatusChangeFinish" />
+        <ActivateModal :currentUser="user" @finish="onStatusChangeFinish" />
+        <DeactivateModal :currentUser="user" @finish="onStatusChangeFinish" />
         <b-container fluid>
             <div class="d-flex mt-3">
-                <b-button class="ml-auto" variant="primary" @click="onModifyClick" :disabled="user.status === 0">
+                <b-button v-if="!isEdit" class="ml-auto" variant="primary" @click="onModifyClick"
+                    :disabled="user.status === 0">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
+                </b-button>
+                <b-button v-if="isEdit" class="ml-auto" variant="primary" @click="onFinishEdit">
+                    <font-awesome-icon icon="edit" />
+                    完成
+                </b-button>
+                <b-button v-if="isEdit" class="ml-2" variant="outline-danger" @click="onCancelEdit">
+                    取消
                 </b-button>
             </div>
             <b-row>
@@ -16,50 +24,50 @@
                             <b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="id: ">
-                                    <b-form-input :value="user.id" disabled />
+                                    <b-form-input :value="userData.id" disabled />
                                 </b-form-group>
                                 <b-form-group label-for="phone" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="電話: ">
-                                    <b-form-input id="phone" :value="user.phone" disabled>
+                                    <b-form-input id="phone" :value="userData.phone" disabled>
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="密碼: ">
-                                    <b-form-input :value="user.pass" disabled />
+                                    <b-form-input :value="userData.pass" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-for="name" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="姓名: ">
-                                    <b-form-input id="name" :value="user.name" disabled>
+                                    <b-form-input id="name" :value="userData.name" :disabled="!isEdit">
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group label-for="roleId" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="角色: ">
-                                    <b-form-input :value="roleIdMap[user.roleId]" disabled />
+                                    <b-form-input :value="roleIdMap[userData.roleId]" disabled />
                                 </b-form-group>
                                 <b-form-group label-for="email" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="Email: ">
-                                    <b-form-input id="email" :value="user.email" disabled>
+                                    <b-form-input id="email" :value="userData.email" :disabled="!isEdit">
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="性別: ">
-                                    <b-form-input :value="user.sex == 'M' ? '男性' : '女性'" disabled />
+                                    <b-form-input :value="userData.sex == 'M' ? '男性' : '女性'" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="身分證號: ">
-                                    <b-form-input :value="user.idCardNo" disabled />
+                                    <b-form-input :value="userData.idCardNo" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="出生年: ">
-                                    <b-form-input :value="user.birthYear" disabled />
+                                    <b-form-input :value="userData.birthYear" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="出生月: ">
-                                    <b-form-input :value="user.birthMon" disabled />
+                                    <b-form-input :value="userData.birthMon" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="出生日: ">
-                                    <b-form-input :value="user.birthDate" disabled />
+                                    <b-form-input :value="userData.birthDate" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
                         </div>
@@ -68,19 +76,19 @@
                         <div class="m-2">
                             <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建日期: ">
-                                    <b-form-input :value="user.createDate" disabled />
+                                    <b-form-input :value="userData.createDate" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
-                                    <b-form-input :value="user.createBy" disabled />
+                                    <b-form-input :value="userData.createBy" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新日期: ">
-                                    <b-form-input :value="user.updateDate" disabled />
+                                    <b-form-input :value="userData.updateDate" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
-                                    <b-form-input :value="user.updateBy" disabled />
+                                    <b-form-input :value="userData.updateBy" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
-                                    <b-form-input :value="user.status == 1 ? '啟用中' : '停用'" disabled />
+                                    <b-form-input :value="userData.status == 1 ? '啟用中' : '停用'" disabled />
                                 </b-form-group>
                             </b-form-group>
                         </div>
@@ -88,60 +96,61 @@
                 </b-col>
                 <b-col xl="6" lg="12">
                     <TitledCard title="用戶照片">
-                        <img :src="user.headShotPath" />
+                        <img :src="userData.headShotPath" />
                     </TitledCard>
                     <TitledCard title="地址">
                         <div class="m-2">
                             <b-form-group>
+
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
-                                    <b-form-input :value="user.addressCity" disabled />
+                                    <b-form-input :value="userData.addressCity" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區域: ">
-                                    <b-form-input :value="user.addressArea" disabled />
+                                    <b-form-input :value="userData.addressArea" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                                    <b-form-input :value="user.addressStreet" disabled />
+                                    <b-form-input :value="userData.addressStreet" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
-                                    <b-form-input :value="user.addressDetail" disabled />
+                                    <b-form-input :value="userData.addressDetail" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
                         </div>
                     </TitledCard>
-                    <TitledCard v-if="user.roleId === 1 || user.roleId === 2" title="客戶專用">
+                    <TitledCard v-if="userData.roleId === 1 || userData.roleId === 2" title="客戶專用">
                         <div class="m-2">
                             <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
-                                    <b-form-input v-model="user.client.businessId" disabled />
+                                    <b-form-input v-model="userData.client.businessId" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
-                                    <b-form-input v-model="user.client.invoiceTitle" disabled />
+                                    <b-form-input v-model="userData.client.invoiceTitle" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
                         </div>
                     </TitledCard>
-                    <TitledCard v-if="user.roleId == 0" title="師傅專用">
+                    <TitledCard v-if="userData.roleId == 0" title="師傅專用">
                         <div class="m-2">
                             <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="銀行帳號: ">
-                                    <b-form-input v-model="user.master.accountNo" disabled />
+                                    <b-form-input v-model="userData.master.accountNo" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="銀行名稱: ">
-                                    <b-form-input v-model="user.master.bankName" disabled />
+                                    <b-form-input v-model="userData.master.bankName" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="銀行代號: ">
-                                    <b-form-input v-model="user.master.bankCode" disabled />
+                                    <b-form-input v-model="userData.master.bankCode" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="分行代號: ">
-                                    <b-form-input v-model="user.master.branchCode" disabled />
+                                    <b-form-input v-model="userData.master.branchCode" :disabled="!isEdit" />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="分行名稱: ">
-                                    <b-form-input v-model="user.master.branchName" disabled />
+                                    <b-form-input v-model="userData.master.branchName" :disabled="!isEdit" />
                                 </b-form-group>
                             </b-form-group>
                         </div>
                     </TitledCard>
-                    <TitledCard v-if="user.status == 1" title="用戶凍結:" titleBackgroundColor="#dd2a0e">
+                    <TitledCard v-if="userData.status == 1" title="用戶凍結:" titleBackgroundColor="#dd2a0e">
                         <div class="BasicDetail-Deactivate">
                             <p>將用戶停權有以下效果:</p>
                             <ul>
@@ -152,7 +161,7 @@
                             <b-button variant="outline-danger" v-b-modal="'Deactivate-Modal'">停權</b-button>
                         </div>
                     </TitledCard>
-                    <TitledCard v-else-if="user.status == 0" title="用戶解凍:" titleBackgroundColor="#2edd0e">
+                    <TitledCard v-else-if="userData.status == 0" title="用戶解凍:" titleBackgroundColor="#2edd0e">
                         <div class="BasicDetail-Deactivate">
                             <p>將用戶解凍有以下效果:</p>
                             <ul>
@@ -184,23 +193,59 @@
             DeactivateModal
         },
         props: {
-            user: Object,
-            currentUser: Object
+            // userData: Object,
+            user: Object
         },
         data() {
             return {
                 UserRole,
-                roleIdMap: RoleIdMap()
+                roleIdMap: RoleIdMap(),
+                isEdit: false,
+                userData: this.user._data
             }
         },
         methods: {
+            onFinishEdit() {
+                this.isEdit = false;
+            },
+            onCancelEdit() {
+                this.isEdit = false;
+            },
             onModifyClick() {
-                this.$router.push({
-                    path: '/home/user_modify',
-                    query: {
-                        userId: this.user.id
+                this.isEdit = true;
+                // this.$router.push({
+                //     path: '/home/user_modify',
+                //     query: {
+                //         userId: this.userData.id
+                //     }
+                // });
+            },
+            async updateUser() {
+                if (this.streetErrorMessage === '') {
+                    const dataToBeUpdated = {
+                        phone: this.userData.phone,
+                        email: this.userData.email,
+                        name: this.userData.name,
+                        sex: this.userData.sex,
+                        addressCity: this.userData.addressCity,
+                        addressArea: this.userData.addressArea,
+                        addressStreet: this.userData.addressStreet,
+                        addressDetail: this.userData.addressDetail,
+                        idCardNo: this.userData.idCardNo,
+                        birthYear: this.userData.birthYear,
+                        birthMon: this.userData.birthMon,
+                        birthDate: this.userData.birthDate,
+                        status: this.userData.status
                     }
-                });
+                    await this.user.update(dataToBeUpdated);
+                    this.updateHeadshot();
+                    this.$router.push({
+                        path: '/home/user_detail',
+                        query: {
+                            userId: this.userData.id
+                        }
+                    });
+                }
             },
             onStatusChangeFinish() {
                 this.$emit("refresh");
