@@ -35,7 +35,7 @@
           </b-nav-item>
         </b-nav>
       </div>
-      <component :is="currentComponent" :user="userData" :current-user="currentUser" @refresh="onRefresh" />
+      <component :is="currentComponent" :userData="userData" :user="user" @refresh="onRefresh" />
     </b-container>
   </div>
 </template>
@@ -77,12 +77,12 @@
           masterSkill: MasterSkillDetail,
         },
         userData: {},
-        currentUser: undefined
+        user: undefined
       };
     },
     async created() {
       const user = await tigermaster.auth.getUserById(this.$route.query.userId);
-      this.currentUser = user;
+      this.user = user;
       this.userData = user.data;
       this.isLoading = false;
     },
@@ -94,7 +94,7 @@
       async onRefresh() {
         this.isLoading = true;
         const user = await tigermaster.auth.getUserById(this.$route.query.userId);
-        this.currentUser = user;
+        this.user = user;
         this.userData = user.data;
         this.isLoading = false;
       }
