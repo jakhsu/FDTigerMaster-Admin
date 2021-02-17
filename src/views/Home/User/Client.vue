@@ -50,12 +50,12 @@
                                         <b-td v-for="(field, index) in data.fields" :key="index"
                                             style="overflow:visible">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']"
-                                                v-b-tooltip.hover :title="activeMap[search['status']]">
+                                                v-b-tooltip.hover :title="activeMap[search['status']]" class="width75">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
                                             <b-form-select v-else-if="field.key == 'roleId'"
-                                                v-model.number="search['roleId']">
+                                                v-model.number="search['roleId']" class="width75">
                                                 <option value="1">一般客戶</option>
                                                 <option value="2">企業用戶</option>
                                             </b-form-select>
@@ -126,7 +126,8 @@
                 roleIdMap: RoleIdMap(),
                 activeMap: ActiveStatusMapping(),
                 search: {
-                    roleId: 1
+                    roleId: 1,
+                    status: 1
                 },
                 queryRows: 0,
                 totalCount: 0,
@@ -232,5 +233,9 @@
         #Client .Client-Area {
             padding: 0px;
         }
+    }
+
+    .width75 {
+        min-width: 75px;
     }
 </style>
