@@ -80,10 +80,26 @@
                                         :class="step > 3 ? 'finished' : null">4</div>
                                     <div>確認</div>
                                 </b-button>
-                                <div class="Broadcast-Collapse left-border">
+                                <div class="Broadcast-Collapse left-border py-3">
                                     <b-collapse v-model="display[3]" id="VerifyCollapse" class="py-3 pl-3">
                                         <BroadcastConfirm v-if="display[3] === true" :selectedUser="selected"
-                                            :msgContent="content" />
+                                            :msgContent="content" @next="successReady" />
+                                    </b-collapse>
+                                </div>
+                                <b-button id="SuccessToggle"
+                                    class="Broadcast-Collapse-Toggle p-0 text-decoration-none d-flex align-items-center"
+                                    variant="link" :class="display[4] ? null : 'collapsed'"
+                                    :aria-expanded="display[4] ? 'true' : 'false'" @click="collapseToggle(4)"
+                                    :disabled="step < 4">
+                                    <div class="Collapse-Index d-flex align-items-center justify-content-center"
+                                        :class="step > 4 ? 'finished' : null">5</div>
+                                    <div>成功</div>
+                                </b-button>
+                                <div class="Broadcast-Collapse left-border">
+                                    <b-collapse v-model="display[4]" id="SuccessCollapse" class="py-3 pl-3">
+                                        <b-card>
+                                            成功推播給{{pushResponse}}位用戶!!
+                                        </b-card>
                                     </b-collapse>
                                 </div>
                             </div>
@@ -118,6 +134,7 @@
             return {
                 fields: BroadcastTableModel,
                 step: 0,
+                pushResponse: '',
                 display: [true, false, false, false],
                 content: {},
                 condition: {},
@@ -159,6 +176,13 @@
             tableReady() {
                 this.step = 3;
                 this.collapseToggle(3);
+            },
+            successReady(response) {
+                if (response !== '') {
+                    this.pushResponse = response
+                    this.step = 4;
+                    this.collapseToggle(4);
+                }
             },
             collapseToggle(index) {
                 this.display = [false, false, false, false];

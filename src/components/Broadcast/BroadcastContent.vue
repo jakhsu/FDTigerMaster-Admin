@@ -8,9 +8,11 @@
     </b-form-group>
     <b-form-group label="通知圖片(選用)">
       <b-input-group inline>
-        <b-form-input v-model="imageUrl" type="text" placeholder="圖片連結" />
+        <b-form-input v-model="imageUrl" type="text" placeholder="圖片連結" disabled />
         <b-input-group-append>
-          <b-button variant="outline-info">
+          <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
+            style="display:none">
+          <b-button @click="$refs.file.click()" variant="outline-info">
             <font-awesome-icon icon="upload" />
           </b-button>
         </b-input-group-append>
@@ -44,6 +46,11 @@
           content: this.content,
           imageUrl: this.imageUrl
         });
+      },
+      handleImage(e) {
+        const imageFile = e.target.files[0]
+        const url = URL.createObjectURL(imageFile)
+        this.imageUrl = url
       }
     }
   }
