@@ -50,12 +50,12 @@
                                         <b-td v-for="(field, index) in data.fields" :key="index"
                                             style="overflow:visible">
                                             <b-form-select v-if="field.key == 'status'" v-model="search['status']"
-                                                v-b-tooltip.hover :title="activeMap[search['status']]">
+                                                v-b-tooltip.hover :title="activeMap[search['status']]" class="width75">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
                                             <b-form-input v-else-if="field.key == 'roleId'" :name="field.key"
-                                                :value="'師傅'" disabled />
+                                                :value="'師傅'" disabled class="width75" />
                                             <b-input-group v-else-if="field.key == 'createDate'">
                                                 <b-form-input v-model="search['createDate']">
                                                 </b-form-input>
@@ -122,7 +122,8 @@
                 roleIdMap: RoleIdMap(),
                 activeMap: ActiveStatusMapping(),
                 search: {
-                    roleId: 0
+                    roleId: 0,
+                    status: 1
                 },
                 queryRows: 0,
                 totalCount: 0,
@@ -232,5 +233,9 @@
 
     .datepicker {
         color: red;
+    }
+
+    .width75 {
+        min-width: 75px;
     }
 </style>

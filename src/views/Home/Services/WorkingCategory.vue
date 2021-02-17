@@ -63,7 +63,7 @@
                                     <template #top-row>
                                         <b-td v-for="(field, index) in CategoriesTable" :key="index">
                                             <b-form-select v-if="field.key == 'active'" v-model="search['active']"
-                                                autofocus>
+                                                autofocus class="width75">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
@@ -128,7 +128,9 @@
                 queryRows: 0,
                 workingCategories: [],
                 selectedWorkingCategory: {},
-                search: {}
+                search: {
+                    active: 1
+                }
             };
         },
         async created() {
@@ -241,5 +243,9 @@
         #WorkingCategory .WorkingCategory-Area {
             padding: 0px;
         }
+    }
+
+    .width75 {
+        min-width: 75px;
     }
 </style>

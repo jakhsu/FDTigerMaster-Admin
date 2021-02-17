@@ -116,7 +116,9 @@
                 skills: [],
                 totalCount: 0,
                 workingCategories: [],
-                search: {},
+                search: {
+                    active: 1
+                },
                 selectedSkill: {},
                 queryRows: 0,
             };
