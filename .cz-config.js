@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       value: "style🎨",
-      name: "style:    Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
+      name: "style:    Improve structure and format of the code\n            (white-space, formatting, missing semi-colons, etc)"
     },
     {
       value: "remove🔥",
@@ -58,6 +58,10 @@ module.exports = {
     {
       value: "upgrade⬆️",
       name: "upgrade:  Upgrade dependencies"
+    },
+    {
+      value: "cosmetic💄",
+      name: "cosmetic: Add or update UI and style files"
     }
   ],
 
