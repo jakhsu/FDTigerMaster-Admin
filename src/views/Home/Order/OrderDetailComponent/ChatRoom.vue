@@ -1,6 +1,14 @@
 <template>
     <div>
         <SimpleModal id="chatRoom-detail" title="聊天室內容">
+            <template #modal-body>
+                <CustomTable :datas="data">
+                </CustomTable>
+                <b-form>
+                    <b-form-input></b-form-input>
+                    <b-button class="mt-2" variant="success">發送對話</b-button>
+                </b-form>
+            </template>
         </SimpleModal>
         <SimpleCard>
             <CustomTable :datas="chatRooms">
@@ -37,7 +45,57 @@
             return {
                 orderData: this.order._data,
                 chatRooms: [],
-                chatRoomDetail: {}
+                chatRoomDetail: {},
+                data: [{
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }, {
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }, {
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }, {
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }, {
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }, {
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }, {
+                    text: "hi",
+                    imagePath: "some path",
+                    createdDate: "some time",
+                    readed: "yes",
+                    varient: "yes",
+                    createdBy: "someone"
+                }]
             }
         },
         created() {
@@ -62,15 +120,13 @@
             },
             async shadowQueryChats(roomId) {
                 console.log(roomId)
-                console.log(typeof (roomId))
-                const chatroom = await tigermaster.chatroom.get({
-                    chatroomId: roomId
-                })
+                const chatroom = await tigermaster.chatroom.get(roomId)
                 console.log(chatroom)
                 // const result = await chatroom.shadowQuery(format(Date.now(), 'yyyy-MM-dd HH:mm:ss'))
                 // this.chatRoomDetail = result
-                // this.$bvModal.show("chatRoom-detail")
-            }
+                this.$bvModal.show("chatRoom-detail")
+            },
+            sendText() {}
         }
 
     }
