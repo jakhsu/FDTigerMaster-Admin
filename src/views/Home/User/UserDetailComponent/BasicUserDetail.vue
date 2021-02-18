@@ -97,8 +97,11 @@
                 </b-col>
                 <b-col xl="6" lg="12">
                     <TitledCard title="用戶照片">
-                        <SimpleImage :src="headShotPath" v-if="isHeadShotReady" />
-                        <ImgUpload v-if="isModify" @FileUpload="onFileUpload" />
+                        <scale-loader v-if="isLoading" />
+                        <div v-else>
+                            <SimpleImage :src="headShotPath" v-if="isHeadShotReady" />
+                            <ImgUpload v-if="isModify" @FileUpload="onFileUpload" />
+                        </div>
                     </TitledCard>
                     <TitledCard title="地址">
                         <div class="m-2">
