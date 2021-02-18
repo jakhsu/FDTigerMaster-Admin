@@ -62,6 +62,14 @@ module.exports = {
     {
       value: "cosmetic💄",
       name: "cosmetic: Add or update UI and style files"
+    },
+    {
+      value: "depAdd➕",
+      name: "depAdd:   Add a dependency"
+    },
+    {
+      value: "depDel➖",
+      name: "depDel:   remove a dependency"
     }
   ],
 
