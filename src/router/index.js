@@ -11,7 +11,6 @@ const HomeAdmin = () => import('@/views/Home/User/Admin.vue');
 const HomeUserDetail = () => import('@/views/Home/User/UserDetail.vue');
 const HomeBroadcast = () => import('@/views/Home/Broadcast.vue');
 const HomeSkill = () => import('@/views/Home/Services/Skill.vue');
-const HomeUserModify = () => import('@/views/Home/User/UserModify.vue');
 const HomeWorkingCategory = () => import('@/views/Home/Services/WorkingCategory.vue');
 const HomeClosedOrder = () => import('@/views/Home/Order/ClosedOrder.vue');
 const HomeOngoingOrder = () => import('@/views/Home/Order/OngoingOrder.vue');
@@ -53,11 +52,6 @@ const routes = [{
         path: 'user_detail',
         name: 'HomeUserDetail',
         component: HomeUserDetail
-      },
-      {
-        path: 'user_modify',
-        name: 'HomeUserModify',
-        component: HomeUserModify
       },
       {
         path: 'broadcast',
