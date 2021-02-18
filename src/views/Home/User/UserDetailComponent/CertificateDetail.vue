@@ -83,8 +83,8 @@
             async fetchCertificateURLs() {
                 try {
                     const res = await tigermaster.database
-                        .query("userData_picture")
-                        .where("userData_picture.userData_id", "=", this.userData.id)
+                        .query("user_picture")
+                        .where("user_picture.user_id", "=", this.user.id)
                         .get();
                     this.certificates = res.data;
                     this.fetchURL = res.data.map(e =>
