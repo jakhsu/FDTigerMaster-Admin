@@ -21,15 +21,8 @@
         <b-container fluid>
             <div class="SkillAndCategory-Area">
                 <b-row>
-                    <b-col>
-                        <div class="SkillAndCategory-Header">
-                            <h2>技能總表</h2>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
                     <b-col class="col-12">
-                        <TitledCard title="技能:">
+                        <TitledCard title="技能總表:">
                             <div class="Toolbar d-flex mb-3">
                                 <input style="display:none" ref="file" type="file">
                                 <b-button size="sm" class="ml-2" variant="primary" @click="onSearchClick">
@@ -221,10 +214,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
-
-    #SkillAndCategory .SkillAndCategory-Area {
-        padding: 0px 50px;
     }
 
     #SkillAndCategory .SkillAndCategory-Header {

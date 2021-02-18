@@ -221,10 +221,6 @@
         justify-content: center;
     }
 
-    #Admin .Admin-Area {
-        padding: 0px 50px;
-    }
-
     #Admin .Admin-Area .Admin-Header {
         margin: 25px 0px;
         text-align: left;

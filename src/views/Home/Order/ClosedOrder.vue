@@ -13,14 +13,7 @@
             <div class="Order-Area">
                 <b-row>
                     <b-col>
-                        <div class="Order-Header">
-                            <h2>已完成訂單</h2>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <TitledCard title="訂單">
+                        <TitledCard title="已完成訂單">
                             <div class="SearchBar d-flex mb-3">
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">
                                     開始搜尋
@@ -178,10 +171,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
-
-    #Order .Order-Area {
-        padding: 0px 50px;
     }
 
     #Order .Order-Area .Order-Header {

@@ -266,6 +266,7 @@
             },
             onCancelModify() {
                 this.isModify = false;
+                this.isHeadShotReady = true;
             },
             onStatusChangeFinish() {
                 this.$emit("refresh");

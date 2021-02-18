@@ -22,15 +22,8 @@
         <b-container fluid>
             <div class="WorkingCategory-Area">
                 <b-row>
-                    <b-col>
-                        <div class="WorkingCategory-Header">
-                            <h2>工項總表</h2>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
                     <b-col class="col-12">
-                        <TitledCard title="工項:">
+                        <TitledCard title="工項總表:">
                             <div class="Toolbar d-flex mb-3">
                                 <input class="d-none" ref="file" type="file">
                                 <b-button size="sm" class="ml-2" variant="primary" @click="onSearchClick">
@@ -227,10 +220,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
-
-    #WorkingCategory .WorkingCategory-Area {
-        padding: 0px 50px;
     }
 
     #WorkingCategory .WorkingCategory-Header {

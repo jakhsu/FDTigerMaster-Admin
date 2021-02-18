@@ -219,9 +219,7 @@
         justify-content: center;
     }
 
-    #Client .Client-Area {
-        padding: 0px 50px;
-    }
+
 
     #Client .Client-Area .Client-Header {
         margin: 25px 0px;

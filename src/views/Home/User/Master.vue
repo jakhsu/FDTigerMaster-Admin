@@ -215,9 +215,6 @@
         justify-content: center;
     }
 
-    #Master .Master-Area {
-        padding: 0px 50px;
-    }
 
     #Master .Master-Area .Master-Header {
         margin: 25px 0px;
