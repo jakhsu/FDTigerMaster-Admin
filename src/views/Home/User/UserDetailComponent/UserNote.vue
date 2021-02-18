@@ -74,10 +74,8 @@
             }
         },
         async created() {
-            const note = tigermaster.note;
             try {
-                this.notes = await note.listByUserId(this.userData.id);
-                this.totalRows = this.notes.length;
+                this.fetchNotes();
             } catch (e) {
                 console.log(e);
             } finally {
@@ -85,6 +83,13 @@
             }
         },
         methods: {
+            async fetchNotes() {
+                const database = tigermaster.database;
+                const res = await database.query("note").where("note.user_id", "=", this.userData.id).orderBy(
+                    "note.create_date", "DESC").get();
+                this.notes = res.data;
+                this.totalRows = res.queryRows
+            },
             onRowClick(item) {
                 this.selectedNote.content = item.content;
                 this.selectedNote.id = item.id;
@@ -92,10 +97,8 @@
             },
             async onRefresh() {
                 this.tableBusy = true;
-                const note = tigermaster.note;
                 try {
-                    this.notes = await note.listByUserId(this.userData.id);
-                    this.totalRows = this.notes.length;
+                    this.fetchNotes()
                 } catch (e) {
                     this.notes = [];
                     this.totalRows = 0;

@@ -143,7 +143,7 @@
                 }
                 try {
                     this.tableBusy = true;
-                    const res = await query.get();
+                    const res = await query.orderBy("generic_order.create_date", "DESC").get();
                     this.orders = res.data;
                 } catch (e) {
                     this.orders = [];

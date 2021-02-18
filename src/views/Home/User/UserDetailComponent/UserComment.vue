@@ -102,6 +102,7 @@
                 const database = tigermaster.database;
                 const res = await database.query("order_comment")
                     .where("order_comment.to_user_id", "=", this.user.id)
+                    .orderBy("order_comment.create_date", "DESC")
                     .get();
                 this.comments = res.data;
                 this.queryRows = res.queryRows;
