@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img :src="src" alt="">
+        <img :src="modifiedSrc" alt="">
     </div>
 </template>
 
@@ -12,6 +12,11 @@
         },
         data() {
             return {}
+        },
+        computed: {
+            modifiedSrc() {
+                return this.src + "?" + performance.now();
+            }
         }
     }
 </script>
