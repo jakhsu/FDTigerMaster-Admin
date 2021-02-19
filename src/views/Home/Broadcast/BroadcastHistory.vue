@@ -2,7 +2,7 @@
     <div>
         <b-container fluid>
             <TitledCard title="推播歷史">
-                <CustomTable :datas="msg" :isBusy="isLoading">
+                <CustomTable :datas="msg" :isBusy="isLoading" :fields="fields">
                 </CustomTable>
             </TitledCard>
         </b-container>
@@ -24,7 +24,29 @@
             return {
                 msg: [],
                 queryRows: 0,
-                isLoading: false
+                isLoading: false,
+                fields: [{
+                    "label": "推播標題",
+                    "key": "title"
+                }, {
+                    "label": "推播內容",
+                    "key": "content"
+                }, {
+                    "label": "圖片連結",
+                    "key": "picPath"
+                }, {
+                    "label": "推送者",
+                    "key": "createBy"
+                }, {
+                    "label": "推送目標",
+                    "key": "targets"
+                }, {
+                    "label": "click action",
+                    "key": "clickAction"
+                }, {
+                    "label": "送出日期",
+                    "key": "createDate"
+                }]
             }
         },
         created() {
