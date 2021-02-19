@@ -85,7 +85,7 @@
                             title: this.msgContent.title,
                             content: this.msgContent.content
                         })
-                        this.response = await res
+                        this.response = res
                     } else {
                         const res = await pushNotify.send({
                             userIds: this.selectedUserIds,
@@ -93,7 +93,7 @@
                             content: this.msgContent.content,
                             imagePath: this.msgContent.imageUrl
                         });
-                        this.response = await res
+                        this.response = res
                     }
                     this.$emit('next', this.response)
                 } catch (e) {
