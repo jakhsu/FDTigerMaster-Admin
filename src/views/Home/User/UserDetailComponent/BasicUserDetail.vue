@@ -99,7 +99,7 @@
                     <TitledCard title="用戶照片">
                         <scale-loader v-if="isLoading" />
                         <div v-else>
-                            <SimpleImage :src="headShotPath" v-if="isHeadShotReady" />
+                            <SimpleImage :src="headShotPath" />
                             <ImgUpload v-if="isModify" @FileUpload="onFileUpload" />
                         </div>
                     </TitledCard>
@@ -238,8 +238,7 @@
                 toBeUploadedHeadShot: {},
                 streetErrorMessage: '',
                 roleIdMap: RoleIdMap(),
-                headShotPath: this.userData.headShotPath,
-                isHeadShotReady: true,
+                headShotPath: this.userData.headShotPath
             }
         },
         computed: {
@@ -261,7 +260,6 @@
         methods: {
             onModifyClick() {
                 this.isModify = true;
-                this.isHeadShotReady = false;
             },
             onOldWayClick() {
                 this.headShotPath = this.userData.headShotPath
@@ -269,7 +267,6 @@
             },
             onCancelModify() {
                 this.isModify = false;
-                this.isHeadShotReady = true;
             },
             onStatusChangeFinish() {
                 this.$emit("refresh");
@@ -318,7 +315,6 @@
                 } catch (e) {
                     console.log(e)
                 } finally {
-                    this.isHeadShotReady = true;
                     this.isLoading = false;
                     this.isModify = false
                 }
