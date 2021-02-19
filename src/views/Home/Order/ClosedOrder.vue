@@ -125,6 +125,7 @@
                     element[0] = camel2Snake(element[0])
                     query.where(`generic_order.${element[0]}`, element[2], element[1])
                 });
+                query.where("generic_order.status", ">", 55);
                 try {
                     const res = await query.get();
                     this.orders = res.data;
