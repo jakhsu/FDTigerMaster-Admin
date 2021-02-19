@@ -84,6 +84,9 @@
                                     <template #cell(roleId)="data">
                                         {{ roleIdMap[data.value] }}
                                     </template>
+                                    <template #cell(email)="data">
+                                        <a href="" @click.prevent="openEmailClient(data.value)">{{data.value}}</a>
+                                    </template>
                                 </CustomTable>
                             </div>
                         </TitledCard>
@@ -207,6 +210,9 @@
                     }
                 })
                 this.inactiveCount = inactiveCount;
+            },
+            openEmailClient(address) {
+                window.open(`mailto:${address}`)
             }
         }
     }
