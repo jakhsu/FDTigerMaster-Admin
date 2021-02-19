@@ -9,7 +9,8 @@ const HomeClient = () => import('@/views/Home/User/Client.vue');
 const HomeMaster = () => import('@/views/Home/User/Master.vue');
 const HomeAdmin = () => import('@/views/Home/User/Admin.vue');
 const HomeUserDetail = () => import('@/views/Home/User/UserDetail.vue');
-const HomeBroadcast = () => import('@/views/Home/Broadcast.vue');
+const HomeBroadcast = () => import('@/views/Home/Broadcast/Broadcast.vue');
+const HomeBroadcastHistory = () => import('@/views/Home/Broadcast/BroadcastHistory.vue')
 const HomeSkill = () => import('@/views/Home/Services/Skill.vue');
 const HomeWorkingCategory = () => import('@/views/Home/Services/WorkingCategory.vue');
 const HomeClosedOrder = () => import('@/views/Home/Order/ClosedOrder.vue');
@@ -57,6 +58,11 @@ const routes = [{
         path: 'broadcast',
         name: 'HomeBroadcast',
         component: HomeBroadcast
+      },
+      {
+        path: 'broadcast_history',
+        name: 'HomeBroadcastHistory',
+        component: HomeBroadcastHistory
       },
       {
         path: 'skill',

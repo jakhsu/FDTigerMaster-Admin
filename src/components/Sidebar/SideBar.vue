@@ -41,9 +41,12 @@
             </SideBarButton>
         </SideBarGroup>
 
-        <SideBarGroup text="其餘功能">
+        <SideBarGroup text="系統推播">
             <SideBarButton to="/home/broadcast" icon="paper-plane">
-                系統推播
+                推播
+            </SideBarButton>
+            <SideBarButton to="/home/broadcast_history" icon="archive">
+                推播歷史
             </SideBarButton>
         </SideBarGroup>
 
