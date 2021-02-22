@@ -51,19 +51,19 @@
             }
         },
         async created() {
-            await this.fetchUserData();
-            await this.fetchOrderData();
+            await Promise.all([this.fetchUserData(), this.fetchOrderData()]);
             this.isLoading = false;
 
         },
         methods: {
             async fetchUserData() {
-                const masterCount = await tigermaster.database
+                const masterCountReq = tigermaster.database
                     .rawQuery("SELECT count(*) count FROM user WHERE user.role_id=0")
-                    .get()
-                const clientCount = await tigermaster.database
+                    .get();
+                const clientCountReq = tigermaster.database
                     .rawQuery("SELECT count(*) count FROM user WHERE user.role_id=1 OR user.role_id=2")
-                    .get()
+                    .get();
+                const [masterCount, clientCount] = await Promise.all([masterCountReq, clientCountReq]);
                 this.masterNum = masterCount.data[0].count;
                 this.clientNum = clientCount.data[0].count;
             },

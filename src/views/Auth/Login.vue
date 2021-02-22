@@ -24,8 +24,11 @@
 </template>
 
 <script>
-    import Loading from '@/components/Loading';
-    import tigermaster from 'fdtigermaster-admin-sdk';
+    import Loading from '@/components/Loading'
+
+    import tigermaster from 'fdtigermaster-admin-sdk'
+    import { messaging } from '@/utility/Firebase'
+
     const inputIndex = Object.freeze({
         phone: 0,
         password: 1
@@ -69,6 +72,8 @@
                     try {
                         this.isLoading = true;
                         await tigermaster.auth.loginWithPhoneAndPassword(this.phone, this.password);
+                        const token = await messaging.getToken();
+                        await tigermaster.device.create(token);
                         this.$router.push({
                             path: '/home'
                         });

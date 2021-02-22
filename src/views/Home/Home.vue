@@ -20,7 +20,6 @@
                 this.$store.commit('setUser', tigermaster.auth.currentUser.data);
                 tigermaster.auth.onUserAuthLost(async () => {
                     this.isLoading = true;
-                    await tigermaster.device.delete();
                     this.$store.commit('clearUser');
                     this.$router.push({
                         path: '/'
@@ -39,8 +38,6 @@
         methods:{
             async setupMessageing() {
                 await messaging.requestPermission();
-                const token = await messaging.getToken();
-                await tigermaster.device.create(token);
                 messaging.onMessage((payload) => {
                     const {title, ...options} = payload.notification;
                     console.log(title);
