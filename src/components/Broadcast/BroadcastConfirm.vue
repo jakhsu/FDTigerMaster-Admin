@@ -79,22 +79,13 @@
                 this.isLoading = true;
                 const pushNotify = tigermaster.pushNotify;
                 try {
-                    if (this.msgContent.imageUrl === '') {
-                        const res = await pushNotify.send({
-                            userIds: this.selectedUserIds,
-                            title: this.msgContent.title,
-                            content: this.msgContent.content
-                        })
-                        this.response = res
-                    } else {
-                        const res = await pushNotify.send({
-                            userIds: this.selectedUserIds,
-                            title: this.msgContent.title,
-                            content: this.msgContent.content,
-                            imagePath: this.msgContent.imageUrl
-                        });
-                        this.response = res
-                    }
+                    const res = await pushNotify.send({
+                        userIds: this.selectedUserIds,
+                        title: this.msgContent.title,
+                        content: this.msgContent.content
+                    });
+                    this.response = res
+                    await pushNotify.uploadImage(this.msgContent.imageFile)
                     this.$emit('next', this.response)
                 } catch (e) {
                     console.log(e)
