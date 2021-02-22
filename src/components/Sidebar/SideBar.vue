@@ -39,6 +39,9 @@
             <SideBarButton to="/home/closed_order" icon="file-contract">
                 已完成訂單
             </SideBarButton>
+            <SideBarButton to="/home/order_finance" icon="money-check">
+                匯款資訊
+            </SideBarButton>
         </SideBarGroup>
 
         <SideBarGroup text="系統推播">
@@ -48,6 +51,9 @@
             <SideBarButton to="/home/broadcast_history" icon="archive">
                 推播歷史
             </SideBarButton>
+        </SideBarGroup>
+
+        <SideBarGroup text="其他">
         </SideBarGroup>
 
         <SideBarDivider />

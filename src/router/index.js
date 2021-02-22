@@ -16,6 +16,7 @@ const HomeWorkingCategory = () => import('@/views/Home/Services/WorkingCategory.
 const HomeClosedOrder = () => import('@/views/Home/Order/ClosedOrder.vue');
 const HomeOngoingOrder = () => import('@/views/Home/Order/OngoingOrder.vue');
 const HomeOrderDetail = () => import('@/views/Home/Order/OrderDetail.vue');
+const HomeOrderFinance = () => import('@/views/Home/Order/Finance.vue')
 
 const Page404 = () => import('@/views/Error/Page404.vue');
 
@@ -87,8 +88,12 @@ const routes = [{
       {
         path: 'order_detail',
         name: 'HomeOrderDetail',
-        component: HomeOrderDetail,
-        props: true
+        component: HomeOrderDetail
+      },
+      {
+        path: 'order_finance',
+        name: 'HomeOrderFinance',
+        component: HomeOrderFinance
       }
     ]
   },
