@@ -28,7 +28,6 @@
     import tigermaster from 'fdtigermaster-admin-sdk';
 
     export default {
-
         name: 'Header',
         data() {
             return {
@@ -39,8 +38,12 @@
             onSideBarToggleClick() {
                 this.$emit("onSideBarToggle");
             },
-            onLogoutClick() {
-                tigermaster.auth.logout();
+            async onLogoutClick() {
+                try{
+                    await tigermaster.device.delete();
+                }finally{
+                    tigermaster.auth.logout();
+                }
             }
         }
     }
