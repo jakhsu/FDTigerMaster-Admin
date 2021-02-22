@@ -4,7 +4,7 @@
             <b-col>
                 <TitledCard titleBackgroundColor="#2B364B" title="客戶對師父">
                     <scale-loader v-if="isLoadingC2M" />
-                    <div v-else class="msg-area container">
+                    <div @scroll="scroll" v-else class="msg-area container">
                         <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
@@ -305,7 +305,18 @@
                 this.M2AChats = this.C2MChats;
                 this.isLoadingM2A = false
             },
-            sendText() {}
+            sendText() {},
+            scroll({
+                target: {
+                    scrollTop,
+                    clientHeight,
+                    scrollHeight
+                }
+            }) {
+                if (scrollTop + clientHeight >= scrollHeight) {
+                    console.log("reached botton!!!")
+                }
+            }
         },
         computed: {
             clientId() {
