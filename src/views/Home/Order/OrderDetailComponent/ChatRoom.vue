@@ -49,8 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <Loading v-if="isLoadingC2M" />
-                        <!-- <scale-loader v-if="isLoadingC2M" /> -->
+                        <scale-loader v-if="isLoadingC2M" />
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
@@ -62,8 +61,7 @@
             </b-col>
             <b-col>
                 <TitledCard titleBackgroundColor="#2B364B" title="客戶對客服">
-                    <scale-loader v-if="isLoadingC2A" />
-                    <div @scroll="scroll($event,'C2A')" v-else class="msg-area container">
+                    <div @scroll="scroll($event,'C2A')" class="msg-area container">
                         <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
@@ -109,6 +107,7 @@
                                 </div>
                             </div>
                         </div>
+                        <scale-loader v-if="isLoadingC2A" />
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
@@ -120,8 +119,7 @@
             </b-col>
             <b-col>
                 <TitledCard titleBackgroundColor="#2B364B" title="師傅對客服">
-                    <scale-loader v-if="isLoadingM2A" />
-                    <div @scroll="scroll($event,'M2A')" v-else class="msg-area container">
+                    <div @scroll="scroll($event,'M2A')" class="msg-area container">
                         <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
@@ -167,6 +165,7 @@
                                 </div>
                             </div>
                         </div>
+                        <scale-loader v-if="isLoadingM2A" />
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
@@ -186,12 +185,10 @@
     } from 'date-fns'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import Loading from '@/components/Loading.vue'
     import debounce from 'lodash/debounce'
     export default {
         components: {
-            TitledCard,
-            Loading
+            TitledCard
         },
         name: "ChatRoom",
         props: {
@@ -283,7 +280,9 @@
                         this.fetchM2A()
                     }
                 }
-            }, 500)
+            }, 500, {
+                leading: true
+            })
         },
         computed: {
             clientId() {
