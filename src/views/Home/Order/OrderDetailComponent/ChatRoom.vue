@@ -3,8 +3,7 @@
         <b-row>
             <b-col>
                 <TitledCard titleBackgroundColor="#2B364B" title="客戶對師父">
-                    <scale-loader v-if="isLoadingC2M" />
-                    <div @scroll="scroll" v-else class="msg-area container">
+                    <div @scroll="scroll($event,'C2M')" class="msg-area container">
                         <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
@@ -50,6 +49,8 @@
                                 </div>
                             </div>
                         </div>
+                        <Loading v-if="isLoadingC2M" />
+                        <!-- <scale-loader v-if="isLoadingC2M" /> -->
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
@@ -62,7 +63,7 @@
             <b-col>
                 <TitledCard titleBackgroundColor="#2B364B" title="客戶對客服">
                     <scale-loader v-if="isLoadingC2A" />
-                    <div v-else class="msg-area container">
+                    <div @scroll="scroll($event,'C2A')" v-else class="msg-area container">
                         <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
@@ -120,7 +121,7 @@
             <b-col>
                 <TitledCard titleBackgroundColor="#2B364B" title="師傅對客服">
                     <scale-loader v-if="isLoadingM2A" />
-                    <div v-else class="msg-area container">
+                    <div @scroll="scroll($event,'M2A')" v-else class="msg-area container">
                         <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
@@ -185,10 +186,12 @@
     } from 'date-fns'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import TitledCard from '@/components/Card/TitledCard.vue'
+    import Loading from '@/components/Loading.vue'
+    import debounce from 'lodash/debounce'
     export default {
         components: {
-
-            TitledCard
+            TitledCard,
+            Loading
         },
         name: "ChatRoom",
         props: {
@@ -208,7 +211,12 @@
                 C2MChats: Array,
                 C2AChats: Array,
                 M2AChats: Array,
-                data: []
+                data: [],
+                C2MArea: {
+                    'msg-area': true,
+                    'isLoading': false,
+                    'container': true
+                }
             }
         },
         created() {
@@ -234,65 +242,18 @@
                 this.chatRooms = parsed
             },
             async shadowQueryLatestChats(roomId) {
-                const chatroom = await tigermaster.chatroom.get(roomId)
-                const result = await chatroom.shadowQuery(format(Date.now(), 'yyyy-MM-dd HH:mm:ss'))
-                return result.messages;
+                try {
+                    const chatroom = await tigermaster.chatroom.get(roomId)
+                    const result = await chatroom.shadowQuery(format(Date.now(), 'yyyy-MM-dd HH:mm:ss'))
+                    return result.messages;
+                } catch (e) {
+                    return [];
+                }
             },
+            // TODO:need to fix hard-coded shadowQuery args later
             async fetchC2M() {
                 this.isLoadingC2M = true;
-                // this.C2MChats = await this.shadowQueryLatestChats("0123456789abcdef")
-                this.C2MChats = [{
-                        text: 'hello',
-                        readed: 0,
-                        createBy: this.clientId,
-                        createDate: 'today',
-                        varient: 0
-                    },
-                    {
-                        text: 'hello',
-                        readed: 0,
-                        createBy: this.clientId,
-                        createDate: 'today',
-                        varient: 0
-                    }, {
-                        text: 'hello',
-                        readed: 0,
-                        createBy: this.masterId,
-                        createDate: 'today',
-                        varient: 0
-                    }, {
-                        text: 'hello',
-                        readed: 0,
-                        createBy: this.masterId,
-                        createDate: 'today',
-                        varient: 0
-                    }, {
-                        text: 'hello',
-                        readed: 0,
-                        createBy: this.clientId,
-                        createDate: 'today',
-                        varient: 0
-                    },
-                    {
-                        text: 'hello, this is fake data',
-                        readed: 0,
-                        createBy: this.clientId,
-                        createDate: 'today',
-                        varient: 0
-                    }, {
-                        text: 'hello, this is fake data',
-                        readed: 0,
-                        createBy: this.masterId,
-                        createDate: 'today',
-                        varient: 0
-                    }, {
-                        text: 'hello, this is fake data',
-                        readed: 0,
-                        createBy: this.masterId,
-                        createDate: 'today',
-                        varient: 0
-                    }
-                ]
+                this.C2MChats = await this.shadowQueryLatestChats("0123456789abcdef")
                 this.isLoadingC2M = false
             },
             fetchC2A() {
@@ -306,17 +267,23 @@
                 this.isLoadingM2A = false
             },
             sendText() {},
-            scroll({
+            scroll: debounce(function ({
                 target: {
                     scrollTop,
                     clientHeight,
                     scrollHeight
                 }
-            }) {
+            }, chatRoomType) {
                 if (scrollTop + clientHeight >= scrollHeight) {
-                    console.log("reached botton!!!")
+                    if (chatRoomType == 'C2M') {
+                        this.fetchC2M()
+                    } else if (chatRoomType == 'C2A') {
+                        this.fetchC2A()
+                    } else if (chatRoomType == 'M2A') {
+                        this.fetchM2A()
+                    }
                 }
-            }
+            }, 500)
         },
         computed: {
             clientId() {
@@ -324,7 +291,8 @@
             },
             masterId() {
                 return this.orderData.masterUserId
-            }
+            },
+
         }
     }
 </script>
@@ -382,5 +350,9 @@
 
     ::-webkit-scrollbar-corner {
         background: transparent;
+    }
+
+    .isLoading {
+        background-color: grey;
     }
 </style>
