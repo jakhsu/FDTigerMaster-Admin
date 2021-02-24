@@ -8,11 +8,11 @@
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
                                     <b-col>
-                                        <div class="msg-creator">
+                                        <div class="msg-creator ml-2">
                                             {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
                                         </div>
                                         <div class="msg-text">
-                                            內容: {{item.text}}
+                                            {{item.text}}
                                         </div>
                                         <div class="msg-status">
                                             {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
@@ -23,11 +23,11 @@
                             <div class="msg-body" v-else>
                                 <b-row>
                                     <b-col>
-                                        <div class="msg-creator">
+                                        <div class="msg-creator ml-2">
                                             {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
                                         </div>
                                         <div class="msg-text">
-                                            內容: {{item.imagePath}}
+                                            {{item.imagePath}}
                                         </div>
                                         <div class="msg-status">
                                             {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
@@ -36,26 +36,20 @@
                                 </b-row>
                             </div>
                         </div>
-                        <div class="msg-content-self">
-                            <div class="msg-body">
-                                <div class="msg-creator">
-                                    自己
-                                </div>
-                                <div class="msg-text">
-                                    hello, this is from myself
-                                </div>
-                                <div class="msg-status">
-                                    today
-                                </div>
-                            </div>
-                        </div>
                         <scale-loader v-if="isLoadingC2M" />
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
-                            <b-form-textarea></b-form-textarea>
-                            <b-button variant="success" class="mt-2">送出</b-button>
+                            <b-form-textarea v-model="msgToC2M"></b-form-textarea>
                         </b-form-group>
+                        <div>
+                            <input ref="C2MFile" type="file" @change="handleImage($event,'C2M')" class="custom-input"
+                                accept="image/*" style="display:none">
+                            <b-button @click="$refs.C2MFile.click()" variant="warning" class="ml-auto">
+                                上傳圖片
+                            </b-button>
+                            <b-button variant="success" class="ml-2" @click="submit('C2M')">送出</b-button>
+                        </div>
                     </div>
                 </TitledCard>
             </b-col>
@@ -66,11 +60,11 @@
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
                                     <b-col>
-                                        <div class="msg-creator">
+                                        <div class="msg-creator ml-2">
                                             {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
                                         </div>
                                         <div class="msg-text">
-                                            內容: {{item.text}}
+                                            {{item.text}}
                                         </div>
                                         <div class="msg-status">
                                             {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
@@ -81,11 +75,11 @@
                             <div class="msg-body" v-else>
                                 <b-row>
                                     <b-col>
-                                        <div class="msg-creator">
+                                        <div class="msg-creator ml-2">
                                             {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
                                         </div>
                                         <div class="msg-text">
-                                            內容: {{item.imagePath}}
+                                            {{item.imagePath}}
                                         </div>
                                         <div class="msg-status">
                                             {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
@@ -94,26 +88,20 @@
                                 </b-row>
                             </div>
                         </div>
-                        <div class="msg-content-self">
-                            <div class="msg-body">
-                                <div class="msg-creator">
-                                    自己
-                                </div>
-                                <div class="msg-text">
-                                    hello, this is from myself
-                                </div>
-                                <div class="msg-status">
-                                    today
-                                </div>
-                            </div>
-                        </div>
                         <scale-loader v-if="isLoadingC2A" />
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
-                            <b-form-textarea></b-form-textarea>
-                            <b-button variant="success" class="mt-2">送出</b-button>
+                            <b-form-textarea v-model="msgToC2A"></b-form-textarea>
                         </b-form-group>
+                        <div>
+                            <input ref="C2AFile" type="file" @change="handleImage($event,'C2A')" class="custom-input"
+                                accept="image/*" style="display:none">
+                            <b-button @click="$refs.C2AFile.click()" variant="warning" class="ml-auto">
+                                上傳圖片
+                            </b-button>
+                            <b-button variant="success" class="ml-2" @click="submit('C2A')">送出</b-button>
+                        </div>
                     </div>
                 </TitledCard>
             </b-col>
@@ -124,11 +112,11 @@
                             <div class="msg-body" v-if="item.varient == 0">
                                 <b-row>
                                     <b-col>
-                                        <div class="msg-creator">
+                                        <div class="msg-creator ml-2">
                                             {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
                                         </div>
                                         <div class="msg-text">
-                                            內容: {{item.text}}
+                                            {{item.text}}
                                         </div>
                                         <div class="msg-status">
                                             {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
@@ -139,11 +127,11 @@
                             <div class="msg-body" v-else>
                                 <b-row>
                                     <b-col>
-                                        <div class="msg-creator">
+                                        <div class="msg-creator ml-2">
                                             {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
                                         </div>
                                         <div class="msg-text">
-                                            內容: {{item.imagePath}}
+                                            {{item.imagePath}}
                                         </div>
                                         <div class="msg-status">
                                             {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
@@ -152,26 +140,20 @@
                                 </b-row>
                             </div>
                         </div>
-                        <div class="msg-content-self">
-                            <div class="msg-body">
-                                <div class="msg-creator">
-                                    自己
-                                </div>
-                                <div class="msg-text">
-                                    hello, this is from myself
-                                </div>
-                                <div class="msg-status">
-                                    today
-                                </div>
-                            </div>
-                        </div>
                         <scale-loader v-if="isLoadingM2A" />
                     </div>
                     <div class="msg-push mt-2">
                         <b-form-group label="輸入訊息">
-                            <b-form-textarea></b-form-textarea>
-                            <b-button variant="success" class="mt-2">送出</b-button>
+                            <b-form-textarea v-model="msgToM2A"></b-form-textarea>
                         </b-form-group>
+                        <div>
+                            <input ref="M2AFile" type="file" @change="handleImage($event,'M2A')" class="custom-input"
+                                accept="image/*" style="display:none">
+                            <b-button @click="$refs.M2AFile.click()" variant="warning" class="ml-auto">
+                                上傳圖片
+                            </b-button>
+                            <b-button variant="success" class="ml-2" @click="submit('M2A')">送出</b-button>
+                        </div>
                     </div>
                 </TitledCard>
             </b-col>
@@ -213,19 +195,19 @@
                     'msg-area': true,
                     'isLoading': false,
                     'container': true
-                }
+                },
+                msgToC2M: '',
+                msgToC2A: '',
+                msgToM2A: '',
+                imgFileToC2M: {},
+                imgFileToC2A: {},
+                imgFileToM2A: {},
             }
         },
         created() {
             this.fetchC2M();
         },
         methods: {
-            // TODO: this is currently unused
-            async createChatRoom() {
-                await tigermaster.chatroom.created({
-                    userIds: this.chatRoomUsers
-                })
-            },
             // TODO: this is currently unused
             extractChatRooms() {
                 const chatRooms = [];
@@ -235,8 +217,7 @@
                 const filtered = chatRooms.filter(e =>
                     e !== undefined
                 )
-                const parsed = filtered.map(e => JSON.parse(e))
-                this.chatRooms = parsed
+                this.chatRooms = filtered.map(e => JSON.parse(e))
             },
             async shadowQueryLatestChats(roomId) {
                 try {
@@ -253,17 +234,33 @@
                 this.C2MChats = await this.shadowQueryLatestChats("0123456789abcdef")
                 this.isLoadingC2M = false
             },
-            fetchC2A() {
+            async fetchC2A() {
                 this.isLoadingC2A = true;
-                this.C2AChats = this.C2MChats;
+                this.C2AChats = await this.shadowQueryLatestChats("0123456789abcdef")
                 this.isLoadingC2A = false
             },
-            fetchM2A() {
+            async fetchM2A() {
                 this.isLoadingM2A = true;
-                this.M2AChats = this.C2MChats;
+                this.M2AChats = await this.shadowQueryLatestChats("0123456789abcdef")
                 this.isLoadingM2A = false
             },
-            sendText() {},
+            async sendText(text) {
+                const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
+                await chatroom.sendText(text)
+            },
+            async sendImage(file) {
+                const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
+                await chatroom.sendImage(file)
+            },
+            submit(chatRoomType) {
+                if (chatRoomType == 'C2M') {
+                    this.sendText(this.msgToC2M);
+                } else if (chatRoomType == 'M2A') {
+                    this.sendText(this.msgToM2A);
+                } else if (chatRoomType == 'C2A') {
+                    this.sendText(this.msgToC2A);
+                }
+            },
             scroll: debounce(function ({
                 target: {
                     scrollTop,
@@ -280,9 +277,21 @@
                         this.fetchM2A()
                     }
                 }
-            }, 500, {
+            }, 1000, {
                 leading: true
-            })
+            }),
+            handleImage(e, type) {
+                console.log(e)
+                console.log(type)
+                const imageFile = e.target.files[0]
+                if (type == 'C2M') {
+                    this.imgFileToC2M = imageFile
+                } else if (type == 'C2A') {
+                    this.imgFileToC2A = imageFile
+                } else if (type == 'M2A') {
+                    this.imgFileToM2A = imageFile
+                }
+            }
         },
         computed: {
             clientId() {
