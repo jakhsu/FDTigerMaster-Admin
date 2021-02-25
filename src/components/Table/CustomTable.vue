@@ -18,6 +18,7 @@
         </b-table>
         <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" :disabled="isBusy" align="right"
             limit="7" aria-controls="CustomTable" />
+        <slot name="footer" />
     </div>
 </template>
 
