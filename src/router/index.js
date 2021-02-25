@@ -13,6 +13,7 @@ const HomeBroadcast = () => import('@/views/Home/Broadcast/Broadcast.vue');
 const HomeBroadcastHistory = () => import('@/views/Home/Broadcast/BroadcastHistory.vue')
 const HomeSkill = () => import('@/views/Home/Services/Skill.vue');
 const HomeWorkingCategory = () => import('@/views/Home/Services/WorkingCategory.vue');
+const HomeServiceLevel = () => import('@/views/Home/Services/ServiceLevel.vue')
 const HomeClosedOrder = () => import('@/views/Home/Order/ClosedOrder.vue');
 const HomeOngoingOrder = () => import('@/views/Home/Order/OngoingOrder.vue');
 const HomeOrderDetail = () => import('@/views/Home/Order/OrderDetail.vue');
@@ -74,6 +75,11 @@ const routes = [{
         path: 'working_category',
         name: 'HomeCategory',
         component: HomeWorkingCategory
+      },
+      {
+        path: 'service_level',
+        name: 'HomeServiceLevel',
+        component: HomeServiceLevel
       },
       {
         path: 'closed_order',

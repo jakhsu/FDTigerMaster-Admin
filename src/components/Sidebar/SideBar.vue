@@ -30,6 +30,9 @@
             <SideBarButton to="/home/working_category" icon="link">
                 工項
             </SideBarButton>
+            <SideBarButton to="/home/service_level" icon="link">
+                L1~L3對應
+            </SideBarButton>
         </SideBarGroup>
 
         <SideBarGroup text="訂單">
