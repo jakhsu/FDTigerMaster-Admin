@@ -47,7 +47,7 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "date-fns": "^2.17.0",
-    "fdtigermaster-admin-sdk": "^0.12.4",
+    "fdtigermaster-admin-sdk": "^0.13.0",
     "firebase": "^8.2.5",
     "iconv-lite": "^0.6.2",
     "lodash": "^4.17.21",
