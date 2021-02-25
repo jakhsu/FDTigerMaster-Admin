@@ -180,8 +180,8 @@
                 this.tableBusy = false;
             },
             async categoriesDownload() {
-                const workingCategoriesFile = tigermaster.storage.WorkingCategories;
-                const file = await workingCategoriesFile.download();
+                const workingCategory = tigermaster.services.WorkingCategory;
+                const file = await workingCategory.download();
                 const link = document.createElement("a");
                 const url = window.URL.createObjectURL(file);
                 link.href = url;
@@ -193,8 +193,8 @@
             async handleFileUpload() {
                 const fileInput = this.$refs.file;
                 this.isLoading = true;
-                const workingCategoriesFile = tigermaster.storage.WorkingCategories;
-                await workingCategoriesFile.upload(fileInput.files[0]);
+                const workingCategory = tigermaster.services.WorkingCategory;
+                await workingCategory.upload(fileInput.files[0]);
                 this.fetchWorkingCategory();
             },
             onSearchClearClick() {

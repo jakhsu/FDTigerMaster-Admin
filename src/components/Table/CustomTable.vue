@@ -55,7 +55,7 @@
         },
         beforeUpdate() {
             const currentRows = ((this.currentPage - 1) * this.perPage);
-            if (currentRows >= this.queryRows && !this.isBusy) {
+            if (currentRows >= this.queryRows && !this.isBusy && this.totalRows > this.queryRows) {
                 this.$emit("dataRequire", currentRows, this.perPage);
             }
         },

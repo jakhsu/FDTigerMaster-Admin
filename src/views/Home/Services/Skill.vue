@@ -179,10 +179,10 @@
                 });
             },
             async skillsDownload() {
-                const skillsFile = tigermaster.storage.Skills;
-                const file = await skillsFile.download();
+                const skill = tigermaster.services.Skill;
+                const data = await skill.download();
                 const link = document.createElement('a');
-                const url = window.URL.createObjectURL(file);
+                const url = window.URL.createObjectURL(data);
                 link.href = url;
                 link.download = "skills.csv";
                 link.click();
@@ -192,8 +192,8 @@
             async handleFileUpload() {
                 this.isLoading = true;
                 const upload = this.$refs.file.files[0];
-                const skillsFile = tigermaster.storage.Skills;
-                await skillsFile.upload(upload);
+                const skill = tigermaster.services.Skill;
+                await skill.upload(upload);
                 this.fetchSkillData();
             },
             async startEditSkill(selectedSkill) {
