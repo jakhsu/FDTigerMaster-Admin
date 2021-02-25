@@ -1,39 +1,176 @@
 <template>
     <div>
-        <SimpleModal id="chatRoom-detail" title="聊天室內容">
-            <template #modal-body>
-                <CustomTable :datas="data">
-                </CustomTable>
-                <b-form>
-                    <b-form-input></b-form-input>
-                    <b-button class="mt-2" variant="success">發送對話</b-button>
-                </b-form>
-            </template>
-        </SimpleModal>
-        <SimpleCard>
-            <CustomTable :datas="chatRooms">
-                <template #cell(id)="chatRooms">
-                    <b-button @click="shadowQueryChats(chatRooms.value)">取得聊天內容</b-button>
-                </template>
-            </CustomTable>
-        </SimpleCard>
+        <b-row>
+            <b-col>
+                <TitledCard titleBackgroundColor="#2B364B" title="客戶對師父">
+                    <div @scroll="scroll($event,'C2M')" class="msg-area container">
+                        <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
+                            <div class="msg-body" v-if="item.varient == 0">
+                                <b-row>
+                                    <b-col>
+                                        <div class="msg-creator ml-2">
+                                            {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
+                                        </div>
+                                        <div class="msg-text">
+                                            {{item.text}}
+                                        </div>
+                                        <div class="msg-status">
+                                            {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                            <div class="msg-body" v-else>
+                                <b-row>
+                                    <b-col>
+                                        <div class="msg-creator ml-2">
+                                            {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
+                                        </div>
+                                        <div class="msg-text">
+                                            {{item.imagePath}}
+                                        </div>
+                                        <div class="msg-status">
+                                            {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                        </div>
+                        <scale-loader v-if="isLoadingC2M" />
+                    </div>
+                    <div class="msg-push mt-2">
+                        <b-form-group label="輸入訊息">
+                            <b-form-textarea v-model="msgToC2M"></b-form-textarea>
+                        </b-form-group>
+                        <div>
+                            <input ref="C2MFile" type="file" @change="handleImage($event,'C2M')" class="custom-input"
+                                accept="image/*" style="display:none">
+                            <b-button @click="$refs.C2MFile.click()" variant="warning" class="ml-auto">
+                                上傳圖片
+                            </b-button>
+                            <b-button variant="success" class="ml-2" @click="submit('C2M')">送出</b-button>
+                        </div>
+                    </div>
+                </TitledCard>
+            </b-col>
+            <b-col>
+                <TitledCard titleBackgroundColor="#2B364B" title="客戶對客服">
+                    <div @scroll="scroll($event,'C2A')" class="msg-area container">
+                        <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
+                            <div class="msg-body" v-if="item.varient == 0">
+                                <b-row>
+                                    <b-col>
+                                        <div class="msg-creator ml-2">
+                                            {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
+                                        </div>
+                                        <div class="msg-text">
+                                            {{item.text}}
+                                        </div>
+                                        <div class="msg-status">
+                                            {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                            <div class="msg-body" v-else>
+                                <b-row>
+                                    <b-col>
+                                        <div class="msg-creator ml-2">
+                                            {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
+                                        </div>
+                                        <div class="msg-text">
+                                            {{item.imagePath}}
+                                        </div>
+                                        <div class="msg-status">
+                                            {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                        </div>
+                        <scale-loader v-if="isLoadingC2A" />
+                    </div>
+                    <div class="msg-push mt-2">
+                        <b-form-group label="輸入訊息">
+                            <b-form-textarea v-model="msgToC2A"></b-form-textarea>
+                        </b-form-group>
+                        <div>
+                            <input ref="C2AFile" type="file" @change="handleImage($event,'C2A')" class="custom-input"
+                                accept="image/*" style="display:none">
+                            <b-button @click="$refs.C2AFile.click()" variant="warning" class="ml-auto">
+                                上傳圖片
+                            </b-button>
+                            <b-button variant="success" class="ml-2" @click="submit('C2A')">送出</b-button>
+                        </div>
+                    </div>
+                </TitledCard>
+            </b-col>
+            <b-col>
+                <TitledCard titleBackgroundColor="#2B364B" title="師傅對客服">
+                    <div @scroll="scroll($event,'M2A')" class="msg-area container">
+                        <div v-for="(item, index) in C2MChats" :key="index" class="msg-content m-2">
+                            <div class="msg-body" v-if="item.varient == 0">
+                                <b-row>
+                                    <b-col>
+                                        <div class="msg-creator ml-2">
+                                            {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
+                                        </div>
+                                        <div class="msg-text">
+                                            {{item.text}}
+                                        </div>
+                                        <div class="msg-status">
+                                            {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                            <div class="msg-body" v-else>
+                                <b-row>
+                                    <b-col>
+                                        <div class="msg-creator ml-2">
+                                            {{item.createBy == clientId ? '客戶' : item.createBy == masterId ? '師傅': `用戶${item.createBy}`}}
+                                        </div>
+                                        <div class="msg-text">
+                                            {{item.imagePath}}
+                                        </div>
+                                        <div class="msg-status">
+                                            {{item.createDate}} {{item.readed == 1 ? '已讀' : '未讀'}}
+                                        </div>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                        </div>
+                        <scale-loader v-if="isLoadingM2A" />
+                    </div>
+                    <div class="msg-push mt-2">
+                        <b-form-group label="輸入訊息">
+                            <b-form-textarea v-model="msgToM2A"></b-form-textarea>
+                        </b-form-group>
+                        <div>
+                            <input ref="M2AFile" type="file" @change="handleImage($event,'M2A')" class="custom-input"
+                                accept="image/*" style="display:none">
+                            <b-button @click="$refs.M2AFile.click()" variant="warning" class="ml-auto">
+                                上傳圖片
+                            </b-button>
+                            <b-button variant="success" class="ml-2" @click="submit('M2A')">送出</b-button>
+                        </div>
+                    </div>
+                </TitledCard>
+            </b-col>
+        </b-row>
     </div>
 </template>
 
-// orderData.client2Master
 <script>
-    // import {
-    //     format
-    // } from 'date-fns'
+    import {
+        format
+    } from 'date-fns'
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleCard from '@/components/Card/SimpleCard.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import TitledCard from '@/components/Card/TitledCard.vue'
+    import debounce from 'lodash/debounce'
     export default {
         components: {
-            CustomTable,
-            SimpleCard,
-            SimpleModal
+            TitledCard
         },
         name: "ChatRoom",
         props: {
@@ -43,70 +180,35 @@
         },
         data() {
             return {
+                isLoadingC2M: false,
+                isLoadingM2A: false,
+                isLoadingC2A: false,
                 orderData: this.order._data,
-                chatRooms: [],
-                chatRoomDetail: {},
-                data: [{
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }, {
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }, {
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }, {
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }, {
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }, {
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }, {
-                    text: "hi",
-                    imagePath: "some path",
-                    createdDate: "some time",
-                    readed: "yes",
-                    varient: "yes",
-                    createdBy: "someone"
-                }]
+                chatRooms: [{
+                    id: '0123456789abcdef'
+                }],
+                C2MChats: Array,
+                C2AChats: Array,
+                M2AChats: Array,
+                data: [],
+                C2MArea: {
+                    'msg-area': true,
+                    'isLoading': false,
+                    'container': true
+                },
+                msgToC2M: '',
+                msgToC2A: '',
+                msgToM2A: '',
+                imgFileToC2M: {},
+                imgFileToC2A: {},
+                imgFileToM2A: {},
             }
         },
         created() {
-            this.extractChatRooms();
+            this.fetchC2M();
         },
         methods: {
-            async createChatRoom() {
-                await tigermaster.chatroom.created({
-                    userIds: this.chatRoomUsers
-                })
-            },
+            // TODO: this is currently unused
             extractChatRooms() {
                 const chatRooms = [];
                 chatRooms.push(this.orderData["client2Master"])
@@ -115,23 +217,150 @@
                 const filtered = chatRooms.filter(e =>
                     e !== undefined
                 )
-                const parsed = filtered.map(e => JSON.parse(e))
-                this.chatRooms = parsed
+                this.chatRooms = filtered.map(e => JSON.parse(e))
             },
-            async shadowQueryChats(roomId) {
-                console.log(roomId)
-                const chatroom = await tigermaster.chatroom.get(roomId)
-                console.log(chatroom)
-                // const result = await chatroom.shadowQuery(format(Date.now(), 'yyyy-MM-dd HH:mm:ss'))
-                // this.chatRoomDetail = result
-                this.$bvModal.show("chatRoom-detail")
+            async shadowQueryLatestChats(roomId) {
+                try {
+                    const chatroom = await tigermaster.chatroom.get(roomId)
+                    const result = await chatroom.shadowQuery(format(Date.now(), 'yyyy-MM-dd HH:mm:ss'))
+                    return result.messages;
+                } catch (e) {
+                    return [];
+                }
             },
-            sendText() {}
-        }
+            // TODO:need to fix hard-coded shadowQuery args later
+            async fetchC2M() {
+                this.isLoadingC2M = true;
+                this.C2MChats = await this.shadowQueryLatestChats("0123456789abcdef")
+                this.isLoadingC2M = false
+            },
+            async fetchC2A() {
+                this.isLoadingC2A = true;
+                this.C2AChats = await this.shadowQueryLatestChats("0123456789abcdef")
+                this.isLoadingC2A = false
+            },
+            async fetchM2A() {
+                this.isLoadingM2A = true;
+                this.M2AChats = await this.shadowQueryLatestChats("0123456789abcdef")
+                this.isLoadingM2A = false
+            },
+            async sendText(text) {
+                const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
+                await chatroom.sendText(text)
+            },
+            async sendImage(file) {
+                const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
+                await chatroom.sendImage(file)
+            },
+            submit(chatRoomType) {
+                if (chatRoomType == 'C2M') {
+                    this.sendText(this.msgToC2M);
+                } else if (chatRoomType == 'M2A') {
+                    this.sendText(this.msgToM2A);
+                } else if (chatRoomType == 'C2A') {
+                    this.sendText(this.msgToC2A);
+                }
+            },
+            scroll: debounce(function ({
+                target: {
+                    scrollTop,
+                    clientHeight,
+                    scrollHeight
+                }
+            }, chatRoomType) {
+                if (scrollTop + clientHeight >= scrollHeight) {
+                    if (chatRoomType == 'C2M') {
+                        this.fetchC2M()
+                    } else if (chatRoomType == 'C2A') {
+                        this.fetchC2A()
+                    } else if (chatRoomType == 'M2A') {
+                        this.fetchM2A()
+                    }
+                }
+            }, 1000, {
+                leading: true
+            }),
+            handleImage(e, type) {
+                console.log(e)
+                console.log(type)
+                const imageFile = e.target.files[0]
+                if (type == 'C2M') {
+                    this.imgFileToC2M = imageFile
+                } else if (type == 'C2A') {
+                    this.imgFileToC2A = imageFile
+                } else if (type == 'M2A') {
+                    this.imgFileToM2A = imageFile
+                }
+            }
+        },
+        computed: {
+            clientId() {
+                return this.orderData.clientUserId
+            },
+            masterId() {
+                return this.orderData.masterUserId
+            },
 
+        }
     }
 </script>
 
 <style scoped>
+    .msg-creator {
+        align-self: center;
+    }
 
+    .msg-text {
+        background-color: #AFF47E;
+        padding: 8px 10px 9px 11px;
+        max-height: 300px;
+        overflow: hidden;
+    }
+
+    .msg-area {
+        max-height: 475px;
+        overflow: scroll;
+    }
+
+    .msg-status {
+        transform: scale(0.7);
+        color: #ACB0B8;
+        vertical-align: bottom;
+        margin: 0px 0px 5px -12px;
+        display: inline-block;
+    }
+
+    .msg-body {
+        margin: 5px 0px 5px 5px;
+        font-size: 12px;
+        color: #35393D;
+        letter-spacing: 0.6px;
+        background-color: #E3E8EB;
+        border-radius: 10px;
+        line-height: 1.5;
+        text-align: left;
+        word-break: break-all;
+        white-space: pre-line;
+    }
+
+    .msg-content {
+        margin: ;
+    }
+
+    ::-webkit-scrollbar {
+        width: 9px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #1db954;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    .isLoading {
+        background-color: grey;
+    }
 </style>

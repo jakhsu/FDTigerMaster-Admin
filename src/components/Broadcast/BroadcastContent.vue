@@ -31,7 +31,8 @@
       return {
         title: '',
         content: '',
-        imageUrl: ''
+        imageUrl: '',
+        imageFile: {}
       };
     },
     computed: {
@@ -44,11 +45,13 @@
         this.$emit('next', {
           title: this.title,
           content: this.content,
-          imageUrl: this.imageUrl
+          imageUrl: this.imageUrl,
+          imageFile: this.imageFile
         });
       },
       handleImage(e) {
         const imageFile = e.target.files[0]
+        this.imageFile = imageFile
         const url = URL.createObjectURL(imageFile)
         this.imageUrl = url
       }
