@@ -168,6 +168,7 @@
     import tigermaster from 'fdtigermaster-admin-sdk'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import debounce from 'lodash/debounce'
+
     export default {
         components: {
             TitledCard
@@ -245,20 +246,29 @@
                 this.isLoadingM2A = false
             },
             async sendText(text) {
+                if (text == "") {
+                    return
+                }
                 const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
                 await chatroom.sendText(text)
             },
             async sendImage(file) {
+                if (file == {}) {
+                    return
+                }
                 const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
                 await chatroom.sendImage(file)
             },
             submit(chatRoomType) {
                 if (chatRoomType == 'C2M') {
                     this.sendText(this.msgToC2M);
+                    this.sendImage(this.imgFileToC2M)
                 } else if (chatRoomType == 'M2A') {
                     this.sendText(this.msgToM2A);
+                    this.sendImage(this.imgFileToC2M)
                 } else if (chatRoomType == 'C2A') {
                     this.sendText(this.msgToC2A);
+                    this.sendImage(this.imgFileToC2M)
                 }
             },
             scroll: debounce(function ({
@@ -281,8 +291,6 @@
                 leading: true
             }),
             handleImage(e, type) {
-                console.log(e)
-                console.log(type)
                 const imageFile = e.target.files[0]
                 if (type == 'C2M') {
                     this.imgFileToC2M = imageFile
