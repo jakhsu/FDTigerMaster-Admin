@@ -59,7 +59,6 @@
                         <b-button block>
                             <font-awesome-icon icon="edit" />新增
                         </b-button>
-
                         <CustomTable :datas="L3Items" :fields="fields">
                         </CustomTable>
                     </b-col>
