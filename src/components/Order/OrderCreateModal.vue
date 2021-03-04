@@ -119,7 +119,7 @@
                 },
                 orderId: '',
                 workingCategories: [],
-                inputState: [null, null, null, null, null, null, null, null, true, true, true]
+                inputState: [null, null, null, null, null, null, null, null, true, true, true, true]
             }
         },
         created() {
