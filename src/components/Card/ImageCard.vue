@@ -59,7 +59,7 @@
                 this.isLoading = false;
             },
             onCardClicked() {
-                this.$emit("imgCardClicked", this.src, this.img);
+                this.$emit("imgCardClicked", this.img, this.imageDetails);
             }
         }
     }

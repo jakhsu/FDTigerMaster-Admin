@@ -3,7 +3,12 @@
         <b-container fluid>
             <SimpleModal :isLoading="isLoading" id="Certificate-Detail-Modal" title="證照原圖" @onSaveClick="onModalSave">
                 <template #modal-body>
-                    <img :src="originalCert" alt="">
+                    <img :src="imageBlob" alt="" class="w-100">
+                    <div>
+                        <b-form-group label="證照敘述">
+                            <b-form-textarea v-model="imageDetails.pictureDesc" />
+                        </b-form-group>
+                    </div>
                 </template>
                 <template #modal-button>
                     <b-button variant="outline-danger" @click="onCertificateDelete">刪除</b-button>
@@ -69,10 +74,14 @@
                     imageFile: {},
                     description: ''
                 },
+                toBeUpdated: {
+                    id: '',
+                    description: ''
+                },
                 fetchURL: [],
                 certificates: [],
-                detailedCert: {},
-                originalCert: '',
+                imageDetails: {},
+                imageBlob: '',
                 imgUploadKey: 0
             }
         },
@@ -110,18 +119,28 @@
                     this.isUpload = false;
                 }
             },
-            openImgModal(url, originalCert) {
-                this.detailedCert = this.certificates.find(e => e.path === url)
-                this.originalCert = originalCert;
+            openImgModal(imageBlob, imageDetails) {
+                this.imageDetails = imageDetails
+                this.imageBlob = imageBlob;
+                console.log(imageBlob)
                 this.$bvModal.show("Certificate-Detail-Modal")
             },
+            async UpdateLicense(imageId, desc) {
+                await this.user.licenseUpdate(imageId, desc)
+            },
             onModalSave() {
-                this.$bvModal.hide("Certificate-Detail-Modal")
+                try {
+                    this.UpdateLicense(this.imageDetails.id, this.imageDetails.pictureDesc)
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.$bvModal.hide("Certificate-Detail-Modal")
+                }
             },
             async onCertificateDelete() {
                 this.isLoading = true;
                 const image = tigermaster.image;
-                await image.UserImage.delete(this.detailedCert.id);
+                await image.UserImage.delete(this.imageDetails.id);
                 await this.fetchCertificateURLs();
                 this.$bvModal.hide("Certificate-Detail-Modal")
             }
