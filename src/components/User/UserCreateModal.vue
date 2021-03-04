@@ -106,8 +106,12 @@
                 if (this.inputState[0] && this.inputState[1] && this.inputState[2] && this.inputState[3]) {
                     this.isLoading = true;
                     try {
-                        const id = await tigermaster.auth.createUserWithPhoneAndPassword(
-                            this.newUser.phone, "1234567890", this.newUser
+                        const id = await tigermaster.auth.createUser(
+                            this.newUser.phone, {
+                                name: this.newUser.name,
+                                email: this.newUser.email,
+                                roleId: this.newUser.roleId
+                            }
                         );
                         this.$router.push({
                             path: '/home/user_detail',
