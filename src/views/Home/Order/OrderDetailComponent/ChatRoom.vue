@@ -158,6 +158,20 @@
                 </TitledCard>
             </b-col>
         </b-row>
+        <b-row>
+            <TitledCard title="新增聊天室(測試用)">
+                <scale-loader v-if="isCreatingRoom" />
+                <div v-else>
+                    <b-form-group label="第一位用戶id">
+                        <b-form-input v-model="firstId" />
+                    </b-form-group>
+                    <b-form-group label="第二位用戶id">
+                        <b-form-input v-model="secondId" />
+                    </b-form-group>
+                </div>
+                <b-button variant="success" @click="createChatroom([firstId,secondId])">確認</b-button>
+            </TitledCard>
+        </b-row>
     </div>
 </template>
 
@@ -186,7 +200,7 @@
                 isLoadingC2A: false,
                 orderData: this.order._data,
                 chatRooms: [{
-                    id: '0123456789abcdef'
+                    id: 'iFPmwKPnyOLynxYx'
                 }],
                 C2MChats: Array,
                 C2AChats: Array,
@@ -203,23 +217,18 @@
                 imgFileToC2M: {},
                 imgFileToC2A: {},
                 imgFileToM2A: {},
+                // TODO: these data is for testing purposes only
+                firstId: '',
+                secondId: '',
+                isCreatingRoom: false
+                // TODO: do remember to delete them when you're finished ;)
             }
         },
         created() {
             this.fetchC2M();
+            this.fetchChatrooms();
         },
         methods: {
-            // TODO: this is currently unused
-            extractChatRooms() {
-                const chatRooms = [];
-                chatRooms.push(this.orderData["client2Master"])
-                chatRooms.push(this.orderData["client2Admin"])
-                chatRooms.push(this.orderData["master2Admin"])
-                const filtered = chatRooms.filter(e =>
-                    e !== undefined
-                )
-                this.chatRooms = filtered.map(e => JSON.parse(e))
-            },
             async shadowQueryLatestChats(roomId) {
                 try {
                     const chatroom = await tigermaster.chatroom.get(roomId)
@@ -229,34 +238,34 @@
                     return [];
                 }
             },
-            // TODO:need to fix hard-coded shadowQuery args later
+            // TODO: need to fix hard-coded shadowQuery args later
             async fetchC2M() {
                 this.isLoadingC2M = true;
-                this.C2MChats = await this.shadowQueryLatestChats("0123456789abcdef")
+                this.C2MChats = await this.shadowQueryLatestChats(this.orderData.client2Master)
                 this.isLoadingC2M = false
             },
             async fetchC2A() {
                 this.isLoadingC2A = true;
-                this.C2AChats = await this.shadowQueryLatestChats("0123456789abcdef")
+                this.C2AChats = await this.shadowQueryLatestChats("iFPmwKPnyOLynxYx")
                 this.isLoadingC2A = false
             },
             async fetchM2A() {
                 this.isLoadingM2A = true;
-                this.M2AChats = await this.shadowQueryLatestChats("0123456789abcdef")
+                this.M2AChats = await this.shadowQueryLatestChats("iFPmwKPnyOLynxYx")
                 this.isLoadingM2A = false
             },
             async sendText(text) {
                 if (text == "") {
                     return
                 }
-                const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
+                const chatroom = await tigermaster.chatroom.get('iFPmwKPnyOLynxYx')
                 await chatroom.sendText(text)
             },
             async sendImage(file) {
                 if (file == {}) {
                     return
                 }
-                const chatroom = await tigermaster.chatroom.get('0123456789abcdef')
+                const chatroom = await tigermaster.chatroom.get('iFPmwKPnyOLynxYx')
                 await chatroom.sendImage(file)
             },
             submit(chatRoomType) {
@@ -299,6 +308,15 @@
                 } else if (type == 'M2A') {
                     this.imgFileToM2A = imageFile
                 }
+            },
+            async createChatroom(ids) {
+                this.isCreatingRoom = true
+                await tigermaster.chatroom.created(ids)
+                console.log(ids)
+                this.isCreatingRoom = false
+            },
+            async fetchChatrooms() {
+                // TODO: need a way to fetch all 3 chat rooms, or are they always in order data?
             }
         },
         computed: {
