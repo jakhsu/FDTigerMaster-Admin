@@ -62,12 +62,6 @@
                     <b-form-input :state="inputState[11]" @update="notEmptyValidate(businessId, 11)"
                         v-model="businessId" />
                 </b-form-group>
-                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="是否為代叫訂單: ">
-                    <b-select v-model="isProxy" :state="true">
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </b-select>
-                </b-form-group>
             </b-form>
             <template #modal-footer>
                 <b-button variant="danger" @click="onCancelModal()">
@@ -125,7 +119,7 @@
                 },
                 orderId: '',
                 workingCategories: [],
-                inputState: [null, null, null, null, null, null, null, null, true, true, true, true]
+                inputState: [null, null, null, null, null, null, null, null, true, true, true]
             }
         },
         created() {
@@ -167,8 +161,7 @@
                     "masterScoreBonus": this.masterScoreBonus,
                     "invoiceTitle": this.invoiceTitle,
                     "businessId": this.businessId,
-                    "expectWorkingDate": this.expectWorkingDate,
-                    "isProxy": this.isProxy
+                    "expectWorkingDate": this.expectWorkingDate
                 }
                 if (this.inputState.every(e => e === true)) {
                     try {
