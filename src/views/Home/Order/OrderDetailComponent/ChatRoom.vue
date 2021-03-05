@@ -158,20 +158,6 @@
                 </TitledCard>
             </b-col>
         </b-row>
-        <b-row>
-            <TitledCard title="新增聊天室(測試用)">
-                <scale-loader v-if="isCreatingRoom" />
-                <div v-else>
-                    <b-form-group label="第一位用戶id">
-                        <b-form-input v-model="firstId" />
-                    </b-form-group>
-                    <b-form-group label="第二位用戶id">
-                        <b-form-input v-model="secondId" />
-                    </b-form-group>
-                </div>
-                <b-button variant="success" @click="createChatroom([firstId,secondId])">確認</b-button>
-            </TitledCard>
-        </b-row>
     </div>
 </template>
 
@@ -199,13 +185,9 @@
                 isLoadingM2A: false,
                 isLoadingC2A: false,
                 orderData: this.order._data,
-                chatRooms: [{
-                    id: 'iFPmwKPnyOLynxYx'
-                }],
                 C2MChats: Array,
                 C2AChats: Array,
                 M2AChats: Array,
-                data: [],
                 C2MArea: {
                     'msg-area': true,
                     'isLoading': false,
@@ -217,16 +199,18 @@
                 imgFileToC2M: {},
                 imgFileToC2A: {},
                 imgFileToM2A: {},
-                // TODO: these data is for testing purposes only
-                firstId: '',
-                secondId: '',
-                isCreatingRoom: false
-                // TODO: do remember to delete them when you're finished ;)
+                clientId: this.order._data.clientUserId,
+                masterId: this.order._data.masterUserId,
+                C2MRoomId: "",
+                C2ARoomId: "",
+                M2ARoomId: ""
             }
         },
         created() {
-            this.fetchC2M();
-            this.fetchChatrooms();
+            this.parseAllroomIds()
+            this.fetchC2M()
+            this.fetchC2A()
+            this.fetchM2A()
         },
         methods: {
             async shadowQueryLatestChats(roomId) {
@@ -238,46 +222,45 @@
                     return [];
                 }
             },
-            // TODO: need to fix hard-coded shadowQuery args later
             async fetchC2M() {
                 this.isLoadingC2M = true;
-                this.C2MChats = await this.shadowQueryLatestChats(this.orderData.client2Master)
+                this.C2MChats = await this.shadowQueryLatestChats(this.C2MRoomId)
                 this.isLoadingC2M = false
             },
             async fetchC2A() {
                 this.isLoadingC2A = true;
-                this.C2AChats = await this.shadowQueryLatestChats("iFPmwKPnyOLynxYx")
+                this.C2AChats = await this.shadowQueryLatestChats(this.C2ARoomId)
                 this.isLoadingC2A = false
             },
             async fetchM2A() {
                 this.isLoadingM2A = true;
-                this.M2AChats = await this.shadowQueryLatestChats("iFPmwKPnyOLynxYx")
+                this.M2AChats = await this.shadowQueryLatestChats(this.M2ARoomId)
                 this.isLoadingM2A = false
             },
-            async sendText(text) {
+            async sendText(text, chatroomId) {
                 if (text == "") {
                     return
                 }
-                const chatroom = await tigermaster.chatroom.get('iFPmwKPnyOLynxYx')
+                const chatroom = await tigermaster.chatroom.get(chatroomId)
                 await chatroom.sendText(text)
             },
-            async sendImage(file) {
+            async sendImage(file, chatroomId) {
                 if (file == {}) {
                     return
                 }
-                const chatroom = await tigermaster.chatroom.get('iFPmwKPnyOLynxYx')
+                const chatroom = await tigermaster.chatroom.get(chatroomId)
                 await chatroom.sendImage(file)
             },
             submit(chatRoomType) {
                 if (chatRoomType == 'C2M') {
-                    this.sendText(this.msgToC2M);
-                    this.sendImage(this.imgFileToC2M)
+                    this.sendText(this.msgToC2M, this.C2MRoomId);
+                    this.sendImage(this.imgFileToC2M, this.C2MRoomId)
                 } else if (chatRoomType == 'M2A') {
-                    this.sendText(this.msgToM2A);
-                    this.sendImage(this.imgFileToC2M)
+                    this.sendText(this.msgToM2A, this.M2ARoomId);
+                    this.sendImage(this.imgFileToC2M, this.M2ARoomId)
                 } else if (chatRoomType == 'C2A') {
-                    this.sendText(this.msgToC2A);
-                    this.sendImage(this.imgFileToC2M)
+                    this.sendText(this.msgToC2A, this.C2ARoomId);
+                    this.sendImage(this.imgFileToC2M, this.C2ARoomId)
                 }
             },
             scroll: debounce(function ({
@@ -309,24 +292,14 @@
                     this.imgFileToM2A = imageFile
                 }
             },
-            async createChatroom(ids) {
-                this.isCreatingRoom = true
-                await tigermaster.chatroom.created(ids)
-                console.log(ids)
-                this.isCreatingRoom = false
-            },
-            async fetchChatrooms() {
-                // TODO: need a way to fetch all 3 chat rooms, or are they always in order data?
+            parseAllroomIds() {
+                const C2MidStr = this.orderData.client2Master || '{}';
+                const C2AidStr = this.orderData.client2Admin || '{}';
+                const M2AidStr = this.orderData.master2Admin || '{}';
+                this.C2MRoomId = JSON.parse(C2MidStr).id
+                this.C2ARoomId = JSON.parse(C2AidStr).id
+                this.M2ARoomId = JSON.parse(M2AidStr).id
             }
-        },
-        computed: {
-            clientId() {
-                return this.orderData.clientUserId
-            },
-            masterId() {
-                return this.orderData.masterUserId
-            },
-
         }
     }
 </script>
