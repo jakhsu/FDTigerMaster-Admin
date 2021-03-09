@@ -25,7 +25,7 @@
             <b-col sm="12" xl="6">
                 <TitledCard title="符合工項的師傅">
                     <div class="SearchBar d-flex mb-3">
-                        <b-button variant="warning" @click="updateMapping">
+                        <b-button variant="warning" @click="updateMapping" :disabled="this.order._data.masterUserId">
                             <font-awesome-icon icon="hourglass-half" />
                             重新配對
                         </b-button>
@@ -33,7 +33,7 @@
                     <CustomTable :isBusy="matchedTableBusy" ref="customTable" :queryRows="totalCount"
                         :totalRows="totalCount" :fields="fields" :datas="matchedMasters">
                         <template #cell(phone)="matchedMasters">
-                            <router-link :to="`/home/user_detail?userId=${matchedMasters.item.id}`">
+                            <router-link :to="`/home/user_detail?userId=${matchedMasters.item.masterUserId}`">
                                 {{ matchedMasters.value }}
                             </router-link>
                         </template>
