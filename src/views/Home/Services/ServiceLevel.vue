@@ -417,8 +417,17 @@
                 try {
                     serviceLevel.update(this.serviceLevelData)
                     this.refreshKey++
+                    this.$bvToast.toast("編輯成功", {
+                        title: "恭喜",
+                        autoHideDelay: 5000,
+                        variant: "success"
+                    })
                 } catch (e) {
-                    console.log(e)
+                    this.$bvToast.toast(`編輯失敗，錯誤: ${e}`, {
+                        title: "oops",
+                        autoHideDelay: 5000,
+                        variant: "danger"
+                    })
                 } finally {
                     this.isLoading = false
                 }
