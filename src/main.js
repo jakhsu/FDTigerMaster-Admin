@@ -21,6 +21,7 @@ import {
 import {
     faBars,
     faBan,
+    faSync,
     faUser,
     faEdit,
     faLink,
@@ -57,6 +58,7 @@ import {
 library.add(
     faBars,
     faBan,
+    faSync,
     faUser,
     faEdit,
     faLink,
