@@ -250,7 +250,6 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import example from './example.json'
     import Loading from '@/components/Loading.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
@@ -283,8 +282,7 @@
                 L3Items: [],
                 jsonFile: {},
                 dateToRollBackTo: "",
-                refreshKey: 1,
-                example
+                refreshKey: 1
             }
         },
         async created() {
