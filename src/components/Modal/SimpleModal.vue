@@ -4,14 +4,17 @@
             <scale-loader v-if="isLoading" />
             <slot v-else name="modal-body"></slot>
             <template #modal-footer="{cancel}">
-                <slot name="modal-button"></slot>
-                <span class="ml-auto simple-modal-error" v-if="formErrorMessage !== ''">{{ formErrorMessage }}</span>
-                <b-button variant="outline-secondary" @click="cancel">
-                    取消
-                </b-button>
-                <b-button variant="primary" @click="onSaveClick">
-                    確認
-                </b-button>
+                <!-- <slot name="modal-button"></slot> -->
+                <slot name="modal-footer">
+                    <span class="ml-auto simple-modal-error"
+                        v-if="formErrorMessage !== ''">{{ formErrorMessage }}</span>
+                    <b-button variant="outline-secondary" @click="cancel">
+                        取消
+                    </b-button>
+                    <b-button variant="primary" @click="onSaveClick">
+                        確認
+                    </b-button>
+                </slot>
             </template>
         </b-modal>
     </div>
