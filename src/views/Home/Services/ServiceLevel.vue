@@ -304,12 +304,24 @@
                 switch (level) {
                     case 1:
                         this.isCreateL1 = !this.isCreateL1
+                        if (this.isCreateL1 === true) {
+                            this.isCreateL2 = false
+                            this.isCreateL3 = false
+                        }
                         break
                     case 2:
                         this.isCreateL2 = !this.isCreateL2
+                        if (this.isCreateL2 === true) {
+                            this.isCreateL1 = false
+                            this.isCreateL3 = false
+                        }
                         break
                     case 3:
                         this.isCreateL3 = !this.isCreateL3
+                        if (this.isCreateL3 === true) {
+                            this.isCreateL2 = false
+                            this.isCreateL1 = false
+                        }
                         break
                 }
             },
