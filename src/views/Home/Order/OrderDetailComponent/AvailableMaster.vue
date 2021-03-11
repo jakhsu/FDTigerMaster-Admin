@@ -61,7 +61,7 @@
                         @dataRequire="onDataRequire">
                         <template #top-row="searchedMasters">
                             <b-td v-for="(field, index) in searchedMasters.fields" :key="index">
-                                <b-form-input v-if="field.key !== 'action' " v-model="search[field.key]"
+                                <b-form-input v-if="field.key !== 'action' " v-model.trim="search[field.key]"
                                     :name="field.key" :placeholder="field.label" />
                             </b-td>
                         </template>

@@ -65,7 +65,7 @@
                                                         button-only />
                                                 </b-input-group-append>
                                             </b-input-group>
-                                            <b-form-input v-else v-model="search[field.key]" :name="field.key"
+                                            <b-form-input v-else v-model.trim="search[field.key]" :name="field.key"
                                                 :placeholder="field.label" v-b-tooltip.hover :title="field.label" />
                                         </b-td>
                                     </template>

@@ -29,7 +29,7 @@
                                     <b-td v-for="(field, index) in orders.fields" :key="index">
                                         <b-select v-if="field.key === 'status'" :options="OrderStatus"
                                             v-model="search[field.key]" />
-                                        <b-form-input v-if="field.key !== 'status'" v-model="search[field.key]"
+                                        <b-form-input v-if="field.key !== 'status'" v-model.trim="search[field.key]"
                                             :name="field.key" :placeholder="`${field.label}`" />
                                     </b-td>
                                 </template>

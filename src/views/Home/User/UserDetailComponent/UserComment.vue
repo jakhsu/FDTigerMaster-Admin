@@ -24,7 +24,7 @@
                     @dataRequire="onDataRequire">
                     <template #top-row="comments">
                         <b-td v-for="(field, index) in comments.fields" :key="index">
-                            <b-form-input v-model="search[field.key]" :name="field.key"
+                            <b-form-input v-model.trim="search[field.key]" :name="field.key"
                                 :placeholder="`${field.label}`" />
                         </b-td>
                     </template>
