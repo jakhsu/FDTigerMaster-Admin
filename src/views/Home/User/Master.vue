@@ -9,6 +9,11 @@
                 </p>
             </template>
         </SimpleModal>
+        <SimpleModal size="md" title="選擇日期" id="Date-Picker-Modal" @onSaveClick="closeModal('Date-Picker-Modal')">
+            <template #modal-body>
+                <b-calendar :block="true" v-model="search['createDate']" />
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="Master-Area">
                 <b-row>
@@ -57,12 +62,11 @@
                                             <b-form-input v-else-if="field.key == 'roleId'" :name="field.key"
                                                 :value="'師傅'" disabled class="width75" />
                                             <b-input-group v-else-if="field.key == 'createDate'">
-                                                <b-form-input v-model="search['createDate']">
-                                                </b-form-input>
+                                                <b-form-input disabled v-model="search['createDate']" />
                                                 <b-input-group-append>
-                                                    <b-form-datepicker dropup class="datepicker"
-                                                        v-model="search['createDate']" size="sm" placeholder="選擇日期"
-                                                        button-only />
+                                                    <b-button @click="showModal('Date-Picker-Modal')">
+                                                        <font-awesome-icon icon="calendar-alt" />
+                                                    </b-button>
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <b-form-input v-else v-model.trim="search[field.key]" :name="field.key"
@@ -207,6 +211,12 @@
             },
             openEmailClient(address) {
                 window.open(`mailto:${address}`)
+            },
+            showModal(id) {
+                this.$bvModal.show(id)
+            },
+            closeModal(id) {
+                this.$bvModal.hide(id)
             }
         }
     }

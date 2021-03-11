@@ -9,6 +9,11 @@
                 </p>
             </template>
         </SimpleModal>
+        <SimpleModal size="md" title="選擇日期" id="Date-Picker-Modal" @onSaveClick="closeModal('Date-Picker-Modal')">
+            <template #modal-body>
+                <b-calendar :block="true" v-model="search['createDate']" />
+            </template>
+        </SimpleModal>
         <b-container fluid>
             <div class="Client-Area">
                 <b-row>
@@ -60,11 +65,11 @@
                                                 <option value="2">企業用戶</option>
                                             </b-form-select>
                                             <b-input-group v-else-if="field.key == 'createDate'">
-                                                <b-form-input v-model="search['createDate']">
-                                                </b-form-input>
+                                                <b-form-input disabled v-model="search['createDate']" />
                                                 <b-input-group-append>
-                                                    <b-form-datepicker v-model="search['createDate']" size="sm"
-                                                        placeholder="選擇日期" button-only />
+                                                    <b-button @click="showModal('Date-Picker-Modal')">
+                                                        <font-awesome-icon icon="calendar-alt" />
+                                                    </b-button>
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <b-form-input v-else v-model.trim="search[field.key]" :name="field.key"
@@ -211,6 +216,12 @@
             },
             openEmailClient(address) {
                 window.open(`mailto:${address}`)
+            },
+            showModal(id) {
+                this.$bvModal.show(id)
+            },
+            closeModal(id) {
+                this.$bvModal.hide(id)
             }
         }
     }
