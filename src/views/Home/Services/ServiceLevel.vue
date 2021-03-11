@@ -3,17 +3,22 @@
         <b-container fluid>
             <SimpleModal id="restore-modal" title="還原資料">
                 <template #modal-body>
-                    系統在每次update資料後都有留下紀錄可供還原，點擊要還原的時間點即可
-                    <b-list-group class="mt-2 save-points-list">
-                        <b-list-group-item href="#" v-for="(item, index) in savePoints" :key="index"
-                            @click="onSavePointsClick(item)">
-                            {{parseUnixTimeString(item)}}
-                        </b-list-group-item>
-                    </b-list-group>
-                    <div>
-                        <b-card>
-                            選擇要還原的日期: {{parseUnixTimeString(dateToRollBackTo)}}
-                        </b-card>
+                    <scale-loader v-if="isLoadingSavePoints"> </scale-loader>
+                    <div v-else>
+                        <p>
+                            系統在每次update資料後都有留下紀錄可供還原，點擊要還原的時間點即可
+                        </p>
+                        <b-list-group class="mt-2 save-points-list">
+                            <b-list-group-item href="#" v-for="(item, index) in savePoints" :key="index"
+                                @click="onSavePointsClick(item)">
+                                {{parseUnixTimeString(item)}}
+                            </b-list-group-item>
+                        </b-list-group>
+                        <div>
+                            <b-card>
+                                選擇要還原的日期: {{parseUnixTimeString(dateToRollBackTo)}}
+                            </b-card>
+                        </div>
                     </div>
                 </template>
                 <template #modal-footer>
@@ -33,12 +38,12 @@
                             <font-awesome-icon icon="sync" />
                             資料還原
                         </b-button>
-                        <b-button v-if="!isEditL1 && !isEditL2" class="ml-2" variant="success" @click="onFinishModify">
+                        <b-button v-if="!hasUnfinishedJob" class="ml-2" variant="success" @click="onFinishModify">
                             完成編輯</b-button>
                     </div>
                     <b-row>
                         <b-col sm=6 lg="4">
-                            <b-button block variant="primary" @click="toggleCreate(1)">
+                            <b-button block variant="primary" @click="startCreate(1)">
                                 <font-awesome-icon icon="edit" />新增
                             </b-button>
                             <b-list-group class="mt-2">
@@ -50,15 +55,15 @@
                             <b-card class="mb-2" v-if="currentL1.name">
                                 <div class="d-flex">
                                     <b-button variant="outline-primary" class="ml-auto" v-if="!isEditL1"
-                                        @click="toggleEdit(1)">
-                                        <font-awesome-icon icon="edit" />修改</b-button>
+                                        @click="startEdit(1)">
+                                        <font-awesome-icon icon="edit" />開始修改</b-button>
                                     <!-- TODO: figure out if delete is appropiate for L1 items, deleting it will affect all children nodes -->
                                     <!-- <b-button variant="outline-danger" class="ml-2" v-if="!isEditL1">
                                         <font-awesome-icon icon="trash-alt" />刪除</b-button> -->
-                                    <b-button variant="success" class="ml-auto" v-if="isEditL1" @click="toggleEdit(1)">
+                                    <b-button variant="success" class="ml-auto" v-if="isEditL1" @click="cancelEdit(1)">
                                         完成
                                     </b-button>
-                                    <b-button class="ml-2" v-if="isEditL1" @click="toggleEdit(1)">取消</b-button>
+                                    <b-button class="ml-2" v-if="isEditL1" @click="cancelEdit(1)">取消</b-button>
                                 </div>
                                 <div class="mt-2">
                                     <b-form-group label="已選取L1">
@@ -95,7 +100,7 @@
                                         @click="onCreateItem(1)">
                                         完成
                                     </b-button>
-                                    <b-button class="ml-2" v-if="isCreateL1" @click="toggleCreate(1)">取消</b-button>
+                                    <b-button class="ml-2" v-if="isCreateL1" @click="cancelCreate(1)">取消</b-button>
                                 </div>
                                 <div class="mt-2">
                                     <b-form-group label="欲新增的L1">
@@ -128,7 +133,7 @@
                             </b-card>
                         </b-col>
                         <b-col sm=6 lg="4">
-                            <b-button block variant="primary" @click="toggleCreate(2)">
+                            <b-button block variant="primary" @click="startCreate(2)">
                                 <font-awesome-icon icon="edit" />新增
                             </b-button>
                             <b-list-group v-if="currentL1.name" class="mt-2">
@@ -140,15 +145,15 @@
                             <b-card class="mb-2" v-if="currentL2.name">
                                 <div class="d-flex">
                                     <b-button variant="outline-primary" class="ml-auto" v-if="!isEditL2"
-                                        @click="toggleEdit(2)">
-                                        <font-awesome-icon icon="edit" />修改</b-button>
+                                        @click="startEdit(2)">
+                                        <font-awesome-icon icon="edit" />開始修改</b-button>
                                     <!-- TODO: figure out if delete is appropiate for L1 items, deleting it will affect all children nodes -->
                                     <!-- <b-button variant="outline-danger" class="ml-2" v-if="!isEditL2">
                                         <font-awesome-icon icon="trash-alt" />刪除</b-button> -->
-                                    <b-button variant="success" class="ml-auto" v-if="isEditL2" @click="toggleEdit(2)">
+                                    <b-button variant="success" class="ml-auto" v-if="isEditL2" @click="cancelEdit(2)">
                                         完成
                                     </b-button>
-                                    <b-button class="ml-2" v-if="isEditL2" @click="toggleEdit(2)">取消</b-button>
+                                    <b-button class="ml-2" v-if="isEditL2" @click="cancelEdit(2)">取消</b-button>
                                 </div>
                                 <div class="mt-2">
                                     <b-form-group label="已選取L2">
@@ -165,7 +170,7 @@
                                         @click="onCreateItem(2)">
                                         完成
                                     </b-button>
-                                    <b-button class="ml-2" v-if="isCreateL2" @click="toggleCreate(2)">取消</b-button>
+                                    <b-button class="ml-2" v-if="isCreateL2" @click="cancelCreate(2)">取消</b-button>
                                 </div>
                                 <div class="mt-2">
                                     <b-form-group label="欲新增的L2">
@@ -198,7 +203,7 @@
                             </b-card>
                         </b-col>
                         <b-col sm=6 lg="4">
-                            <b-button block variant="primary" @click="toggleCreate(3)">
+                            <b-button block variant="primary" @click="startCreate(3)">
                                 <font-awesome-icon icon="edit" />新增
                             </b-button>
                             <b-list-group v-if="currentL2.name" class="mt-2">
@@ -224,7 +229,7 @@
                                         @click="onCreateItem(3)">
                                         完成
                                     </b-button>
-                                    <b-button class="ml-2" v-if="isCreateL3" @click="toggleCreate(3)">取消</b-button>
+                                    <b-button class="ml-2" v-if="isCreateL3" @click="cancelCreate(3)">取消</b-button>
                                 </div>
                                 <div class="mt-2">
                                     <b-form-group label="欲新增的L3">
@@ -263,6 +268,7 @@
         data() {
             return {
                 isLoading: false,
+                isLoadingSavePoints: false,
                 currentL1: {},
                 currentL2: {},
                 currentL3: "",
@@ -290,43 +296,63 @@
             this.parseAllClassItems()
         },
         methods: {
-            toggleEdit(level) {
+            startEdit(level) {
+                if (this.hasUnfinishedJob) {
+                    return
+                }
+                switch (level) {
+                    case 1: {
+                        this.isEditL1 = true
+                        break
+                    }
+                    case 2: {
+                        this.isEditL2 = true
+                        break
+                    }
+                }
+            },
+            cancelEdit(level) {
+                switch (level) {
+                    case 1: {
+                        this.isEditL1 = false
+                        break
+                    }
+                    case 2: {
+                        this.isEditL2 = false
+                        break
+                    }
+                }
+            },
+            startCreate(level) {
+                if (this.hasUnfinishedJob) {
+                    return
+                }
                 switch (level) {
                     case 1:
-                        this.isEditL1 = !this.isEditL1
+                        this.isCreateL1 = true
                         break
                     case 2:
-                        this.isEditL2 = !this.isEditL2
+                        this.isCreateL2 = true
+                        break
+                    case 3:
+                        this.isCreateL3 = true
                         break
                 }
             },
-            toggleCreate(level) {
+            cancelCreate(level) {
                 switch (level) {
                     case 1:
-                        this.isCreateL1 = !this.isCreateL1
-                        if (this.isCreateL1 === true) {
-                            this.isCreateL2 = false
-                            this.isCreateL3 = false
-                        }
+                        this.isCreateL1 = false
                         break
                     case 2:
-                        this.isCreateL2 = !this.isCreateL2
-                        if (this.isCreateL2 === true) {
-                            this.isCreateL1 = false
-                            this.isCreateL3 = false
-                        }
+                        this.isCreateL2 = false
                         break
                     case 3:
-                        this.isCreateL3 = !this.isCreateL3
-                        if (this.isCreateL3 === true) {
-                            this.isCreateL2 = false
-                            this.isCreateL1 = false
-                        }
+                        this.isCreateL3 = false
                         break
                 }
             },
             onCreateItem(level) {
-                console.log(level)
                 switch (level) {
                     case 1:
                         this.serviceLevelData[this.L1ToBeCreated.name] = {
@@ -356,6 +382,9 @@
                 }
             },
             onDeleteItem(level, key) {
+                if (this.hasUnfinishedJob) {
+                    return
+                }
                 switch (level) {
                     case 3: {
                         let target = this.serviceLevelData[this.currentL1.name].L2[this.currentL2.name].L3
@@ -365,17 +394,20 @@
                 }
             },
             onListClick(e, key, level) {
-                if (level === 1) {
+                if (this.hasUnfinishedJob) {
+                    return
+                }
+                if (level === 1 && !this.hasUnfinishedJob) {
                     this.currentL1 = this.serviceLevelData[key]
                     this.parseL2Items()
-                } else if (level === 2) {
+                } else if (level === 2 && !this.hasUnfinishedJob) {
                     for (let L2Item in this.currentL1.L2) {
                         if (this.currentL1.L2[L2Item].name === key) {
                             this.currentL2 = this.currentL1.L2[L2Item]
                         }
                     }
                     this.parseL3Items()
-                } else if (level === 3) {
+                } else if (level === 3 && !this.hasUnfinishedJob) {
                     const index = this.currentL2.L3.indexOf(key)
                     this.currentL3 = this.currentL2.L3[index]
                 }
@@ -445,11 +477,10 @@
                 }
             },
             async openRestoreModal() {
+                this.$bvModal.show('restore-modal')
                 const serviceLevel = tigermaster.services.Level;
                 const res = await serviceLevel.listHistory()
                 this.savePoints = res
-                this.$bvModal.show('restore-modal')
-
             },
             parseUnixTimeString(str) {
                 let date = new Date(parseInt(str, 10) * 1000)
@@ -469,6 +500,20 @@
                 this.$bvModal.hide('restore-modal')
             }
         },
+        computed: {
+            hasUnfinishedJob() {
+                const switchs = [this.isCreateL1, this.isCreateL2, this.isCreateL3, this.isEditL1, this.isEditL2]
+                return switchs.some(e => e === true)
+            }
+        },
+        beforeRouteLeave(to, from, next) {
+            const answer = window.confirm("如果未點擊儲存鈕，離開將會遺失未儲存的資料，要離開嗎?")
+            if (answer) {
+                next()
+            } else {
+                next(false)
+            }
+        }
     }
 </script>
 
