@@ -12,13 +12,13 @@
                 </b-row>
                 <b-row class="Dashboard-Overview">
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="會員數" :data="clientNum" :trend="46" />
+                        <DataCard color="#4e73df" title="會員數" :data="clientNum" dataPath="/home/client" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="masterNum" :trend="-2" />
+                        <DataCard color="#4e73df" title="師傅數" :data="masterNum" dataPath="/home/master" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="媒合數" :data="totalOrders" :trend="1" />
+                        <DataCard color="#4e73df" title="媒合數" :data="totalOrders" dataPath="/home/ongoing_order" />
                     </b-col>
                 </b-row>
             </div>

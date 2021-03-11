@@ -3,7 +3,9 @@
         <b-row class="no-padding w-100">
             <b-col class="mr-2">
                 <div class="data-card-title mb-1" :style="`color: ${color};`">{{ title }}</div>
-                <div class="data-card-data h5">{{ data.toLocaleString() }}</div>
+                <div class="data-card-data h5">
+                    <router-link :to="dataPath">{{data}}</router-link>
+                </div>
             </b-col>
             <b-col v-if="hasTrend" cols="auto" class="d-flex align-items-center">
                 <div class="data-card-trend" :style="'color: ' + (trend > 0 ? '#007bff' : '#dc3545')">
@@ -28,7 +30,11 @@
             },
             title: String,
             data: Number,
-            trend: Number
+            trend: Number,
+            dataPath: {
+                type: String,
+                default: "/"
+            }
         }
     }
 </script>
