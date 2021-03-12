@@ -29,22 +29,22 @@
                     </b-input-group-append>
                 </b-input-group>
                 <b-input-group class="mb-3" inline>
-                    <b-form-select required v-model="pendingCondiction.field" :options="options">
+                    <b-form-select required v-model="pendingCondition.field" :options="options">
                     </b-form-select>
-                    <b-form-select v-if="pendingCondiction.field === 'working_category'" required
-                        v-model="pendingCondiction.operator">
+                    <b-form-select v-if="pendingCondition.field === 'working_category'" required
+                        v-model="pendingCondition.operator">
                         <option value="LIKE">包含</option>
                     </b-form-select>
-                    <b-form-select v-else required v-model="pendingCondiction.operator">
+                    <b-form-select v-else required v-model="pendingCondition.operator">
                         <option value="=">等於</option>
                         <option value="!=">不等於</option>
                         <option value=">">大於</option>
                         <option value="<">小於</option>
                         <option value="LIKE">包含</option>
                     </b-form-select>
-                    <b-form-select v-if="pendingCondiction.field === 'status'" v-model="pendingCondiction.condition"
+                    <b-form-select v-if="pendingCondition.field === 'status'" v-model="pendingCondition.condition"
                         :options="OrderStatus" />
-                    <b-form-input v-else required v-model="pendingCondiction.condition" maxlength="20">
+                    <b-form-input v-else required v-model="pendingCondition.condition" maxlength="20">
                     </b-form-input>
                     <b-input-group-append>
                         <b-button type="submit" variant="success" @click="addConditions">
@@ -113,7 +113,7 @@
                 ],
                 search: {},
                 tableBusy: false,
-                pendingCondiction: {
+                pendingCondition: {
                     field: 'status',
                     operator: '=',
                     condition: ""
@@ -130,9 +130,9 @@
                 return form.field != '' && form.operator != '' && form.condition != '';
             },
             addConditions() {
-                if (this.isValidForm(this.pendingCondiction)) {
-                    this.conditions.push(this.pendingCondiction);
-                    this.pendingCondiction = {
+                if (this.isValidForm(this.pendingCondition)) {
+                    this.conditions.push(this.pendingCondition);
+                    this.pendingCondition = {
                         field: 'name'
                     }
                 }
@@ -169,7 +169,7 @@
             },
             onSearchClearClick() {
                 this.conditions = [];
-                this.pendingCondiction = {
+                this.pendingCondition = {
                     field: 'status',
                     operator: '=',
                     condition: ""
