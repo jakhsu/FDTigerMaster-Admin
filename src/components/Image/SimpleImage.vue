@@ -15,7 +15,7 @@
         },
         computed: {
             modifiedSrc() {
-                return this.src + "?" + performance.now();
+                return this.src + "?" + (Math.trunc(Date.now()) % 10000);
             }
         }
     }
