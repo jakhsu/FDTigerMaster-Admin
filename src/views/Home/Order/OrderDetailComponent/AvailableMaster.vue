@@ -240,3 +240,10 @@
         }
     }
 </script>
+
+<style scoped>
+    button.disabled {
+        background-color: gray !important;
+        border-color: gray !important;
+    }
+</style>
