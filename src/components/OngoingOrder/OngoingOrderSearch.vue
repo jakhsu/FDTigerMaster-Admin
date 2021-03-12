@@ -31,7 +31,11 @@
                 <b-input-group class="mb-3" inline>
                     <b-form-select required v-model="pendingCondiction.field" :options="options">
                     </b-form-select>
-                    <b-form-select required v-model="pendingCondiction.operator">
+                    <b-form-select v-if="pendingCondiction.field === 'working_category'" required
+                        v-model="pendingCondiction.operator">
+                        <option value="LIKE">包含</option>
+                    </b-form-select>
+                    <b-form-select v-else required v-model="pendingCondiction.operator">
                         <option value="=">等於</option>
                         <option value="!=">不等於</option>
                         <option value=">">大於</option>
@@ -80,24 +84,33 @@
             return {
                 OrderStatus,
                 options: [{
-                    "value": 'id',
-                    "text": "訂單編號"
-                }, {
-                    "value": 'status',
-                    "text": "訂單狀態"
-                }, {
-                    "value": 'working_category',
-                    "text": "訂單工項"
-                }, {
-                    "value": 'address_city',
-                    "text": "城市"
-                }, {
-                    "value": 'address_area',
-                    "text": "區"
-                }, {
-                    "value": 'address_street',
-                    "text": "街道"
-                }],
+                        "value": 'id',
+                        "text": "訂單編號"
+                    }, {
+                        "value": 'status',
+                        "text": "訂單狀態"
+                    }, {
+                        "value": 'working_category',
+                        "text": "訂單工項"
+                    }, {
+                        "value": 'address_city',
+                        "text": "城市"
+                    }, {
+                        "value": 'address_area',
+                        "text": "區"
+                    }, {
+                        "value": 'address_street',
+                        "text": "街道"
+                    },
+                    {
+                        "value": 'client_user_name',
+                        "text": "客戶姓名"
+                    },
+                    {
+                        "value": 'master_user_name',
+                        "text": "師傅姓名"
+                    }
+                ],
                 search: {},
                 tableBusy: false,
                 pendingCondiction: {
@@ -129,7 +142,21 @@
                 let query = tigermaster.database.query("generic_order");
                 let searchArray = (this.conditions);
                 searchArray.forEach(element => {
-                    query.where(`generic_order.${element.field}`, element.operator, element.condition)
+                    if (element.field === 'client_user_name') {
+                        query.with("user")
+                        query.link("generic_order.client_user_id", "user.id")
+                        query.where("user.name", "=", element.condition)
+                    } else if (element.field === 'master_user_name') {
+                        query.with("user")
+                        query.link("generic_order.master_user_id", "user.id")
+                        query.where("user.name", "=", element.condition)
+                    } else if (element.field === 'working_category') {
+                        query.with("working_category")
+                        query.link("generic_order.working_category_id", "working_category.id")
+                        query.where("working_category.description", "LIKE", `%${element.condition}%`)
+                    } else {
+                        query.where(`generic_order.${element.field}`, element.operator, element.condition)
+                    }
                 })
                 try {
                     const res = await query.get();
