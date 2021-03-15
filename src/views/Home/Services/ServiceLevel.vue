@@ -22,7 +22,7 @@
                     </div>
                 </template>
                 <template #modal-footer>
-                    <b-button @click="closeModal">
+                    <b-button @click="closeModal('multi-operation-alert-modal')">
                         取消
                     </b-button>
                     <b-button v-if="dateToRollBackTo !== ''" variant="success" @click="onRollBack">
@@ -30,9 +30,19 @@
                     </b-button>
                 </template>
             </SimpleModal>
+            <SimpleModal id="multi-operation-alert-modal" title="🚧請先結束目前的操作">
+                <template #modal-body>
+                    請先取消或是完成目前在進行的操作，例如修改或是新增，接著再做其他的動作。
+                </template>
+                <template #modal-footer>
+                    <b-button variant="success" @click="closeModal('multi-operation-alert-modal')">
+                        確認
+                    </b-button>
+                </template>
+            </SimpleModal>
             <TitledCard title="L1~L3" :key="refreshKey">
                 <Loading v-if="isLoading" />
-                <div v-else>
+                <div>
                     <div class="d-flex mb-2">
                         <b-button class="ml-auto" variant="info" @click="openRestoreModal">
                             <font-awesome-icon icon="sync" />
@@ -41,7 +51,10 @@
                         <b-button v-if="!hasUnfinishedJob" class="ml-2" variant="success" @click="onFinishModify">
                             完成編輯</b-button>
                     </div>
-                    <b-row>
+                    <div v-if="hasFetchError">
+                        <p>出現錯誤，請檢查連線，或是嘗試還原資料到先前的時間點</p>
+                    </div>
+                    <b-row v-else>
                         <b-col sm=6 lg="4">
                             <b-button block variant="primary" @click="startCreate(1)">
                                 <font-awesome-icon icon="edit" />新增
@@ -269,6 +282,7 @@
             return {
                 isLoading: false,
                 isLoadingSavePoints: false,
+                hasFetchError: false,
                 currentL1: {},
                 currentL2: {},
                 currentL3: "",
@@ -298,6 +312,7 @@
         methods: {
             startEdit(level) {
                 if (this.hasUnfinishedJob) {
+                    this.$bvModal.show('multi-operation-alert-modal')
                     return
                 }
                 switch (level) {
@@ -325,6 +340,7 @@
             },
             startCreate(level) {
                 if (this.hasUnfinishedJob) {
+                    this.$bvModal.show('multi-operation-alert-modal')
                     return
                 }
                 switch (level) {
@@ -383,6 +399,7 @@
             },
             onDeleteItem(level, key) {
                 if (this.hasUnfinishedJob) {
+                    this.$bvModal.show('multi-operation-alert-modal')
                     return
                 }
                 switch (level) {
@@ -395,6 +412,7 @@
             },
             onListClick(e, key, level) {
                 if (this.hasUnfinishedJob) {
+                    this.$bvModal.show('multi-operation-alert-modal')
                     return
                 }
                 if (level === 1 && !this.hasUnfinishedJob) {
@@ -449,8 +467,10 @@
                     // TODO: for testing, using example.json as service level data, will need
                     // to fetch from DB later stages
                     // this.serviceLevelData = example
+                    this.hasFetchError = false
                 } catch (e) {
                     this.serviceLevelData = {}
+                    this.hasFetchError = true
                 } finally {
                     this.isLoading = false
                 }
@@ -496,8 +516,8 @@
                 await serviceLevel.rollBack(this.dateToRollBackTo);
                 this.closeModal()
             },
-            closeModal() {
-                this.$bvModal.hide('restore-modal')
+            closeModal(id) {
+                this.$bvModal.hide(id)
             }
         },
         computed: {
