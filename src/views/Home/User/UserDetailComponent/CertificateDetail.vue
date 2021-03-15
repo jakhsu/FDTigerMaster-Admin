@@ -17,7 +17,7 @@
             <b-row>
                 <b-col lg='6' md='12'>
                     <TitledCard title="證照列表:">
-                        <div v-if="certificates.length > 0" class="row justify-content-center">
+                        <div v-if="certificates.length > 0" class="row justify-content-center" :key="imgUploadKey">
                             <ImageCard v-for="(img, index) in certificates" :key="index" :src="img.path"
                                 @imgCardClicked="openImgModal" :imageDetails="img" />
                         </div>
