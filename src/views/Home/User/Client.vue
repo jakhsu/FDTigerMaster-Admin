@@ -9,9 +9,18 @@
                 </p>
             </template>
         </SimpleModal>
-        <SimpleModal size="md" title="選擇日期" id="Date-Picker-Modal" @onSaveClick="closeModal('Date-Picker-Modal')">
+        <SimpleModal size="xl" title="選擇日期區間" id="Date-Picker-Modal" @onSaveClick="closeModal('Date-Picker-Modal')">
             <template #modal-body>
-                <b-calendar :block="true" v-model="search['createDate']" />
+                <b-row>
+                    <b-col>
+                        <label for="startDate">起始日: {{search["createDate_start"]}}</label>
+                        <b-calendar id="startDate" :block="true" v-model="search['createDate_start']" />
+                    </b-col>
+                    <b-col>
+                        <label for="endDate">結束日: {{search["createDate_end"]}}</label>
+                        <b-calendar id="endDate" :block="true" v-model="search['createDate_end']" />
+                    </b-col>
+                </b-row>
             </template>
         </SimpleModal>
         <b-container fluid>
@@ -65,7 +74,8 @@
                                                 <option value="2">企業用戶</option>
                                             </b-form-select>
                                             <b-input-group v-else-if="field.key == 'createDate'">
-                                                <b-form-input disabled v-model="search['createDate']" />
+                                                <b-form-input v-model="searchDateRange" v-b-tooltip.hover
+                                                    :title="searchDateRange" disabled />
                                                 <b-input-group-append>
                                                     <b-button @click="showModal('Date-Picker-Modal')">
                                                         <font-awesome-icon icon="calendar-alt" />
@@ -176,10 +186,16 @@
                 let searchArray = Object.entries(this.search);
                 searchArray = searchArray.filter(e => e[0] !== 'roleId')
                 searchArray.forEach(ele => {
-                    ele[2] = 'LIKE'
-                    ele[1] = '%' + ele[1] + '%'
-                    ele[0] = camel2Snake(ele[0])
-                    query.where(`user.${ele[0]}`, ele[2], ele[1])
+                    if (ele[0] === 'createDate_start') {
+                        query.where(`user.create_date`, '>', this.search[ele[0]])
+                    } else if (ele[0] === 'createDate_end') {
+                        query.where(`user.create_date`, '<', this.search[ele[0]])
+                    } else {
+                        ele[2] = 'LIKE'
+                        ele[1] = '%' + ele[1] + '%'
+                        ele[0] = camel2Snake(ele[0])
+                        query.where(`user.${ele[0]}`, ele[2], ele[1])
+                    }
                 });
                 const roleId = this.search.roleId || [1, 2];
                 try {
@@ -222,6 +238,25 @@
             },
             closeModal(id) {
                 this.$bvModal.hide(id)
+            }
+        },
+        computed: {
+            searchDateRange() {
+                const startDate = new Date(this.search["createDate_start"])
+                const endDate = new Date(this.search["createDate_end"])
+                const startYear = startDate.getFullYear()
+                const endYear = endDate.getFullYear()
+                let startMon = startDate.getMonth()
+                let startDay = startDate.getDate()
+                let endMon = endDate.getMonth()
+                let endDay = endDate.getDate()
+                if (!isNaN(startDate) && !isNaN(endDate) && startYear === endYear) {
+                    return `${startYear} ${startMon}/${startDay} ~ ${endMon}/${endDay}`
+                } else if (!isNaN(startDate) && !isNaN(endDate) && startYear !== endYear) {
+                    return `${startYear} ${startMon}/${startDay} ~ ${endYear} ${endMon}/${endDay}`
+                } else {
+                    return "N/A"
+                }
             }
         }
     }
