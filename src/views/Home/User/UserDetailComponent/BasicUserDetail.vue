@@ -25,20 +25,20 @@
                             <b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="id: ">
-                                    <b-form-input :value="userData.id" disabled />
+                                    <b-form-input v-model="userData.id" disabled />
                                 </b-form-group>
                                 <b-form-group label-for="phone" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="電話: ">
-                                    <b-form-input id="phone" :value="userData.phone" disabled>
+                                    <b-form-input id="phone" v-model="userData.phone" disabled>
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="密碼: ">
-                                    <b-form-input :value="userData.pass" :disabled="!isModify" />
+                                    <b-form-input v-model="userData.pass" :disabled="!isModify" />
                                 </b-form-group>
                                 <b-form-group label-for="name" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="姓名: ">
-                                    <b-form-input id="name" :value="userData.name" :disabled="!isModify">
+                                    <b-form-input id="name" v-model="userData.name" :disabled="!isModify">
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group label-for="roleId" label-align-sm="right" label-cols="3" label-cols-xl="2"
@@ -47,28 +47,31 @@
                                 </b-form-group>
                                 <b-form-group label-for="email" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="Email: ">
-                                    <b-form-input id="email" :value="userData.email" :disabled="!isModify">
+                                    <b-form-input id="email" v-model="userData.email" :disabled="!isModify">
                                     </b-form-input>
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="性別: ">
-                                    <b-form-input :value="userData.sex == 'M' ? '男性' : '女性'" :disabled="!isModify" />
+                                    <b-form-select v-model="userData.sex" :disabled="!isModify">
+                                        <option value="M">男性</option>
+                                        <option value="F">女性</option>
+                                    </b-form-select>
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="身分證號: ">
-                                    <b-form-input :value="userData.idCardNo" :disabled="!isModify" />
+                                    <b-form-input v-model="userData.idCardNo" :disabled="!isModify" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="出生年: ">
-                                    <b-form-input :value="userData.birthYear" :disabled="!isModify" />
+                                    <b-form-input v-model.number="userData.birthYear" :disabled="!isModify" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="出生月: ">
-                                    <b-form-input :value="userData.birthMon" :disabled="!isModify" />
+                                    <b-form-input v-model.number="userData.birthMon" :disabled="!isModify" />
                                 </b-form-group>
                                 <b-form-group label-for="" label-align-sm="right" label-cols="3" label-cols-xl="2"
                                     label="出生日: ">
-                                    <b-form-input :value="userData.birthDate" :disabled="!isModify" />
+                                    <b-form-input v-model.number="userData.birthDate" :disabled="!isModify" />
                                 </b-form-group>
                             </b-form-group>
                         </div>
@@ -77,16 +80,16 @@
                         <div class="m-2">
                             <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建日期: ">
-                                    <b-form-input :value="userData.createDate" disabled />
+                                    <b-form-input v-model="userData.createDate" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="創建者: ">
-                                    <b-form-input :value="userData.createBy" disabled />
+                                    <b-form-input v-model="userData.createBy" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新日期: ">
-                                    <b-form-input :value="userData.updateDate" disabled />
+                                    <b-form-input v-model="userData.updateDate" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="更新者: ">
-                                    <b-form-input :value="userData.updateBy" disabled />
+                                    <b-form-input v-model="userData.updateBy" disabled />
                                 </b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="狀態: ">
                                     <b-form-input :value="userData.status == 1 ? '啟用中' : '停用'" disabled />
@@ -310,7 +313,7 @@
                             status: this.userData.status
                         }
                         await this.user.update(dataToBeUpdated);
-                        await this.updateHeadshot();
+                        this.$emit("refresh")
                     }
                 } catch (e) {
                     console.log(e)
@@ -333,6 +336,7 @@
             },
             async onFileUpload(data) {
                 this.toBeUploadedHeadShot = data;
+                await this.updateHeadshot();
             },
         }
     }
