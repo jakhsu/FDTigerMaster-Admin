@@ -120,10 +120,10 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
     import UserCreateModal from '@/components/User/UserCreateModal.vue'
-    import {
-        camel2Snake
-    } from '@/model/CaseConverter/CaseConverter.js'
     import Badge from '@/components/Badge/Badge.vue'
+    import {
+        userQueryBuilder
+    } from '@/model/QueryBuilder/QueryBuilder.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 
@@ -182,25 +182,9 @@
             },
             async onSearchClick() {
                 this.tableBusy = true;
-                let query = tigermaster.database.query("user");
-                let searchArray = Object.entries(this.search);
-                searchArray = searchArray.filter(e => e[0] !== 'roleId')
-                searchArray.forEach(ele => {
-                    if (ele[0] === 'createDate_start') {
-                        query.where(`user.create_date`, '>', this.search[ele[0]])
-                    } else if (ele[0] === 'createDate_end') {
-                        query.where(`user.create_date`, '<', this.search[ele[0]])
-                    } else {
-                        ele[2] = 'LIKE'
-                        ele[1] = '%' + ele[1] + '%'
-                        ele[0] = camel2Snake(ele[0])
-                        query.where(`user.${ele[0]}`, ele[2], ele[1])
-                    }
-                });
-                const roleId = this.search.roleId || [1, 2];
+                const query = userQueryBuilder(this.search)
                 try {
                     const res = await query
-                        .where('user.role_id', 'IN', roleId)
                         .limit(0, 100)
                         .get();
                     this.data = res.data;
