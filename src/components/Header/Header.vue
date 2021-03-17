@@ -10,9 +10,11 @@
                 <span class="user-name mr-2 d-lg-inline">Hi, {{ $store.state.user.name }}</span>
                 <b-img class="img-profile" rounded="circle" alt="user avatar" :src="userImg"></b-img>
             </template>
-            <b-dropdown-item to="#">
-                <font-awesome-icon icon="user" />
-                個人檔案
+            <b-dropdown-item>
+                <router-link :to="currentUserPath">
+                    <font-awesome-icon icon="user" />
+                    個人檔案
+                </router-link>
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item @click="onLogoutClick">
@@ -31,7 +33,8 @@
         name: 'Header',
         data() {
             return {
-                userImg: userImg
+                userImg: userImg,
+                currentUserPath: `/home/user_detail?userId=${this.$store.state.user.id}`
             };
         },
         methods: {
@@ -39,9 +42,9 @@
                 this.$emit("onSideBarToggle");
             },
             async onLogoutClick() {
-                try{
+                try {
                     await tigermaster.device.delete();
-                }finally{
+                } finally {
                     tigermaster.auth.logout();
                 }
             }
