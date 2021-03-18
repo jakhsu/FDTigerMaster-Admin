@@ -5,13 +5,15 @@
             <div class="Login-Area">
                 <b-form>
                     <h3>登入</h3>
-                    <span class="Login-Area-Error" v-if="formError">電話號碼或密碼輸入錯誤</span>
+                    <span class="Login-Area-Error" v-if="RegexError">電話號碼或密碼格式錯誤</span>
+                    <span class="Login-Area-Error" v-if="genericError">出現錯誤，請再確認電話密碼正確</span>
                     <b-form-group label="電話號碼">
+                        <span class="Login-Area-Error" v-if="phoneError">此用戶不存在，請確認電話號碼</span>
                         <b-form-input v-model="phone" type="text" placeholder="輸入電話..."
                             :state="inputState[inputIndex.phone]" @update="phoneValidate" maxlength='12' />
                     </b-form-group>
-
                     <b-form-group label="密碼">
+                        <span class="Login-Area-Error" v-if="passError">密碼錯誤</span>
                         <b-form-input v-model="password" type="password" placeholder="輸入密碼..."
                             :state="inputState[inputIndex.password]" @update="passwordValidate"
                             @keyup.enter="onLoginClick" />
@@ -27,7 +29,9 @@
     import Loading from '@/components/Loading'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import { messaging } from '@/utility/Firebase'
+    import {
+        messaging
+    } from '@/utility/Firebase'
 
     const inputIndex = Object.freeze({
         phone: 0,
@@ -44,7 +48,10 @@
                 phone: "",
                 password: "",
                 inputState: [null, null],
-                formError: false,
+                RegexError: false,
+                phoneError: false,
+                passError: false,
+                genericError: false,
                 isLoading: true
             }
         },
@@ -77,12 +84,23 @@
                         this.$router.push({
                             path: '/home'
                         });
-                    } catch (err) {
-                        console.error(err);
+                    } catch (errorMsg) {
+                        switch (errorMsg.message) {
+                            case 'Login fail: status 403':
+                                this.passError = true
+                                break
+                            case 'Login fail: status 404':
+                                this.phoneError = true
+                                break
+                            default:
+                                this.genericError = true
+                        }
+                        this.inputState = [false, false]
+                    } finally {
                         this.isLoading = false;
                     }
                 } else {
-                    this.formError = true;
+                    this.RegexError = true;
                 }
             }
         }
