@@ -26,4 +26,5 @@ deploy to dev:
     - npm install -g firebase-tools
     - npm install --save fdtigermaster-admin-sdk --registry http://104.154.20.200:4873
     - npm install 
-    - npm run deploy:dev
+    - npm run build:dev 
+    - firebase deploy --only hosting:admin-site --token $FIREBASE_TOKEN
