@@ -7,7 +7,9 @@ export default new Vuex.Store({
         user: {},
         chatroom: {
             newMsg: 0,
-            ids: Array
+            ids: [123, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789],
+            chatrooms: Array,
+            isShow: false
         }
     },
     mutations: {
@@ -22,6 +24,9 @@ export default new Vuex.Store({
         },
         setChatroomIds(state, data) {
             state.chatroom.ids = data
+        },
+        openChatroom(state, boolean) {
+            state.chatroom.isShow = boolean
         }
     },
     actions: {},

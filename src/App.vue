@@ -2,22 +2,27 @@
   <div id="app">
     <Loading v-if="isLoading" />
     <router-view v-else />
+    <Chatroom v-if="$store.state.chatroom.isShow" class="chatroom" />
   </div>
 </template>
 
 <script>
   import Loading from '@/components/Loading'
+  import Chatroom from '@/components/Chatroom/Chatroom.vue'
   import tigermaster from 'fdtigermaster-admin-sdk'
   import store from './store'
 
   export default {
     name: "App",
     components: {
-      Loading
+      Loading,
+      Chatroom
+
     },
     data() {
       return {
-        isLoading: true
+        isLoading: true,
+        isShow: true
       }
     },
     async created() {
@@ -65,6 +70,7 @@
     min-height: 100vh;
     background-color: #ebebeb;
     color: #000;
+    position: relative;
   }
 
   /* Chrome, Safari, Edge, Opera */
@@ -81,5 +87,14 @@
 
   .no-padding>[class*=col-] {
     padding: 0px;
+  }
+
+
+  .chatroom {
+    position: fixed;
+    right: 5px;
+    bottom: -5px;
+    width: 200px;
+    z-index: 1000;
   }
 </style>
