@@ -1,6 +1,7 @@
 <template>
     <div>
-        <b-container fluid>
+        <Loading v-if="isLoading" />
+        <b-container v-else fluid>
             <SimpleModal id="restore-modal" title="還原資料">
                 <template #modal-body>
                     <scale-loader v-if="isLoadingSavePoints"> </scale-loader>
@@ -41,7 +42,6 @@
                 </template>
             </SimpleModal>
             <TitledCard title="L1~L3" :key="refreshKey">
-                <Loading v-if="isLoading" />
                 <div>
                     <div class="d-flex mb-2">
                         <b-button class="ml-auto" variant="info" @click="openRestoreModal">
@@ -276,7 +276,7 @@
         components: {
             TitledCard,
             Loading,
-            SimpleModal
+            SimpleModal,
         },
         data() {
             return {
