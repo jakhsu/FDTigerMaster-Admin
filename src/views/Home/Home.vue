@@ -6,8 +6,9 @@
 
 <script>
     import SiteWrapper from '@/components/SiteWrapper.vue'
-
-    import { messaging } from '@/utility/Firebase'
+    import {
+        messaging
+    } from '@/utility/Firebase'
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
@@ -31,15 +32,17 @@
                     path: '/'
                 });
             }
-
             await this.setupMessageing();
             this.isLoading = false;
         },
-        methods:{
+        methods: {
             async setupMessageing() {
                 await messaging.requestPermission();
                 messaging.onMessage((payload) => {
-                    const {title, ...options} = payload.notification;
+                    const {
+                        title,
+                        ...options
+                    } = payload.notification;
                     console.log(title);
                     console.log(options);
                     navigator.serviceWorker.getRegistrations().then(registration => {
