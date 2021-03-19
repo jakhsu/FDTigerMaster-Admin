@@ -233,7 +233,7 @@
                 this.$bvModal.show("instruction-modal")
             },
             closeModal(id) {
-                this.$bvModal.close(id)
+                this.$bvModal.hide(id)
             }
         }
     }
