@@ -161,7 +161,7 @@
                     const res = await tigermaster.database
                         .query("user")
                         .where("user.role_id", "=", 0)
-                        .limit(0, 100)
+                        .limit(0, 50)
                         .get();
                     this.data = res.data;
                     this.queryRows = res.queryRows;
@@ -172,8 +172,22 @@
                     this.tableBusy = false;
                 }
             },
-            onDataRequire() {
-                this.tableBusy = true
+            async onDataRequire(currentRows, perPage) {
+                this.tableBusy = true;
+                try {
+                    const res = await tigermaster.database
+                        .query("user")
+                        .where("user.role_id", "=", 0)
+                        .limit(this.queryRows, currentRows + perPage - this.queryRows)
+                        .get()
+                    this.data = this.data.concat(res.data);
+                    this.queryRows = this.queryRows + res.queryRows;
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    this.tableBusy = false
+
+                }
             },
             async onSearchClick() {
                 this.tableBusy = true;

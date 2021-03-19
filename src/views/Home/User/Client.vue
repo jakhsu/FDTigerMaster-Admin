@@ -144,8 +144,7 @@
                 roleIdMap: RoleIdMap(),
                 activeMap: ActiveStatusMapping(),
                 search: {
-                    roleId: 1,
-                    status: 1
+                    roleId: 1
                 },
                 queryRows: 0,
                 totalCount: 0,
@@ -166,7 +165,7 @@
                     const res = await tigermaster.database
                         .query("user")
                         .where("user.role_id", "IN", [1, 2])
-                        .limit(0, 100)
+                        .limit(0, 50)
                         .get()
                     this.data = res.data;
                     this.queryRows = res.queryRows;
@@ -177,8 +176,22 @@
                     this.tableBusy = false;
                 }
             },
-            onDataRequire() {
+            async onDataRequire(currentRows, perPage) {
                 this.tableBusy = true;
+                try {
+                    const res = await tigermaster.database
+                        .query("user")
+                        .where("user.role_id", "IN", [1, 2])
+                        .limit(this.queryRows, currentRows + perPage - this.queryRows)
+                        .get()
+                    this.data = this.data.concat(res.data);
+                    this.queryRows = this.queryRows + res.queryRows;
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    this.tableBusy = false
+
+                }
             },
             async onSearchClick() {
                 this.tableBusy = true;
