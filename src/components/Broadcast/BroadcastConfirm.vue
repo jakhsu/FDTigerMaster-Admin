@@ -8,15 +8,15 @@
                         <b-col>
                             <ul>
                                 <li>
-                                    {{msgContent.title}}
+                                    {{msg.title}}
                                 </li>
                                 <li>
-                                    {{msgContent.content}}
+                                    {{msg.content}}
                                 </li>
                             </ul>
                         </b-col>
                         <b-col>
-                            <img class="review-image" :src='msgContent.imageUrl' alt="">
+                            <ProtectedImage :src="msg.imageUrl" />
                         </b-col>
                     </b-row>
                 </template>
@@ -31,19 +31,21 @@
     import PhonePreview from '@/components/Preview/PhonePreview.vue'
     import Loading from '@/components/Loading.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import ProtectedImage from '@/components/Image/ProtectedImage.vue'
 
     export default {
         name: 'BroadcastConfirm',
         components: {
             Loading,
             TitledCard,
-            PhonePreview
+            PhonePreview,
+            ProtectedImage
         },
         props: {
             selectedUser: {
                 type: Array
             },
-            msgContent: {
+            msg: {
                 type: Object
             }
         },
@@ -81,11 +83,11 @@
                 try {
                     const res = await pushNotify.send({
                         userIds: this.selectedUserIds,
-                        title: this.msgContent.title,
-                        content: this.msgContent.content
+                        title: this.msg.title,
+                        content: this.msg.content,
+                        imagePath: this.msg.imageUrl
                     });
                     this.response = res
-                    await pushNotify.uploadImage(this.msgContent.imageFile)
                     this.$emit('next', this.response)
                 } catch (e) {
                     console.log(e)

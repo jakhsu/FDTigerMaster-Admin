@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import tigermaster from 'fdtigermaster-admin-sdk'
+
   export default {
     name: "BroadcastContent",
     data() {
@@ -32,7 +34,7 @@
         title: '',
         content: '',
         imageUrl: '',
-        imageFile: {}
+        isUploadingImg: false
       };
     },
     computed: {
@@ -42,18 +44,27 @@
     },
     methods: {
       onNextClick() {
+        if (this.isUploadingImg === true) {
+          return
+        }
         this.$emit('next', {
           title: this.title,
           content: this.content,
           imageUrl: this.imageUrl,
-          imageFile: this.imageFile
         });
       },
-      handleImage(e) {
+      async handleImage(e) {
+        this.isUploadingImg = true
+        const pushNotify = tigermaster.pushNotify;
         const imageFile = e.target.files[0]
-        this.imageFile = imageFile
-        const url = URL.createObjectURL(imageFile)
-        this.imageUrl = url
+        try {
+          const url = await pushNotify.uploadImage(imageFile)
+          this.imageUrl = url
+        } catch (e) {
+          console.log(e)
+        } finally {
+          this.isUploadingImg = false
+        }
       }
     }
   }

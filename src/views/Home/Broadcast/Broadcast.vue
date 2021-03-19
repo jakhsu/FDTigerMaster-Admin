@@ -1,6 +1,35 @@
 <template>
     <div id="Broadcast">
         <b-container fluid>
+            <SimpleModal title="搜尋說明" id="instruction-modal" @onSaveClick="closeModal('instruction-modal')">
+                <template #modal-body>
+                    <b-row>
+                        <b-col>
+                            <b-card header="角色代碼">
+                                <b-list-group>
+                                    <div v-for="(role, index) in userRole" :key=index>
+                                        <b-list-group-item v-if="role.value !== null">
+                                            {{role.value}} 👉 {{role.text}}
+                                        </b-list-group-item>
+                                    </div>
+                                </b-list-group>
+                            </b-card>
+                        </b-col>
+                        <b-col>
+                            <b-card header="性別代碼">
+                                <b-list-group>
+                                    <b-list-group-item>
+                                        M 👉 男性
+                                    </b-list-group-item>
+                                    <b-list-group-item>
+                                        F 👉 女性
+                                    </b-list-group-item>
+                                </b-list-group>
+                            </b-card>
+                        </b-col>
+                    </b-row>
+                </template>
+            </SimpleModal>
             <div class="Broadcast-Area">
                 <b-row>
                     <b-col>
@@ -23,7 +52,7 @@
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border py-3">
                                     <b-collapse v-model="display[0]" id="NotifyCollapse" class="my-2 pl-3">
-                                        <BroadcastContent @next="contentReady" />
+                                        <BroadcastContent @next="msgReady" />
                                     </b-collapse>
                                 </div>
                                 <b-button id="SearchToggle"
@@ -34,6 +63,10 @@
                                     <div class="Collapse-Index d-flex align-items-center justify-content-center"
                                         :class="step > 1 ? 'finished' : null">2</div>
                                     <div>發送條件</div>
+                                    <b-button size="sm" pill class="ml-2" variant="warning"
+                                        @click="openInstructionModal">
+                                        說明
+                                    </b-button>
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border py-3">
                                     <b-collapse v-model="display[1]" id="SearchCollapse" class="py-3 pl-3">
@@ -82,8 +115,8 @@
                                 </b-button>
                                 <div class="Broadcast-Collapse left-border py-3">
                                     <b-collapse v-model="display[3]" id="VerifyCollapse" class="py-3 pl-3">
-                                        <BroadcastConfirm v-if="display[3] === true" :selectedUser="selected"
-                                            :msgContent="content" @next="successReady" />
+                                        <BroadcastConfirm v-if="display[3] === true" :selectedUser="selected" :msg="msg"
+                                            @next="successReady" />
                                     </b-collapse>
                                 </div>
                                 <b-button id="SuccessToggle"
@@ -117,9 +150,11 @@
     import BroadcastTableModel from '@/config/BroadcastTable.json'
     import BroadcastSearch from '@/components/Broadcast/BroadcastSearch.vue'
     import BroadcastContent from '@/components/Broadcast/BroadcastContent.vue'
+    import userRole from '@/config/UserRole.json'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import BroadcastConfirm from '@/components/Broadcast/BroadcastConfirm.vue'
+    import SimpleModal from '@/components/Modal/SimpleModal.vue'
 
     export default {
         name: "Broadcast",
@@ -128,7 +163,8 @@
             CustomTable,
             BroadcastSearch,
             BroadcastContent,
-            BroadcastConfirm
+            BroadcastConfirm,
+            SimpleModal
         },
         data() {
             return {
@@ -143,12 +179,13 @@
                 numOfSelected: 0,
                 selected: {},
                 data: [],
-                totalCount: 0
+                totalCount: 0,
+                userRole
             }
         },
         methods: {
-            contentReady(content) {
-                this.content = content;
+            msgReady(msg) {
+                this.msg = msg;
                 this.step = 1;
                 this.collapseToggle(1);
             },
@@ -191,6 +228,12 @@
             updateSelected(obj) {
                 this.selected = obj;
                 this.numOfSelected = obj.length;
+            },
+            openInstructionModal() {
+                this.$bvModal.show("instruction-modal")
+            },
+            closeModal(id) {
+                this.$bvModal.close(id)
             }
         }
     }
