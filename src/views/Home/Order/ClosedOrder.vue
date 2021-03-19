@@ -26,7 +26,7 @@
                             </div>
                             <div class="Order-Table">
                                 <CustomTable :queryRows="queryRows" :totalRows="totalCount" :fields="fields"
-                                    :datas="orders" :isBusy="tableBusy">
+                                    :datas="orders" :isBusy="tableBusy" @dataRequire="onDataRequire">
                                     <template #top-row="data">
                                         <b-td v-for="(field, index) in data.fields" :key="index">
                                             <b-select v-if="field.key === 'status'" :options="OrderStatus"
@@ -102,7 +102,7 @@
                 try {
                     const database = tigermaster.database;
                     const query = database.query("generic_order")
-                        .limit(0, 10)
+                        .limit(0, 50)
                         .where("generic_order.status", ">", 55);
                     const result = await query.get();
                     this.orders = result.data;
@@ -112,6 +112,22 @@
                     this.orders = [];
                 } finally {
                     this.tableBusy = false;
+                }
+            },
+            async onDataRequire(currentRows, perPage) {
+                this.tableBusy = true;
+                try {
+                    const res = await tigermaster.database
+                        .query("generic_order")
+                        .where("generic_order.status", ">", 55)
+                        .limit(this.queryRows, currentRows + perPage - this.queryRows)
+                        .get()
+                    this.orders = this.orders.concat(res.data);
+                    this.queryRows = this.queryRows + res.queryRows;
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    this.tableBusy = false
                 }
             },
             async onSearchClick() {
