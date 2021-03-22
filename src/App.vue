@@ -16,8 +16,7 @@
     },
     data() {
       return {
-        isLoading: true,
-        isShow: true
+        isLoading: true
       }
     },
     async created() {
@@ -55,14 +54,5 @@
 
   .no-padding>[class*=col-] {
     padding: 0px;
-  }
-
-
-  .chatroom {
-    position: fixed;
-    right: 5px;
-    bottom: -5px;
-    width: 200px;
-    z-index: 1000;
   }
 </style>
