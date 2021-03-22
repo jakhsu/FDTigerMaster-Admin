@@ -21,6 +21,32 @@
                         <DataCard color="#4e73df" title="媒合數" :data="totalOrders" dataPath="/home/ongoing_order" />
                     </b-col>
                 </b-row>
+                <b-row>
+                    <b-button variant="warning" @click="toggleChatroomUtils">聊天室測試</b-button>
+                </b-row>
+                <b-row v-if="isTestingChatrooms">
+                    <TitledCard title="聊天室測試utility">
+                        <b-form-group>
+                            <b-form-group label="聊天室用戶 id 1">
+                                <b-form-input v-model="userId1" />
+                            </b-form-group>
+                            <b-form-group label="聊天室用戶 id 2">
+                                <b-form-input v-model="userId2" />
+                            </b-form-group>
+                            <b-button variant="success" @click="createChatroom(userId1, userId2)">創建聊天室
+                            </b-button>
+                        </b-form-group>
+                    </TitledCard>
+                    <TitledCard title="聊天室訊息測試">
+                        <scale-loader v-if="isSendingMsg" />
+                        <b-form-group v-else label="訊息內容">
+                            <b-form-input v-model="msg" />
+                            <b-button variant="success" @click="sendMsg">
+                                送出
+                            </b-button>
+                        </b-form-group>
+                    </TitledCard>
+                </b-row>
             </div>
         </b-container>
     </div>
@@ -31,12 +57,14 @@
     import Loading from '@/components/Loading.vue';
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import TitledCard from '../../components/Card/TitledCard.vue';
 
     export default {
         name: 'Dashboard',
         components: {
             DataCard,
-            Loading
+            Loading,
+            TitledCard
         },
         data() {
             return {
@@ -46,8 +74,15 @@
                 totalOrders: 0,
                 masterNum: 0,
                 clientNum: 0,
-                user: []
-
+                user: [],
+                // TODO:: below is for testing, remove before production
+                userId1: "",
+                userId2: "",
+                chatroomId: "",
+                chatroomData: {},
+                msg: '',
+                isSendingMsg: false,
+                isTestingChatrooms: false
             }
         },
         async created() {
@@ -72,6 +107,38 @@
                     .rawQuery("SELECT count(*) count FROM generic_order WHERE generic_order.status>10")
                     .get();
                 this.totalOrders = orderCount.data[0].count;
+            },
+            async createChatroom(id1, id2) {
+                const userIds = [id1, id2]
+                try {
+                    const res = await tigermaster.chatroom.created(userIds)
+                    console.log(res)
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            async queryChatroom(id) {
+                try {
+                    const res = await tigermaster.chatroom.get(id)
+                    this.chatroomData = res
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            async sendMsg() {
+                this.isSendingMsg = true
+                try {
+                    const roomId = await this.$store.state.chatroom.currentId;
+                    const chatroom = await tigermaster.chatroom.get(roomId);
+                    await chatroom.sendText(this.msg);
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isSendingMsg = false
+                }
+            },
+            toggleChatroomUtils() {
+                this.isTestingChatrooms = !this.isTestingChatrooms
             }
         }
     }
