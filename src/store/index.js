@@ -1,15 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import tigermaster from 'fdtigermaster-admin-sdk'
+import {
+    format
+} from 'date-fns'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         user: {},
         chatroom: {
-            newMsg: 0,
-            ids: [123, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789, 789, 456, 789, 456, 789],
-            chatrooms: Array,
-            isShow: false
+            adminRooms: [],
+            adminRoomContent: [],
+            isShow: false,
+            currentId: ""
         }
     },
     mutations: {
@@ -19,16 +23,44 @@ export default new Vuex.Store({
         clearUser(state) {
             state.user = {};
         },
-        setChatroomNewMsg(state, data) {
-            state.chatroom.newMsg = data
+        setadminRooms(state, data) {
+            state.chatroom.adminRooms = data
         },
-        setChatroomIds(state, data) {
-            state.chatroom.ids = data
+        setAdminRoom(state, data) {
+            state.chatroom.adminRoomContent.push(data)
         },
-        openChatroom(state, boolean) {
+        toggleChatroom(state, boolean) {
             state.chatroom.isShow = boolean
+        },
+        setCurrentChatroom(state, data) {
+            state.chatroom.currentId = data
         }
     },
-    actions: {},
+    actions: {
+        async shadowQueryAdminRoom({
+            commit,
+            state
+        }, roomId) {
+            if (state.chatroom.adminRoomContent.findIndex(e => e.roomId === roomId) === -1) {
+                const chatroom = await tigermaster.chatroom.get(roomId)
+                const timestamp = format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
+                const res = await chatroom.shadowQuery(timestamp)
+                commit('setAdminRoom', {
+                    res,
+                    roomId
+                })
+            }
+        },
+        showChatroom({
+            commit
+        }) {
+            commit('toggleChatroom', true)
+        },
+        closeChatroom({
+            commit
+        }) {
+            commit('toggleChatroom', false)
+        }
+    },
     modules: {}
 })

@@ -30,14 +30,8 @@
                 <strong>聊天室</strong>
             </b-dropdown-header>
             <ChatrommList />
-            <!-- <div class="chatroom-list" @scroll="scroll($event)">
-                <b-dropdown-item v-for="(chatroom, index) in $store.state.chatroom.ids" :key="index">
-                    <div @click="openChatroom(chatroom)">
-                        {{chatroom}}
-                    </div>
-                </b-dropdown-item>
-            </div> -->
         </b-dropdown>
+        <Chatroom v-if="$store.state.chatroom.isShow" :id="$store.state.chatroom.currentId" />
     </b-navbar>
 </template>
 
@@ -45,19 +39,20 @@
     "user strict"
     import userImg from '@/assets/user.svg';
     import tigermaster from 'fdtigermaster-admin-sdk';
-    import debounce from 'lodash/debounce'
     import ChatrommList from '@/components/Chatroom/ChatrommList.vue';
+    import Chatroom from '@/components/Chatroom/Chatroom.vue'
+
 
     export default {
         name: 'Header',
         components: {
-            ChatrommList
+            ChatrommList,
+            Chatroom
         },
         data() {
             return {
                 userImg: userImg,
-                currentUserPath: `/home/user_detail?userId=${this.$store.state.user.id}`,
-                isLoadingChatrooms: false
+                currentUserPath: `/home/user_detail?userId=${this.$store.state.user.id}`
             };
         },
         methods: {
@@ -70,24 +65,7 @@
                 } finally {
                     tigermaster.auth.logout();
                 }
-            },
-            openChatroom() {
-                this.$store.commit('openChatroom', true)
-            },
-            scroll: debounce(function ({
-                target: {
-                    scrollTop,
-                    clientHeight,
-                    scrollHeight
-                }
-            }) {
-                console.log(scrollTop + clientHeight)
-                console.log(scrollHeight)
-                // if (scrollTop + clientHeight >= scrollHeight) {
-                //     console.log("at bottom!")
-                //     this.isLoadingChatrooms = true
-                // }
-            }),
+            }
         }
     }
 </script>
