@@ -57,6 +57,7 @@
     "node-fetch": "^2.6.1",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
+    "vue-drag-resize": "^1.4.2",
     "vue-fragment": "^1.5.1",
     "vue-router": "^3.2.0",
     "vue-spinner": "^1.0.4",
