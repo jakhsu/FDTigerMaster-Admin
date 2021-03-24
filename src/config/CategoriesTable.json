@@ -3,11 +3,15 @@
         "label": "對應技能"
     }, {
         "key": "id",
-        "label": "工項編號"
+        "label": "編號"
+    },
+    {
+        "key": "name",
+        "label": "名稱"
     },
     {
         "key": "description",
-        "label": "工項描述"
+        "label": "描述"
     },
     {
         "key": "active",
