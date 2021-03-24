@@ -1,0 +1,53 @@
+C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
+├── public
+├── README_Resource
+├── src
+|  ├── assets
+|  ├── components
+|  |  ├── Badge
+|  |  ├── Broadcast
+|  |  ├── Card
+|  |  ├── Chart
+|  |  ├── Chatroom
+|  |  ├── Comment
+|  |  ├── Forms
+|  |  ├── Header
+|  |  ├── Image
+|  |  ├── Modal
+|  |  ├── Note
+|  |  ├── OngoingOrder
+|  |  ├── Order
+|  |  ├── Preview
+|  |  ├── Services
+|  |  |  ├── Skill
+|  |  |  └── WorkingCategory
+|  |  ├── Sidebar
+|  |  ├── Table
+|  |  └── User
+|  ├── config
+|  ├── model
+|  |  ├── CaseConverter
+|  |  ├── FetchAddress
+|  |  ├── Mapping
+|  |  ├── QueryBuilder
+|  |  ├── Regex
+|  |  └── Validator
+|  ├── router
+|  ├── store
+|  ├── utility
+|  └── views
+|     ├── Auth
+|     ├── Error
+|     └── Home
+|        ├── Broadcast
+|        ├── Order
+|        |  └── OrderDetailComponent
+|        ├── Services
+|        ├── User
+|        |  └── UserDetailComponent
+|        └── Utility
+└── test
+
+directory: 5394
+
+ignored: directory (436)
