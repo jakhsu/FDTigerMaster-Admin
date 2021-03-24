@@ -1,7 +1,7 @@
 <template>
     <div class="chatroom">
-        <VueDragResize :sticks="['tl', 'tm']" :isActive="true" :isDraggable="true" :w="370" :h="300" :minw="300"
-            :z="1000">
+        <VueDragResize :sticks="['tl', 'tm']" :isDraggable="true" :w="370" :h="300" :minw="300" :z="1000"
+            @clicked="handleClick($event)">
             <b-card>
                 <template #header>
                     <div class="d-flex">
@@ -63,8 +63,9 @@
                 <div class="chatroom-input p-2">
                     <scale-loader v-if="isSendingText" />
                     <div v-else>
-                        <div>
-                            <b-form-textarea v-model="text" v-on:keyup.enter="submit" />
+                        <div class="chatroom-input-text">
+                            <label for="chatroom-text"></label>
+                            <b-form-input id="chatroom-text" v-model="text" v-on:keyup.enter="submit" />
                         </div>
                         <div class="chatroom-input-btns mt-2 d-flex">
                             <div>
@@ -107,6 +108,10 @@
             this.chatroom = await tigermaster.chatroom.get(this.id);
         },
         methods: {
+            handleClick(e) {
+                let target = e.target
+                target.focus()
+            },
             onCloseClick() {
                 this.$store.dispatch('closeChatroom')
             },
@@ -164,9 +169,13 @@
 
     .chatroom {
         position: fixed;
-        z-index: 1000;
+        z-index: 100;
         bottom: 500px;
         right: 400px;
+    }
+
+    .chatroom-input-text .form-control {
+        z-index: 200;
     }
 
     .self {
