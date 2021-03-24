@@ -79,6 +79,8 @@ Currently, CI / CD practices are limited to running `.gitlab-ci.yml` after each 
 
 [top](#fd-tiger-master-admin-documentation)
 
+produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
+
 ```shell
 ├── public
 ├── README_Resource

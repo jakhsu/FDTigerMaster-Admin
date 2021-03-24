@@ -14,7 +14,8 @@
     "test:cover": "jest --coverage",
     "test": "jest",
     "lint": "vue-cli-service lint --no-fix",
-    "lint:fix": "vue-cli-service lint"
+    "lint:fix": "vue-cli-service lint",
+    "tree": "treee --ignore 'node_modules, coverage, dist' -l 5 -d -o ./README_Resource/file-structure.txt"
   },
   "jest": {
     "moduleFileExtensions": [
