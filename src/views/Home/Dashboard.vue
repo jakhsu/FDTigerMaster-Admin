@@ -40,6 +40,7 @@
                     <TitledCard title="聊天室訊息測試">
                         <scale-loader v-if="isSendingMsg" />
                         <b-form-group v-else label="訊息內容">
+                            請先從右上角開啟一個聊天室，將會對開啟中的聊天室送訊息
                             <b-form-input v-model="msg" />
                             <b-button variant="success" @click="sendMsg">
                                 送出

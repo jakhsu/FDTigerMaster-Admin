@@ -1,13 +1,11 @@
 <template>
     <div>
-        <b-button variant="success" @click="pollUnreadMsg()">測試</b-button>
         <div class="content">
             <div v-for="(room, index) in $store.state.chatroom.adminRooms" :key="index">
                 <div class="roomBrief m-2" @click="onRoomClick(room.id)">
                     {{room.id}}
                 </div>
             </div>
-            <scale-loader v-if="loading" />
         </div>
     </div>
 </template>

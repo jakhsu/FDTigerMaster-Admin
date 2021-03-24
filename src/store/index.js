@@ -11,7 +11,7 @@ export default new Vuex.Store({
         user: {},
         chatroom: {
             adminRooms: [],
-            adminRoomContent: [],
+            adminRoomContent: {},
             isShow: false,
             currentId: ""
         }
@@ -27,7 +27,7 @@ export default new Vuex.Store({
             state.chatroom.adminRooms = data
         },
         setAdminRoom(state, data) {
-            state.chatroom.adminRoomContent.push(data)
+            state.chatroom.adminRoomContent = data
         },
         toggleChatroom(state, boolean) {
             state.chatroom.isShow = boolean
@@ -38,18 +38,15 @@ export default new Vuex.Store({
     },
     actions: {
         async shadowQueryAdminRoom({
-            commit,
-            state
+            commit
         }, roomId) {
-            if (state.chatroom.adminRoomContent.findIndex(e => e.roomId === roomId) === -1) {
-                const chatroom = await tigermaster.chatroom.get(roomId)
-                const timestamp = format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
-                const res = await chatroom.shadowQuery(timestamp)
-                commit('setAdminRoom', {
-                    res,
-                    roomId
-                })
-            }
+            const chatroom = await tigermaster.chatroom.get(roomId)
+            const timestamp = format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
+            const res = await chatroom.shadowQuery(timestamp)
+            commit('setAdminRoom', {
+                res,
+                roomId
+            })
         },
         showChatroom({
             commit

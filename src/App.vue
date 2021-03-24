@@ -2,17 +2,23 @@
   <div id="app">
     <Loading v-if="isLoading" />
     <router-view v-else />
+    <Chatroom v-if="$store.state.chatroom.isShow" />
+
   </div>
 </template>
 
 <script>
   import Loading from '@/components/Loading'
   import tigermaster from 'fdtigermaster-admin-sdk'
+  import Chatroom from '@/components/Chatroom/Chatroom.vue'
+
 
   export default {
     name: "App",
     components: {
-      Loading
+      Loading,
+      Chatroom
+
     },
     data() {
       return {

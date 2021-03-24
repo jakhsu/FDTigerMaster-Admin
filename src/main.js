@@ -16,13 +16,14 @@ import {
     Integrations
 } from "@sentry/tracing"
 
-Sentry.init({
-    Vue,
-    dsn: "https://499fc93fa90d4968b3848e72b2c0967c@o556732.ingest.sentry.io/5688111",
-    Integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1.0
-})
-
+if (process.env.VUE_APP_STAGE !== 'local') {
+    Sentry.init({
+        Vue,
+        dsn: "https://499fc93fa90d4968b3848e72b2c0967c@o556732.ingest.sentry.io/5688111",
+        Integrations: [new Integrations.BrowserTracing()],
+        tracesSampleRate: 1.0
+    })
+}
 
 import {
     library
@@ -39,6 +40,7 @@ import {
     faEdit,
     faLink,
     faClock,
+    faCheck,
     faUsers,
     faTools,
     faPhone,
@@ -79,6 +81,7 @@ library.add(
     faEdit,
     faLink,
     faClock,
+    faCheck,
     faUsers,
     faTools,
     faPhone,

@@ -31,7 +31,6 @@
             </b-dropdown-header>
             <ChatrommList />
         </b-dropdown>
-        <Chatroom v-if="$store.state.chatroom.isShow" :id="$store.state.chatroom.currentId" />
     </b-navbar>
 </template>
 
@@ -40,14 +39,12 @@
     import userImg from '@/assets/user.svg';
     import tigermaster from 'fdtigermaster-admin-sdk';
     import ChatrommList from '@/components/Chatroom/ChatrommList.vue';
-    import Chatroom from '@/components/Chatroom/Chatroom.vue'
 
 
     export default {
         name: 'Header',
         components: {
-            ChatrommList,
-            Chatroom
+            ChatrommList
         },
         data() {
             return {
@@ -107,10 +104,5 @@
         border-radius: 50%;
         color: black;
         font-size: 20pt;
-    }
-
-    .chatroom-list {
-        max-height: 200px;
-        overflow: scroll;
     }
 </style>
