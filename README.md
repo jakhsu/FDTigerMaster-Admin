@@ -3,7 +3,7 @@
 This is the web-frontend for fdtigermaster and is intended for internal use only.
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-![VueJs Version](https://img.shields.io/badge/vue-2.2.4-green.svg)
+[![VueJs Version](https://img.shields.io/badge/vue-2.2.4-green.svg)](https://vuejs.org/v2/guide/)
 [![pipeline status](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-web/badges/master/pipeline.svg)](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-web/-/commits/master)
 
 - [FD Tiger Master Admin Documentation](#fd-tiger-master-admin-documentation)
@@ -25,8 +25,6 @@ The project is built using
 - [Sentry.io](https://docs.sentry.io/platforms/javascript/) for error monitoring ( *this is to be finalized* )
 - Firebase for hosting
 
-***
-
 ## Run the project 
 
 [top](#fd-tiger-master-admin-documentation)
@@ -47,8 +45,6 @@ The stages and their flags are
 
 Please check the scripts in package.json to see more details
 
-***
-
 ## Deploy
 
 [top](#fd-tiger-master-admin-documentation)
@@ -58,8 +54,6 @@ npm run deploy:dev
 ```
 
 run to build static files and deploy to firebase hosting
-
-***
 
 ## Developer Practices
 
@@ -72,8 +66,6 @@ Use [commitizen](https://github.com/commitizen/cz-cli) and an adaptor plugin  [c
 ### CI / CD
 
 Currently, CI / CD practices are limited to running `.gitlab-ci.yml` after each push to the gitlab repo. Refer to `.gitlab-ci.yml` for detailed pipeline scripts.
-
-***
 
 ## Folder Structure
 
@@ -131,5 +123,3 @@ produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |        └── Utility
 └── test
 ```
-
-***
