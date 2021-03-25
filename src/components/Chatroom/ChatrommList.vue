@@ -1,9 +1,12 @@
 <template>
     <div>
         <div class="content">
-            <div v-for="(room, index) in $store.state.chatroom.adminRooms" :key="index">
+            <div v-for="(room, index) in chatrooms" :key="index">
                 <div class="roomBrief m-2" @click="onRoomClick(room.id)">
-                    {{room.id}}
+                    {{room.targetUserName}}
+                    <b-badge variant="warning">
+                        {{room.unreadCount}}
+                    </b-badge>
                 </div>
             </div>
         </div>
@@ -11,13 +14,7 @@
 </template>
 
 <script>
-    import tigermaster from 'fdtigermaster-admin-sdk'
     import store from '@/store'
-    // import {
-    //     format
-    // } from 'date-fns'
-    // const sleep = time => new Promise(resolve => setTimeout(resolve, time))
-    // const poll = (promiseFn, time) => promiseFn().then(sleep(time).then(() => poll(promiseFn, time)))
 
     export default {
         name: "ChatroomList",
@@ -37,40 +34,24 @@
         },
         created() {
             this.fetchadminRooms()
+            this.fetchUnreadCount()
         },
         methods: {
-            async fetchadminRooms() {
-                let query = tigermaster.database.query("chatroom").where("chatroom.user_ids", "LIKE",
-                    `%${this.currentUserId}%`)
-                try {
-                    const res = await query.get()
-                    const rooms = res.data
-                    store.commit('setadminRooms', rooms)
-                } catch (e) {
-                    console.log(e)
-                }
+            fetchadminRooms() {
+                store.dispatch('fetchAdminChatrooms');
             },
-            // async fetchUnread(rooms) {
-            //     if (rooms.length === 0) {
-            //         return
-            //     }
-            //     const timestamp = format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
-            //     try {
-            //         await rooms.forEach(async (e) => {
-            //             await e.shadowQuery(timestamp)
-            //         });
-            //     } catch (e) {
-            //         console.log(e)
-            //     }
-            // },
-            // async pollUnreadMsg() {
-            //     const rooms = store.state.chatroom.adminRooms;
-            //     poll(() => new Promise(() => this.fetchUnread(rooms)), 5000)
-            // },
+            fetchUnreadCount() {
+                store.dispatch('fetchUnreadCount');
+            },
             async onRoomClick(roomId) {
-                await store.dispatch('shadowQueryAdminRoom', roomId)
-                await store.commit('setCurrentChatroom', roomId)
-                await store.dispatch('showChatroom')
+                await store.dispatch('shadowQueryRoom', roomId)
+                await store.dispatch('toggleChatroom', true)
+            }
+        },
+        computed: {
+            chatrooms() {
+                const rooms = store.state.chatroom.chatRooms
+                return rooms
             }
         }
     }

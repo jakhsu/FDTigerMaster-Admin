@@ -15,12 +15,11 @@
                                 </div>
                             </div>
                         </b-dropdown>
-                        <b-button class="ml-auto">
-                            <font-awesome-icon class="chatroom-button" icon="phone" @click="onCallClick" />
-
+                        <b-button class="ml-auto" @click="onCallClick">
+                            <font-awesome-icon class="chatroom-button" icon="phone" />
                         </b-button>
-                        <b-button class="ml-2">
-                            <font-awesome-icon class=" chatroom-button" icon="times" @click="onCloseClick" />
+                        <b-button class="ml-2" @click="onCloseClick">
+                            <font-awesome-icon class=" chatroom-button" icon="times" />
                         </b-button>
                     </div>
                 </template>
@@ -28,11 +27,14 @@
                     <div v-for="(msg, index) in chatroomContent" :key="index">
                         <div :class="msg.createBy === $store.state.user.id ? 'self' : 'other'">
                             <div v-if="msg.createBy === $store.state.user.id" class="self-msg">
-                                <div class="msg-content">
+                                <div class="msg-sender m-2">
+                                    {{msg.createBy}}
+                                </div>
+                                <div class="msg-content m-2">
                                     {{msg.srcPath}}
                                     {{msg.text}}
                                 </div>
-                                <div class="msg-status mt-2">
+                                <div class="msg-status">
                                     <div>
                                         <font-awesome-icon class="msg-status-readed" icon="check"
                                             v-if="msg.readed === 1" />
@@ -43,11 +45,14 @@
                                 </div>
                             </div>
                             <div v-else class="other-msg">
-                                <div class="msg-content">
+                                <div class="msg-sender m-2">
+                                    {{msg.createBy}}
+                                </div>
+                                <div class="msg-content m-2">
                                     {{msg.srcPath}}
                                     {{msg.text}}
                                 </div>
-                                <div class="msg-status mt-2">
+                                <div class="msg-status">
                                     <div>
                                         <font-awesome-icon class="msg-status-readed" icon="check"
                                             v-if="msg.readed === 1" />
@@ -65,7 +70,7 @@
                     <div v-else>
                         <div class="chatroom-input-text">
                             <label for="chatroom-text"></label>
-                            <b-form-input id="chatroom-text" v-model="text" v-on:keyup.enter="submit" />
+                            <b-textarea id="chatroom-text" v-model="text" v-on:keyup.enter="submit" />
                         </div>
                         <div class="chatroom-input-btns mt-2 d-flex">
                             <div>
@@ -74,9 +79,14 @@
                                 <b-button variant="info" @click="$refs.file.click()">
                                     <font-awesome-icon icon="paperclip" />
                                 </b-button>
-                                <b-button variant="warning" class="ml-2">
-                                    範本
-                                </b-button>
+                                <b-dropdown dropright variant="warning" text="範本" class="ml-2">
+                                    <b-dropdown-item @click="useChatTemplate(template.content)"
+                                        v-for="(template, index) in dialogueTemplate" :key="index">
+                                        <div class="chatroom-input-template-item">
+                                            {{template.content}}
+                                        </div>
+                                    </b-dropdown-item>
+                                </b-dropdown>
                             </div>
                         </div>
                     </div>
@@ -90,6 +100,7 @@
     import VueDragResize from 'vue-drag-resize'
     import store from '@/store'
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import dialogueTemplate from '@/config/ChatroomTemplates.json'
 
     export default {
         name: "Chatroom",
@@ -101,26 +112,31 @@
                 text: "",
                 isSendingText: false,
                 chatroom: Object,
-                id: store.state.chatroom.currentId
+                id: store.state.chatroom.selectedRoom,
+                currentUserName: '',
+                dialogueTemplate
             }
         },
         async created() {
             this.chatroom = await tigermaster.chatroom.get(this.id);
         },
         methods: {
+            useChatTemplate(content) {
+                this.text = content
+            },
             handleClick(e) {
                 let target = e.target
                 target.focus()
             },
             onCloseClick() {
-                this.$store.dispatch('closeChatroom')
+                this.$store.dispatch('toggleChatroom', false)
             },
             onCallClick() {},
             async submit() {
                 this.isSendingText = true
                 try {
                     await this.chatroom.sendText(this.text)
-                    await store.dispatch('shadowQueryAdminRoom', this.id)
+                    await store.dispatch('shadowQueryRoom', this.id)
                     this.text = ""
                 } catch (e) {
                     console.log(e)
@@ -133,7 +149,7 @@
                 const file = e.target.files[0]
                 try {
                     await this.chatroom.sendImage(file)
-                    await store.dispatch('shadowQueryAdminRoom', this.id)
+                    await store.dispatch('shadowQueryRoom', this.id)
                 } catch (e) {
                     console.log(e)
                 } finally {
@@ -143,10 +159,14 @@
         },
         computed: {
             chatroomContent() {
-                return this.$store.state.chatroom.adminRoomContent.res.messages
+                return this.$store.state.chatroom.roomContent.messages
             },
             chatroomDetail() {
-                return this.$store.state.chatroom.adminRooms.filter(e => e.id === this.id)[0]
+                return this.$store.state.chatroom.chatRooms.filter(e => e.id === this.id)[0]
+            },
+            targetUser() {
+                const target = this.chatroomDetail
+                return target
             }
         }
     }
@@ -178,6 +198,12 @@
         z-index: 200;
     }
 
+    .chatroom-input-template-item {
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .self {
         text-align: right;
     }
@@ -187,13 +213,21 @@
     }
 
 
-    .self-msg,
-    .other-msg {
+    .self-msg {
         margin: 5px;
         overflow-wrap: break-word;
         display: inline-block;
         padding: 10px;
         background-color: #86d97b;
+        border-radius: 20px;
+    }
+
+    .other-msg {
+        margin: 5px;
+        overflow-wrap: break-word;
+        display: inline-block;
+        padding: 10px;
+        background-color: #5c8ef385;
         border-radius: 20px;
     }
 
