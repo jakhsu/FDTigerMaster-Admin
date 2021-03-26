@@ -67,6 +67,7 @@
                                                 v-b-tooltip.hover :title="activeMap[search['status']]" class="width75">
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
+                                                <option value="3">須更新</option>
                                             </b-form-select>
                                             <b-form-select v-else-if="field.key == 'roleId'" v-model="search[field.key]"
                                                 class="width75">
@@ -94,7 +95,7 @@
                                         </router-link>
                                     </template>
                                     <template #cell(status)="data">
-                                        {{ data.value == "1" ? "啟用" : "凍結" }}
+                                        {{ data.value == "1" ? "啟用" : data.value == "2" ? "凍結" : "須更新" }}
                                     </template>
                                     <template #cell(roleId)="data">
                                         {{ roleIdMap[data.value] }}
