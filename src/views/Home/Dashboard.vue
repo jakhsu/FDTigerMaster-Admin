@@ -25,8 +25,9 @@
                     <b-button variant="warning" @click="toggleChatroomUtils">聊天室測試</b-button>
                 </b-row>
                 <b-row v-if="isTestingChatrooms">
-                    <TitledCard title="聊天室測試utility">
-                        <b-form-group>
+                    <TitledCard class="m-2" title="聊天室測試utility">
+                        <scale-loader v-if="isCreatingRoom" />
+                        <b-form-group v-else>
                             <b-form-group label="聊天室用戶 id 1">
                                 <b-form-input v-model="userId1" />
                             </b-form-group>
@@ -37,7 +38,7 @@
                             </b-button>
                         </b-form-group>
                     </TitledCard>
-                    <TitledCard title="聊天室訊息測試">
+                    <TitledCard class="m-2" title="聊天室訊息測試">
                         <scale-loader v-if="isSendingMsg" />
                         <b-form-group v-else label="訊息內容">
                             請先從右上角開啟一個聊天室，將會對開啟中的聊天室送訊息
@@ -83,7 +84,8 @@
                 chatroomData: {},
                 msg: '',
                 isSendingMsg: false,
-                isTestingChatrooms: false
+                isTestingChatrooms: false,
+                isCreatingRoom: false
             }
         },
         async created() {
@@ -110,12 +112,15 @@
                 this.totalOrders = orderCount.data[0].count;
             },
             async createChatroom(id1, id2) {
+                this.isCreatingRoom = true
                 const userIds = [id1, id2]
                 try {
                     const res = await tigermaster.chatroom.created(userIds)
                     console.log(res)
                 } catch (e) {
                     console.log(e)
+                } finally {
+                    this.isCreatingRoom = false
                 }
             },
             async queryChatroom(id) {
