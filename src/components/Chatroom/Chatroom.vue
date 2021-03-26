@@ -7,12 +7,6 @@
                     <div class="d-flex">
                         <b-dropdown variant="success" text="聊天室詳情">
                             <div class="m-2">
-                                <div>
-                                    {{chatroomDetail.userIds}}
-                                </div>
-                                <div>
-                                    {{chatroomDetail.createDate}}
-                                </div>
                             </div>
                         </b-dropdown>
                         <b-button class="ml-auto" @click="onCallClick">
@@ -24,7 +18,7 @@
                     </div>
                 </template>
                 <div class="chatroom-body m-2">
-                    <div v-for="(msg, index) in chatroomContent" :key="index">
+                    <div v-for="(msg, index) in msgs" :key="index">
                         <div :class="msg.createBy === $store.state.user.id ? 'self' : 'other'">
                             <div v-if="msg.createBy === $store.state.user.id" class="self-msg">
                                 <div class="msg-sender m-2">
@@ -112,8 +106,7 @@
                 text: "",
                 isSendingText: false,
                 chatroom: Object,
-                id: store.state.chatroom.selectedRoom,
-                currentUserName: '',
+                id: store.state.chatroom.selected,
                 dialogueTemplate
             }
         },
@@ -158,15 +151,8 @@
             }
         },
         computed: {
-            chatroomContent() {
-                return this.$store.state.chatroom.roomContent.messages
-            },
-            chatroomDetail() {
-                return this.$store.state.chatroom.chatRooms.filter(e => e.id === this.id)[0]
-            },
-            targetUser() {
-                const target = this.chatroomDetail
-                return target
+            msgs() {
+                return this.$store.state.chatroom.msg
             }
         }
     }
