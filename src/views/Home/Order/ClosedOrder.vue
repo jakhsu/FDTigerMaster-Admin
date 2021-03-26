@@ -7,7 +7,7 @@
                 </p>
             </template>
         </SimpleModal>
-        <OrderCreateModal @successfulCreate="onSuccess">
+        <OrderCreateModal v-if="isUsingCreateModal" @successfulCreate="onSuccess">
         </OrderCreateModal>
         <b-container fluid>
             <div class="Order-Area">
@@ -21,7 +21,8 @@
                                 <b-button size="sm" class="ml-2" variant="outline-danger" @click="onSearchClearClick">
                                     清空搜尋列
                                 </b-button>
-                                <b-button class="ml-auto" variant="success" v-b-modal="'Order-Create-Modal'">新增訂單
+                                <b-button class="ml-auto" variant="success" @click="openCreateModal"
+                                    v-b-modal="'Order-Create-Modal'">新增訂單
                                 </b-button>
                             </div>
                             <div class="Order-Table">
@@ -92,11 +93,16 @@
                 queryRows: 0,
                 totalCount: 0,
                 tableBusy: false,
+                isUsingCreateModal: false,
                 isLoading: true,
                 statusMap: OrderStatusMap()
             }
         },
         methods: {
+            openCreateModal() {
+                this.isUsingCreateModal = true,
+                    this.$bvModal.show("Order-Create-Modal")
+            },
             async fetchClosedOrders() {
                 this.tableBusy = true;
                 try {
