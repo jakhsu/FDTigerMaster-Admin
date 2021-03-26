@@ -7,8 +7,9 @@ This is the web-frontend for fdtigermaster and is intended for internal use only
 [![pipeline status](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-web/badges/master/pipeline.svg)](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-web/-/commits/master)
 
 - [FD Tiger Master Admin Documentation](#fd-tiger-master-admin-documentation)
-  - [Run the project](#run-the-project)
+  - [Start the project](#start-the-project)
   - [Deploy](#deploy)
+  - [Test](#test)
   - [Developer Practices](#developer-practices)
     - [Commit](#commit)
     - [CI / CD](#ci--cd)
@@ -16,31 +17,33 @@ This is the web-frontend for fdtigermaster and is intended for internal use only
 
 The project is built using
 
-- VueJs as framework
-- Vue CLI for toolchains such as Babel, webpack
-- Vuex for state management
-- Vue Router for routing
-- Bootstrap Vue for UI components
-- FontAwesome for icons
+- [VueJs](https://vuejs.org/v2/guide/) as framework
+- [Vue CLI](https://cli.vuejs.org/) for toolchains such as Babel, webpack
+- [Vuex](https://vuex.vuejs.org/zh/guide/) for state management
+- [Vue Router](https://router.vuejs.org/zh/) for routing
+- [Bootstrap](https://bootstrap-vue.org/) Vue for UI components
+- [FontAwesome](https://fontawesome.com/) for icons
 - [Sentry.io](https://docs.sentry.io/platforms/javascript/) for error monitoring ( *this is to be finalized* )
-- Firebase for hosting
+- [Firebase](https://firebase.google.com/docs/hosting) for hosting
 
-## Run the project 
+## Start the project
 
 [top](#fd-tiger-master-admin-documentation)
 
 To run the project in local machine, execute
 
 ```shell
-npm run serve:[env flag]
+# For local environment
+npm run serve
+
+# For development stage --> cloud server
+npm run serve:dev
 ```
 
-where env flag is the stage which you'd like to serve the website in, the default being local.
+The stages
 
-The stages and their flags are
-
-- local ( NA, it's the default )
-- development ( serve:dev )
+- local
+- development
 - production ( *currently not implemented* )
 
 Please check the scripts in package.json to see more details
@@ -51,6 +54,16 @@ Please check the scripts in package.json to see more details
 
 ```shell
 npm run deploy:dev
+```
+
+run unit tests, located in `/test` folder
+
+## Test
+
+[top](#fd-tiger-master-admin-documentation)
+
+```shell
+npm run test
 ```
 
 run to build static files and deploy to firebase hosting

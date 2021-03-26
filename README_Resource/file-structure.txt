@@ -48,6 +48,6 @@ C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
 |        └── Utility
 └── test
 
-directory: 5394
+directory: 6203
 
-ignored: directory (436)
+ignored: directory (452)
