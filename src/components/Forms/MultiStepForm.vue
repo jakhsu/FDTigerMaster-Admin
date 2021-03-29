@@ -1,94 +1,80 @@
 <template>
-    <form>
-        <div v-for="step in steps" :key="step.id" class="py-3">
-            <slot name="header" :step="step">
-            </slot>
-            <slot :name="`content_${step.id}`">
-            </slot>
+    <TitledCard :title="title">
+        <div v-for="(step, index) in steps" :key="index" class="py-3">
+            <b-button class="indexBtn d-flex align-items-center" :class="stepState[index] === true ? 'finished' : null"
+                @click=" toggleCollapse(index)">
+                {{index}}
+            </b-button>
+            <b-collapse v-model="display[index]">
+                <slot :name="`step_${index+1}`" @finish="finish(data)">
+                    {{step}}
+                </slot>
+                <b-button @click="next(index)">
+                    next
+                </b-button>
+            </b-collapse>
         </div>
-    </form>
+    </TitledCard>
+
 </template>
 
 <script>
-    // import SimpleCard from '@/components/Card/SimpleCard.vue'
-    // import CustomTable from '@/components/Table/CustomTable.vue'
-    // import BroadcastTableModel from '@/config/BroadcastTable.json'
-    // import BroadcastSearch from '@/components/Broadcast/BroadcastSearch.vue'
-
-    // import tigermaster from 'fdtigermaster-admin-sdk'
-    // import BroadcastConfirm from '@/components/Broadcast/BroadcastConfirm.vue'
-
+    import TitledCard from '@/components/Card/TitledCard.vue'
     export default {
         name: "multi-step-form",
         components: {
-            // SimpleCard,
-            // CustomTable,
-            // BroadcastSearch,
-            // BroadcastConfirm
+            TitledCard
         },
         props: {
-            steps: Array
+            steps: Number,
+            title: {
+                type: String,
+                default: 'multi-step-form'
+            }
+        },
+        created() {
+            this.initilize()
+        },
+        data() {
+            return {
+                display: [],
+                stepState: []
+            }
         },
         methods: {
-
-        }
+            initilize() {
+                console.log('init display...')
+                for (let i = 0; i < this.steps.length; i++) {
+                    this.display.push(false)
+                    this.stepState.push(false)
+                }
+                this.display[0] = true
+            },
+            toggleCollapse(index) {
+                this.display.splice(index, 1, !this.display[index])
+            },
+            next(index) {
+                console.log(index)
+                this.stepState.splice(index, 1, true)
+                this.display.fill(false)
+                this.display.splice(index + 1, 1, true)
+            },
+            finish(e) {
+                console.log(e)
+            }
+        },
+        computed: {}
     }
 </script>
 
 <style scoped>
-    #Broadcast {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    .indexBtn {
+        border-radius: 100%;
+        font-size: 5px;
     }
 
-    #Broadcast .Broadcast-Area {
-        padding: 0px 50px;
-    }
-
-    #Broadcast .Broadcast-Area .Broadcast-Header {
-        margin: 25px 0px;
-        text-align: left;
-        color: #000;
-    }
-
-    #Broadcast .Broadcast-Area .Broadcast-Body {
-        margin: 25px 0px;
-        padding: 0px 20px;
-    }
-
-    #Broadcast .Broadcast-Collapse-Toggle {
-        color: #000000;
-        font-size: 20px;
-    }
-
-    #Broadcast .Broadcast-Collapse-Toggle .Collapse-Index {
-        color: #ffffff;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        margin-right: 5px;
-        font-size: 12px;
-        background-color: #757575;
-    }
-
-    #Broadcast .Broadcast-Collapse-Toggle .Collapse-Index.finished {
+    .indexBtn.finished {
         background-color: #007bff;
-    }
-
-    #Broadcast .Broadcast-Collapse {
-        margin-left: 12px;
-    }
-
-    .left-border {
-        border-left: 2px solid #e2e2e2;
-    }
-
-    @media (max-width: 768px) {
-        #Broadcast .Broadcast-Area {
-            padding: 0px;
-        }
+        border-color: transparent;
     }
 </style>

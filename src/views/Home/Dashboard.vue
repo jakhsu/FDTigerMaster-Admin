@@ -49,6 +49,16 @@
                         </b-form-group>
                     </TitledCard>
                 </b-row>
+                <b-row>
+                    <MultiStepForm :steps="2">
+                        <template #step_1>
+                            <Example @finish="finish" />
+                        </template>
+                        <template #step_2>
+                            第二步
+                        </template>
+                    </MultiStepForm>
+                </b-row>
             </div>
         </b-container>
     </div>
@@ -60,13 +70,17 @@
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import TitledCard from '../../components/Card/TitledCard.vue';
+    import MultiStepForm from '../../components/Forms/MultiStepForm.vue';
+    import Example from '@/components/Forms/example.vue';
 
     export default {
         name: 'Dashboard',
         components: {
             DataCard,
             Loading,
-            TitledCard
+            TitledCard,
+            MultiStepForm,
+            Example
         },
         data() {
             return {
@@ -94,6 +108,9 @@
 
         },
         methods: {
+            finish(e) {
+                console.log(e)
+            },
             async fetchUserData() {
                 const masterCountReq = tigermaster.database
                     .rawQuery("SELECT count(*) count FROM user WHERE user.role_id=0")
