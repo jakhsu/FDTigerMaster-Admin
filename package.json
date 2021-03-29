@@ -10,7 +10,6 @@
     "build:dev": "vue-cli-service build --mode development",
     "build:report": "vue-cli-service build --report",
     "deploy:dev": "npm run build:dev && firebase deploy --only hosting:admin-site",
-    "test:unit": "vue-cli-service test:unit",
     "test:cover": "jest --coverage",
     "test": "jest",
     "lint": "vue-cli-service lint --no-fix",
