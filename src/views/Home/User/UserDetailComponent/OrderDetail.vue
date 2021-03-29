@@ -96,7 +96,6 @@
                 this.tableBusy = true;
             },
             async onSearchClick() {
-                // TODO: this function is too complex, refractor it?
                 this.tableBusy = true;
                 let query = tigermaster.database.query("generic_order");
                 let searchArray = Object.entries(this.search);

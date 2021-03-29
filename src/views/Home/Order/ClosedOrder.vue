@@ -143,7 +143,6 @@
                 searchArray.forEach(element => {
                     element[2] = 'LIKE'
                     element[1] = '%' + element[1] + '%'
-                    // TODO: should closed order search function search within all orders? or just the "closed" orders
                     element[0] = camel2Snake(element[0])
                     query.where(`generic_order.${element[0]}`, element[2], element[1])
                 });

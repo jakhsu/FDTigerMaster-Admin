@@ -70,9 +70,6 @@
                                     <b-button variant="outline-primary" class="ml-auto" v-if="!isEditL1"
                                         @click="startEdit(1)">
                                         <font-awesome-icon icon="edit" />開始修改</b-button>
-                                    <!-- TODO: figure out if delete is appropiate for L1 items, deleting it will affect all children nodes -->
-                                    <!-- <b-button variant="outline-danger" class="ml-2" v-if="!isEditL1">
-                                        <font-awesome-icon icon="trash-alt" />刪除</b-button> -->
                                     <b-button variant="success" class="ml-auto" v-if="isEditL1" @click="cancelEdit(1)">
                                         完成
                                     </b-button>
@@ -160,9 +157,6 @@
                                     <b-button variant="outline-primary" class="ml-auto" v-if="!isEditL2"
                                         @click="startEdit(2)">
                                         <font-awesome-icon icon="edit" />開始修改</b-button>
-                                    <!-- TODO: figure out if delete is appropiate for L1 items, deleting it will affect all children nodes -->
-                                    <!-- <b-button variant="outline-danger" class="ml-2" v-if="!isEditL2">
-                                        <font-awesome-icon icon="trash-alt" />刪除</b-button> -->
                                     <b-button variant="success" class="ml-auto" v-if="isEditL2" @click="cancelEdit(2)">
                                         完成
                                     </b-button>
