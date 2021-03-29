@@ -5,14 +5,25 @@
             <b-card>
                 <template #header>
                     <div class="d-flex">
-                        <b-dropdown variant="success" text="聊天室詳情">
+                        <b-dropdown size="sm" no-caret variant="success">
+                            <template #button-content>
+                                <scale-loader v-if="isFetchingTarget" />
+                                <div v-else>
+                                    <img class="targetUser-headshot" :src="targetUser.headShotPath" alt="">
+                                    <span>
+                                        {{targetUser.name}}
+                                    </span>
+                                </div>
+                            </template>
                             <div class="m-2">
+                                email: {{targetUser.email}}
+                                phone: {{targetUser.phone}}
                             </div>
                         </b-dropdown>
-                        <b-button class="ml-auto" @click="onCallClick">
+                        <b-button variant="primary" class="ml-auto" @click="onCallClick">
                             <font-awesome-icon class="chatroom-button" icon="phone" />
                         </b-button>
-                        <b-button class="ml-2" @click="onCloseClick">
+                        <b-button variant="danger" class="ml-2" @click="onCloseClick">
                             <font-awesome-icon class=" chatroom-button" icon="times" />
                         </b-button>
                     </div>
@@ -22,7 +33,7 @@
                         <div :class="msg.createBy === $store.state.user.id ? 'self' : 'other'">
                             <div v-if="msg.createBy === $store.state.user.id" class="self-msg">
                                 <div class="msg-sender m-2">
-                                    {{msg.createBy}}
+                                    {{selfName}}
                                 </div>
                                 <div class="msg-content m-2">
                                     {{msg.srcPath}}
@@ -40,7 +51,7 @@
                             </div>
                             <div v-else class="other-msg">
                                 <div class="msg-sender m-2">
-                                    {{msg.createBy}}
+                                    {{targetUser.name}}
                                 </div>
                                 <div class="msg-content m-2">
                                     {{msg.srcPath}}
@@ -105,15 +116,25 @@
             return {
                 text: "",
                 isSendingText: false,
+                isFetchingTarget: false,
                 chatroom: Object,
                 id: store.state.chatroom.selected,
-                dialogueTemplate
+                selfName: store.state.user.name,
+                dialogueTemplate,
+                targetUser: Object
             }
         },
         async created() {
             this.chatroom = await tigermaster.chatroom.get(this.id);
+            this.fetchTargetUser()
         },
         methods: {
+            async fetchTargetUser() {
+                this.isFetchingTarget = true
+                const res = await tigermaster.database.query("user").where("user.id", "=", this.targetUserId).get()
+                this.targetUser = res.data[0]
+                this.isFetchingTarget = false
+            },
             useChatTemplate(content) {
                 this.text = content
             },
@@ -140,6 +161,7 @@
             async handleUpload(e) {
                 this.isSendingText = true
                 const file = e.target.files[0]
+                console.log(file)
                 try {
                     await this.chatroom.sendImage(file)
                     await store.dispatch('shadowQueryRoom', this.id)
@@ -153,6 +175,9 @@
         computed: {
             msgs() {
                 return this.$store.state.chatroom.msg
+            },
+            targetUserId() {
+                return this.chatroom._data.userIds.filter(e => e !== this.$store.state.user.id)[0]
             }
         }
     }
@@ -228,5 +253,11 @@
 
     .msg-status-readed {
         font-size: 10px;
+    }
+
+    .targetUser-headshot {
+        width: 30px;
+        background-color: transparent;
+        border-radius: 50%;
     }
 </style>

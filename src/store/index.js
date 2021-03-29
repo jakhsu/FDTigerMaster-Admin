@@ -34,10 +34,8 @@ export default new Vuex.Store({
     },
     actions: {
         async shadowQueryRoom({
-            commit,
-            dispatch
+            commit
         }, roomId) {
-            await dispatch('fetchAdminChatrooms')
             const chatroom = await tigermaster.chatroom.get(roomId)
             const timestamp = format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
             let messages = (await chatroom.shadowQuery(timestamp)).messages
