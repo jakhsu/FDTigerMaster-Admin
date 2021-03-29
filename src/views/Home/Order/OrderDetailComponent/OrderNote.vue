@@ -27,8 +27,8 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import CreateOrderNoteModal from '@/components/Note/CreateOrderNoteModal.vue'
-    import ModifyNoteModal from '@/components/Note/ModifyNoteModal.vue'
+    import CreateOrderNoteModal from '@/components/Modal/CreateOrderNoteModal.vue'
+    import ModifyNoteModal from '@/components/Modal/ModifyNoteModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     export default {

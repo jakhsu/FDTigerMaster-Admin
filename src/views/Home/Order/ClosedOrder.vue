@@ -71,7 +71,7 @@
     } from '@/model/CaseConverter/CaseConverter.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import OrderCreateModal from '@/components/Order/OrderCreateModal.vue'
+    import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
 
     export default {
         name: "ClosedOrder",

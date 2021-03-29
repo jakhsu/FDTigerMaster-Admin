@@ -120,7 +120,7 @@
     import ActiveStatusMapping from '@/model/Mapping/ActiveStatusMap.js'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import UserCreateModal from '@/components/User/UserCreateModal.vue'
+    import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
     import Badge from '@/components/Badge/Badge.vue'
     import {
         userQueryBuilder

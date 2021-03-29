@@ -117,7 +117,7 @@
     import {
         userQueryBuilder
     } from '@/model/QueryBuilder/QueryBuilder.js'
-    import UserCreateModal from '@/components/User/UserCreateModal.vue'
+    import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
