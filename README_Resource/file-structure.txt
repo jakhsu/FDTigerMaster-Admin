@@ -9,21 +9,13 @@ C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
 |  |  ├── Card
 |  |  ├── Chart
 |  |  ├── Chatroom
-|  |  ├── Comment
-|  |  ├── Forms
 |  |  ├── Header
 |  |  ├── Image
 |  |  ├── Modal
-|  |  ├── Note
-|  |  ├── OngoingOrder
-|  |  ├── Order
+|  |  ├── MultiSearch
 |  |  ├── Preview
-|  |  ├── Services
-|  |  |  ├── Skill
-|  |  |  └── WorkingCategory
 |  |  ├── Sidebar
-|  |  ├── Table
-|  |  └── User
+|  |  └── Table
 |  ├── config
 |  ├── model
 |  |  ├── CaseConverter
@@ -48,6 +40,6 @@ C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
 |        └── Utility
 └── test
 
-directory: 6203
+directory: 5386
 
-ignored: directory (452)
+ignored: directory (436)

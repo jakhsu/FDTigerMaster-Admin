@@ -97,21 +97,13 @@ produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |  |  ├── Card
 |  |  ├── Chart
 |  |  ├── Chatroom
-|  |  ├── Comment
-|  |  ├── Forms
 |  |  ├── Header
 |  |  ├── Image
 |  |  ├── Modal
-|  |  ├── Note
-|  |  ├── OngoingOrder
-|  |  ├── Order
+|  |  ├── MultiSearch
 |  |  ├── Preview
-|  |  ├── Services
-|  |  |  ├── Skill
-|  |  |  └── WorkingCategory
 |  |  ├── Sidebar
-|  |  ├── Table
-|  |  └── User
+|  |  └── Table
 |  ├── config
 |  ├── model
 |  |  ├── CaseConverter
@@ -136,3 +128,23 @@ produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |        └── Utility
 └── test
 ```
+
+Some of the more important folders are
+
+- components: contains various [Vue single file components](https://vuejs.org/v2/guide/single-file-components.html)
+
+- views: contains the view pages, such as client page, user detail page, order page, etc.
+
+- router: is where Vue router script locates
+
+- utility: contains firebase script
+
+- model: contains various JS modules, where more complicated logic are encapsulated, and ideally unit test cases exist for each of these modules
+
+- store: Vuex store instance
+
+- config: contains config files such as predefined table fields and order status code map.
+
+- assets: static assets
+
+- test: unit tests
