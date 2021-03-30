@@ -102,10 +102,8 @@
         this.isLoading = false;
       }
     },
-    watch: {
-      '$route'(to) {
-        this.setUserFromRouteParam(to.query.userId)
-      }
+    beforeRouteUpdate(to) {
+      this.setUserFromRouteParam(to.query.userId)
     }
   }
 </script>
