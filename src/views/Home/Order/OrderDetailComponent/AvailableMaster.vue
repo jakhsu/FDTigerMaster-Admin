@@ -93,7 +93,7 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import {
         camel2Snake
     } from '@/model/CaseConverter/CaseConverter.js'

@@ -112,12 +112,12 @@
     import UserTableModel from '@/config/UserTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import ActiveStatusMapping from '@/model/Mapping/ActiveStatusMap.js'
     import {
         userQueryBuilder
     } from '@/model/QueryBuilder/QueryBuilder.js'
-    import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
+    import UserCreateModal from '@/components/Modal/User/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import RoleIdMap from '@/model/Mapping/RoleIdMap.js'

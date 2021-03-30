@@ -63,7 +63,7 @@
     import SkillsTable from '@/config/SkillsTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import MasterSkillCreateModal from '@/components/Modal/MasterSkillCreateModal.vue'
+    import MasterSkillCreateModal from '@/components/Modal/Service/MasterSkillCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 

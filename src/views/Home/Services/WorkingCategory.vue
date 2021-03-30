@@ -93,13 +93,13 @@
     import TitledCard from "@/components/Card/TitledCard.vue"
     import CategoriesTable from "@/config/CategoriesTable.json"
     import CustomTable from "@/components/Table/CustomTable.vue"
-    import ConfirmModal from '@/components/Modal/ConfirmModal.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import ConfirmModal from '@/components/Modal/Util/ConfirmModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import {
         camel2Snake
     } from '@/model/CaseConverter/CaseConverter.js'
-    import WorkingCategoryCreateModal from "@/components/Modal/WorkingCategoryCreateModal.vue"
-    import WorkingCategoryUpdateModal from "@/components/Modal/WorkingCategoryUpdateModal.vue"
+    import WorkingCategoryCreateModal from "@/components/Modal/Service/WorkingCategoryCreateModal.vue"
+    import WorkingCategoryUpdateModal from "@/components/Modal/Service/WorkingCategoryUpdateModal.vue"
 
     import tigermaster from "fdtigermaster-admin-sdk";
 

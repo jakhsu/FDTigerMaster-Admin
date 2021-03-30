@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 

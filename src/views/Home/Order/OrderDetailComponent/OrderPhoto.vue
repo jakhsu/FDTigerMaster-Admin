@@ -43,7 +43,7 @@
     import OrderPicStage from '@/config/OrderPicStage.json'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import ImageCard from '@/components/Card/ImageCard.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'

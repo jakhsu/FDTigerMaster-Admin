@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     export default {
         name: 'Confirm-Modal',
         components: {

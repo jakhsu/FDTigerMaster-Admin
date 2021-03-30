@@ -209,8 +209,8 @@
     import UserRole from '@/config/UserRole.json'
     import CityAreaData from '@/config/CityAreaData.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import ActivateModal from '@/components/Modal/ActivateModal.vue'
-    import DeactivateModal from '@/components/Modal/DeactivateModal.vue'
+    import ActivateModal from '@/components/Modal/User/ActivateModal.vue'
+    import DeactivateModal from '@/components/Modal/User/DeactivateModal.vue'
     import {
         fetchRoadName
     } from '@/model/FetchAddress/FetchRoadName'

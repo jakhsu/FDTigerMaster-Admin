@@ -61,7 +61,7 @@
     import CustomTable from '@/components/Table/CustomTable.vue';
     import PaymentTypeMap from '@/model/Mapping/PaymentTypeMap.js';
     import PaymentStatusMap from '@/model/Mapping/PaymentStatusMap.js'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue';
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue';
     export default {
         name: 'OrderQuotes',
         components: {

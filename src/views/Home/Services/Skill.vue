@@ -85,12 +85,12 @@
     import SkillsTable from '@/config/SkillsTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
-    import SkillCreateModal from '@/components/Modal/SkillCreateModal.vue'
-    import SkillUpdateModal from '@/components/Modal/SkillUpdateModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
+    import SkillCreateModal from '@/components/Modal/Service/SkillCreateModal.vue'
+    import SkillUpdateModal from '@/components/Modal/Service/SkillUpdateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import ConfirmModal from '@/components/Modal/ConfirmModal.vue'
+    import ConfirmModal from '@/components/Modal/Util/ConfirmModal.vue'
 
     export default {
         name: 'Skill',

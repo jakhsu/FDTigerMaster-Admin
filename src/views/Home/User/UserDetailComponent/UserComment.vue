@@ -34,7 +34,7 @@
 <script>
     import Badge from '@/components/Badge/Badge.vue'
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import ScoreModal from '@/components/Modal/ScoreModal.vue'
+    import ScoreModal from '@/components/Modal/User/ScoreModal.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'

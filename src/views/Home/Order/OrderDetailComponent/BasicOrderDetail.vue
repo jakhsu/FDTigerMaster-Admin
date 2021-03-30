@@ -227,7 +227,7 @@
 
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
     import OrderStatus from '@/config/OrderStatus.json'
     import Loading from '@/components/Loading.vue'

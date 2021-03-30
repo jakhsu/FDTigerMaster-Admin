@@ -94,7 +94,7 @@
     import OngoingOrderSearch from '@/components/MultiSearch/OngoingOrderSearch.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
+    import OrderCreateModal from '@/components/Modal/Order/OrderCreateModal.vue'
     export default {
         name: "OngoingOrder",
         components: {

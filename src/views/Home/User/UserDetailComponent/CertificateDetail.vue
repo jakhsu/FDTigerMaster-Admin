@@ -48,7 +48,7 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import ImgUpload from '@/components/Image/ImgUpload.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import ImageCard from '@/components/Card/ImageCard.vue'

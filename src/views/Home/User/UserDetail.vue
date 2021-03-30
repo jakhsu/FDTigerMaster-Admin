@@ -42,7 +42,7 @@
 
 <script>
   import Loading from '@/components/Loading.vue'
-  import SimpleModal from '@/components/Modal/SimpleModal.vue'
+  import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
   import UserNote from '@/views/Home/User/UserDetailComponent/UserNote.vue'
   import BasicUserDetail from '@/views/Home/User/UserDetailComponent/BasicUserDetail.vue'
   import OrderDetail from '@/views/Home/User/UserDetailComponent/OrderDetail.vue'

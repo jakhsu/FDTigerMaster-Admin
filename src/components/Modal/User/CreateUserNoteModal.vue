@@ -8,12 +8,12 @@
 </template>
 
 <script>
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
-        name: 'CreateOrderNoteModal',
+        name: 'CreateNoteModal',
         components: {
             SimpleModal
         },
@@ -22,7 +22,7 @@
                 type: String,
                 default: 'Note-Create-Modal'
             },
-            orderId: String
+            userId: String
         },
         data() {
             return {
@@ -34,7 +34,7 @@
             async createNote() {
                 this.isLoading = true;
                 const note = tigermaster.note;
-                await note.createOrderNote(this.orderId, this.noteContent, note.UseFor.Normal);
+                await note.createUserNote(this.userId, this.noteContent, note.UseFor.Normal);
                 this.$bvModal.hide(this.id);
                 this.$emit('finish');
             },

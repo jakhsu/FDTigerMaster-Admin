@@ -63,7 +63,7 @@
     import OrderTable from '@/config/OrderTable.json'
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import OrderStatusMap from '@/model/Mapping/OrderStatusMap.js'
     import OrderStatus from '@/config/OrderStatus.json'
     import {
@@ -71,7 +71,7 @@
     } from '@/model/CaseConverter/CaseConverter.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import OrderCreateModal from '@/components/Modal/OrderCreateModal.vue'
+    import OrderCreateModal from '@/components/Modal/Order/OrderCreateModal.vue'
 
     export default {
         name: "ClosedOrder",

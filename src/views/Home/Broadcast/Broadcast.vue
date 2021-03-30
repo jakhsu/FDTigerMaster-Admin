@@ -154,7 +154,7 @@
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import BroadcastConfirm from '@/components/Broadcast/BroadcastConfirm.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
 
     export default {
         name: "Broadcast",

@@ -122,11 +122,11 @@
     import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
     import CustomTable from '@/components/Table/CustomTable.vue'
     import ActiveStatusMapping from '@/model/Mapping/ActiveStatusMap.js'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
     import {
         userQueryBuilder
     } from '@/model/QueryBuilder/QueryBuilder.js'
-    import UserCreateModal from '@/components/Modal/UserCreateModal.vue'
+    import UserCreateModal from '@/components/Modal/User/UserCreateModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
     import Badge from '@/components/Badge/Badge.vue'

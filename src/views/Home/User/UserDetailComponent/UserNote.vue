@@ -30,8 +30,8 @@
 <script>
     import TitledCard from '@/components/Card/TitledCard.vue'
     import CustomTable from '@/components/Table/CustomTable.vue'
-    import CreateUserNoteModal from '@/components/Modal/CreateUserNoteModal.vue'
-    import ModifyNoteModal from '@/components/Modal/ModifyNoteModal.vue'
+    import CreateUserNoteModal from '@/components/Modal/User/CreateUserNoteModal.vue'
+    import ModifyNoteModal from '@/components/Modal/User/ModifyNoteModal.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 

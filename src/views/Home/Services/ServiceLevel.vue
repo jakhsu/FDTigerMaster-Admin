@@ -263,7 +263,7 @@
     import TitledCard from '@/components/Card/TitledCard.vue'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import Loading from '@/components/Loading.vue'
-    import SimpleModal from '@/components/Modal/SimpleModal.vue'
+    import SimpleModal from '@/components/Modal/Util/SimpleModal.vue'
 
     export default {
         name: 'ServiceLevel',

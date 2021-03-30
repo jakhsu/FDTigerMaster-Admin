@@ -15,7 +15,7 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
-    import UpdateCommentModal from '@/components/Modal/UpdateCommentModal.vue'
+    import UpdateCommentModal from '@/components/Modal/User/UpdateCommentModal.vue'
     export default {
         name: "OrderComment",
         components: {
