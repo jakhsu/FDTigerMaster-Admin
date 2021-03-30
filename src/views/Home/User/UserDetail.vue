@@ -80,13 +80,16 @@
         user: undefined
       };
     },
-    async created() {
-      const user = await tigermaster.auth.getUserById(this.$route.query.userId);
-      this.user = user;
-      this.userData = user.data;
-      this.isLoading = false;
+    created() {
+      this.setUserFromRouteParam(this.$route.query.userId)
     },
     methods: {
+      async setUserFromRouteParam(id) {
+        const user = await tigermaster.auth.getUserById(id);
+        this.user = user;
+        this.userData = user.data;
+        this.isLoading = false;
+      },
       onNavClick(name) {
         this.currentTab = name;
         this.currentComponent = this.tabComponentMap[name];
@@ -97,6 +100,11 @@
         this.user = user;
         this.userData = user.data;
         this.isLoading = false;
+      }
+    },
+    watch: {
+      '$route'(to) {
+        this.setUserFromRouteParam(to.query.userId)
       }
     }
   }
