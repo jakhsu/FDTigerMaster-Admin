@@ -16,8 +16,9 @@
                                 </div>
                             </template>
                             <div class="m-2">
-                                email: {{targetUser.email}}
-                                phone: {{targetUser.phone}}
+                                <router-link :to="`/home/user_detail?userId=${targetUser.id}`">{{targetUser.email}}
+                                </router-link>
+                                {{targetUser.phone}}
                             </div>
                         </b-dropdown>
                         <b-button variant="primary" class="ml-auto" @click="onCallClick">

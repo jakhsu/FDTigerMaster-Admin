@@ -6,6 +6,7 @@
                     {{room.targetUserName}}
                     <b-badge v-if="hasUnread" variant="warning">
                         {{room.unread}}
+                        未讀
                     </b-badge>
                 </div>
             </div>
