@@ -9,7 +9,7 @@
                             用戶平均分數
                         </template>
                         <template #number>
-                            {{userData.avgScore}}
+                            {{user.avgScore}}
                         </template>
                     </Badge>
                 </template>
@@ -17,7 +17,8 @@
                     <b-button class="ml-auto" size="md" variant="outline-danger" v-b-modal="'Score-Modal'">修改平均分數
                     </b-button>
                 </div>
-                <CustomTable :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
+                <ErrorCard v-if="fetchError" />
+                <CustomTable v-else :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                     @dataRequire="onDataRequire">
                     <template #top-row="comments">
                         <b-td v-for="(field, index) in comments.fields" :key="index">
@@ -37,6 +38,7 @@
     import CustomTable from '@/components/Table/CustomTable.vue'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
+    import ErrorCard from '../../../../components/Card/ErrorCard.vue'
 
     export default {
         name: "UserComment",
@@ -44,10 +46,10 @@
             Badge,
             TitledCard,
             ScoreModal,
-            CustomTable
+            CustomTable,
+            ErrorCard
         },
         props: {
-            userData: {},
             user: {}
         },
         data() {
@@ -76,7 +78,9 @@
                     }
                 ],
                 comments: [],
-                queryRows: 0
+                queryRows: 0,
+                fetchError: false,
+                userData: this.user.data
             }
         },
         created() {
@@ -97,13 +101,19 @@
             async fetchOrderCommnet() {
                 this.isTableBusy = true;
                 const database = tigermaster.database;
-                const res = await database.query("order_comment")
+                const res = database.query("order_comment")
                     .where("order_comment.to_user_id", "=", this.user.id)
                     .orderBy("order_comment.create_date", "DESC")
-                    .get();
-                this.comments = res.data;
-                this.queryRows = res.queryRows;
-                this.isTableBusy = false;
+                try {
+                    this.fetchError = false
+                    await res.get()
+                    this.comments = res.data;
+                    this.queryRows = res.queryRows;
+                } catch (e) {
+                    this.fetchError = true
+                } finally {
+                    this.isTableBusy = false;
+                }
             }
         }
     }
