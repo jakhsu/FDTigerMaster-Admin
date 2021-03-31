@@ -4,5 +4,9 @@ module.exports = {
         start_url: "./",
         gcm_sender_id: "16706967805"
     },
-    productionSourceMap: false,
+    productionSourceMap: false
+    // devServer: {
+    //     host: '0.0.0.0',
+    //     disableHostCheck: true
+    // }
 };
