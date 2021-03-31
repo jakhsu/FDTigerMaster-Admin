@@ -60,8 +60,8 @@
                                                 <option value="0">停用</option>
                                                 <option value="1">啟用</option>
                                             </b-form-select>
-                                            <b-form-input v-if="field.key !== 'active'" v-model.trim="search[field.key]"
-                                                :name="field.key" :placeholder="`${field.label}`" />
+                                            <b-form-input v-else v-model.trim="search[field.key]" :name="field.key"
+                                                :placeholder="`${field.label}`" class="width75" />
                                         </b-td>
                                     </template>
                                     <template #cell(id)="data">
