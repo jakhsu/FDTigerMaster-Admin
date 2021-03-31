@@ -35,11 +35,16 @@
                 hasUnread: false
             };
         },
-        async created() {
-            await this.fetchadminRooms()
-            await this.fetchUnreadCounts()
+        created() {
+            this.longPoll()
         },
         methods: {
+            async longPoll() {
+                // poll every minute
+                await this.fetchadminRooms()
+                await this.fetchUnreadCounts()
+                setTimeout(this.longPoll, 60000)
+            },
             async fetchadminRooms() {
                 const query = tigermaster.database.query("chatroom").where("chatroom.user_ids", "LIKE",
                     `%${this.currentUserId}%`)
@@ -72,9 +77,15 @@
                     })
                 })
                 this.chatroomList = rooms
+                return new Promise((resolve) => {
+                    if (this.chatroomList.every(e => e.targetUserName !== undefined)) {
+                        resolve()
+                    }
+                })
             },
             fetchUnreadCounts() {
                 // shadow query all chatrooms for unread message count
+                this.hasUnread = false
                 return new Promise((resolve) => {
                     this.chatroomList.forEach(async (e) => {
                         let chatroom = await tigermaster.chatroom.get(e.id)
