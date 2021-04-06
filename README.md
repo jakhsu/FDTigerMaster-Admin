@@ -1,12 +1,14 @@
 # FD Tiger Master Admin Documentation
 
-This is the web-frontend for fdtigermaster and is intended for internal use only.
-
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![VueJs Version](https://img.shields.io/badge/vue-2.2.4-green.svg)](https://vuejs.org/v2/guide/)
 [![pipeline status](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-web/badges/master/pipeline.svg)](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-web/-/commits/master)
 
+This project is a Vue-based admin for users to interact with the FD tigermaster system.
+
 - [FD Tiger Master Admin Documentation](#fd-tiger-master-admin-documentation)
+  - [Key Functionalities](#key-functionalities)
+  - [Tech Stack](#tech-stack)
   - [Start the project](#start-the-project)
   - [Deploy](#deploy)
   - [Test](#test)
@@ -15,7 +17,46 @@ This is the web-frontend for fdtigermaster and is intended for internal use only
     - [CI / CD](#ci--cd)
   - [Folder Structure](#folder-structure)
 
-The project is built using
+## Key Functionalities
+
+[top](#fd-tiger-master-admin-documentation)
+
+- `User`
+  - Query user
+  - Create user
+  - Edit user (`basic info`, `scores`, `notes`, `comments`, `certificates` and `skill`/`working categories` if user is master)
+  - Deactivate and activate user
+- `Order`
+  - Query Order
+  - Create Order
+  - Edit Order
+  - Assign master to order
+  - Transfer order to another master
+- `Chatroom`
+  - Query chatroom messages
+  - Send messages to chatroom
+  - Send files, including images to chatroom
+- `Services` ( namely, skills and working categories)
+  - Query services
+  - Add services
+  - Edit services  
+  - Deactivate services
+  - Batch download
+  - Batch upload
+- `Service Level` ( L1~L3 hierarchy )
+  - Add new nodes (new item in L1~L3)
+  - Delete L3 node
+  - Edit node
+  - Rollback to previous saves
+- `Broadcast`
+  - Send notification to user
+  - Query notification history
+- `Payment Information` ( *to be implemented* )
+  - Export CSV file for bank transfer
+
+## Tech Stack
+
+[top](#fd-tiger-master-admin-documentation)
 
 - [VueJs](https://vuejs.org/v2/guide/) as framework
 - [Vue CLI](https://cli.vuejs.org/) for toolchains such as Babel, webpack
@@ -23,7 +64,7 @@ The project is built using
 - [Vue Router](https://router.vuejs.org/zh/) for routing
 - [Bootstrap](https://bootstrap-vue.org/) Vue for UI components
 - [FontAwesome](https://fontawesome.com/) for icons
-- [Sentry.io](https://docs.sentry.io/platforms/javascript/) for error monitoring ( *this is to be finalized* )
+- [Sentry.io](https://docs.sentry.io/platforms/javascript/) for error monitoring ( *to be finalized* )
 - [Firebase](https://firebase.google.com/docs/hosting) for hosting
 
 ## Start the project
@@ -56,7 +97,7 @@ Please check the scripts in package.json to see more details
 npm run deploy:dev
 ```
 
-run unit tests, located in `/test` folder
+run to build static files and deploy to firebase hosting
 
 ## Test
 
@@ -66,7 +107,7 @@ run unit tests, located in `/test` folder
 npm run test
 ```
 
-run to build static files and deploy to firebase hosting
+run unit tests, located in `/test` folder
 
 ## Developer Practices
 
