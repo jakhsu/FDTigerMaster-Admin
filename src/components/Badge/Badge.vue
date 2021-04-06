@@ -21,9 +21,6 @@
                 type: String,
                 default: '#FFA900'
             }
-        },
-        data() {
-            return {}
         }
     }
 </script>
