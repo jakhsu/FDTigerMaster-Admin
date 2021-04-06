@@ -66,6 +66,7 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
 - [FontAwesome](https://fontawesome.com/) for icons
 - [Sentry.io](https://docs.sentry.io/platforms/javascript/) for error monitoring ( *to be finalized* )
 - [Firebase](https://firebase.google.com/docs/hosting) for hosting
+- [FD Tiger Master Admin SDK](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-sdk-package) provides FD TigerMaster system APIs
 
 ## Start the project
 
