@@ -5,7 +5,7 @@ stages:
 
 default:
   before_script:
-  # s- npm install --only=dev
+  - npm install --only=dev
   after_script:
 
 # lint:
