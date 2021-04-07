@@ -2,7 +2,7 @@
     <div>
         <div class="content">
             <div v-for="(room, index) in chatroomList" :key="index">
-                <div class="roomBrief m-2" @click="onRoomClick(room.id)">
+                <div v-if="isChatroomListReady" class="roomBrief m-2" @click="onRoomClick(room.id)">
                     {{room.targetUserInfo.name}}
                     <b-badge v-if="hasUnread" variant="warning">
                         {{room.unread}}
@@ -34,7 +34,8 @@
                 chatroomList: [{
                     unread: 0
                 }],
-                hasUnread: false
+                hasUnread: false,
+                isChatroomListReady: false
             };
         },
         async created() {
@@ -62,9 +63,7 @@
                     }
                 }
                 this.chatroomList = rooms
-                return new Promise((resolve) => {
-                    resolve()
-                })
+                this.isChatroomListReady = true
             },
             fetchUnreadCounts() {
                 // shadow query all chatrooms for unread message count
