@@ -3,7 +3,7 @@
         <div class="content">
             <div v-for="(room, index) in chatroomList" :key="index">
                 <div class="roomBrief m-2" @click="onRoomClick(room.id)">
-                    {{room.targetUserName}}
+                    {{room.targetUserInfo.name}}
                     <b-badge v-if="hasUnread" variant="warning">
                         {{room.unread}}
                         未讀
@@ -29,13 +29,15 @@
                 loading: false,
                 currentUserId: store.state.user.id,
                 currentUserRole: store.state.user.roleId,
+                currentUserName: store.state.user.name,
+                targetUserInfo: [],
                 chatroomList: [{
                     unread: 0
                 }],
                 hasUnread: false
             };
         },
-        created() {
+        async created() {
             this.longPoll()
         },
         methods: {
@@ -50,37 +52,18 @@
                     `%${this.currentUserId}%`)
                 const res = await query.get()
                 const rooms = res.data
-                // filter the 'userIds' entries to find the user ids that are not the current user id, then we'll
-                // get all the ids of target users
-                const targetUserIds = rooms.map(room => JSON.parse(room['userIds'])).map(names => names
-                    .filter(
-                        name =>
-                        name !== this.currentUserId)).map(e => e[0])
 
-                let targetUsers = await tigermaster.database.query('user').where('user.id', 'IN',
-                        targetUserIds)
-                    .get()
-                let targetUserInfo = []
-
-                targetUsers.data.forEach(e => {
-                    targetUserInfo.push({
-                        targetUserName: e.name,
-                        targetUserId: e.id
-                    })
-                })
-                // here create new entries in chatroom object, if target user id exists in that particular room
-                rooms.forEach(room => {
-                    targetUserInfo.forEach(e => {
-                        if (JSON.parse(room.userIds).includes(e.targetUserId)) {
-                            room['targetUserName'] = e.targetUserName
-                        }
-                    })
-                })
+                const targetUserIds = rooms.map(e => e.userIds.filter(id => id !== this.currentUserId)[0])
+                const targetUserNames = rooms.map(e => e.userNames.filter(id => id !== this.currentUserName)[0])
+                for (let i = 0; i < targetUserIds.length; i++) {
+                    rooms[i]['targetUserInfo'] = {
+                        id: targetUserIds[i],
+                        name: targetUserNames[i]
+                    }
+                }
                 this.chatroomList = rooms
                 return new Promise((resolve) => {
-                    if (this.chatroomList.every(e => e.targetUserName !== undefined)) {
-                        resolve()
-                    }
+                    resolve()
                 })
             },
             fetchUnreadCounts() {
