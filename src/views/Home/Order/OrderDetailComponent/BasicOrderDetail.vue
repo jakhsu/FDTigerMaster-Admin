@@ -57,8 +57,8 @@
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項編號: ">
                                 <b-form-input v-model="order._data.workingCategoryId" disabled />
                             </b-form-group>
-                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項描述: ">
-                                <b-form-input v-model="order._data.workingCategoryDescription" disabled />
+                            <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="工項名稱: ">
+                                <b-form-input v-model="order._data.workingCategoryName" disabled />
                             </b-form-group>
                         </div>
                     </TitledCard>

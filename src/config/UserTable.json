@@ -11,22 +11,6 @@
         "label": "郵件"
     },
     {
-        "key": "addressCity",
-        "label": "城市"
-    },
-    {
-        "key": "addressArea",
-        "label": "區"
-    },
-    {
-        "key": "addressStreet",
-        "label": "街道"
-    },
-    {
-        "key": "addressDetail",
-        "label": "樓層門牌"
-    },
-    {
         "key": "status",
         "label": "狀態"
     },

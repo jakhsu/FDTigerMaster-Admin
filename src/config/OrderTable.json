@@ -7,18 +7,6 @@
         "label": "訂單工項"
     },
     {
-        "key": "addressCity",
-        "label": "城市"
-    },
-    {
-        "key": "addressArea",
-        "label": "區"
-    },
-    {
-        "key": "addressStreet",
-        "label": "街道"
-    },
-    {
         "key": "status",
         "label": "訂單狀態"
     },
