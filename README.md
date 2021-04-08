@@ -28,59 +28,64 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
 
 [top](#fd-tiger-master-admin-documentation)
 
-Functionalities are highlighted
-
 ### User
 
-- [x] `Query` users, either upon loading relevant pages or when explicitly searching
-- [x] `Create` user
+- `Query` users
+- `Create` user
 - `Edit` user's `basic info`, `scores`, `notes`, `comments`, `certificates` and `skill`/`working categories` if user is master)
 - `Deactivate` and `activate` user
 
 ### Order
 
-- `Query` order
+- `Query` order, all relevant information and histories
 - `Create` order
 - `Edit` order
 - `Assign` master to order
 - `Transfer` order to another master
 - Add and Edit `Comments` to order
-- `Query`
-
+- `Upload` and `Edit` order images
+- Manage order `quotation`
+- Add and Edit order `comment`
+- Manage `eligible` / `other` masters to the order, eligibility is currently determined by masters' skill sets
+- Run `calculations` to get `payment` for client and master, based on various `multipliers` and `bonuses` unique to that order, which are also `editable`
+- Manage all `chatroom` entities created by the system. Please reference [chatroom feature](#chatroom)
+  
 ### Chatroom
 
-- Query chatroom messages
-- Send messages to chatroom
-- Send files, including images to chatroom
+- `shadow query`, which queries messages of chatroom without marking messages as read
+- `query`, similar to shadow query, but affect messages' read status
+- `send` text, image and file to chatrooms  
 
 ### Services
 
- namely, skills and working categories
+> services refer to master skills and master working categories
 
-- Query services
-- Add services
-- Edit services  
-- Deactivate services
-- Batch download
-- Batch upload
+- `Query` services
+- `Add` services
+- `Edit` services  
+- `Deactivate` services
+- `Batch` download
+- `Batch` upload
 
 ### Service Level
 
+> service level refers to the hierarchy relationship of all services tigermaster provides, from clients' perspective
+
 L1~L3 hierarchy
 
-- Add new nodes (new item in L1~L3)
-- Delete L3 node
-- Edit node
-- Rollback to previous saves
+- `Add` new nodes (new item in L1~L3)
+- `Delete` L3 node
+- `Edit` node
+- `Rollback` to previous saves
 
 ### Broadcast
 
-- Send notification to user
-- Query notification history
+- `Send` notification to user
+- `Query` notification history
 
 ### Payment ( *to be implemented* )
 
-- Export CSV file for bank transfer
+- `Export` CSV file for bank transfer
 
 ## Tech Stack
 
