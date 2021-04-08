@@ -140,7 +140,7 @@
                     this.workingCategories = res.data.map(e => {
                         return {
                             "value": e.id,
-                            "text": e.description
+                            "text": e.name
                         };
                     })
                 } catch (e) {
