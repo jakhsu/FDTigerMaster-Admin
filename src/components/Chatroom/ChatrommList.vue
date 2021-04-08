@@ -88,6 +88,7 @@
                 store.commit('setChatroomMsg', messages)
             },
             async onRoomClick(roomId) {
+                await store.dispatch('toggleChatroom', false)
                 await this.shadowQueryRoomMsg(roomId)
                 await store.dispatch('selectRoom', roomId)
                 store.dispatch('toggleChatroom', true)

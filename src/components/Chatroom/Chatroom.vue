@@ -119,7 +119,7 @@
                 text: "",
                 isSendingText: false,
                 isFetchingTarget: false,
-                chatroom: Object,
+                chatroom: store.state.chatroom.selected._data,
                 id: store.state.chatroom.selected._chatroomId,
                 selfName: store.state.user.name,
                 dialogueTemplate,
@@ -127,7 +127,6 @@
             }
         },
         async created() {
-            this.chatroom = await tigermaster.chatroom.get(this.id);
             this.fetchTargetUser()
         },
         methods: {
@@ -179,7 +178,7 @@
                 return this.$store.state.chatroom.msg
             },
             targetUserId() {
-                return this.chatroom._data.userIds.filter(e => e !== this.$store.state.user.id)[0]
+                return this.chatroom.userIds.filter(e => e !== this.$store.state.user.id)[0]
             },
             isInputEmpty() {
                 return this.text.length === 0
