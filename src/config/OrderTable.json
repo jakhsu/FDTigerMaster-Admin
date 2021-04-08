@@ -1,9 +1,9 @@
 [{
         "key": "id",
-        "label": "編號"
+        "label": "id"
     },
     {
-        "key": "workingCategoryDescription",
+        "key": "workingCategoryName",
         "label": "訂單工項"
     },
     {
@@ -11,12 +11,8 @@
         "label": "訂單狀態"
     },
     {
-        "key": "addressStreet",
-        "label": "編號"
-    },
-    {
         "key": "masterUserId",
-        "label": "師傅編號"
+        "label": "師傅id"
     },
     {
         "key": "masterUserPhone",
