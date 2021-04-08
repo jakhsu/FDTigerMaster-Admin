@@ -7,7 +7,14 @@
 This project is a Vue-based admin for users to interact with the FD tigermaster system.
 
 - [FD Tiger Master Admin Documentation](#fd-tiger-master-admin-documentation)
-  - [Key Functionalities](#key-functionalities)
+  - [Feature List](#feature-list)
+    - [User](#user)
+    - [Order](#order)
+    - [Chatroom](#chatroom)
+    - [Services](#services)
+    - [Service Level](#service-level)
+    - [Broadcast](#broadcast)
+    - [Payment ( *to be implemented* )](#payment--to-be-implemented-)
   - [Tech Stack](#tech-stack)
   - [Start the project](#start-the-project)
   - [Deploy](#deploy)
@@ -17,42 +24,63 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
     - [CI / CD](#ci--cd)
   - [Folder Structure](#folder-structure)
 
-## Key Functionalities
+## Feature List
 
 [top](#fd-tiger-master-admin-documentation)
 
-- `User`
-  - Query user
-  - Create user
-  - Edit user (`basic info`, `scores`, `notes`, `comments`, `certificates` and `skill`/`working categories` if user is master)
-  - Deactivate and activate user
-- `Order`
-  - Query Order
-  - Create Order
-  - Edit Order
-  - Assign master to order
-  - Transfer order to another master
-- `Chatroom`
-  - Query chatroom messages
-  - Send messages to chatroom
-  - Send files, including images to chatroom
-- `Services` ( namely, skills and working categories)
-  - Query services
-  - Add services
-  - Edit services  
-  - Deactivate services
-  - Batch download
-  - Batch upload
-- `Service Level` ( L1~L3 hierarchy )
-  - Add new nodes (new item in L1~L3)
-  - Delete L3 node
-  - Edit node
-  - Rollback to previous saves
-- `Broadcast`
-  - Send notification to user
-  - Query notification history
-- `Payment Information` ( *to be implemented* )
-  - Export CSV file for bank transfer
+Functionalities are highlighted
+
+### User
+
+- [x] `Query` users, either upon loading relevant pages or when explicitly searching
+- [x] `Create` user
+- `Edit` user's `basic info`, `scores`, `notes`, `comments`, `certificates` and `skill`/`working categories` if user is master)
+- `Deactivate` and `activate` user
+
+### Order
+
+- `Query` order
+- `Create` order
+- `Edit` order
+- `Assign` master to order
+- `Transfer` order to another master
+- Add and Edit `Comments` to order
+- `Query`
+
+### Chatroom
+
+- Query chatroom messages
+- Send messages to chatroom
+- Send files, including images to chatroom
+
+### Services
+
+ namely, skills and working categories
+
+- Query services
+- Add services
+- Edit services  
+- Deactivate services
+- Batch download
+- Batch upload
+
+### Service Level
+
+L1~L3 hierarchy
+
+- Add new nodes (new item in L1~L3)
+- Delete L3 node
+- Edit node
+- Rollback to previous saves
+
+### Broadcast
+
+- Send notification to user
+- Query notification history
+
+### Payment ( *to be implemented* )
+
+- Export CSV file for bank transfer
 
 ## Tech Stack
 
