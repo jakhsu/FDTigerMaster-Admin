@@ -140,11 +140,17 @@
                 this.tableBusy = true;
                 let query = tigermaster.database.query("generic_order");
                 let searchArray = Object.entries(this.search);
-                searchArray.forEach(element => {
-                    element[2] = 'LIKE'
-                    element[1] = '%' + element[1] + '%'
-                    element[0] = camel2Snake(element[0])
-                    query.where(`generic_order.${element[0]}`, element[2], element[1])
+                searchArray.forEach(e => {
+                    e[2] = 'LIKE'
+                    e[1] = '%' + e[1] + '%'
+                    if (e[0] === "workingCategoryName") {
+                        query.with("working_category")
+                        query.link("generic_order.working_category_id", "working_category.id")
+                        query.where("working_category.name", "LIKE", `${e[1]}`)
+                    } else {
+                        e[0] = camel2Snake(e[0])
+                        query.where(`generic_order.${e[0]}`, e[2], e[1])
+                    }
                 });
                 query.where("generic_order.status", ">", 55);
                 console.log(query)
