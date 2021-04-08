@@ -147,6 +147,7 @@
                     query.where(`generic_order.${element[0]}`, element[2], element[1])
                 });
                 query.where("generic_order.status", ">", 55);
+                console.log(query)
                 try {
                     const res = await query.get();
                     this.orders = res.data;
@@ -158,19 +159,6 @@
                     this.tableBusy = false;
                 }
             },
-            async onNewUserSaveClick(obj) {
-                this.isLoading = true;
-                let newUser = obj;
-                const id = await tigermaster.auth.createUserWithPhoneAndPassword(newUser.phone, "1234567890",
-                    newUser);
-                this.isLoading = false;
-                this.$router.push({
-                    path: '/home/user_detail',
-                    query: {
-                        userId: id
-                    }
-                });
-            },
             onSearchClearClick() {
                 this.search = {};
                 this.fetchClosedOrders();
@@ -179,7 +167,6 @@
                 this.$bvModal.hide("Search-Fail-Modal");
             },
             onSuccess() {
-                console.log("successfully created an order :)");
                 this.fetchClosedOrders();
             }
         }
