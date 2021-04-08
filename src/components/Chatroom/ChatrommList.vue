@@ -66,22 +66,18 @@
                 this.isChatroomListReady = true
             },
             fetchUnreadCounts() {
-                // shadow query all chatrooms for unread message count
                 this.hasUnread = false
-                return new Promise((resolve) => {
-                    this.chatroomList.forEach(async (e) => {
-                        let chatroom = await tigermaster.chatroom.get(e.id)
-                        let res = await chatroom.shadowQuery(format(Date.now(),
-                            'yyyy-MM-dd HH:mm:ss'))
-                        const count = res.messages.filter(e => e['readed'] === 0).length
-                        Object.assign(e, {
-                            unread: count
-                        })
-                        if (this.chatroomList.every(e => e.unread !== undefined)) {
-                            resolve()
-                            this.hasUnread = true
-                        }
+                this.chatroomList.forEach(async (e) => {
+                    let chatroom = await tigermaster.chatroom.get(e.id)
+                    let res = await chatroom.shadowQuery(format(Date.now(),
+                        'yyyy-MM-dd HH:mm:ss'))
+                    const count = res.messages.filter(e => e['readed'] === 0).length
+                    Object.assign(e, {
+                        unread: count
                     })
+                    if (this.chatroomList.every(e => e.unread !== undefined)) {
+                        this.hasUnread = true
+                    }
                 })
             },
             async shadowQueryRoomMsg(roomId) {
@@ -93,6 +89,7 @@
             },
             async onRoomClick(roomId) {
                 await this.shadowQueryRoomMsg(roomId)
+                await store.dispatch('selectRoom', roomId)
                 store.dispatch('toggleChatroom', true)
             }
         }

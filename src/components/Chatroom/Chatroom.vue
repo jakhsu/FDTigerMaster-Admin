@@ -120,7 +120,7 @@
                 isSendingText: false,
                 isFetchingTarget: false,
                 chatroom: Object,
-                id: store.state.chatroom.selected,
+                id: store.state.chatroom.selected._chatroomId,
                 selfName: store.state.user.name,
                 dialogueTemplate,
                 targetUser: Object
