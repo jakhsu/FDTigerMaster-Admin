@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import tigermaster from 'fdtigermaster-admin-sdk'
 import {
-    format
+    format,
+    add
 } from 'date-fns'
 
 Vue.use(Vuex)
@@ -37,7 +38,10 @@ export default new Vuex.Store({
             commit
         }, roomId) {
             const chatroom = await tigermaster.chatroom.get(roomId)
-            const timestamp = format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
+            let FiveSecsFromNow = add(Date.now(), {
+                seconds: 5
+            })
+            const timestamp = format(FiveSecsFromNow, 'yyyy-MM-dd HH:mm:ss')
             let messages = (await chatroom.shadowQuery(timestamp)).messages
             commit('setChatroomMsg', messages)
         },
