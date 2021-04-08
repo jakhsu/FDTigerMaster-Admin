@@ -26,11 +26,11 @@ export default new Vuex.Store({
         setChatroomMsg(state, data) {
             state.chatroom.msg = data
         },
-        toggleChatroom(state, boolean) {
+        setToggleChatroom(state, boolean) {
             state.chatroom.isShow = boolean
         },
-        setSelectedChatroom(state, roomId) {
-            state.chatroom.selected = roomId
+        setSelectedChatroom(state, data) {
+            state.chatroom.selected = data
         }
     },
     actions: {
@@ -48,7 +48,13 @@ export default new Vuex.Store({
         toggleChatroom({
             commit
         }, boolean) {
-            commit('toggleChatroom', boolean)
+            commit('setToggleChatroom', boolean)
+        },
+        async selectRoom({
+            commit
+        }, roomId) {
+            const chatroom = await tigermaster.chatroom.get(roomId)
+            commit("setSelectedChatroom", chatroom)
         }
     },
     modules: {}
