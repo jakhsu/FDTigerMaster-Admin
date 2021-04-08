@@ -79,21 +79,22 @@
                             <b-textarea id="chatroom-text" v-model="text" v-on:keyup.enter="submit" />
                         </div>
                         <div class="chatroom-input-btns mt-2 d-flex">
-                            <div>
-                                <input ref="file" type="file" @change="handleUpload($event)" class="custom-input"
-                                    style="display:none">
-                                <b-button variant="info" @click="$refs.file.click()">
-                                    <font-awesome-icon icon="paperclip" />
-                                </b-button>
-                                <b-dropdown dropright variant="warning" text="範本" class="ml-2">
-                                    <b-dropdown-item @click="useChatTemplate(template.content)"
-                                        v-for="(template, index) in dialogueTemplate" :key="index">
-                                        <div class="chatroom-input-template-item">
-                                            {{template.content}}
-                                        </div>
-                                    </b-dropdown-item>
-                                </b-dropdown>
-                            </div>
+                            <input ref="file" type="file" @change="handleUpload($event)" class="custom-input"
+                                style="display:none">
+                            <b-button variant="info" @click="$refs.file.click()">
+                                <font-awesome-icon icon="paperclip" />
+                            </b-button>
+                            <b-dropdown dropright variant="warning" text="罐頭訊息" class="ml-2">
+                                <b-dropdown-item @click="useChatTemplate(template.content)"
+                                    v-for="(template, index) in dialogueTemplate" :key="index">
+                                    <div class="chatroom-input-template-item">
+                                        {{template.content}}
+                                    </div>
+                                </b-dropdown-item>
+                            </b-dropdown>
+                            <b-button :disabled="isInputEmpty" variant="success" class="ml-auto" @click="submit">
+                                送出
+                            </b-button>
                         </div>
                     </div>
                 </div>
@@ -179,6 +180,9 @@
             },
             targetUserId() {
                 return this.chatroom._data.userIds.filter(e => e !== this.$store.state.user.id)[0]
+            },
+            isInputEmpty() {
+                return this.text.length === 0
             }
         }
     }
