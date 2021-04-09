@@ -17,7 +17,7 @@
                     <b-button class="ml-auto" size="md" variant="outline-danger" v-b-modal="'Score-Modal'">修改平均分數
                     </b-button>
                 </div>
-                <ErrorCard v-if="fetchError" />
+                <ErrorCard v-if="fetchError" :errorMsg="'hi'" :hasRetry="true" @retry="fetchOrderComment" />
                 <CustomTable v-else :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                     @dataRequire="onDataRequire">
                     <template #top-row="comments">
@@ -87,7 +87,7 @@
             if (!this.user.avgScore) {
                 this.user.avgScore = 0;
             }
-            this.fetchOrderCommnet();
+            this.fetchOrderComment();
         },
         methods: {
             onSearchClick() {},
@@ -98,7 +98,7 @@
             refresh() {
                 this.$emit("refresh");
             },
-            async fetchOrderCommnet() {
+            async fetchOrderComment() {
                 this.isTableBusy = true;
                 const database = tigermaster.database;
                 const res = database.query("order_comment")

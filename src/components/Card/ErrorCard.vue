@@ -1,15 +1,21 @@
 <template>
     <div>
         <b-card>
-            {{errorMsg}}
+            <scale-loader v-if="isRetrying" />
+            <div v-else>
+                <div>
+                    {{errorMsg}}
+                </div>
+                <b-button v-if="hasRetry" @click="retry" variant="success" class="mt-2">{{retryBtnText}}</b-button>
+            </div>
         </b-card>
-        <b-button v-if="hasRetry" @click="retry" variant="success" class="mt-2">{{retryBtnText}}</b-button>
     </div>
 </template>
 
 <script>
     export default {
         name: "ErrorCard",
+        components: {},
         props: {
             errorType: {
                 type: String,
@@ -28,9 +34,19 @@
                 default: false
             }
         },
+        data() {
+            return {
+                isRetrying: false
+            }
+        },
+        created() {
+            console.log(this.isRetrying)
+        },
         methods: {
             retry() {
+                this.isRetrying = true
                 this.$emit('retry')
+                console.log(this.isRetrying)
             }
         }
     }
