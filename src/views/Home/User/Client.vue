@@ -125,6 +125,9 @@
     import {
         userQueryBuilder
     } from '@/model/QueryBuilder/QueryBuilder.js'
+    import {
+        convertDateToFormattedText
+    } from '@/model/Date/Date.js'
 
     import tigermaster from 'fdtigermaster-admin-sdk'
 
@@ -240,21 +243,8 @@
         },
         computed: {
             searchDateRange() {
-                const startDate = new Date(this.search["createDate_start"])
-                const endDate = new Date(this.search["createDate_end"])
-                const startYear = startDate.getFullYear()
-                const endYear = endDate.getFullYear()
-                let startMon = startDate.getMonth()
-                let startDay = startDate.getDate()
-                let endMon = endDate.getMonth()
-                let endDay = endDate.getDate()
-                if (!isNaN(startDate) && !isNaN(endDate) && startYear === endYear) {
-                    return `${startYear} ${startMon}/${startDay} ~ ${endMon}/${endDay}`
-                } else if (!isNaN(startDate) && !isNaN(endDate) && startYear !== endYear) {
-                    return `${startYear} ${startMon}/${startDay} ~ ${endYear} ${endMon}/${endDay}`
-                } else {
-                    return "N/A"
-                }
+                return convertDateToFormattedText(new Date(this.search["createDate_start"]), new Date(this.search[
+                    "createDate_end"]))
             }
         }
     }
