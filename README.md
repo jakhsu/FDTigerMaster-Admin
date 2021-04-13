@@ -22,11 +22,14 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
   - [Developer Practices](#developer-practices)
     - [Commit](#commit)
     - [CI / CD](#ci--cd)
+    - [Error Monitoring](#error-monitoring)
   - [Folder Structure](#folder-structure)
 
 ## Feature List
 
 [top](#fd-tiger-master-admin-documentation)
+
+Some key words are `highlighted` to emphasize functionality or important properties. For example, `query` and `edit` are both important functionalities to perform to `user`. Another example would be `comments`, which represents comments master and client leave for each other after an `order` is finished.
 
 ### User
 
@@ -60,6 +63,36 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
 
 > services refer to master skills and master working categories
 
+A skill object looks like
+
+```js
+{
+  active: 1,
+  createBy: "2021032500001",
+  createDate: "2021-04-08 17:05:18",
+  description: "描述",
+  id: "TM-A010000",
+  name: "家電"
+}
+```
+
+And a working category might look like
+
+```js
+{
+  active: 1,
+  commercialWarrantyDay: 7,
+  consumerWarrantyDay: 31,
+  createBy: "2021032500001",
+  createDate: "2021-04-08 17:05:50",
+  description: "描述"
+  ...
+  name: "洗衣機故障",
+  // This property shows which skill this particular working category belongs to
+  skillItemId: "TM-A020000"
+}
+```
+
 - `Query` services
 - `Add` services
 - `Edit` services  
@@ -71,7 +104,29 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
 
 > service level refers to the hierarchy relationship of all services tigermaster provides, from clients' perspective
 
-L1~L3 hierarchy
+```js
+{
+  // This is L1 level
+  "水電服務": {
+  "name": "水電服務",
+  "desc": "這是水電服務包括...",
+  "imagePath": "https://...",
+  // This is L2 level
+  "L2": {
+  "通水管馬桶": {
+  "name": "通水管馬桶",
+  "desc": "這是通水管馬桶包括...",
+  "imagePath": "https://...",
+  // This property contains corresponding L3 items
+  "L3": ["TM-P010101", "TM-P010201", "TM-P010301"]
+  },
+  // 水電服務 > 通水管馬桶 > "TM-P010101"
+  ...
+  "插座/開關/配電":{
+    ...
+  }
+}
+```
 
 - `Add` new nodes (new item in L1~L3)
 - `Delete` L3 node
@@ -105,7 +160,7 @@ L1~L3 hierarchy
 
 [top](#fd-tiger-master-admin-documentation)
 
-To run the project in local machine, execute
+To run the project on local machine, execute
 
 ```shell
 # For local environment
@@ -155,13 +210,17 @@ Use [commitizen](https://github.com/commitizen/cz-cli) and an adaptor plugin  [c
 
 Currently, CI / CD practices are limited to running `.gitlab-ci.yml` after each push to the gitlab repo. Refer to `.gitlab-ci.yml` for detailed pipeline scripts.
 
+### Error Monitoring
+
+Although this can be implemented from scratch, I've decided to adopt [Sentry.io](https://sentry.io/welcome/) for its ease-of-use and great UI. Since this project will likely be maintained by one person, the free price tier should suffice. For installation guide, see [here](https://docs.sentry.io/platforms/javascript/)
+
 ## Folder Structure
 
 [top](#fd-tiger-master-admin-documentation)
 
 produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 
-```shell
+```txt
 ├── public
 ├── README_Resource
 ├── src
@@ -170,11 +229,14 @@ produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |  |  ├── Badge
 |  |  ├── Broadcast
 |  |  ├── Card
-|  |  ├── Chart
 |  |  ├── Chatroom
 |  |  ├── Header
 |  |  ├── Image
 |  |  ├── Modal
+|  |  |  ├── Order
+|  |  |  ├── Service
+|  |  |  ├── User
+|  |  |  └── Util
 |  |  ├── MultiSearch
 |  |  ├── Preview
 |  |  ├── Sidebar
@@ -182,6 +244,7 @@ produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |  ├── config
 |  ├── model
 |  |  ├── CaseConverter
+|  |  ├── Date
 |  |  ├── FetchAddress
 |  |  ├── Mapping
 |  |  ├── QueryBuilder
@@ -198,28 +261,27 @@ produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |        ├── Order
 |        |  └── OrderDetailComponent
 |        ├── Services
-|        ├── User
-|        |  └── UserDetailComponent
-|        └── Utility
+|        └── User
+|           └── UserDetailComponent
 └── test
 ```
 
 Some of the more important folders are
 
-- components: contains various [Vue single file components](https://vuejs.org/v2/guide/single-file-components.html)
+- `components`: contains various [Vue single file components](https://vuejs.org/v2/guide/single-file-components.html)
 
-- views: contains the view pages, such as client page, user detail page, order page, etc.
+- `views`: contains the view pages, such as client page, user detail page, order page, etc.
 
-- router: is where Vue router script locates
+- `router`: is where Vue router script locates
 
-- utility: contains firebase script
+- `utility`: contains firebase script
 
-- model: contains various JS modules, where more complicated logic are encapsulated, and ideally unit test cases exist for each of these modules
+- `model`: contains various JS modules, where more complicated logic are encapsulated, and ideally unit test cases exist for each of these modules
 
-- store: Vuex store instance
+- `store`: Vuex store
 
-- config: contains config files such as predefined table fields and order status code map.
+- `config`: contains config files such as predefined table fields and order status code map.
 
-- assets: static assets
+- `assets`: static assets
 
-- test: unit tests
+- `test`: unit tests

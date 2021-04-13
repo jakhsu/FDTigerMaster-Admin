@@ -7,11 +7,14 @@ C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
 |  |  ├── Badge
 |  |  ├── Broadcast
 |  |  ├── Card
-|  |  ├── Chart
 |  |  ├── Chatroom
 |  |  ├── Header
 |  |  ├── Image
 |  |  ├── Modal
+|  |  |  ├── Order
+|  |  |  ├── Service
+|  |  |  ├── User
+|  |  |  └── Util
 |  |  ├── MultiSearch
 |  |  ├── Preview
 |  |  ├── Sidebar
@@ -19,6 +22,7 @@ C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
 |  ├── config
 |  ├── model
 |  |  ├── CaseConverter
+|  |  ├── Date
 |  |  ├── FetchAddress
 |  |  ├── Mapping
 |  |  ├── QueryBuilder
@@ -35,11 +39,10 @@ C:\Users\User\Desktop\JackHsuWorkDirectory\projects\fdtigermaster-admin-web
 |        ├── Order
 |        |  └── OrderDetailComponent
 |        ├── Services
-|        ├── User
-|        |  └── UserDetailComponent
-|        └── Utility
+|        └── User
+|           └── UserDetailComponent
 └── test
 
-directory: 5386
+directory: 5388
 
 ignored: directory (436)
