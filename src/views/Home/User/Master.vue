@@ -228,7 +228,7 @@
                 this.inactiveCount = inactiveCount;
             },
             openEmailClient(address) {
-                window.open(`mailto:${address}`)
+                window.open(`mailto:${address}?subject=您好，這裡是師虎來了`)
             },
             showModal(id) {
                 this.$bvModal.show(id)
