@@ -1,6 +1,6 @@
 <template>
     <div class="chatroom">
-        <VueDragResize :sticks="['tl', 'tm']" :isDraggable="true" :w="370" :h="300" :minw="300" :z="1000"
+        <VueDragResize :sticks="['tl', 'tm']" :isDraggable="true" :w="370" :minw="300" :z="1000"
             @clicked="handleClick($event)">
             <b-card>
                 <template #header>
@@ -36,9 +36,11 @@
                                 <div class="msg-sender m-2">
                                     {{selfName}}
                                 </div>
-                                <div class="msg-content m-2">
-                                    {{msg.srcPath}}
+                                <div v-if="msg.variant === 0" class="msg-content m-2">
                                     {{msg.text}}
+                                </div>
+                                <div v-if="msg.variant === 1" class="msg-content m-2">
+                                    <ProtectedImage :src="msg.srcPath" />
                                 </div>
                                 <div class="msg-status">
                                     <div>
@@ -54,9 +56,11 @@
                                 <div class="msg-sender m-2">
                                     {{targetUser.name}}
                                 </div>
-                                <div class="msg-content m-2">
-                                    {{msg.srcPath}}
+                                <div v-if="msg.variant === 0" class="msg-content m-2">
                                     {{msg.text}}
+                                </div>
+                                <div v-if="msg.variant === 1" class="msg-content m-2">
+                                    {{msg.srcPath}}
                                 </div>
                                 <div class="msg-status">
                                     <div>
@@ -108,18 +112,21 @@
     import store from '@/store'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import dialogueTemplate from '@/config/ChatroomTemplates.json'
+    import Chatroom from 'fdtigermaster-admin-sdk/lib/src/Chatroom/Chatroom'
+    import ProtectedImage from '../Image/ProtectedImage.vue'
 
     export default {
         name: "Chatroom",
         components: {
-            VueDragResize
+            VueDragResize,
+            ProtectedImage
         },
         data() {
             return {
                 text: "",
                 isSendingText: false,
                 isFetchingTarget: false,
-                chatroom: store.state.chatroom.selected._data,
+                chatroom: store.state.chatroom.selected,
                 id: store.state.chatroom.selected._chatroomId,
                 selfName: store.state.user.name,
                 dialogueTemplate,
@@ -128,6 +135,7 @@
         },
         async created() {
             this.fetchTargetUser()
+            console.log(this.chatroom instanceof Chatroom)
         },
         methods: {
             async fetchTargetUser() {
@@ -178,7 +186,7 @@
                 return this.$store.state.chatroom.msg
             },
             targetUserId() {
-                return this.chatroom.userIds.filter(e => e !== this.$store.state.user.id)[0]
+                return this.chatroom._data.userIds.filter(e => e !== this.$store.state.user.id)[0]
             },
             isInputEmpty() {
                 return this.text.length === 0
@@ -188,6 +196,10 @@
 </script>
 
 <style scoped>
+    .vdr.active:before {
+        outline: none;
+    }
+
     .chatroom-button {
         font-size: 25px;
         cursor: pointer;
@@ -235,6 +247,8 @@
         padding: 10px;
         background-color: #86d97b;
         border-radius: 20px;
+        max-width: 15rem;
+        overflow: hidden;
     }
 
     .other-msg {
