@@ -1,9 +1,9 @@
 <template>
   <div id="Page404">
     <b-container class="Page404-Area">
-      <h1>404</h1>
-      <h2>Oops... You just found an error page...</h2>
-      <h3>We are sorry but the page you have requested can not be found...</h3>
+      <img id="404-img" src="@/assets/404.png" style="width: 500px" />
+      <h2>唉呀...找不到你要的頁面</h2>
+      <h3>請回報給工程師團隊</h3>
       <b-button variant="warning" @click="$router.go(-1)">回前一頁</b-button>
     </b-container>
   </div>
