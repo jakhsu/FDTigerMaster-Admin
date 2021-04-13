@@ -458,9 +458,6 @@
                 const serviceLevel = tigermaster.services.Level;
                 try {
                     this.serviceLevelData = await serviceLevel.get();
-                    // TODO: for testing, using example.json as service level data, will need
-                    // to fetch from DB later stages
-                    // this.serviceLevelData = example
                     this.hasFetchError = false
                 } catch (e) {
                     this.serviceLevelData = {}
