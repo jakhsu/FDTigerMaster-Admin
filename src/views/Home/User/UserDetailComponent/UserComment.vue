@@ -17,7 +17,7 @@
                     <b-button class="ml-auto" size="md" variant="outline-danger" v-b-modal="'Score-Modal'">修改平均分數
                     </b-button>
                 </div>
-                <ErrorCard v-if="fetchError" :errorMsg="'hi'" :hasRetry="true" @retry="fetchOrderComment" />
+                <ErrorCard v-if="fetchError" :errorMsg="'抱歉，可能有錯誤發生。'" :hasRetry="true" @retry="fetchOrderComment" />
                 <CustomTable v-else :queryRows="1" :totalRows="3" :fields="fields" :datas="comments" :isBusy="tableBusy"
                     @dataRequire="onDataRequire">
                     <template #top-row="comments">
