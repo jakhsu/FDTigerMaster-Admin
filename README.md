@@ -231,6 +231,7 @@ run unit tests, located in `/test` folder
 produced using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 
 ```txt
+├── dev_utils
 ├── public
 ├── README_Resource
 ├── src
@@ -250,9 +251,11 @@ produced using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 |  |  ├── MultiSearch
 |  |  ├── Preview
 |  |  ├── Sidebar
-|  |  └── Table
+|  |  ├── Table
+|  |  └── ToggleEdit
 |  ├── config
 |  ├── model
+|  |  ├── Bitwise
 |  |  ├── CaseConverter
 |  |  ├── Date
 |  |  ├── FetchAddress
@@ -295,6 +298,8 @@ Some of the more important folders are
 - `assets`: static assets
 
 - `test`: unit tests
+
+- `dev_utils`: utils used on in development
 
 ## Reference and Misc
 
