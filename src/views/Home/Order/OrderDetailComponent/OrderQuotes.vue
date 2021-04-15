@@ -2,7 +2,10 @@
     <div>
         <SimpleModal id="quote-fee-modal" title="報價單細項">
             <template #modal-body>
-                <b-card v-for="(fee, index) in parsedFee" :key="index">
+                <!-- TODO: temporary hack, please remove once backend api is stable -->
+                {{parsedFee}}
+                <!-- TODO: enable the below block of code and check if format work. If not please fix it. -->
+                <!-- <b-card v-for="(fee, index) in parsedFee" :key="index">
                     <template #header>
                         {{fee.group}}
                     </template>
@@ -42,13 +45,13 @@
                             <b-form-input :value="entry.total"></b-form-input>
                         </b-input-group>
                     </b-form-group>
-                </b-card>
+                </b-card> -->
             </template>
         </SimpleModal>
         <TitledCard title="報價單紀錄">
             <CustomTable :datas="data" :fields="field">
                 <template #cell(fee)=data>
-                    <b-button variant="outline-success" @click="showFeeModal(data.value)">查看細項</b-button>
+                    <b-button variant="outline-success" @click="showFeeModal(data.item)">查看細項</b-button>
                 </template>
             </CustomTable>
         </TitledCard>
@@ -103,9 +106,14 @@
         },
         methods: {
             showFeeModal(fee) {
-                const parsed = JSON.parse(fee)
-                this.parsedFee = parsed;
+                // TODO: remove once backend is steady
+                this.parsedFee = fee;
                 this.$bvModal.show('quote-fee-modal')
+                // TODO: enable once backend is steady
+                // const parsed = JSON.parse(fee)
+                // this.parsedFee = parsed;
+                // this.$bvModal.show('quote-fee-modal')
+
             },
             async fetchPaymentHistory() {
                 const res = await tigermaster.database.query("quote_price")
