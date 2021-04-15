@@ -15,6 +15,7 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
     - [Service Level](#service-level)
     - [Broadcast](#broadcast)
     - [Payment ( *to be implemented* )](#payment--to-be-implemented-)
+    - [Real-Time Voice ( *to be implemented* )](#real-time-voice--to-be-implemented-)
   - [Tech Stack](#tech-stack)
   - [Start the project](#start-the-project)
   - [Deploy](#deploy)
@@ -24,6 +25,9 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
     - [CI / CD](#ci--cd)
     - [Error Monitoring](#error-monitoring)
   - [Folder Structure](#folder-structure)
+  - [Reference and Misc](#reference-and-misc)
+    - [Why use Vue 2.x instead of Vue 3 and what about migration to 3](#why-use-vue-2x-instead-of-vue-3-and-what-about-migration-to-3)
+    - [How to use tree cli](#how-to-use-tree-cli)
 
 ## Feature List
 
@@ -142,17 +146,23 @@ And a working category might look like
 
 - `Export` CSV file for bank transfer
 
+### Real-Time Voice ( *to be implemented* )
+
+- `Call` and `Receive` voice calls
+
 ## Tech Stack
 
 [top](#fd-tiger-master-admin-documentation)
 
 - [VueJs](https://vuejs.org/v2/guide/) as framework
+  - [why use Vue2 and not 3](#why-use-vue-2x-instead-of-vue-3-and-what-about-migration-to-3)
+
 - [Vue CLI](https://cli.vuejs.org/) for toolchains such as Babel, webpack
 - [Vuex](https://vuex.vuejs.org/zh/guide/) for state management
 - [Vue Router](https://router.vuejs.org/zh/) for routing
-- [Bootstrap](https://bootstrap-vue.org/) Vue for UI components
+- [Bootstrap Vue](https://bootstrap-vue.org/) for UI components
 - [FontAwesome](https://fontawesome.com/) for icons
-- [Sentry.io](https://docs.sentry.io/platforms/javascript/) for error monitoring ( *to be finalized* )
+- [Sentry.io](https://docs.sentry.io/platforms/javascript/) for out-of-box error monitoring
 - [Firebase](https://firebase.google.com/docs/hosting) for hosting
 - [FD Tiger Master Admin SDK](http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-sdk-package) provides FD TigerMaster system APIs
 
@@ -285,3 +295,29 @@ Some of the more important folders are
 - `assets`: static assets
 
 - `test`: unit tests
+
+## Reference and Misc
+
+[top](#fd-tiger-master-admin-documentation)
+
+### Why use Vue 2.x instead of Vue 3 and what about migration to 3
+
+```txt
+Initially because BootstrapVue didn't support Vue 3 when we started the project. Migration to Vue 3 isn't a priority since Vue 2.x ecosystem is rich enough to support the project. Though developer should be aware that Vue 2.x is still supported and the Vue core team is planning to backport Vue3-like syntax and composition API. 
+```
+
+- [PR that migrate Vue to TypeScript](https://github.com/vuejs/vue/pull/12001)
+- [RFC](https://github.com/vuejs/rfcs/blob/ie11/active-rfcs/0000-vue3-ie11-support.md#for-those-who-absolutely-need-ie11-support)
+- [Author explains](https://www.zhihu.com/question/46397274/answer/101193678)
+
+### How to use tree cli
+
+```txt
+tree cli is useful when you're not on linux system, but would like to generate pretty folder structure image that serves to illustrate how a project is constructed. However, as of now I can't get it to work as expected via NPM script. The problem likely is that arguments are not being received.
+```
+
+In terminal run
+
+```shell
+treee --ignore 'node_modules, coverage, dist' -l 5 -d -o ./README_Resource/file-structure.txt
+```
