@@ -18,3 +18,6 @@ export function validateTWPhoneNum(input) {
 export function validateEmail(input) {
     return regex.emailReg().test(input)
 }
+export function validateFileIsImage(file) {
+    return regex.imageFileReg().test(file)
+}

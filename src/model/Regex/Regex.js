@@ -10,3 +10,6 @@ export function TWPhoneReg() {
 export function emailReg() {
     return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
 }
+export function imageFileReg() {
+    return /(image\/)/
+}
