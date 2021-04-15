@@ -85,12 +85,8 @@
                         "label": "報價單金額"
                     },
                     {
-                        "key": "clientComfirm",
-                        "label": "客戶同意狀態"
-                    },
-                    {
-                        "key": "visibility",
-                        "label": "可視性"
+                        "key": "status",
+                        "label": "狀態"
                     },
                     {
                         "key": "fee",
