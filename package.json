@@ -14,7 +14,7 @@
     "test": "jest",
     "lint": "vue-cli-service lint --no-fix",
     "lint:fix": "vue-cli-service lint",
-    "tree": "treee --ignore 'node_modules, coverage, dist' -l 5 -d -o ./README_Resource/file-structure.txt"
+    "tree": "node tree.js"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -79,6 +79,7 @@
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^26.6.3",
+    "tree-cli": "^0.6.7",
     "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.6.11"
   },
