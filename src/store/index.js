@@ -10,10 +10,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         user: {},
+        // global chatroom information
         chatroom: {
             msg: {},
             isShow: false,
-            selected: ""
+            selected: {}
         }
     },
     mutations: {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
             commit
         }, roomId) {
             const chatroom = await tigermaster.chatroom.get(roomId)
+            // need to add five seconds ( arbitrary time ) to the timestamp when querying messages
+            // because it takes some time ( < 1 sec ) for the backend system to add
+            // new messages. If not, query might not return latest messages even if they do exist 
             let FiveSecsFromNow = add(Date.now(), {
                 seconds: 5
             })
@@ -56,6 +60,5 @@ export default new Vuex.Store({
             const chatroom = await tigermaster.chatroom.get(roomId)
             commit("setSelectedChatroom", chatroom)
         }
-    },
-    modules: {}
+    }
 })
