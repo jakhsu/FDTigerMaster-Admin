@@ -22,7 +22,7 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-button variant="warning" @click="toggleChatroomUtils">聊天室測試</b-button>
+                    <b-button class="m-2" variant="warning" @click="toggleChatroomUtils">聊天室測試</b-button>
                 </b-row>
                 <b-row v-if="isTestingChatrooms">
                     <TitledCard class="m-2" title="聊天室測試utility">
@@ -43,7 +43,7 @@
                         <b-form-group v-else label="訊息內容">
                             請先從右上角開啟一個聊天室，將會對開啟中的聊天室送訊息
                             <b-form-input v-model="msg" />
-                            <b-button variant="success" @click="sendMsg">
+                            <b-button class="m-2" variant="success" @click="sendMsg">
                                 送出
                             </b-button>
                         </b-form-group>
