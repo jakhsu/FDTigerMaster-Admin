@@ -228,7 +228,7 @@ Although this can be implemented from scratch, I've decided to adopt [Sentry.io]
 
 [top](#fd-tiger-master-admin-documentation)
 
-produces using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
+produced using [Tree-cli](https://github.com/MrRaindrop/tree-cli) package
 
 ```txt
 ├── public
@@ -312,12 +312,8 @@ Initially because BootstrapVue didn't support Vue 3 when we started the project.
 
 ### How to use tree cli
 
-```txt
-tree cli is useful when you're not on linux system, but would like to generate pretty folder structure image that serves to illustrate how a project is constructed. However, as of now I can't get it to work as expected via NPM script. The problem likely is that arguments are not being received.
-```
-
 In terminal run
 
 ```shell
-treee --ignore 'node_modules, coverage, dist' -l 5 -d -o ./README_Resource/file-structure.txt
+npm run tree
 ```
