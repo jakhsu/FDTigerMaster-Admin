@@ -1,15 +1,18 @@
 <template>
     <TitledCard title="VIP權限管理">
-        <b-row class="m-3">
-            <div v-for="(digit,index) in binary" :key="index">
-                <b-form-checkbox class="m-2" @change="show(index)" :checked="digit === '1'">
-                    {{privilegeMap[index]}}
-                </b-form-checkbox>
-            </div>
-        </b-row>
-        <b-row class="m-3">
-            <b-button variant="success" class="ml-auto" v-if="hasBeenEdited" @click="finishEdit">儲存</b-button>
-        </b-row>
+        <scale-loader v-if="isLoading" />
+        <div v-else>
+            <b-row class="m-3">
+                <div v-for="(digit,index) in binary" :key="index">
+                    <b-form-checkbox class="m-2" @change="show(index)" :checked="digit === '1'">
+                        {{privilegeMap[index]}}
+                    </b-form-checkbox>
+                </div>
+            </b-row>
+            <b-row class="m-3">
+                <b-button variant="success" class="ml-auto" v-if="hasBeenEdited" @click="finishEdit">儲存</b-button>
+            </b-row>
+        </div>
     </TitledCard>
 </template>
 
@@ -35,7 +38,8 @@
             return {
                 privilegeMap: PrivilegeMap(),
                 binary: String,
-                resultNum: Number
+                resultNum: Number,
+                isLoading: false
             }
         },
         created() {
@@ -51,9 +55,15 @@
                 this.binary = result[1]
             },
             async finishEdit() {
+                this.isLoading = true
                 await this.user.update({
-                    defaultOrderProcedure: this.resultNum
+                    client: {
+                        id: this.user._data.client.id,
+                        defaultOrderProcedure: this.resultNum
+                    }
                 })
+                this.$emit("refresh")
+                this.isLoading = false
             },
             parseToBinary() {
                 this.binary = this.privilege.toString(2)
