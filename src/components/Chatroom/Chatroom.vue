@@ -42,6 +42,9 @@
                                 <div v-if="msg.variant === 1" class="msg-content m-2">
                                     <ProtectedImage :src="msg.srcPath" />
                                 </div>
+                                <div v-if="msg.variant === 2" class="msg-content m-2">
+                                    <a :href="msg.srcPath" download>{{msg.text}}</a>
+                                </div>
                                 <div class="msg-status">
                                     <div>
                                         <font-awesome-icon class="msg-status-readed" icon="check"
@@ -60,7 +63,10 @@
                                     {{msg.text}}
                                 </div>
                                 <div v-if="msg.variant === 1" class="msg-content m-2">
-                                    {{msg.srcPath}}
+                                    <ProtectedImage :src="msg.srcPath" />
+                                </div>
+                                <div v-if="msg.variant === 2" class="msg-content m-2">
+                                    <a :href="msg.srcPath" download>{{msg.text}}</a>
                                 </div>
                                 <div class="msg-status">
                                     <div>
@@ -113,6 +119,9 @@
     import tigermaster from 'fdtigermaster-admin-sdk'
     import dialogueTemplate from '@/config/ChatroomTemplates.json'
     import ProtectedImage from '../Image/ProtectedImage.vue'
+    import {
+        validateFileIsImage
+    } from '@/model/Validator/Validator.js'
 
     export default {
         name: "Chatroom",
@@ -168,9 +177,13 @@
             async handleUpload(e) {
                 this.isSendingText = true
                 const file = e.target.files[0]
-                console.log(file)
+                const isImage = validateFileIsImage(file)
                 try {
-                    await this.chatroom.sendImage(file)
+                    if (isImage) {
+                        await this.chatroom.sendImage(file)
+                    } else {
+                        await this.chatroom.sendFile(file)
+                    }
                     await store.dispatch('shadowQueryRoom', this.id)
                 } catch (e) {
                     console.log(e)
