@@ -33,7 +33,7 @@ This project is a Vue-based admin for users to interact with the FD tigermaster 
 
 [top](#fd-tiger-master-admin-documentation)
 
-Some key words are `highlighted` to emphasize functionality or important properties. For example, `query` and `edit` are both important functionalities to perform to `user`. Another example would be `comments`, which represents comments master and client leave for each other after an `order` is finished.
+>Some key words are `highlighted` to emphasize functionality or important properties. For example, `query` and `edit` are both important functionalities to perform to `user`. Another example would be `comments`, which represents comments master and client leave for each other after an `order` is finished.
 
 ### User
 
@@ -214,15 +214,15 @@ run unit tests, located in `/test` folder
 
 ### Commit
 
-Use [commitizen](https://github.com/commitizen/cz-cli) and an adaptor plugin  [cz-customizable](https://github.com/leoforfree/cz-customizable) for standardized but flexible commits, refer to `.cz-config.js` file to see detail. Currently, there's no enforced config across team members, though it might be useful in the future. [Docs](http://commitizen.github.io/cz-cli/) for commitizen can also be helpful when tweaking the config.
+>Use [commitizen](https://github.com/commitizen/cz-cli) and an adaptor plugin  [cz-customizable](https://github.com/leoforfree/cz-customizable) for standardized but flexible commits, refer to `.cz-config.js` file to see detail. Currently, there's no enforced config across team members, though it might be useful in the future. [Docs](http://commitizen.github.io/cz-cli/) for commitizen can also be helpful when tweaking the config.
 
 ### CI / CD
 
-Currently, CI / CD practices are limited to running `.gitlab-ci.yml` after each push to the gitlab repo. Refer to `.gitlab-ci.yml` for detailed pipeline scripts.
+>Currently, CI / CD practices are limited to running `.gitlab-ci.yml` after each push to the gitlab repo. Refer to `.gitlab-ci.yml` for detailed pipeline scripts.
 
 ### Error Monitoring
 
-Although this can be implemented from scratch, I've decided to adopt [Sentry.io](https://sentry.io/welcome/) for its ease-of-use and great UI. Since this project will likely be maintained by one person, the free price tier should suffice. For installation guide, see [here](https://docs.sentry.io/platforms/javascript/)
+>Although this can be implemented from scratch, I've decided to adopt [Sentry.io](https://sentry.io/welcome/) for its ease-of-use and great UI. Since this project will likely be maintained by one person, the free price tier should suffice. For installation guide, see [here](https://docs.sentry.io/platforms/javascript/)
 
 ## Folder Structure
 
@@ -302,9 +302,7 @@ Some of the more important folders are
 
 ### Why use Vue 2.x instead of Vue 3 and what about migration to 3
 
-```txt
-Initially because BootstrapVue didn't support Vue 3 when we started the project. Migration to Vue 3 isn't a priority since Vue 2.x ecosystem is rich enough to support the project. Though developer should be aware that Vue 2.x is still supported and the Vue core team is planning to backport Vue3-like syntax and composition API. 
-```
+> Initially because BootstrapVue didn't support Vue 3 when we started the project. Migration to Vue 3 isn't a priority since Vue 2.x ecosystem is rich enough to support the project. Though developer should be aware that Vue 2.x is still supported and the Vue core team is planning to backport Vue3-like syntax and composition API. 
 
 - [PR that migrate Vue to TypeScript](https://github.com/vuejs/vue/pull/12001)
 - [RFC](https://github.com/vuejs/rfcs/blob/ie11/active-rfcs/0000-vue3-ie11-support.md#for-those-who-absolutely-need-ie11-support)
