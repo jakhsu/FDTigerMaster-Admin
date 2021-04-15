@@ -85,6 +85,7 @@
                             path: '/home'
                         });
                     } catch (errorMsg) {
+                        // identify types of error and show revelant error msg to user
                         switch (errorMsg.message) {
                             case 'Login fail: status 403':
                                 this.passError = true
