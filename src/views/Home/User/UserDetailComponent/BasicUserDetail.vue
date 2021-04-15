@@ -107,7 +107,8 @@
                         </div>
                     </TitledCard>
                     <TitledCard title="地址">
-                        <div class="m-2">
+                        此部分目前無法使用，待系統更新
+                        <!-- <div class="m-2">
                             <b-form-group>
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="城市: ">
                                     <b-form-select id="city" v-model="userData.addressCity" :disabled="!isModify">
@@ -142,7 +143,7 @@
                                     <b-form-input v-model="userData.addressDetail" :disabled="!isModify" />
                                 </b-form-group>
                             </b-form-group>
-                        </div>
+                        </div> -->
                     </TitledCard>
                     <TitledCard v-if="userData.roleId === 1 || userData.roleId === 2" title="客戶專用">
                         <div class="m-2">
@@ -153,9 +154,15 @@
                                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
                                     <b-form-input v-model="userData.client.invoiceTitle" :disabled="!isModify" />
                                 </b-form-group>
+                                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶地址: "
+                                    v-for="(address, index) in userData.client.addresses" :key="index">
+                                    <b-form-input v-model="address.value" :disabled="!isModify" />
+                                </b-form-group>
                             </b-form-group>
                         </div>
                     </TitledCard>
+                    <TogglePrivilege v-if="userData.roleId === 1 || userData.roleId === 2"
+                        :privilege="userData.client.defaultOrderProcedure" :user="user" />
                     <TitledCard v-if="userData.roleId == 0" title="師傅專用">
                         <div class="m-2">
                             <b-form-group>
@@ -216,6 +223,7 @@
     } from '@/model/FetchAddress/FetchRoadName'
     import RoleIdMap from '@/model/Mapping/RoleIdMap.js'
     import SimpleImage from '@/components/Image/SimpleImage.vue'
+    import TogglePrivilege from '../../../../components/ToggleEdit/TogglePrivilege.vue'
 
     export default {
         name: "BasicDetail",
@@ -224,7 +232,8 @@
             TitledCard,
             ActivateModal,
             DeactivateModal,
-            SimpleImage
+            SimpleImage,
+            TogglePrivilege
         },
         props: {
             userData: Object,
