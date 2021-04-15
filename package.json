@@ -14,7 +14,7 @@
     "test": "jest",
     "lint": "vue-cli-service lint --no-fix",
     "lint:fix": "vue-cli-service lint",
-    "tree": "node tree.js"
+    "tree": "node ./dev_utils/tree.js"
   },
   "jest": {
     "moduleFileExtensions": [
