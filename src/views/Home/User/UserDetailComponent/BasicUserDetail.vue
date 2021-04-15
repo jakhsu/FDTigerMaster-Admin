@@ -162,7 +162,7 @@
                         </div>
                     </TitledCard>
                     <TogglePrivilege v-if="userData.roleId === 1 || userData.roleId === 2"
-                        :privilege="userData.client.defaultOrderProcedure" :user="user" />
+                        :privilege="userData.client.defaultOrderProcedure" :user="user" @refresh="refresh" />
                     <TitledCard v-if="userData.roleId == 0" title="師傅專用">
                         <div class="m-2">
                             <b-form-group>
