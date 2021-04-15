@@ -4,14 +4,23 @@
       <img id="404-img" src="@/assets/404.png" style="width: 500px" />
       <h2>唉呀...找不到你要的頁面</h2>
       <h3>請回報給工程師團隊</h3>
-      <b-button variant="warning" @click="$router.go(-1)">回前一頁</b-button>
+      <b-button variant="warning" @click="goBack">回前一頁</b-button>
     </b-container>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Page404'
+    name: 'Page404',
+    methods: {
+      goBack() {
+        if (window.history.length === 1) {
+          this.$router.push("/home")
+        } else {
+          this.$router.go(-1)
+        }
+      }
+    }
   }
 </script>
 
