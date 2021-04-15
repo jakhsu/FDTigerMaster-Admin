@@ -1,6 +1,6 @@
 <template>
     <div class="chatroom">
-        <VueDragResize :sticks="['tl', 'tm']" :isDraggable="true" :w="370" :minw="300" :z="1000"
+        <VueDragResize :sticks="['tl']" :isDraggable="true" :w="370" :minw="300" :z="1000"
             @clicked="handleClick($event)">
             <b-card>
                 <template #header>
@@ -112,7 +112,6 @@
     import store from '@/store'
     import tigermaster from 'fdtigermaster-admin-sdk'
     import dialogueTemplate from '@/config/ChatroomTemplates.json'
-    import Chatroom from 'fdtigermaster-admin-sdk/lib/src/Chatroom/Chatroom'
     import ProtectedImage from '../Image/ProtectedImage.vue'
 
     export default {
@@ -135,7 +134,6 @@
         },
         async created() {
             this.fetchTargetUser()
-            console.log(this.chatroom instanceof Chatroom)
         },
         methods: {
             async fetchTargetUser() {
@@ -207,7 +205,9 @@
 
     .chatroom-body {
         max-height: 300px;
-        overflow: scroll;
+        overflow-y: scroll;
+        max-width: 100%;
+        overflow-x: hidden;
     }
 
     .chatroom .card-body {
