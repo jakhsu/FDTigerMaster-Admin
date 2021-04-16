@@ -1,35 +1,30 @@
 <template>
     <div>
-        <TitledCard title="上傳圖片">
-            <div>
-                <b-col v-if="showsPreview" class="preview-area mb-2">
-                    <div class="preview">
-                        <img height="200" v-if="imagePath" :src="imagePath" alt="">
-                    </div>
-                </b-col>
-                <b-col class="p-0">
-                    <b-input-group>
-                        <b-form-input v-model="imageFile.name" disabled></b-form-input>
-                        <b-input-group-append>
-                            <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
-                                style="display:none">
-                            <b-button @click="$refs.file.click()" variant="warning">
-                                選擇欲上傳圖片
-                            </b-button>
-                        </b-input-group-append>
-                    </b-input-group>
-                </b-col>
-            </div>
-        </TitledCard>
+        <div>
+            <b-col v-if="showsPreview" class="preview-area mb-2">
+                <div class="preview">
+                    <img height="200" v-if="imagePath" :src="imagePath" alt="">
+                </div>
+            </b-col>
+            <b-col class="p-0">
+                <b-input-group>
+                    <b-form-input v-model="imageFile.name" disabled></b-form-input>
+                    <b-input-group-append>
+                        <input ref="file" type="file" @change="handleImage" class="custom-input" accept="image/*"
+                            style="display:none">
+                        <b-button @click="$refs.file.click()" variant="warning">
+                            選擇欲上傳圖片
+                        </b-button>
+                    </b-input-group-append>
+                </b-input-group>
+            </b-col>
+        </div>
     </div>
 </template>
 
 <script>
-    import TitledCard from '@/components/Card/TitledCard.vue';
     export default {
-        components: {
-            TitledCard
-        },
+        components: {},
         name: "ImgUpload",
         props: {
             showsPreview: {
