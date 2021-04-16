@@ -6,7 +6,6 @@
                 <b-tags size="lg" v-model="skillList" tag-variant="success" :tag-validator="tagValidator"
                     @tag-state="onTagState">
                     <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
-                        hi
                         <b-input-group class="mb-2">
                             <b-form-input v-bind="inputAttrs" v-on="inputHandlers" placeholder="新增技能編號"
                                 class="form-control" list="Available-Skills"></b-form-input>
