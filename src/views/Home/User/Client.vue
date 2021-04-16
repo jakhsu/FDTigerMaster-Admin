@@ -31,7 +31,7 @@
                             <template #title-card-header>
                                 <Badge>
                                     <template #prepend>
-                                        管理員數
+                                        客戶數
                                     </template>
                                     <template #number>
                                         {{totalCount}}
