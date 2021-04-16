@@ -11,7 +11,7 @@
                             </b-button>
                         </div>
                         <CustomTable :fields="skillsField" :datas="skillItems" :totalRows="totalCount"
-                            :isBusy="tableBusy" :isSelectable="true" @rowClick="updateClickedSkill" selectMode='single'>
+                            :isBusy="tableBusy" :isSelectable="true" @rowClick="onSkillClick" selectMode='single'>
                         </CustomTable>
                         <div>
                             <label>對應工項</label>
@@ -106,7 +106,7 @@
                     this.skillItems = [];
                     this.masterSkills = [];
                     if (this.userData.master.skillItems !== undefined && this.userData.master.skillItems !== "") {
-                        this.masterSkills = this.userData.master.skillItems.split(',');
+                        this.masterSkills = this.userData.master.skillItems;
                         const response = await tigermaster.database
                             .query("skill_item")
                             .where("skill_item.id", "IN", this.masterSkills)
@@ -123,7 +123,7 @@
                     this.ignoredWorkingCategories = [];
                     if (this.userData.master.ignoreWorkingCategories !== undefined && this.userData.master
                         .ignoreWorkingCategories !== "") {
-                        const queryArray = this.userData.master.ignoreWorkingCategories.split(',');
+                        const queryArray = this.userData.master.ignoreWorkingCategories;
                         const response = await tigermaster.database
                             .query("working_category")
                             .where("working_category.id", "IN", queryArray)
@@ -163,10 +163,11 @@
                 this.isIgnoreLoading = false;
                 this.tableBusy = false;
             },
-            updateClickedSkill(obj) {
+            onSkillClick(obj) {
+                console.log(obj)
                 this.matchedWorkingCategory = [];
                 obj.workingCategories.forEach((ele) => {
-                    this.matchedWorkingCategory.push(`${ele.id} | ${ele.description}`)
+                    this.matchedWorkingCategory.push(`${ele.id} | ${ele.name}`)
                 });
                 this.matchedWorkingCategory = this.matchedWorkingCategory.filter(item => !this.ignoredWorkingCategories
                     .includes(item));

@@ -6,6 +6,7 @@
                 <b-tags size="lg" v-model="skillList" tag-variant="success" :tag-validator="tagValidator"
                     @tag-state="onTagState">
                     <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
+                        hi
                         <b-input-group class="mb-2">
                             <b-form-input v-bind="inputAttrs" v-on="inputHandlers" placeholder="新增技能編號"
                                 class="form-control" list="Available-Skills"></b-form-input>
@@ -39,7 +40,7 @@
     import tigermaster from 'fdtigermaster-admin-sdk'
 
     export default {
-        name: 'DeactivateModal',
+        name: 'MasterSkillCreateModal',
         components: {
             SimpleModal
         },
@@ -68,7 +69,7 @@
                 .get();
             skillItems.data.forEach((skill) => {
                 this.options.push(skill.id);
-                this.optionTexts.push(skill.description);
+                this.optionTexts.push(skill.name);
             });
             this.isLoading = false;
         },
@@ -76,11 +77,10 @@
             async addSkill() {
                 this.isLoading = true;
                 try {
-                    const skillStr = this.skillList.join(',');
                     await this.user.update({
                         master: {
                             id: this.user.data.master.id,
-                            skillItems: skillStr
+                            skillItems: this.skillList
                         }
                     });
                     this.$bvModal.hide(this.id);
