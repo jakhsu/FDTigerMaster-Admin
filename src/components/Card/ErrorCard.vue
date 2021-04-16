@@ -39,9 +39,7 @@
                 isRetrying: false
             }
         },
-        created() {
-            console.log(this.isRetrying)
-        },
+        created() {},
         methods: {
             retry() {
                 this.isRetrying = true
