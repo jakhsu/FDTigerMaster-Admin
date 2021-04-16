@@ -79,9 +79,9 @@
                         </div>
                     </TitledCard>
                     <TitledCard title="客戶費用試算">
-                        <div class="d-flex m-2">
-                        </div>
-                        <div class="m-2">
+                        仍在開發中，完成後將會開放
+                        <!-- TODO: enable and make appropriate changes once backend is ready -->
+                        <!-- <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價(元): ">
                                 <b-form-input v-model="clientPay.masterOfferPrice" disabled />
                             </b-form-group>
@@ -109,10 +109,12 @@
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶需付金額(元): ">
                                 <b-form-input v-model="clientPay.clientPayment" disabled />
                             </b-form-group>
-                        </div>
+                        </div> -->
                     </TitledCard>
                     <TitledCard title="師傅收入試算">
-                        <div class="m-2">
+                        仍在開發中，完成後將會開放
+                        <!-- TODO: enable and make appropriate changes once backend is ready -->
+                        <!-- <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價(元): ">
                                 <b-form-input v-model="masterIncome.masterOfferPrice" disabled />
                             </b-form-group>
@@ -134,7 +136,7 @@
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅實領金額(元): ">
                                 <b-form-input v-model="masterIncome.masterIncome" disabled />
                             </b-form-group>
-                        </div>
+                        </div> -->
                     </TitledCard>
                     <TitledCard title="客戶專用">
                         <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="統編: ">
@@ -158,7 +160,9 @@
                 </b-col>
                 <b-col>
                     <TitledCard title="訂單費用">
-                        <div class="m-2">
+                        仍在開發中，完成後將會開放
+                        <!-- TODO: enable and make appropriate changes once backend is ready -->
+                        <!-- <div class="m-2">
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅報價(元): ">
                                 <b-form-input v-model="order._data.masterOfferPrice" disabled />
                             </b-form-group>
@@ -192,7 +196,7 @@
                             <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="稅金: ">
                                 <b-form-input v-model="clientPay.tax" disabled />
                             </b-form-group>
-                        </div>
+                        </div> -->
                     </TitledCard>
                     <TitledCard title="其他">
                         <div class="m-2">
@@ -304,10 +308,12 @@
                     console.log(e)
                 }
             },
+            // TODO: calculate client pay and master income still need to check if they work as intended
             async calculateClientPay() {
                 try {
                     const res = await this.order.paymentEstimate();
                     this.clientPay = res;
+
                 } catch (e) {
                     console.log(e)
                 }
