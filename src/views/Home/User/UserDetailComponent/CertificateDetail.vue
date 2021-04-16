@@ -30,13 +30,13 @@
                             <b-form>
                                 <ImgUpload :key="imgUploadKey" v-bind:showsPreview="false" @FileUpload="handleUpload"
                                     class="mb-2" />
-                                <b-form-group label="證照描述: ">
-                                    <b-form-textarea v-model="toBeUploaded.description"></b-form-textarea>
-                                </b-form-group>
+                                <div>
+                                    <b-form-group label="證照描述: ">
+                                        <b-form-textarea v-model="toBeUploaded.description"></b-form-textarea>
+                                    </b-form-group>
+                                    <b-button variant="success" class="mr-1" @click="upload">上傳</b-button>
+                                </div>
                             </b-form>
-                        </div>
-                        <div class="downloadarea">
-                            <b-button variant="success" class="mr-1" @click="upload">上傳</b-button>
                         </div>
                     </TitledCard>
                 </b-col>
