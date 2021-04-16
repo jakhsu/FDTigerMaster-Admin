@@ -7,6 +7,9 @@
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*技能編號: ">
                         <b-input v-model.trim="skill.id" disabled />
                     </b-form-group>
+                    <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*技能名稱: ">
+                        <b-input v-model="skill.name" :state="nameInputState" @update="nameValidate" />
+                    </b-form-group>
                     <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="*技能描述: ">
                         <b-input v-model="skill.description" :state="descriptionInputState"
                             @update="descriptionValidate" />
@@ -44,11 +47,15 @@
             return {
                 isLoading: false,
                 descriptionInputState: true,
+                nameInputState: true,
                 skill: this.initSkillContent,
                 formErrorMessage: ''
             }
         },
         methods: {
+            nameValidate() {
+                this.nameInputState = this.skill.name !== ""
+            },
             descriptionValidate() {
                 this.descriptionInputState = (this.skill.description !== '');
             },
