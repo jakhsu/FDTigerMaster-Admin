@@ -9,7 +9,7 @@
                             用戶平均分數
                         </template>
                         <template #number>
-                            {{user.avgScore}}
+                            {{user._data.avgScore}}
                         </template>
                     </Badge>
                 </template>
@@ -84,9 +84,6 @@
             }
         },
         created() {
-            if (!this.user.avgScore) {
-                this.user.avgScore = 0;
-            }
             this.fetchOrderComment();
         },
         methods: {
