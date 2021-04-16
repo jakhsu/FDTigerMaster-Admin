@@ -184,11 +184,10 @@
                 obj.forEach((ele) => {
                     updateIgnore.push(ele.split(' | ')[0]);
                 });
-                const ignoreStr = updateIgnore.join(',');
                 await this.user.update({
                     master: {
                         id: this.user.data.master.id,
-                        ignoreWorkingCategories: ignoreStr
+                        ignoreWorkingCategories: updateIgnore
                     }
                 });
                 this.onRefresh();
