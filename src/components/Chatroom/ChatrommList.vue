@@ -4,8 +4,8 @@
             <div v-for="(room, index) in chatroomList" :key="index">
                 <div v-if="isChatroomListReady" class="roomBrief m-2" @click="onRoomClick(room.id)">
                     {{room.targetUserInfo.name}}
-                    <b-badge v-if="hasUnread" variant="warning">
-                        {{room.unread}}
+                    <b-badge variant="warning">
+                        {{room.unreadCount}}
                         未讀
                     </b-badge>
                 </div>
@@ -34,7 +34,6 @@
                 chatroomList: [{
                     unread: 0
                 }],
-                hasUnread: false,
                 isChatroomListReady: false
             };
         },
@@ -45,7 +44,6 @@
             async longPoll() {
                 // poll every minute
                 await this.fetchadminRooms()
-                await this.fetchUnreadCounts()
                 setTimeout(this.longPoll, 60000)
             },
             async fetchadminRooms() {
@@ -54,31 +52,20 @@
                 const res = await query.get()
                 const rooms = res.data
 
+                console.log(rooms[0])
+
                 const targetUserIds = rooms.map(e => e.userIds.filter(id => id !== this.currentUserId)[0])
                 const targetUserNames = rooms.map(e => e.userNames.filter(id => id !== this.currentUserName)[0])
+                const unreadCounts = rooms.map(e => e.userUnread[1])
                 for (let i = 0; i < targetUserIds.length; i++) {
                     rooms[i]['targetUserInfo'] = {
                         id: targetUserIds[i],
                         name: targetUserNames[i]
                     }
+                    rooms[i]['unreadCount'] = unreadCounts[i]
                 }
                 this.chatroomList = rooms
                 this.isChatroomListReady = true
-            },
-            fetchUnreadCounts() {
-                this.hasUnread = false
-                this.chatroomList.forEach(async (e) => {
-                    let chatroom = await tigermaster.chatroom.get(e.id)
-                    let res = await chatroom.shadowQuery(format(Date.now(),
-                        'yyyy-MM-dd HH:mm:ss'))
-                    const count = res.messages.filter(e => e['readed'] === 0).length
-                    Object.assign(e, {
-                        unread: count
-                    })
-                    if (this.chatroomList.every(e => e.unread !== undefined)) {
-                        this.hasUnread = true
-                    }
-                })
             },
             async shadowQueryRoomMsg(roomId) {
                 const chatroom = await tigermaster.chatroom.get(roomId)
