@@ -23,7 +23,7 @@
                     </div>
                 </template>
                 <template #modal-footer>
-                    <b-button @click="closeModal('multi-operation-alert-modal')">
+                    <b-button @click="closeModal('restore-modal')">
                         取消
                     </b-button>
                     <b-button v-if="dateToRollBackTo !== ''" variant="success" @click="onRollBack">
