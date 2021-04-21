@@ -18,7 +18,9 @@
 
 <script>
     import PrivilegeMap from '@/model/Mapping/PrivilegeMap.js'
-    import ToggleBits from '@/model/Bitwise/ToggleBit.js'
+    import {
+        toggleSingleBit
+    } from '@/model/Bitwise/ToggleBit.js'
     import TitledCard from '../Card/TitledCard.vue'
 
     export default {
@@ -50,7 +52,7 @@
                 this.toggleDigit(index)
             },
             toggleDigit(index) {
-                let result = ToggleBits(this.binary, index)
+                let result = toggleSingleBit(this.binary, index)
                 this.resultNum = result[0]
                 this.binary = result[1]
             },

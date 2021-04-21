@@ -1,4 +1,4 @@
-export default function (inputNum, index) {
+export function toggleSingleBit(inputNum, index) {
     let originalBinary = inputNum.toString(2)
     let newChar
     if (originalBinary.charAt(index) === '0') {
