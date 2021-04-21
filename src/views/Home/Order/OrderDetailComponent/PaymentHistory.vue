@@ -39,6 +39,14 @@
                         "label": "付款類型"
                     },
                     {
+                        "key": "amount",
+                        "label": "金額"
+                    },
+                    {
+                        "key": "payBy",
+                        "label": "付款方式"
+                    },
+                    {
                         "key": "paymentStatus",
                         "label": "付款狀態"
                     }
