@@ -176,7 +176,7 @@
                 this.workingCategories = [];
                 const workingCategories = clickedSkill.workingCategories;
                 workingCategories.forEach((element) => {
-                    this.workingCategories.push(element.id + " | " + element.description)
+                    this.workingCategories.push(element.id + " | " + element.name)
                 });
             },
             async skillsDownload() {
