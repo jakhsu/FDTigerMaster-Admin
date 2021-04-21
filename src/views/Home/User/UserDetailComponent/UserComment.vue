@@ -9,7 +9,7 @@
                             用戶平均分數
                         </template>
                         <template #number>
-                            {{user._data.avgScore}}
+                            {{user._data.avgScore || 0}}
                         </template>
                     </Badge>
                 </template>
