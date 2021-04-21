@@ -35,7 +35,8 @@
                     <b-nav-item :active="currentTab == 'orderHistory'" @click="onNavClick('orderHistory')">
                         訂單紀錄
                     </b-nav-item>
-                    <b-nav-item :active="currentTab == 'chatRoom'" @click="onNavClick('chatRoom')">
+                    <b-nav-item :active="currentTab == 'chatRoom'" :disabled="hasClient2AdminRoom === false"
+                        @click="onNavClick('chatRoom')">
                         聊天室
                     </b-nav-item>
                 </b-nav>
@@ -140,6 +141,11 @@
                 } catch (e) {
                     console.log(e)
                 }
+            }
+        },
+        computed: {
+            hasClient2AdminRoom() {
+                return this.order.client2Admin !== undefined
             }
         }
     }
