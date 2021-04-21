@@ -170,9 +170,24 @@ And a working category might look like
 
 [top](#fd-tiger-master-admin-documentation)
 
+First, clone the project and install npm dependencies
+
+```bash
+git clone http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-sdk-package.git
+
+npm install
+```
+
+Please be noted that fdtigermaster-admin-sdk isn't in the npm registry, so to install / update it, do
+
+```bash
+npm install --save fdtigermaster-admin-sdk --registry http://104.154.20.200:4873
+# Note that the update command may fail from time to time, so the recommended way is to uninstall sdk then re-install it
+```
+
 To run the project on local machine, execute
 
-```shell
+```bash
 # For local environment
 npm run serve
 
@@ -192,7 +207,7 @@ Please check the scripts in package.json to see more details
 
 [top](#fd-tiger-master-admin-documentation)
 
-```shell
+```bash
 npm run deploy:dev
 ```
 
@@ -202,7 +217,7 @@ run to build static files and deploy to firebase hosting
 
 [top](#fd-tiger-master-admin-documentation)
 
-```shell
+```bash
 npm run test
 ```
 
@@ -307,7 +322,7 @@ Some of the more important folders are
 
 ### Why use Vue 2.x instead of Vue 3 and what about migration to 3
 
-> Initially because BootstrapVue didn't support Vue 3 when we started the project. Migration to Vue 3 isn't a priority since Vue 2.x ecosystem is rich enough to support the project. Though developer should be aware that Vue 2.x is still supported and the Vue core team is planning to backport Vue3-like syntax and composition API. 
+> When the project started in 2020 November, BootstrapVue didn't support Vue 3, and so were many other tools that we may use. Migration to Vue 3 isn't a priority since Vue 2.x ecosystem is rich enough to support the project. Though developer should be aware that Vue 2.x is still supported and the Vue core team is planning to backport Vue3-like syntax and composition API. 
 
 - [PR that migrate Vue to TypeScript](https://github.com/vuejs/vue/pull/12001)
 - [RFC](https://github.com/vuejs/rfcs/blob/ie11/active-rfcs/0000-vue3-ie11-support.md#for-those-who-absolutely-need-ie11-support)
@@ -317,6 +332,6 @@ Some of the more important folders are
 
 In terminal run
 
-```shell
+```bash
 npm run tree
 ```
