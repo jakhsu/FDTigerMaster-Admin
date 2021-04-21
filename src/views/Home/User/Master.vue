@@ -143,8 +143,7 @@
                 roleIdMap: RoleIdMap(),
                 activeMap: ActiveStatusMapping(),
                 search: {
-                    roleId: 0,
-                    status: 1
+                    roleId: 0
                 },
                 queryRows: 0,
                 totalCount: 0,
