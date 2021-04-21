@@ -4,7 +4,8 @@
             <b-col class="mr-2">
                 <div class="data-card-title mb-1" :style="`color: ${color};`">{{ title }}</div>
                 <div class="data-card-data h5">
-                    <router-link :to="dataPath">{{data}}</router-link>
+                    <router-link v-if="isLink" :to="dataPath">{{data}}</router-link>
+                    <span v-else>{{data}}</span>
                 </div>
             </b-col>
             <b-col v-if="hasTrend" cols="auto" class="d-flex align-items-center">
@@ -34,6 +35,10 @@
             dataPath: {
                 type: String,
                 default: "/"
+            },
+            isLink: {
+                type: Boolean,
+                default: false
             }
         }
     }

@@ -12,13 +12,16 @@
                 </b-row>
                 <b-row class="Dashboard-Overview">
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="會員數" :data="clientNum" dataPath="/home/client" />
+                        <DataCard color="#4e73df" title="會員數" :data="clientNum" dataPath="/home/client"
+                            :isLink="true" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="師傅數" :data="masterNum" dataPath="/home/master" />
+                        <DataCard color="#4e73df" title="師傅數" :data="masterNum" dataPath="/home/master"
+                            :isLink="true" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="媒合數" :data="totalOrders" dataPath="/home/ongoing_order" />
+                        <DataCard color="#4e73df" title="媒合數" :data="totalOrders" dataPath="/home/ongoing_order"
+                            :isLink="true" />
                     </b-col>
                 </b-row>
                 <b-row>
