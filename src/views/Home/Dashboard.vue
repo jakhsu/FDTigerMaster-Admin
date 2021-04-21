@@ -20,7 +20,11 @@
                             :isLink="true" />
                     </b-col>
                     <b-col xl="3" sm="6">
-                        <DataCard color="#4e73df" title="媒合數" :data="totalOrders" dataPath="/home/ongoing_order"
+                        <DataCard color="#4e73df" title="進行中訂單" :data="totalOngoingOrders"
+                            dataPath="/home/ongoing_order" :isLink="true" />
+                    </b-col>
+                    <b-col xl="3" sm="6">
+                        <DataCard color="#4e73df" title="已完成訂單" :data="totalClosedOrders" dataPath="/home/closed_order"
                             :isLink="true" />
                     </b-col>
                 </b-row>
@@ -76,7 +80,8 @@
                 response: {},
                 isLoading: true,
                 totalUsers: 0,
-                totalOrders: 0,
+                totalOngoingOrders: 0,
+                totalClosedOrders: 0,
                 masterNum: 0,
                 clientNum: 0,
                 user: [],
@@ -92,7 +97,7 @@
             }
         },
         async created() {
-            await Promise.all([this.fetchUserData(), this.fetchOrderData()]);
+            await Promise.all([this.fetchUserData(), this.fetchOngoingOrderData(), this.fetchClosedOrderData()]);
             this.isLoading = false;
 
         },
@@ -108,11 +113,17 @@
                 this.masterNum = masterCount.data[0].count;
                 this.clientNum = clientCount.data[0].count;
             },
-            async fetchOrderData() {
+            async fetchOngoingOrderData() {
                 const orderCount = await tigermaster.database
-                    .rawQuery("SELECT count(*) count FROM generic_order WHERE generic_order.status>10")
+                    .rawQuery("SELECT count(*) count FROM generic_order WHERE generic_order.status<60")
                     .get();
-                this.totalOrders = orderCount.data[0].count;
+                this.totalOngoingOrders = orderCount.data[0].count;
+            },
+            async fetchClosedOrderData() {
+                const orderCount = await tigermaster.database
+                    .rawQuery("SELECT count(*) count FROM generic_order WHERE generic_order.status>55")
+                    .get();
+                this.totalClosedOrders = orderCount.data[0].count;
             },
             async createChatroom(id1, id2) {
                 this.isCreatingRoom = true
