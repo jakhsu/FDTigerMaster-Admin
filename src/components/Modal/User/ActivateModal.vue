@@ -38,7 +38,6 @@
                     await this.user.update({
                         status: 1
                     });
-                    console.log(this.user.data);
                     const note = tigermaster.note;
                     await note.createUserNote(this.user.id, this.comment, note.UseFor.Deactive)
                     this.$bvModal.hide(this.id);

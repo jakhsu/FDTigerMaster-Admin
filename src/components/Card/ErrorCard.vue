@@ -44,7 +44,6 @@
             retry() {
                 this.isRetrying = true
                 this.$emit('retry')
-                console.log(this.isRetrying)
             }
         }
     }

@@ -94,9 +94,6 @@
 
         },
         methods: {
-            finish(e) {
-                console.log(e)
-            },
             async fetchUserData() {
                 const masterCountReq = tigermaster.database
                     .rawQuery("SELECT count(*) count FROM user WHERE user.role_id=0")
@@ -118,8 +115,7 @@
                 this.isCreatingRoom = true
                 const userIds = [id1, id2]
                 try {
-                    const res = await tigermaster.chatroom.created(userIds)
-                    console.log(res)
+                    await tigermaster.chatroom.created(userIds)
                 } catch (e) {
                     console.log(e)
                 } finally {

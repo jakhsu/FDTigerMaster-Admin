@@ -52,8 +52,6 @@
                 const res = await query.get()
                 const rooms = res.data
 
-                console.log(rooms[0])
-
                 const targetUserIds = rooms.map(e => e.userIds.filter(id => id !== this.currentUserId)[0])
                 const targetUserNames = rooms.map(e => e.userNames.filter(id => id !== this.currentUserName)[0])
                 const unreadCounts = rooms.map(e => e.userUnread[1])

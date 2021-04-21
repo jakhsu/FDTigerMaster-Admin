@@ -153,7 +153,6 @@
                     }
                 });
                 query.where("generic_order.status", ">", 55);
-                console.log(query)
                 try {
                     const res = await query.get();
                     this.orders = res.data;
