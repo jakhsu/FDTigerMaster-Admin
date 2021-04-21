@@ -89,6 +89,7 @@
                                         </router-link>
                                     </template>
                                     <template #cell(status)="data">
+                                        <!-- TODO: need to figure out exacty what number corresponds to what status. current understanding is: 1 = 啟用 2 = 凍結 0 = 更新 -->
                                         {{ data.value == "1" ? "啟用" : data.value == "2" ? "凍結" : "須更新" }}
                                     </template>
                                     <template #cell(roleId)="data">
