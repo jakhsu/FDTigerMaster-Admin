@@ -86,14 +86,15 @@
             }
         },
         async created() {
-            this.fetchCertificateURLs();
+            this.fetchCertificates();
         },
         methods: {
-            async fetchCertificateURLs() {
+            async fetchCertificates() {
                 try {
                     const res = await tigermaster.database
                         .query("user_picture")
                         .where("user_picture.user_id", "=", this.user.id)
+                        .orderBy("user_picture.create_date", "DESC")
                         .get();
                     this.certificates = res.data;
                     this.fetchURL = res.data.map(e =>
@@ -111,7 +112,7 @@
                 try {
                     await this.user.licenseUpload(this.toBeUploaded.imageFile, this.toBeUploaded.description)
                     this.toBeUploaded.description = "";
-                    await this.fetchCertificateURLs();
+                    await this.fetchCertificates();
                     this.imgUploadKey++;
                 } catch (e) {
                     console.log(e)
@@ -141,7 +142,7 @@
                 this.isLoading = true;
                 const image = tigermaster.image;
                 await image.UserImage.delete(this.imageDetails.id);
-                await this.fetchCertificateURLs();
+                await this.fetchCertificates();
                 this.$bvModal.hide("Certificate-Detail-Modal")
             }
         }
