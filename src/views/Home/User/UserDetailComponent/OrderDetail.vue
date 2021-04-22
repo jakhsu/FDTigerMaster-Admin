@@ -18,7 +18,7 @@
             <b-row>
                 <b-col lg='12' md='12'>
                     <TitledCard title="訂單紀錄:">
-                        <ErrorCard v-if="fetchError" />
+                        <ErrorCard v-if="fetchError" :errorMsg="errorMsg" />
                         <div v-else>
                             <div class="Order-Search d-flex mb-3">
                                 <b-button class="ml-2" variant="primary" @click="onSearchClick">搜尋</b-button>
@@ -94,6 +94,7 @@
                 OrderStatus,
                 tableBusy: false,
                 fetchError: false,
+                errorMsg: "",
                 search: {},
                 statusMap: OrderStatusMap(),
             }
@@ -127,12 +128,14 @@
                     query.where("generic_order.master_user_id", "=", `${this.user.id}`)
                 }
                 try {
+                    this.fetchError = false
                     const res = await query.get()
                     this.orders = res.data
                     this.queryRows = res.queryRows
                     this.totalCount = res.totalCount
                 } catch (e) {
-                    console.log(e)
+                    this.errorMsg = e.message
+                    this.fetchError = true
                 } finally {
                     this.tableBusy = false
                 }
@@ -153,7 +156,7 @@
                     const res = await query.orderBy("generic_order.create_date", "DESC").get()
                     this.orders = res.data
                 } catch (e) {
-                    this.orders = []
+                    this.errorMsg = e.message
                     this.fetchError = true
                 } finally {
                     this.tableBusy = false
