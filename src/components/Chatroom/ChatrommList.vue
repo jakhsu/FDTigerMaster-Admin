@@ -2,7 +2,8 @@
     <div>
         <div class="content">
             <div v-for="(room, index) in chatroomList" :key="index">
-                <div v-if="isChatroomListReady" class="roomBrief m-2" @click="onRoomClick(room.id)">
+                <div v-if="isChatroomListReady" class="roomBrief m-2" @click="onRoomClick(room.id)"
+                    @mouseover="test(room.id)">
                     {{room.targetUserInfo.name}}
                     <b-badge variant="warning">
                         {{room.unreadCount}}
@@ -41,6 +42,14 @@
             this.longPoll()
         },
         methods: {
+            // TODO: implement chatroomlist order fetching, using chatroom id
+            async test(roomId) {
+                console.log(roomId)
+                // const matchedOrder = await tigermaster.database.rawQuery(
+                //     `SELECT * FROM generic_order WHERE generic_order.master2admin = '${roomId}' OR generic_order.client2admin = '${roomId}'`
+                // ).get()
+                // console.log(matchedOrder)
+            },
             async longPoll() {
                 // poll every minute
                 await this.fetchadminRooms()
