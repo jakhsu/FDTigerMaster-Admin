@@ -84,6 +84,14 @@
                 formErrorMessage: ''
             }
         },
+        created() {
+            console.log(this.workingCategory)
+            console.log(typeof (this.workingCategory))
+            // this.workingCategory.forEach(e => {
+            //     console.log(e);
+            //     console.log(typeof (e))
+            // })
+        },
         methods: {
             async onUpdateClick() {
                 if (this.inputState.every((element) => element === true)) {
