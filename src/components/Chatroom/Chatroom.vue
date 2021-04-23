@@ -1,6 +1,6 @@
 <template>
     <div class="chatroom">
-        <VueDragResize :sticks="['tl']" :isDraggable="true" :w="370" :minw="300" :z="1000"
+        <VueDragResize :sticks="['tl']" :isDraggable="true" :w="370" :minw="300" :z="1000" :x="0" :y="0"
             @clicked="handleClick($event)">
             <b-card>
                 <template #header>
@@ -228,10 +228,10 @@
     }
 
     .chatroom {
-        position: fixed;
+        /* position: fixed;
         z-index: 100;
-        bottom: 500px;
-        right: 400px;
+        bottom: 50%;
+        right: 400px; */
     }
 
     .chatroom-input-text .form-control {
