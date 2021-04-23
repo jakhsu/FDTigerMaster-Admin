@@ -227,13 +227,6 @@
         padding: 0;
     }
 
-    .chatroom {
-        /* position: fixed;
-        z-index: 100;
-        bottom: 50%;
-        right: 400px; */
-    }
-
     .chatroom-input-text .form-control {
         z-index: 200;
     }
@@ -276,10 +269,6 @@
     .msg-status {
         font-size: 3px;
         display: inline-flex;
-    }
-
-    .chatroom .card-header {
-        /* background-color: seagreen; */
     }
 
     .msg-status-readed {
