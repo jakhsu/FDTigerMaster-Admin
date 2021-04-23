@@ -147,7 +147,8 @@
                 this.isLoadingOrders = true;
                 let query = tigermaster.database.query("generic_order");
                 try {
-                    const res = await query.where("generic_order.status", "<", "60").get();
+                    const res = await query.where("generic_order.status", "<", "60").orderBy(
+                        "generic_order.create_date", "DESC").get();
                     this.orders = res.data;
 
                 } catch (e) {
