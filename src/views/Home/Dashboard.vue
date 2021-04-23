@@ -36,10 +36,10 @@
                         <scale-loader v-if="isCreatingRoom" />
                         <b-form-group v-else>
                             <b-form-group label="聊天室用戶 id 1">
-                                <b-form-input v-model="userId1" />
+                                <b-form-input v-model.trim="userId1" />
                             </b-form-group>
                             <b-form-group label="聊天室用戶 id 2">
-                                <b-form-input v-model="userId2" />
+                                <b-form-input v-model.trim="userId2" />
                             </b-form-group>
                             <b-button variant="success" @click="createChatroom(userId1, userId2)">創建聊天室
                             </b-button>
@@ -85,7 +85,7 @@
                 masterNum: 0,
                 clientNum: 0,
                 user: [],
-                // TODO:: below is for testing, remove before production
+                // TODO:: below is for testing chatrooms, remove before production
                 userId1: "",
                 userId2: "",
                 chatroomId: "",
