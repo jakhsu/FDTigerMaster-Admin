@@ -22,16 +22,20 @@
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="區: ">
                     <b-form-input list="areaList" :state="inputState[3]" @update="notEmptyValidate(addressArea, 3)"
-                        v-model="addressArea" @change="fetchRoadName()" />
+                        v-model="addressArea" />
                     <b-form-datalist id="areaList" :options="areaList" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="街道: ">
-                    <scale-loader v-if="isLoadingStreet" />
+                    <!-- TODO: for now just use simple input, since street name api is not working,
+                    need to fix it once api is fixed, contact backend dev for more info -->
+                    <!-- <scale-loader v-if="isLoadingStreet" />
                     <div v-else>
                         <b-form-input list="streetList" :state="inputState[4]"
                             @update="streetValidate(addressStreet, 4)" v-model="addressStreet" />
                         <b-form-datalist id="streetList" :options="streetList" />
-                    </div>
+                    </div> -->
+                    <b-form-input :state="inputState[4]" @update="notEmptyValidate(addressStreet, 4)"
+                        v-model="addressStreet" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="門牌樓層: ">
                     <b-form-input :state="inputState[5]" @update="notEmptyValidate(addressDetail, 5)"
@@ -46,21 +50,17 @@
                     </div>
                     <b-form-input v-model="expectWorkingDate" disabled />
                 </b-form-group>
-                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="距離加成: ">
-                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(distanceBonus, 8)"
-                        v-model.number="distanceBonus" />
-                </b-form-group>
-                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="師傅星等加成: ">
-                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(masterScoreBonus, 9)"
-                        v-model.number="masterScoreBonus" />
-                </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="收據抬頭: ">
-                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(invoiceTitle, 10)"
+                    <b-form-input :state="inputState[8]" @update="notEmptyValidate(invoiceTitle, 8)"
                         v-model="invoiceTitle" />
                 </b-form-group>
                 <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="客戶統編: ">
-                    <b-form-input :state="inputState[11]" @update="notEmptyValidate(businessId, 11)"
+                    <b-form-input :state="inputState[9]" @update="notEmptyValidate(businessId, 9)"
                         v-model="businessId" />
+                </b-form-group>
+                <b-form-group label-align-sm="right" label-cols="3" label-cols-xl="2" label="訂單描述: ">
+                    <b-form-input :state="inputState[10]" @update="notEmptyValidate(orderDesc, 10)"
+                        v-model="orderDesc" />
                 </b-form-group>
             </b-form>
             <template #modal-footer>
@@ -108,9 +108,9 @@
                 addressStreet: "",
                 addressDetail: "",
                 distanceBonus: 0,
-                masterScoreBonus: 0,
                 invoiceTitle: "",
                 businessId: "",
+                orderDesc: "",
                 isProxy: 0,
                 OrderStatus,
                 picker: {
@@ -119,7 +119,7 @@
                 },
                 orderId: '',
                 workingCategories: [],
-                inputState: [null, null, null, null, null, null, null, null, true, true, true, true]
+                inputState: [null, null, null, null, null, null, null, null, true, true, true]
             }
         },
         created() {
@@ -157,11 +157,10 @@
                     "addressArea": this.addressArea,
                     "addressStreet": this.addressStreet,
                     "addressDetail": this.addressDetail,
-                    "distanceBonus": this.distanceBonus,
-                    "masterScoreBonus": this.masterScoreBonus,
                     "invoiceTitle": this.invoiceTitle,
                     "businessId": this.businessId,
-                    "expectWorkingDate": this.expectWorkingDate
+                    "expectWorkingDate": this.expectWorkingDate,
+                    "orderDesc": this.orderDesc
                 }
                 if (this.inputState.every(e => e === true)) {
                     try {
@@ -178,7 +177,7 @@
             onCancelModal() {
                 this.$bvModal.hide(this.id)
                 this.order = {};
-                this.inputState = [null, null, null, null, null, null, null, null, null, null, null];
+                this.inputState = [null, null, null, null, null, null, null, null, null, null];
             },
             notEmptyValidate(input, index) {
                 this.inputState[index] = (input !== '')
