@@ -60,9 +60,9 @@
                                 <font-awesome-icon icon="edit" />新增
                             </b-button>
                             <b-list-group class="mt-2">
-                                <b-list-group-item @click="onListClick($event, item, 1)" v-for="(item, index) in L1Keys"
-                                    :key="index">
-                                    {{item}}
+                                <b-list-group-item @click="onListClick(item.name, 1)"
+                                    v-for="(item, index) in serviceLevelData" :key="index">
+                                    {{item.name}}
                                 </b-list-group-item>
                             </b-list-group>
                             <b-card class="mb-2" v-if="currentL1.name">
@@ -147,8 +147,8 @@
                                 <font-awesome-icon icon="edit" />新增
                             </b-button>
                             <b-list-group v-if="currentL1.name" class="mt-2">
-                                <b-list-group-item @click="onListClick($event, item.name, 2)"
-                                    v-for="(item, index) in L2Items" :key="index">
+                                <b-list-group-item @click="onListClick(item.name, 2)" v-for="(item, index) in L2Items"
+                                    :key="index">
                                     {{item.name}}
                                 </b-list-group-item>
                             </b-list-group>
@@ -214,8 +214,8 @@
                                 <font-awesome-icon icon="edit" />新增
                             </b-button>
                             <b-list-group v-if="currentL2.name" class="mt-2">
-                                <b-list-group-item @click="onListClick($event, item, 3)"
-                                    v-for="(item, index) in L3Items" :key="index">
+                                <b-list-group-item @click="onListClick(item, 3)" v-for="(item, index) in L3Items"
+                                    :key="index">
                                     {{item}}
                                 </b-list-group-item>
                             </b-list-group>
@@ -291,7 +291,7 @@
                 isRollingBack: false,
                 serviceLevelData: {},
                 savePoints: [],
-                L1Keys: [],
+                L1Items: [],
                 L2Items: [],
                 L3Items: [],
                 jsonFile: {},
@@ -365,27 +365,27 @@
             onCreateItem(level) {
                 switch (level) {
                     case 1:
-                        this.serviceLevelData[this.L1ToBeCreated.name] = {
+                        this.serviceLevelData.push({
                             name: this.L1ToBeCreated.name,
                             desc: this.L1ToBeCreated.desc,
                             imagePath: this.L1ToBeCreated.imagePath,
                             L2: {}
-                        }
-                        this.parseL1Keys()
+                        })
+                        this.parseL1Items()
                         this.isCreateL1 = false
                         break
                     case 2:
-                        this.serviceLevelData[this.currentL1.name].L2[this.L2ToBeCreated.name] = {
+                        this.currentL1.L2.push({
                             name: this.L2ToBeCreated.name,
                             desc: this.L2ToBeCreated.desc,
                             imagePath: this.L2ToBeCreated.imagePath,
                             L3: []
-                        }
+                        })
                         this.parseL2Items()
                         this.isCreateL2 = false
                         break
                     case 3:
-                        this.serviceLevelData[this.currentL1.name].L2[this.currentL2.name].L3.push(this.L3ToBeCreated)
+                        this.currentL2.L3.push(this.L3ToBeCreated)
                         this.parseL3Items()
                         this.isCreateL3 = false
                         break
@@ -404,52 +404,38 @@
                     }
                 }
             },
-            onListClick(e, key, level) {
+            onListClick(key, level) {
                 if (this.hasUnfinishedJob) {
                     this.$bvModal.show('multi-operation-alert-modal')
                     return
                 }
                 if (level === 1 && !this.hasUnfinishedJob) {
-                    this.currentL1 = this.serviceLevelData[key]
+                    this.currentL1 = this.serviceLevelData.filter(e => e.name === key)[0]
                     this.parseL2Items()
+                    this.currentL2 = ""
+                    this.L3Items = []
+                    this.currentL3 = ""
                 } else if (level === 2 && !this.hasUnfinishedJob) {
-                    for (let L2Item in this.currentL1.L2) {
-                        if (this.currentL1.L2[L2Item].name === key) {
-                            this.currentL2 = this.currentL1.L2[L2Item]
-                        }
-                    }
+                    this.currentL2 = this.currentL1['L2'].filter(e => e.name === key)[0]
                     this.parseL3Items()
+                    this.currentL3 = ""
                 } else if (level === 3 && !this.hasUnfinishedJob) {
                     const index = this.currentL2.L3.indexOf(key)
                     this.currentL3 = this.currentL2.L3[index]
                 }
             },
-            parseL1Keys() {
-                this.L1Keys = Object.keys(this.serviceLevelData)
+            parseL1Items() {
+                this.L1Items = this.serviceLevelData.map(e => e.name)
             },
             parseL2Items() {
-                const selectedL1 = this.currentL1.name || this.L1Keys[0]
-                for (let L1Item in this.serviceLevelData) {
-                    if (L1Item === selectedL1) {
-                        this.L2Items = this.serviceLevelData[L1Item].L2
-                    }
-                }
+                const selectedL1 = this.currentL1.name || this.L1Items[0]
+                this.L2Items = this.serviceLevelData.filter(e => e.name === selectedL1)[0]["L2"]
             },
             parseL3Items() {
-                const selectedL1 = this.currentL1.name || this.L1Keys[0]
-                const selectedL2 = this.currentL2.name || this.L2Items[0]
-                for (let L1Item in this.serviceLevelData) {
-                    if (this.serviceLevelData[L1Item].name === selectedL1) {
-                        for (let L2Item in this.serviceLevelData[L1Item].L2) {
-                            if (this.serviceLevelData[L1Item].L2[L2Item].name === selectedL2) {
-                                this.L3Items = this.serviceLevelData[L1Item].L2[L2Item].L3
-                            }
-                        }
-                    }
-                }
+                this.L3Items = this.currentL2['L3']
             },
             parseAllClassItems() {
-                this.parseL1Keys()
+                this.parseL1Items()
                 this.parseL2Items()
                 this.parseL3Items()
             },
