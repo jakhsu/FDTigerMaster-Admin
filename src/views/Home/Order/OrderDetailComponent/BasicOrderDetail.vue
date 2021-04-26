@@ -8,6 +8,14 @@
         </SimpleModal>
         <b-container fluid>
             <div v-if="!isEdit" class="d-flex mt-3">
+                <b-form-select style="width:100px" v-model="pendingChatroom.type" :options="chatroomType">
+                </b-form-select>
+                <b-button class="ml-2" variant="warning" @click="initChatroom" :disabled="isInitingChatroom">
+                    <div v-if="!isInitingChatroom">
+                        創建
+                    </div>
+                    <b-spinner v-if="isInitingChatroom" variant="primary" label="Spinning"></b-spinner>
+                </b-button>
                 <b-button @click="startEdit" class="ml-auto" variant="primary">
                     <font-awesome-icon icon="edit" fixed-width />
                     編輯
@@ -252,6 +260,19 @@
                 OrderStatus,
                 isEdit: false,
                 isLoading: false,
+                isInitingChatroom: false,
+                pendingChatroom: {
+                    type: ""
+                },
+                chatroomType: [{
+                        value: "client",
+                        text: "對客戶"
+                    },
+                    {
+                        value: "master",
+                        text: "對師傅"
+                    }
+                ],
                 clientPay: {},
                 masterIncome: {}
             }
@@ -261,6 +282,11 @@
             this.calculateMasterIncome();
         },
         methods: {
+            async initChatroom() {
+                this.isInitingChatroom = true
+                await this.order.initServiceChat(this.pendingChatroom.type)
+                this.isInitingChatroom = false
+            },
             async refresh() {
                 this.isLoading = true;
                 await this.calculateClientPay();
