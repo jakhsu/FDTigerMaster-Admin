@@ -108,29 +108,8 @@ And a working category might look like
 
 > service level refers to the hierarchy relationship of all services tigermaster provides, from clients' perspective
 
-```js
-{
-  // This is L1 level
-  "水電服務": {
-  "name": "水電服務",
-  "desc": "這是水電服務包括...",
-  "imagePath": "https://...",
-  // This is L2 level
-  "L2": {
-  "通水管馬桶": {
-  "name": "通水管馬桶",
-  "desc": "這是通水管馬桶包括...",
-  "imagePath": "https://...",
-  // This property contains corresponding L3 items
-  "L3": ["TM-P010101", "TM-P010201", "TM-P010301"]
-  },
-  // 水電服務 > 通水管馬桶 > "TM-P010101"
-  ...
-  "插座/開關/配電":{
-    ...
-  }
-}
-```
+please refer to [redmine ticket #130](http://104.154.20.200:5000/issues/130?issue_count=66&issue_position=2&next_issue_id=129&prev_issue_id=131) for how service level data looks like
+
 
 - `Add` new nodes (new item in L1~L3)
 - `Delete` L3 node
@@ -170,32 +149,43 @@ And a working category might look like
 
 [top](#fd-tiger-master-admin-documentation)
 
-First, clone the project and install npm dependencies
+>這邊已經假設您熟悉 [NPM](https://www.npmjs.com/) 的基本，如果需要可以看 [這裡](https://www.npmjs.cn/)。
+
+如果您在看這份文檔，您很有可能已經在本專案的 `gitlab` 上。如果不是的話，請[聯絡](mailto:rui.chen@fdtigermaster.com)負責這部分的工程師，或是在辦公室找其他工程師協助。
+
+第一步，打開IDE，進到您想放置本專案的路徑，並複製本專案
+
+```shell
+git clone http://104.154.20.200:fdtigermaster/fdtigermaster-admin-web.git
+```
+
+再來，安裝NPM依賴項
 
 ```bash
-git clone http://104.154.20.200:8086/fdtigermaster/fdtigermaster-admin-sdk-package.git
-
 npm install
 ```
 
-Please be noted that fdtigermaster-admin-sdk isn't in the npm registry, so to install / update it, do
+請特別注意，本專案所使用的SDK並沒有在NPM公開的registry上註冊，所以要透過以下指令安裝、更新
 
 ```bash
+# 安裝
 npm install --save fdtigermaster-admin-sdk --registry http://104.154.20.200:4873
-# Note that the update command may fail from time to time, so the recommended way is to uninstall sdk then re-install it
+# 更新
+npm update --save fdtigermaster-admin-sdk --registry http://104.154.20.200:4873
+# 有時透過 npm update 會出問題，因此推薦一律先npm uninstall 再重新 跑安裝指令
 ```
 
-To run the project on local machine, execute
+依賴項都安裝完後即可在透過vue-cli提供的指令在本地運行專案
 
 ```bash
-# For local environment
+# Local 環境
 npm run serve
 
-# For development stage --> cloud server
+# development 環境，會連上 gcp 的後端
 npm run serve:dev
 ```
 
-The stages
+專案目前有以下階段
 
 - local
 - development
@@ -211,7 +201,7 @@ Please check the scripts in package.json to see more details
 npm run deploy:dev
 ```
 
-run to build static files and deploy to firebase hosting
+運行以上指令來打包編譯靜態檔案，並且部屬到 firebase hosting
 
 ## Test
 
@@ -221,7 +211,7 @@ run to build static files and deploy to firebase hosting
 npm run test
 ```
 
-run unit tests, located in `/test` folder
+一些簡單的單元測試，在 `/test` 資料夾
 
 ## Developer Practices
 
