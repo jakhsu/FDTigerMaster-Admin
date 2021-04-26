@@ -145,7 +145,7 @@
         },
         computed: {
             hasClient2AdminRoom() {
-                return this.order.client2Admin !== undefined
+                return this.order._data.client2Admin !== undefined && this.order._data.client2Admin !== ""
             }
         }
     }
